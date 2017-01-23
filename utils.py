@@ -1,5 +1,6 @@
 import io
 import sys
+import itertools as it
 import ROOT
 
 class OutputCapture:
@@ -46,3 +47,26 @@ def normalize_columns(hist2d):
             norm = hist2d.GetBinContent(col, row) / sum_
             normHist.SetBinContent(col, row, norm)
     return normHist
+
+def stack_hist(hists, labels=None, id_="stack", title="", enable_fill=False, normalize_to=0):
+    """hists should be a list of TH1D objects
+    returns a new stacked histogram
+    """
+    colors = it.cycle([ROOT.kRed,ROOT.kBlue, ROOT.kGreen])
+    stack = ROOT.THStack(id_, title)
+    if labels is None:
+        labels = [hist.GetName() for hist in hists]
+    for i, (hist, label, color) in enumerate(zip(hists, labels, colors)):
+        hist_copy = hist
+        hist_copy = hist.Clone(str(i)+"_clone")
+        hist_copy.SetTitle(label)
+        hist_copy.SetStats(False)
+        if enable_fill:
+            hist_copy.SetFillColorAlpha(color, 0.75)
+            hist_copy.SetLineColorAlpha(color, 0.75)
+        if normalize_to:
+            integral = hist_copy.Integral()
+            hist_copy.Scale(normalize_to/integral, "nosw2")
+            hist_copy.SetStats(False)
+        stack.Add(hist_copy)
+    return stack
