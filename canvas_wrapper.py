@@ -59,7 +59,7 @@ png_formatter = get_ipython().display_formatter.formatters['image/png'] # noqa
 
 # Register ROOT types in ipython
 #
-# In [1]: canvas = rootnotes.canvas()
+# In [1]: canvas = canvas_wrapper.canvas()
 # In [2]: canvas
 # Out [2]: [image will be here]
 png_formatter.for_type(ROOT.TCanvas, _display_canvas)
