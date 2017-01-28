@@ -6,3 +6,8 @@ __pycache__/
 *.d
 *.so
 *.pcm
+
+# output data files
+*.root
+*.png
+*.pdf
