@@ -1,6 +1,7 @@
 #ifndef filter_h
 #define filter_h
 #include <iostream>
+#include <functional>
 #include "value.hpp"
 /* A Filter is a special type of derived value that can only return a boolean.
  * Container objects have a vector of filters that control if a "fill" call
@@ -8,94 +9,40 @@
  */
 namespace filval {
 
-class Filter : public DerivedValue<bool>{ };
+class GenFilter : public DerivedValue<bool>{};
 
-
-class FilterAnd : public Filter {
-    protected:
-        Filter *filterA;
-        Filter *filterB;
-    void update_value(){
-        value = filterA->get_value() && filterB->get_value();
-    }
-    public:
-        FilterAnd(Filter *filterA, Filter *filterB)
-            :filterA(filterA), filterB(filterB){ }
-};
-
-class FilterOr : public Filter {
+class Filter : public GenFilter{
     private:
-        Filter *filterA;
-        Filter *filterB;
-    void update_value(){
-        value = filterA->get_value() || filterB->get_value();
-    }
-    public:
-        FilterOr(Filter *filterA, Filter *filterB)
-            :filterA(filterA), filterB(filterB){ }
-};
-
-class FilterInv : public Filter {
-    private:
-        Filter *filter;
-    void update_value(){
-        value = !filter->get_value();
-    }
-    public:
-        FilterInv(Filter *filter)
-            :filter(filter){ }
-};
-
-template <typename T>
-class FilterGreaterThan : public Filter {
-    private:
-        Value<T> *filter_value;
-        Value<T> *range_low;
+        std::function<bool()> filter_function;
         void update_value(){
-            value = filter_value->get_value() > range_low->get_value();
+            value = filter_function();
         }
     public:
-        FilterGreaterThan(GenValue* filter_value, GenValue* range_low)
-            :filter_value(dynamic_cast<Value<T>*>(filter_value)),
-             range_low(dynamic_cast<Value<T>*>(range_low)) { }
+        Filter(std::function<bool()> filter_function)
+          :filter_function(filter_function){ }
 
-        FilterGreaterThan(GenValue* filter_value, T range_low)
-            :filter_value(dynamic_cast<Value<T>*>(filter_value)){
-            this->range_low = new ConstantValue<T>(range_low);
+        Filter* operator*(Filter *f){
+            return new Filter([this, f](){return this->get_value() && f->get_value();});
+        }
+
+        Filter* operator+(Filter *f){
+            return new Filter([this, f](){return this->get_value() || f->get_value();});
+        }
+
+        Filter* operator!(){
+            return new Filter([this](){return !this->get_value();});
         }
 };
 
 template <typename T>
-class FilterLessThan : public Filter {
+class RangeFilter : public Filter{
     private:
-        Value<T> *filter_value;
-        Value<T> *range_high;
-        void update_value(){
-            value = filter_value->get_value() < range_high->get_value();
-        }
     public:
-        FilterLessThan(GenValue* filter_value, GenValue* range_high)
-            :filter_value(dynamic_cast<Value<T>*>(filter_value)),
-             range_high(dynamic_cast<Value<T>*>(range_high)) { }
-
-        FilterLessThan(GenValue* filter_value, T range_high)
-            :filter_value(dynamic_cast<Value<T>*>(filter_value)){
-            this->range_high = new ConstantValue<T>(range_high);
-        }
-};
-
-
-template <typename T>
-class RangeFilter : public FilterAnd {
-    public:
-        RangeFilter(Value<T> *filter_value, Value<T> *range_low, Value<T> *range_high){
-            this->filterA = new FilterLessThan<T>(filter_value, range_high);
-            this->filterB = new FilterGreaterThan<T>(filter_value, range_low);
-         }
-        RangeFilter(Value<T> *filter_value, T range_low, T range_high){
-            this->filterA = new FilterLessThan<T>(filter_value, range_high);
-            this->filterB = new FilterGreaterThan<T>(filter_value, range_low);
-        }
+        RangeFilter(Value<T>* test_value, T range_low, T range_high):
+          Filter([test_value, range_low, range_high]{
+                  T val = test_value->get_value();
+                  return (val >= range_low) && (val < range_high);
+                  }){ }
 };
 }
 #endif // filter_h

@@ -8,6 +8,7 @@
 #ifndef minitree_h
 #define minitree_h
 
+#include <iostream>
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
@@ -2184,6 +2185,20 @@ public :
    virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
+
+   void foo(){
+       std::cout << "IN FOO" << std::endl;
+       float* ptr = (float*) LepGood_pt;
+       std::cout << LepGood_pt << std::endl;
+       std::cout << *LepGood_pt << std::endl;
+       std::cout << "OUT FOO" << std::endl;
+   }
+
+/* void MiniTree::InitField */
+   /* unsigned int get_nJet(){ */
+   /*     return *((unsigned int*) fChain->GetBranch("nJet")->GetAddress()); */
+   /* } */
+
 };
 
 
@@ -2226,6 +2241,7 @@ Long64_t MiniTree::LoadTree(Long64_t entry)
    }
    return centry;
 }
+
 
 void MiniTree::Init(TTree *tree)
 {

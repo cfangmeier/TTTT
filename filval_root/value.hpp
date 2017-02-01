@@ -1,11 +1,11 @@
-#ifndef root_values_hpp
-#define root_values_hpp
+#ifndef root_value_hpp
+#define root_value_hpp
 #include "value.hpp"
 #include "TLorentzVector.h"
 
 namespace filval::root{
 
-class DerivedLorentzVector : public DerivedValue<TLorentzVector>{
+class LorentzVector : public DerivedValue<TLorentzVector>{
     protected:
         Value<double> *pt;
         Value<double> *eta;
@@ -15,18 +15,36 @@ class DerivedLorentzVector : public DerivedValue<TLorentzVector>{
             value.SetPtEtaPhiM(pt->get_value(), eta->get_value(), phi->get_value(), m->get_value());
         }
     public:
-        DerivedLorentzVector(ValueSet *values,
-                             const std::string &pt_label,
-                             const std::string &eta_label,
-                             const std::string &phi_label,
-                             const std::string &m_label){
-            ValueSet &valueSet = *values;
-            pt = (Value<double>*) valueSet[pt_label];
-            eta = (Value<double>*) valueSet[eta_label];
-            phi = (Value<double>*) valueSet[phi_label];
-            m = (Value<double>*) valueSet[m_label];
-         }
+        LorentzVector(Value<double>* pt,
+                      Value<double>* eta,
+                      Value<double>* phi,
+                      Value<double>* m)
+          :pt(pt), eta(eta),
+           phi(phi), m(m) { }
 
+        LorentzVector(ValueSet *values,
+                      const std::string &pt_label,
+                      const std::string &eta_label,
+                      const std::string &phi_label,
+                      const std::string &m_label)
+          :LorentzVector(dynamic_cast<Value<double>*>(values->at(pt_label)),
+                         dynamic_cast<Value<double>*>(values->at(eta_label)),
+                         dynamic_cast<Value<double>*>(values->at(phi_label)),
+                         dynamic_cast<Value<double>*>(values->at(m_label))){ }
+};
+
+class LorentzVectorEnergy : public DerivedValue<double>{
+    protected:
+        Value<TLorentzVector>* vector;
+        void update_value(){
+            value = vector->get_value().E();
+        }
+    public:
+        LorentzVectorEnergy(Value<TLorentzVector>* vector)
+          :vector(vector){ }
+
+        LorentzVectorEnergy(ValueSet *values, const std::string& vector_label)
+          :LorentzVectorEnergy(dynamic_cast<Value<TLorentzVector>*>(values->at(vector_label))){ }
 };
 }
-#endif // root_values_hpp
+#endif // root_value_hpp

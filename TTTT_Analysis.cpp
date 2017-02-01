@@ -16,7 +16,7 @@ using namespace filval;
 using namespace filval::root;
 
 
-void print_pair(DerivedPair<double, double> dp){
+void print_pair(Pair<double, double> dp){
     pair<double, double> p = dp.get_value();
     cout << "(" << p.first << ", " << p.second << ")\n";
 }
@@ -28,7 +28,7 @@ void test1(){
     ObservedValue<double> x_val(&x);
     ObservedValue<double> y_val(&y);
 
-    DerivedPair<double, double> dp(&x_val, &y_val);
+    Pair<double, double> dp(&x_val, &y_val);
     print_pair(dp);
     x = 2;
     y = 2;
@@ -73,16 +73,36 @@ void test3(){
     TTree *tree = (TTree*) f->Get("tree");
     MiniTreeDataSet mtds(tree);
     mtds.process();
-    TH1* hist = ((ContainerTH1I*)mtds.get_container("nLepGood"))->get_container();
     TCanvas can("c1");
+    can.Clear();
+    TH1* hist = ((ContainerTH1I*)mtds.get_container("nLepGood"))->get_container();
     hist->Draw();
     can.Draw();
     can.SaveAs("outfile.png");
+
+    can.Clear();
+    hist = ((ContainerTH1I*)mtds.get_container("nLepGood2"))->get_container();
+    hist->Draw();
+    can.Draw();
+    can.SaveAs("outfile2.png");
+
+    can.Clear();
+    hist = ((ContainerTH1I*)mtds.get_container("nLepGood3"))->get_container();
+    hist->Draw();
+    can.Draw();
+    can.SaveAs("outfile3.png");
+
+    can.Clear();
+    hist = ((ContainerTH1I*)mtds.get_container("avg_lepton_energy"))->get_container();
+    hist->Draw();
+    can.Draw();
+    can.SaveAs("lepton_energy.png");
+
     can.Clear();
     TGraph* graph= ((ContainerTGraph*)mtds.get_container("nLepvsnJet"))->get_container();
     graph->Draw("A*");
     can.Draw();
-    can.SaveAs("outfile3.png");
+    can.SaveAs("outfileGraph.png");
 
     delete tree;
     f->Close();

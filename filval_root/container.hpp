@@ -31,6 +31,15 @@ class ContainerTH1D : public ContainerTH1<double>{
         }
 };
 
+class ContainerTH1F : public ContainerTH1<float>{
+    public:
+        ContainerTH1F(const std::string& name, const std::string& title,
+                      int nbins, float low, float high, GenValue* value)
+          :ContainerTH1<float>(NULL, name, dynamic_cast<Value<float>*>(value)){
+               this->container = new TH1D(name.c_str(), title.c_str(), nbins, low, high);
+        }
+};
+
 class ContainerTH1I : public ContainerTH1<int>{
     public:
         ContainerTH1I(const std::string& name, const std::string& title,
