@@ -1,0 +1,83 @@
+\hypertarget{classfilval_1_1ObservedValue}{}\section{filval\+:\+:Observed\+Value$<$ T $>$ Class Template Reference}
+\label{classfilval_1_1ObservedValue}\index{filval\+::\+Observed\+Value$<$ T $>$@{filval\+::\+Observed\+Value$<$ T $>$}}
+
+
+A generic, observed, value.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for filval\+:\+:Observed\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{classfilval_1_1ObservedValue__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for filval\+:\+:Observed\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=229pt]{classfilval_1_1ObservedValue__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1ObservedValue_a0bce29e7d100187548c7ba3ef80f9c89}{}\label{classfilval_1_1ObservedValue_a0bce29e7d100187548c7ba3ef80f9c89} 
+{\bfseries Observed\+Value} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, T $\ast$val\+\_\+ref)
+\item 
+\hypertarget{classfilval_1_1ObservedValue_af38ebd68326b8282a9f769f89021e46a}{}\label{classfilval_1_1ObservedValue_af38ebd68326b8282a9f769f89021e46a} 
+T \& \hyperlink{classfilval_1_1ObservedValue_af38ebd68326b8282a9f769f89021e46a}{get\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Calculate, if necessary, and return the value held by this object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfilval_1_1ObservedValue_a68c4fc1eb89682c7b16d2d46874f5421}{\+\_\+reset} ()
+\begin{DoxyCompactList}\small\item\em Mark the internal value as invalid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1ObservedValue_ad943ba7c4ff0d7d601d961c563f01826}{}\label{classfilval_1_1ObservedValue_ad943ba7c4ff0d7d601d961c563f01826} 
+T $\ast$ {\bfseries val\+\_\+ref}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class filval\+::\+Observed\+Value$<$ T $>$}
+
+A generic, observed, value. 
+
+An \hyperlink{classfilval_1_1ObservedValue}{Observed\+Value} is the interface to your dataset. Upon creation, an \hyperlink{classfilval_1_1ObservedValue}{Observed\+Value} is given a pointer to an object of type T. When an observation is loaded into memory, the value at the location referenced by that pointer must be updated with the associated data from that observation. This is the responsibility of whatever \hyperlink{classfilval_1_1DataSet}{Data\+Set} implementation is being used. This object then will read that data and return it when requested. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfilval_1_1ObservedValue_a68c4fc1eb89682c7b16d2d46874f5421}{}\label{classfilval_1_1ObservedValue_a68c4fc1eb89682c7b16d2d46874f5421} 
+\index{filval\+::\+Observed\+Value@{filval\+::\+Observed\+Value}!\+\_\+reset@{\+\_\+reset}}
+\index{\+\_\+reset@{\+\_\+reset}!filval\+::\+Observed\+Value@{filval\+::\+Observed\+Value}}
+\subsubsection{\texorpdfstring{\+\_\+reset()}{\_reset()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfilval_1_1ObservedValue}{filval\+::\+Observed\+Value}$<$ T $>$\+::\+\_\+reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Mark the internal value as invalid. 
+
+This is needed for \hyperlink{classfilval_1_1DerivedValue}{Derived\+Value} to force a recalculation of the internal value when a new observation is loaded into memory. It is called automatically for all \hyperlink{classfilval_1_1GenValue}{Gen\+Value} objects when reset is called. 
+
+Implements \hyperlink{classfilval_1_1GenValue_ae9d5bd9fde2d04f6cd05d5b901a8c78a}{filval\+::\+Gen\+Value}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

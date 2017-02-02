@@ -1,0 +1,108 @@
+\hypertarget{classfilval_1_1ZipMapFour}{}\section{filval\+:\+:Zip\+Map\+Four$<$ R, T $>$ Class Template Reference}
+\label{classfilval_1_1ZipMapFour}\index{filval\+::\+Zip\+Map\+Four$<$ R, T $>$@{filval\+::\+Zip\+Map\+Four$<$ R, T $>$}}
+
+
+Takes a set of four \hyperlink{classfilval_1_1Value}{Value}$<$std\+::vector$<$\+T$>$ $>$ objects and a function of four Ts and returns a std\+::vector$<$\+R$>$.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for filval\+:\+:Zip\+Map\+Four$<$ R, T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=200pt]{classfilval_1_1ZipMapFour__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for filval\+:\+:Zip\+Map\+Four$<$ R, T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=284pt]{classfilval_1_1ZipMapFour__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1ZipMapFour_aa26f94e0c134eaab81bd32de42ee1832}{}\label{classfilval_1_1ZipMapFour_aa26f94e0c134eaab81bd32de42ee1832} 
+{\bfseries Zip\+Map\+Four} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, std\+::function$<$ R(T, T, T, T)$>$ f, \hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$v1, \hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$v2, \hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$v3, \hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$v4)
+\item 
+\hypertarget{classfilval_1_1ZipMapFour_a0a8eaff3d9f7aabf88d97ed6dda907f0}{}\label{classfilval_1_1ZipMapFour_a0a8eaff3d9f7aabf88d97ed6dda907f0} 
+{\bfseries Zip\+Map\+Four} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, std\+::function$<$ R(T, T, T, T)$>$ f, const std\+::string \&label1, const std\+::string \&label2, const std\+::string \&label3, const std\+::string \&label4)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfilval_1_1ZipMapFour_a0a228a51d603e70af7db4fb27ed1c186}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1ZipMapFour_a9979b1d3e038e8e296dbb98284fb10c6}{}\label{classfilval_1_1ZipMapFour_a9979b1d3e038e8e296dbb98284fb10c6} 
+std\+::function$<$ R(T, T, T, T)$>$ {\bfseries f}
+\item 
+\hypertarget{classfilval_1_1ZipMapFour_a95aeaa25127a4ea95163a14040cef49c}{}\label{classfilval_1_1ZipMapFour_a95aeaa25127a4ea95163a14040cef49c} 
+\hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$ {\bfseries v1}
+\item 
+\hypertarget{classfilval_1_1ZipMapFour_a12b6fc61264e6ed1292dc8ba8ab94070}{}\label{classfilval_1_1ZipMapFour_a12b6fc61264e6ed1292dc8ba8ab94070} 
+\hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$ {\bfseries v2}
+\item 
+\hypertarget{classfilval_1_1ZipMapFour_a8c1ffaef3f4faa7b42266f01eeea0a32}{}\label{classfilval_1_1ZipMapFour_a8c1ffaef3f4faa7b42266f01eeea0a32} 
+\hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$ {\bfseries v3}
+\item 
+\hypertarget{classfilval_1_1ZipMapFour_ab643512e9980d80339b09ae2e085d653}{}\label{classfilval_1_1ZipMapFour_ab643512e9980d80339b09ae2e085d653} 
+\hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$ {\bfseries v4}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename R, typename T$>$\newline
+class filval\+::\+Zip\+Map\+Four$<$ R, T $>$}
+
+Takes a set of four \hyperlink{classfilval_1_1Value}{Value}$<$std\+::vector$<$\+T$>$ $>$ objects and a function of four Ts and returns a std\+::vector$<$\+R$>$. 
+
+This is used in, for instance, calculating the energy of a set of particles when one has separate arrays containing pt, eta, phi, and mass. These arrays are first wrapped up in Vector\+Wrappers and then passes along with a function to calculate the energy into a \hyperlink{classfilval_1_1ZipMapFour}{Zip\+Map\+Four}. The result of this calculation is a new vector containing the energy for each particle. Note that if the input vectors are not all the same size, calculations are only performed up to the size of the shortest. \begin{DoxySeeAlso}{See also}
+\hyperlink{classMiniTreeDataSet}{Mini\+Tree\+Data\+Set} 
+\end{DoxySeeAlso}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000002}{Todo}]find way to implement for arbitrary number(and possibly type) of vector inputs. \end{DoxyRefDesc}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classfilval_1_1ZipMapFour_a0a228a51d603e70af7db4fb27ed1c186}{}\label{classfilval_1_1ZipMapFour_a0a228a51d603e70af7db4fb27ed1c186} 
+\index{filval\+::\+Zip\+Map\+Four@{filval\+::\+Zip\+Map\+Four}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!filval\+::\+Zip\+Map\+Four@{filval\+::\+Zip\+Map\+Four}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename R, typename T$>$ \\
+void \hyperlink{classfilval_1_1ZipMapFour}{filval\+::\+Zip\+Map\+Four}$<$ R, T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfilval_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfilval_1_1DerivedValue_a74e04450a550454510329a9e6b941304}{filval\+::\+Derived\+Value$<$ std\+::vector$<$ R $>$ $>$}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=315pt]{classfilval_1_1ZipMapFour_a0a228a51d603e70af7db4fb27ed1c186_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

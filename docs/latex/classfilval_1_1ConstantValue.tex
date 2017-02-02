@@ -1,0 +1,78 @@
+\hypertarget{classfilval_1_1ConstantValue}{}\section{filval\+:\+:Constant\+Value$<$ T $>$ Class Template Reference}
+\label{classfilval_1_1ConstantValue}\index{filval\+::\+Constant\+Value$<$ T $>$@{filval\+::\+Constant\+Value$<$ T $>$}}
+
+
+A \hyperlink{classfilval_1_1Value}{Value} which always returns the same value, supplied in the constructor.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for filval\+:\+:Constant\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{classfilval_1_1ConstantValue__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for filval\+:\+:Constant\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=297pt]{classfilval_1_1ConstantValue__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1ConstantValue_a82dc383c6de04053609df055adda57ca}{}\label{classfilval_1_1ConstantValue_a82dc383c6de04053609df055adda57ca} 
+{\bfseries Constant\+Value} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, T const\+\_\+value)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfilval_1_1ConstantValue_a2814dd032b5688fc91e844f1592d1b09}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1ConstantValue_ae74437cc11c2f8e41bf21f0970600113}{}\label{classfilval_1_1ConstantValue_ae74437cc11c2f8e41bf21f0970600113} 
+T {\bfseries const\+\_\+value}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class filval\+::\+Constant\+Value$<$ T $>$}
+
+A \hyperlink{classfilval_1_1Value}{Value} which always returns the same value, supplied in the constructor. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfilval_1_1ConstantValue_a2814dd032b5688fc91e844f1592d1b09}{}\label{classfilval_1_1ConstantValue_a2814dd032b5688fc91e844f1592d1b09} 
+\index{filval\+::\+Constant\+Value@{filval\+::\+Constant\+Value}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!filval\+::\+Constant\+Value@{filval\+::\+Constant\+Value}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfilval_1_1ConstantValue}{filval\+::\+Constant\+Value}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfilval_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfilval_1_1DerivedValue_a74e04450a550454510329a9e6b941304}{filval\+::\+Derived\+Value$<$ T $>$}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

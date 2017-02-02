@@ -1,0 +1,96 @@
+\hypertarget{classfilval_1_1WrapperVector}{}\section{filval\+:\+:Wrapper\+Vector$<$ T $>$ Class Template Reference}
+\label{classfilval_1_1WrapperVector}\index{filval\+::\+Wrapper\+Vector$<$ T $>$@{filval\+::\+Wrapper\+Vector$<$ T $>$}}
+
+
+A std\+::vector wrapper around a C-\/style array.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for filval\+:\+:Wrapper\+Vector$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=226pt]{classfilval_1_1WrapperVector__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for filval\+:\+:Wrapper\+Vector$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfilval_1_1WrapperVector__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1WrapperVector_acb4da90ced874b611dad874e5df6ea7b}{}\label{classfilval_1_1WrapperVector_acb4da90ced874b611dad874e5df6ea7b} 
+{\bfseries Wrapper\+Vector} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, \hyperlink{classfilval_1_1Value}{Value}$<$ int $>$ $\ast$\+\_\+size, \hyperlink{classfilval_1_1Value}{Value}$<$ T $\ast$$>$ $\ast$\+\_\+data)
+\item 
+\hypertarget{classfilval_1_1WrapperVector_a26dc4ed6f00b772fcc1d65379de3f3da}{}\label{classfilval_1_1WrapperVector_a26dc4ed6f00b772fcc1d65379de3f3da} 
+{\bfseries Wrapper\+Vector} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, const std\+::string \&label\+\_\+size, const std\+::string \&label\+\_\+data)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfilval_1_1WrapperVector_a959d593dca6d6a7ef7ed2ff3c4f28632}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1WrapperVector_a6d54851468a907eead3e1e35842d1c7d}{}\label{classfilval_1_1WrapperVector_a6d54851468a907eead3e1e35842d1c7d} 
+\hyperlink{classfilval_1_1Value}{Value}$<$ int $>$ $\ast$ {\bfseries size}
+\item 
+\hypertarget{classfilval_1_1WrapperVector_a2b9d3df8ac85d80c7cb6c5742bd106ea}{}\label{classfilval_1_1WrapperVector_a2b9d3df8ac85d80c7cb6c5742bd106ea} 
+\hyperlink{classfilval_1_1Value}{Value}$<$ T $\ast$ $>$ $\ast$ {\bfseries data}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class filval\+::\+Wrapper\+Vector$<$ T $>$}
+
+A std\+::vector wrapper around a C-\/style array. 
+
+In order to make some of the higher-\/level \hyperlink{classfilval_1_1Value}{Value} types easier to work with, it is a good idea to wrap all arrays in the original data source with std\+::vector objects. To do this, it is necessary to supply both a \hyperlink{classfilval_1_1Value}{Value} object containing the array itself as well as another \hyperlink{classfilval_1_1Value}{Value} object containing the size of that array. Currently, update\+\_\+value will simply copy the contents of the array into the interally held vector. \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]avoid an unneccessary copy and set the vectors data directly. \end{DoxyRefDesc}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classfilval_1_1WrapperVector_a959d593dca6d6a7ef7ed2ff3c4f28632}{}\label{classfilval_1_1WrapperVector_a959d593dca6d6a7ef7ed2ff3c4f28632} 
+\index{filval\+::\+Wrapper\+Vector@{filval\+::\+Wrapper\+Vector}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!filval\+::\+Wrapper\+Vector@{filval\+::\+Wrapper\+Vector}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfilval_1_1WrapperVector}{filval\+::\+Wrapper\+Vector}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfilval_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfilval_1_1DerivedValue_a74e04450a550454510329a9e6b941304}{filval\+::\+Derived\+Value$<$ std\+::vector$<$ T $>$ $>$}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{classfilval_1_1WrapperVector_a959d593dca6d6a7ef7ed2ff3c4f28632_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

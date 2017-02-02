@@ -1,0 +1,12 @@
+<map id="filval::Value&lt; T &gt;" name="filval::Value&lt; T &gt;">
+<area shape="rect" id="node3" href="$classfilval_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="211,155,398,181"/>
+<area shape="rect" id="node11" href="$classfilval_1_1ObservedValue.html" title="A generic, observed, value. " alt="" coords="423,155,621,181"/>
+<area shape="rect" id="node2" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="351,5,475,32"/>
+<area shape="rect" id="node4" href="$classfilval_1_1BoundValue.html" title="A generic value owning only a function object. " alt="" coords="5,229,183,256"/>
+<area shape="rect" id="node5" href="$classfilval_1_1ConstantValue.html" title="A Value which always returns the same value, supplied in the constructor. " alt="" coords="207,229,402,256"/>
+<area shape="rect" id="node6" href="$classfilval_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. " alt="" coords="426,229,573,256"/>
+<area shape="rect" id="node7" href="$classfilval_1_1ElementOf.html" title="Extract the element at a specific index from a vector. " alt="" coords="165,304,335,331"/>
+<area shape="rect" id="node8" href="$classfilval_1_1Max.html" title="Find and return the maximum value of a vector. " alt="" coords="359,304,485,331"/>
+<area shape="rect" id="node9" href="$classfilval_1_1Mean.html" title="Calculate the mean value of a vector. " alt="" coords="509,304,644,331"/>
+<area shape="rect" id="node10" href="$classfilval_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="669,304,791,331"/>
+</map>

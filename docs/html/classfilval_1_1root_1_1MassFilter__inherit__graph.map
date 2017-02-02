@@ -1,0 +1,6 @@
+<map id="filval::root::MassFilter" name="filval::root::MassFilter">
+<area shape="rect" id="node2" href="$classfilval_1_1Filter.html" title="filval::Filter" alt="" coords="39,244,133,271"/>
+<area shape="rect" id="node3" href="$classfilval_1_1DerivedValue.html" title="filval::DerivedValue\l\&lt; bool \&gt;" alt="" coords="11,155,161,196"/>
+<area shape="rect" id="node4" href="$classfilval_1_1Value.html" title="filval::Value\&lt; bool \&gt;" alt="" coords="8,80,164,107"/>
+<area shape="rect" id="node5" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="24,5,148,32"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="filval::MinIndex&lt; T &gt;" name="filval::MinIndex&lt; T &gt;">
+<area shape="rect" id="node2" href="$classfilval_1_1ReduceIndex.html" title="Similar to Reduce, but returns a pair of a T and an int. " alt="" coords="63,303,246,329"/>
+<area shape="rect" id="node3" href="$classfilval_1_1DerivedValue.html" title="filval::DerivedValue\l\&lt; std::pair\&lt; T, int \&gt; \&gt;" alt="" coords="5,212,173,253"/>
+<area shape="rect" id="node4" href="$classfilval_1_1Value.html" title="filval::Value\&lt; std\l::pair\&lt; T, int \&gt; \&gt;" alt="" coords="43,81,176,123"/>
+<area shape="rect" id="node5" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="103,5,227,32"/>
+<area shape="rect" id="node6" href="$classfilval_1_1Value.html" title="filval::Value\&lt; std\l::vector\&lt; T \&gt; \&gt;" alt="" coords="152,147,285,188"/>
+</map>

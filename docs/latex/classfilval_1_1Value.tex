@@ -1,0 +1,54 @@
+\hypertarget{classfilval_1_1Value}{}\section{filval\+:\+:Value$<$ T $>$ Class Template Reference}
+\label{classfilval_1_1Value}\index{filval\+::\+Value$<$ T $>$@{filval\+::\+Value$<$ T $>$}}
+
+
+A generic value.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for filval\+:\+:Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfilval_1_1Value__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for filval\+:\+:Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=182pt]{classfilval_1_1Value__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1Value_acf84b59c04243cffee5c0f361465c83c}{}\label{classfilval_1_1Value_acf84b59c04243cffee5c0f361465c83c} 
+{\bfseries Value} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name})
+\item 
+\hypertarget{classfilval_1_1Value_a690d54d59d428984cc0f8e82ecf5ba9d}{}\label{classfilval_1_1Value_a690d54d59d428984cc0f8e82ecf5ba9d} 
+virtual T \& \hyperlink{classfilval_1_1Value_a690d54d59d428984cc0f8e82ecf5ba9d}{get\+\_\+value} ()=0
+\begin{DoxyCompactList}\small\item\em Calculate, if necessary, and return the value held by this object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class filval\+::\+Value$<$ T $>$}
+
+A generic value. 
+
+In order to facilitate run-\/time creation of analysis routines, it is necessary to have some ability to get and store {\itshape values}. Values can either be directly taken from some original data source (i.\+e. \hyperlink{classfilval_1_1ObservedValue}{Observed\+Value}), or they can be a function of some other set of values (i.\+e. \hyperlink{classfilval_1_1DerivedValue}{Derived\+Value}). They template class T of Value$<$\+T$>$ is the type of thing that is returned upon calling \hyperlink{classfilval_1_1Value_a690d54d59d428984cc0f8e82ecf5ba9d}{get\+\_\+value()}. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

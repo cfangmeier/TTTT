@@ -1,0 +1,94 @@
+\hypertarget{classfilval_1_1Reduce}{}\section{filval\+:\+:Reduce$<$ T $>$ Class Template Reference}
+\label{classfilval_1_1Reduce}\index{filval\+::\+Reduce$<$ T $>$@{filval\+::\+Reduce$<$ T $>$}}
+
+
+\hyperlink{classfilval_1_1Reduce}{Reduce} a \hyperlink{classfilval_1_1Value}{Value} of type vector$<$\+T$>$ to just a T.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for filval\+:\+:Reduce$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfilval_1_1Reduce__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for filval\+:\+:Reduce$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{classfilval_1_1Reduce__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1Reduce_a64db8c7153ee1ddce2f2db01f77afc2c}{}\label{classfilval_1_1Reduce_a64db8c7153ee1ddce2f2db01f77afc2c} 
+{\bfseries Reduce} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, std\+::function$<$ T(std\+::vector$<$ T $>$)$>$ reduce, \hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$v)
+\item 
+\hypertarget{classfilval_1_1Reduce_a8834d0f43fb9cf687aade04bcf04981a}{}\label{classfilval_1_1Reduce_a8834d0f43fb9cf687aade04bcf04981a} 
+{\bfseries Reduce} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, std\+::function$<$ T(std\+::vector$<$ T $>$)$>$ reduce, const std\+::string \&v\+\_\+name)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfilval_1_1Reduce_a7f6bc3bed99c9d41e045f675895d8f67}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1Reduce_a0bcdfd0837598bcf16547da181d3d8a2}{}\label{classfilval_1_1Reduce_a0bcdfd0837598bcf16547da181d3d8a2} 
+std\+::function$<$ T(std\+::vector$<$ T $>$)$>$ {\bfseries reduce}
+\item 
+\hypertarget{classfilval_1_1Reduce_aa262aa756388d84b37bc2cf47022b515}{}\label{classfilval_1_1Reduce_aa262aa756388d84b37bc2cf47022b515} 
+\hyperlink{classfilval_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$ {\bfseries v}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class filval\+::\+Reduce$<$ T $>$}
+
+\hyperlink{classfilval_1_1Reduce}{Reduce} a \hyperlink{classfilval_1_1Value}{Value} of type vector$<$\+T$>$ to just a T. 
+
+This is useful functionality to model, for instance, calculating the maximum element of a vector, or a the mean. See child classes for specific implementations. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfilval_1_1Reduce_a7f6bc3bed99c9d41e045f675895d8f67}{}\label{classfilval_1_1Reduce_a7f6bc3bed99c9d41e045f675895d8f67} 
+\index{filval\+::\+Reduce@{filval\+::\+Reduce}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!filval\+::\+Reduce@{filval\+::\+Reduce}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{classfilval_1_1Reduce}{filval\+::\+Reduce}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfilval_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfilval_1_1DerivedValue_a74e04450a550454510329a9e6b941304}{filval\+::\+Derived\+Value$<$ T $>$}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{classfilval_1_1Reduce_a7f6bc3bed99c9d41e045f675895d8f67_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

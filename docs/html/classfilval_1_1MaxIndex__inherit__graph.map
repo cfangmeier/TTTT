@@ -1,0 +1,6 @@
+<map id="filval::MaxIndex&lt; T &gt;" name="filval::MaxIndex&lt; T &gt;">
+<area shape="rect" id="node2" href="$classfilval_1_1ReduceIndex.html" title="Similar to Reduce, but returns a pair of a T and an int. " alt="" coords="5,259,188,285"/>
+<area shape="rect" id="node3" href="$classfilval_1_1DerivedValue.html" title="filval::DerivedValue\l\&lt; std::pair\&lt; T, int \&gt; \&gt;" alt="" coords="13,169,181,211"/>
+<area shape="rect" id="node4" href="$classfilval_1_1Value.html" title="filval::Value\&lt; std\l::pair\&lt; T, int \&gt; \&gt;" alt="" coords="30,80,163,121"/>
+<area shape="rect" id="node5" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="35,5,159,32"/>
+</map>

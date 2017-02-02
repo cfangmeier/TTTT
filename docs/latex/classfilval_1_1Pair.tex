@@ -1,0 +1,81 @@
+\hypertarget{classfilval_1_1Pair}{}\section{filval\+:\+:Pair$<$ T1, T2 $>$ Class Template Reference}
+\label{classfilval_1_1Pair}\index{filval\+::\+Pair$<$ T1, T2 $>$@{filval\+::\+Pair$<$ T1, T2 $>$}}
+
+
+Creates a std\+::pair type from a two other \hyperlink{classfilval_1_1Value}{Value} objects.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for filval\+:\+:Pair$<$ T1, T2 $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=211pt]{classfilval_1_1Pair__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for filval\+:\+:Pair$<$ T1, T2 $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=211pt]{classfilval_1_1Pair__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1Pair_abd85360b5436586d954500d6b45009c2}{}\label{classfilval_1_1Pair_abd85360b5436586d954500d6b45009c2} 
+{\bfseries Pair} (const std\+::string \hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, \hyperlink{classfilval_1_1Value}{Value}$<$ T1 $>$ $\ast$value1, \hyperlink{classfilval_1_1Value}{Value}$<$ T2 $>$ $\ast$value2)
+\item 
+\hypertarget{classfilval_1_1Pair_a7da9e34f9f8e1b604b4f1587942ec5c7}{}\label{classfilval_1_1Pair_a7da9e34f9f8e1b604b4f1587942ec5c7} 
+{\bfseries Pair} (const std\+::string \&\hyperlink{classfilval_1_1GenValue_a007e38c03ee041c2a657afa3d6e91ab1}{name}, const std\+::string \&label1, const std\+::string \&label2)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfilval_1_1Pair_a1dd5b3859d023821081659cc8a66bda4}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfilval_1_1Pair_a7d4574acdae8ac0d4af1b3733173b3c7}{}\label{classfilval_1_1Pair_a7d4574acdae8ac0d4af1b3733173b3c7} 
+std\+::pair$<$ \hyperlink{classfilval_1_1Value}{Value}$<$ T1 $>$ $\ast$, \hyperlink{classfilval_1_1Value}{Value}$<$ T2 $>$ $\ast$$>$ {\bfseries value\+\_\+pair}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T1, typename T2$>$\newline
+class filval\+::\+Pair$<$ T1, T2 $>$}
+
+Creates a std\+::pair type from a two other \hyperlink{classfilval_1_1Value}{Value} objects. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfilval_1_1Pair_a1dd5b3859d023821081659cc8a66bda4}{}\label{classfilval_1_1Pair_a1dd5b3859d023821081659cc8a66bda4} 
+\index{filval\+::\+Pair@{filval\+::\+Pair}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!filval\+::\+Pair@{filval\+::\+Pair}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T1, typename T2$>$ \\
+void \hyperlink{classfilval_1_1Pair}{filval\+::\+Pair}$<$ T1, T2 $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfilval_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfilval_1_1DerivedValue_a74e04450a550454510329a9e6b941304}{filval\+::\+Derived\+Value$<$ std\+::pair$<$ T1, T2 $>$ $>$}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}
