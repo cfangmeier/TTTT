@@ -15,22 +15,25 @@ class LorentzVector : public DerivedValue<TLorentzVector>{
             value.SetPtEtaPhiM(pt->get_value(), eta->get_value(), phi->get_value(), m->get_value());
         }
     public:
-        LorentzVector(Value<double>* pt,
+        LorentzVector(const std::string& name,
+                      Value<double>* pt,
                       Value<double>* eta,
                       Value<double>* phi,
                       Value<double>* m)
-          :pt(pt), eta(eta),
+          :DerivedValue<TLorentzVector>(name),
+           pt(pt), eta(eta),
            phi(phi), m(m) { }
 
-        LorentzVector(ValueSet *values,
+        LorentzVector(const std::string& name,
                       const std::string &pt_label,
                       const std::string &eta_label,
                       const std::string &phi_label,
                       const std::string &m_label)
-          :LorentzVector(dynamic_cast<Value<double>*>(values->at(pt_label)),
-                         dynamic_cast<Value<double>*>(values->at(eta_label)),
-                         dynamic_cast<Value<double>*>(values->at(phi_label)),
-                         dynamic_cast<Value<double>*>(values->at(m_label))){ }
+          :LorentzVector(name,
+                         dynamic_cast<Value<double>*>(GenValue::get_value(pt_label)),
+                         dynamic_cast<Value<double>*>(GenValue::get_value(eta_label)),
+                         dynamic_cast<Value<double>*>(GenValue::get_value(phi_label)),
+                         dynamic_cast<Value<double>*>(GenValue::get_value(m_label))){ }
 };
 
 class LorentzVectorEnergy : public DerivedValue<double>{
@@ -40,11 +43,13 @@ class LorentzVectorEnergy : public DerivedValue<double>{
             value = vector->get_value().E();
         }
     public:
-        LorentzVectorEnergy(Value<TLorentzVector>* vector)
-          :vector(vector){ }
+        LorentzVectorEnergy(const std::string& name, Value<TLorentzVector>* vector)
+          :DerivedValue<double>(name),
+           vector(vector){ }
 
-        LorentzVectorEnergy(ValueSet *values, const std::string& vector_label)
-          :LorentzVectorEnergy(dynamic_cast<Value<TLorentzVector>*>(values->at(vector_label))){ }
+        LorentzVectorEnergy(const std::string& name, const std::string& vector_label)
+          :LorentzVectorEnergy(name,
+                               dynamic_cast<Value<TLorentzVector>*>(GenValue::get_value(vector_label))){ }
 };
 }
 #endif // root_value_hpp

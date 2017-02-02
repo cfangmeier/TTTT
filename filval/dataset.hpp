@@ -1,36 +1,37 @@
 #ifndef dataset_hpp
 #define dataset_hpp
+#include <iostream>
 #include "value.hpp"
 #include "container.hpp"
 
 namespace filval{
 class DataSet{
+    private:
+        void summary(){
+            GenValue::summary();
+        }
     protected:
-        ValueSet values;
         ContainerSet containers;
         virtual bool load_next() = 0;
+        virtual int get_events() = 0;
+        virtual int get_current_event() = 0;
     public:
         void process(){
+            int events, current_event;
+            summary();
+            events = get_events();
+            std::cout << std::endl;
             while( load_next() ){
+                current_event = get_current_event();
+                std::cout << "\rprocessing event: " << current_event+1 << "/" << events << std::flush;
                 GenValue::reset();
-                for(auto con : containers)
+                for(auto con : containers){
+                    /* std::cout << std::endl << "Filling container: " << con.first; */
                     con.second->fill();
+                }
+                /* std::cout << std::endl; */
             }
-        }
-
-        /* template <typename T> */
-        /* virtual T* get_field(const std::string& field_name) = 0; */
-
-        void add_value(GenValue *value, const std::string& value_name ){
-            /* Adds a value to the dataset's list of known value objects. Note
-             * that all new values are automatically kept track of by
-             * GenValue::values so this is only needed if one wants to recall
-             * the value by name.
-             */
-            values[value_name] = value;
-        }
-        GenValue* get_value(std::string value_name){
-            return values.at(value_name);
+            std::cout << " Finished!" << std::endl;
         }
 
         void add_container(GenContainer *container){

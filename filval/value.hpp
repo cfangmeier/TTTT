@@ -1,3 +1,44 @@
+/**
+ * @file
+ * @author  Caleb Fangmeier <caleb@fangmeier.tech>
+ * @version 0.1
+ *
+ * @section LICENSE
+ *
+ *
+ * MIT License
+ *
+ * Copyright (c) 2017 Caleb Fangmeier
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @section DESCRIPTION
+ * This header defines a set of generic classes that wrap up "values". In
+ * essence, a Value<T> object is just something that contains a value of type T
+ * and can provide it when requested. The usefulness stems from composing
+ * values together with calculations. This enables very clear dependency
+ * mapping and a way to know clearly how every value was arrived at. This could
+ * be used to, for example, automatically generate commentary for plots that
+ * explain the exect calculation used to create it. Or easily making a series
+ * of plots contrasting different values that have been composed slightly
+ * differently.
+ */
 #ifndef value_hpp
 #define value_hpp
 #include <iostream>
@@ -9,45 +50,104 @@
 #include <initializer_list>
 #include <functional>
 
+/**
+ * The namespace containing all filval classes and functions.
+ */
 namespace filval{
 
+/** 
+ * A type-agnostic value.
+ * It is necessary to create a type-agnostic parent class to Value so that
+ * it is possible to handle collections of them. GenValue also provides the
+ * rest of the type-independent interface to Value.
+ */
 class GenValue{
     private:
-        inline static std::vector<GenValue*> values;
+        /**
+         * The name of the value.
+         * This is used to allow for dynamic lookup of
+         * values based on their name via GenValue::get_value.
+         */
+        std::string name;
+    protected:
+        /**
+         * Mark the internal value as invalid. This is needed for DerivedValue
+         * to force a recalculation of the internal value when a new
+         * observation is loaded into memory. It is called automatically for
+         * all GenValue objects when reset is called.
+         */
         virtual void _reset() = 0;
+        /**
+         * A static mapping containing all created Value objects.
+         * Every value object must have a unique name, and this name is used as
+         * a key in values to that object. This is used to enable more dynamic
+         * creation of objects as well as avoiding the uneccesary passing of
+         * pointers.
+         */
+        inline static std::map<const std::string, GenValue*> values;
     public:
-        GenValue(){
-            values.push_back(this);
+        GenValue(const std::string& name)
+          :name(name) {
+            values[name] = this;
+        }
+        const std::string& get_name(){
+            return name;
         }
         static void reset(){
             for (auto val : values){
-                val->_reset();
+                val.second->_reset();
+            }
+        }
+        static GenValue* get_value(const std::string& name){
+            return values.at(name);
+        }
+        static void summary(){
+            std::cout << "The following values have been created: " << std::endl;
+            for (auto value : values){
+                std::cout << "\t\"" << value.first << "\" at address " << value.second << std::endl;
             }
         }
 };
 typedef std::map<std::string, GenValue*> ValueSet;
 
 
+/**
+ * A generic value.
+ * In order to facilitate run-time creation of analysis routines, it is
+ * necessary to have some ability to get and store *values*. Values can either
+ * be directly taken from some original data source (i.e. ObservedValue), or
+ * they can be a function of some other set of values (i.e. DerivedValue). They
+ * template class T of Value<T> is the type of thing that is returned upon
+ * calling get_value().
+ */
 template <typename T>
 class Value : public GenValue{
     public:
-        Value(): GenValue(){}
+        Value(const std::string& name)
+          :GenValue(name){ }
+        /** Calculate, if necessary, and return the value held by this object.
+         */
         virtual T& get_value() = 0;
 };
 
 
+/**
+ * A generic, observed, value.
+ * An ObservedValue is the interface to your dataset. Upon creation, an
+ * ObservedValue is given a pointer to an object of type T. When an observation
+ * is loaded into memory, the value at the location referenced by that pointer
+ * must be updated with the associated data from that observation. This is the
+ * responsibility of whatever DataSet implementation is being used. This object
+ * then will read that data and return it when requested.
+ */
 template <typename T>
 class ObservedValue : public Value<T>{
-    /* For "observed" values, there is nothing to calculate since this is
-     * merely a wrapper around a field in the observation. A pointer to the
-     * value is kept and it's value is read when requested.
-     */
     private:
         T *val_ref;
         void _reset(){ }
     public:
-        ObservedValue(T* val_ref)
-          :Value<T>(),
+        ObservedValue(const std::string& name, T* val_ref)
+          :Value<T>(name),
            val_ref(val_ref){ }
         T& get_value(){
             return *val_ref;
@@ -55,14 +155,23 @@ class ObservedValue : public Value<T>{
 };
 
 
+/**
+ * A generic, derived, value.
+ * A DerivedValue is generally defined as some function of other Value objects.
+ * For example, a Pair is a function of two other Value objects that makes a
+ * pair of them. Note that these other Value objects are free to be either
+ * ObservedValues or other DerivedValues. 
+ *
+ * It is desireable from a performance standpoint that each DerivedValue be
+ * calculated no more than once per observation. Therefore, when a get_value is
+ * called on a DerivedValue, it first checks whether the value that it holds is
+ * **valid**, meaning it has already been calculated for this observation. If
+ * so, it simply returns the value. If not, the update_value function is called
+ * to calculate the value. and then the newly calculated value is marked as
+ * valid and returned.
+ */
 template <typename T>
 class DerivedValue : public Value<T>{
-    /* A "derived" value is the result of some sort of calculation. Since it is
-     * desireable for the calculation to occur at most a single time for each
-     * observation, the result of the calculation is stored in the object. be
-     * sure that "reset" is called between processing observations to force a
-     * re-calculation.
-     */
     private:
         void _reset(){
             value_valid = false;
@@ -71,9 +180,19 @@ class DerivedValue : public Value<T>{
         T value;
         bool value_valid;
 
+        /**
+         * Updates the internal value.
+         * This function should be overridden by any child class to do the
+         * actual work of updating value based on whatever rules the class
+         * chooses. Normally, this consists of geting the values from some
+         * associated Value objects, doing some calculation on them, and
+         * storing the result in value.
+         */
         virtual void update_value() = 0;
     public:
-        DerivedValue() :Value<T>(), value_valid(false) { }
+        DerivedValue(const std::string& name)
+          :Value<T>(name),
+           value_valid(false) { }
 
         T& get_value(){
             if (!value_valid){
@@ -84,6 +203,17 @@ class DerivedValue : public Value<T>{
         }
 };
 
+
+/**
+ * A std::vector wrapper around a C-style array.
+ * In order to make some of the higher-level Value types easier to work with,
+ * it is a good idea to wrap all arrays in the original data source with
+ * std::vector objects. To do this, it is necessary to supply both a Value
+ * object containing the array itself as well as another Value object
+ * containing the size of that array. Currently, update_value will simply copy
+ * the contents of the array into the interally held vector.
+ * \todo avoid an unneccessary copy and set the vectors data directly.
+ */
 template <typename T>
 class WrapperVector : public DerivedValue<std::vector<T> >{
     private:
@@ -100,14 +230,19 @@ class WrapperVector : public DerivedValue<std::vector<T> >{
         }
 
     public:
-        WrapperVector(Value<int>* _size, Value<T*>* _data)
-          :DerivedValue<std::vector<T> >(),
+        WrapperVector(const std::string& name, Value<int>* _size, Value<T*>* _data)
+          :DerivedValue<std::vector<T> >(name),
            size(_size), data(_data){ }
-        WrapperVector(ValueSet *values, const std::string &label_size, const std::string &label_data)
-          :WrapperVector(dynamic_cast<Value<int>*>(values->at(label_size)),
-                         dynamic_cast<Value<T*>*>(values->at(label_data))) { }
+
+        WrapperVector(const std::string& name, const std::string &label_size, const std::string &label_data)
+          :WrapperVector(name,
+                         dynamic_cast<Value<int>*>(GenValue::values.at(label_size)),
+                         dynamic_cast<Value<T*>*>(GenValue::values.at(label_data))) { }
 };
 
+/**
+ * Creates a std::pair type from a two other Value objects.
+ */
 template <typename T1, typename T2>
 class Pair : public DerivedValue<std::pair<T1, T2> >{
     protected:
@@ -117,14 +252,28 @@ class Pair : public DerivedValue<std::pair<T1, T2> >{
             this->value.second = value_pair.second->get_value();
         }
     public:
-        Pair(Value<T1> *value1, Value<T2> *value2)
-          :DerivedValue<std::pair<T1, T2> >(),
+        Pair(const std::string name, Value<T1> *value1, Value<T2> *value2)
+          :DerivedValue<std::pair<T1, T2> >(name),
            value_pair(value1, value2){ }
-        Pair(ValueSet *values, const std::string &label1, const std::string &label2)
-          :Pair((Value<T1>*) values->at(label1),
-                (Value<T1>*) values->at(label2)){ }
+        Pair(const std::string& name, const std::string& label1, const std::string& label2)
+          :Pair(name,
+                dynamic_cast<Value<T1>*>(GenValue::values.at(label1)),
+                dynamic_cast<Value<T1>*>(GenValue::values.at(label2))){ }
 };
 
+/**
+ * Takes a set of four Value<std::vector<T> > objects and a function of four Ts
+ * and returns a std::vector<R>. This is used in, for instance, calculating the
+ * energy of a set of particles when one has separate arrays containing pt,
+ * eta, phi, and mass. These arrays are first wrapped up in VectorWrappers and
+ * then passes along with a function to calculate the energy into a ZipMapFour.
+ * The result of this calculation is a new vector containing the energy for
+ * each particle. Note that if the input vectors are not all the same size,
+ * calculations are only performed up to the size of the shortest.
+ * \see MiniTreeDataSet
+ * \todo find way to implement for arbitrary number(and possibly type) of
+ * vector inputs.
+ */
 template <typename R, typename T>
 class ZipMapFour : public DerivedValue<std::vector<R> >{
     private:
@@ -149,24 +298,29 @@ class ZipMapFour : public DerivedValue<std::vector<R> >{
         }
 
     public:
-        ZipMapFour(std::function<R(T, T, T, T)> f,
+        ZipMapFour(const std::string& name, std::function<R(T, T, T, T)> f,
                    Value<std::vector<T> >* v1, Value<std::vector<T> >* v2,
                    Value<std::vector<T> >* v3, Value<std::vector<T> >* v4)
-          :DerivedValue<std::vector<R> >(),
+          :DerivedValue<std::vector<R> >(name),
            f(f), v1(v1), v2(v2), v3(v3), v4(v4) { }
-        ZipMapFour(std::function<R(T, T, T, T)> f,
-                   ValueSet *values,
-                   const std::string &label1,
-                   const std::string &label2,
-                   const std::string &label3,
-                   const std::string &label4)
-          :ZipMapFour(f,
-                      dynamic_cast<Value<std::vector<T> >*>(values->at(label1)),
-                      dynamic_cast<Value<std::vector<T> >*>(values->at(label2)),
-                      dynamic_cast<Value<std::vector<T> >*>(values->at(label3)),
-                      dynamic_cast<Value<std::vector<T> >*>(values->at(label4))){ }
+
+        ZipMapFour(const std::string& name,
+                   std::function<R(T, T, T, T)> f,
+                   const std::string &label1, const std::string &label2,
+                   const std::string &label3, const std::string &label4)
+          :ZipMapFour(name, f,
+                      dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label1)),
+                      dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label2)),
+                      dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label3)),
+                      dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label4))){ }
 };
 
+/**
+ * Reduce a Value of type vector<T> to just a T.
+ * This is useful functionality to model, for instance, calculating the maximum
+ * element of a vector, or a the mean. See child classes for specific
+ * implementations.
+ */
 template <typename T>
 class Reduce : public DerivedValue<T>{
     private:
@@ -176,11 +330,115 @@ class Reduce : public DerivedValue<T>{
             this->value = reduce(v->get_value());
         }
     public:
-        Reduce(std::function<T(std::vector<T>)> reduce, Value<std::vector<T> >* v)
-          :DerivedValue<T>(),
+        Reduce(const std::string& name, std::function<T(std::vector<T>)> reduce, Value<std::vector<T> >* v)
+          :DerivedValue<T>(name),
            reduce(reduce), v(v) { }
+
+        Reduce(const std::string& name, std::function<T(std::vector<T>)> reduce, const std::string& v_name)
+          :Reduce(name, reduce, dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(v_name))) { }
 };
 
+/**
+ * Find and return the maximum value of a vector.
+ */
+template <typename T>
+class Max : public Reduce<T>{
+    public:
+        Max(const std::string& name, const std::string& v_name)
+          :Reduce<T>(name, [](std::vector<T> vec){ return std::max(vec.begin(), vec.end());}, v_name) { }
+};
+
+/**
+ * Find and return the minimum value of a vector.
+ */
+template <typename T>
+class Min : public Reduce<T>{
+    public:
+        Min(const std::string& name, const std::string& v_name)
+          :Reduce<T>(name, [](std::vector<T> vec){ return std::min(vec.begin(), vec.end());}, v_name) { }
+};
+
+/**
+ * Calculate the mean value of a vector.
+ */
+template <typename T>
+class Mean : public Reduce<T>{
+    public:
+        Mean(const std::string& name, const std::string& v_name)
+          :Reduce<T>(name,
+                     [](std::vector<T> vec){
+                        int n = 0; T sum = 0;
+                        for (T e : vec){ n++; sum += e; }
+                        return n>0 ? sum / n : 0; },
+                     v_name) { }
+};
+
+/**
+ * Extract the element at a specific index from a vector. 
+ */
+template <typename T>
+class ElementOf : public Reduce<T>{
+    public:
+        ElementOf(const std::string& name, Value<int>* index, const std::string& v_name)
+          :Reduce<T>(name, [index](std::vector<T> vec){return vec[index->get_value()];}, v_name) { }
+        ElementOf(const std::string& name, int index, const std::string& v_name)
+          :Reduce<T>(name, [index](std::vector<T> vec){return vec[index];}, v_name) { }
+};
+
+/**
+ * Similar to Reduce, but returns a pair of a T and an int.
+ * This is useful if you need to know where in the vector exists the element
+ * being returned.
+ */
+template <typename T>
+class ReduceIndex : public DerivedValue<std::pair<T, int> >{
+    private:
+        std::function<std::pair<T,int>(std::vector<T>)> reduce;
+        Value<std::vector<T> >* v;
+        void update_value(){
+            this->value = reduce(v->get_value());
+        }
+    public:
+        ReduceIndex(const std::string& name, std::function<std::pair<T,int>(std::vector<T>)> reduce, Value<std::vector<T> >* v)
+          :DerivedValue<T>(name),
+           reduce(reduce), v(v) { }
+
+        ReduceIndex(const std::string& name, std::function<std::pair<T,int>(std::vector<T>)> reduce, const std::string& v_name)
+          :ReduceIndex(name, reduce, dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(v_name))) { }
+};
+
+/**
+ * Find and return the maximum value of a vector and its index.
+ */
+template <typename T>
+class MaxIndex : public ReduceIndex<T>{
+    public:
+        MaxIndex(const std::string& name, const std::string& v_name)
+          :ReduceIndex<T>(name,
+                          [](std::vector<T> vec){ 
+                              auto elptr = std::max_element(vec.begin(), vec.end());
+                              return std::pair<T,int>(*elptr, int(elptr-vec.begin()));},
+                          v_name) { }
+};
+
+/**
+ * Find and return the minimum value of a vector and its index.
+ */
+template <typename T>
+class MinIndex : public ReduceIndex<T>{
+    public:
+        MinIndex(const std::string& name, const std::string& v_name)
+          :ReduceIndex<T>(name,
+                          [](std::vector<T> vec){ 
+                              auto elptr = std::min_element(vec.begin(), vec.end());
+                              return std::pair<T,int>(*elptr, int(elptr-vec.begin()));},
+                          v_name) { }
+};
+
+
+/**
+ * A variadic 
+ */
 template <typename R, typename... T>
 class MultiFunc : public DerivedValue<R>{
     private:
@@ -192,24 +450,33 @@ class MultiFunc : public DerivedValue<R>{
         }
 
     public:
-        MultiFunc(std::function<R(std::tuple<T...>)> f, T... varargs)
-          :f(f),
+        MultiFunc(const std::string& name, std::function<R(std::tuple<T...>)> f, T... varargs)
+          :DerivedValue<R>(name),
+           f(f),
            value_tuple(varargs...){ }
 };
 
+/**
+ * A generic value owning only a function object.
+ * All necessary values upon which this value depends must be bound to the
+ * function object.
+ */
 template <typename T>
 class BoundValue : public DerivedValue<T>{
-    /* A "bound" value has it's dependencies bound into a function object. */
     protected:
         std::function<T()> f;
         void update_value(){
             this->value = f();
         }
     public:
-        BoundValue(std::function<T()> f)
-          :f(f) { }
+        BoundValue(const std::string& name, std::function<T()> f)
+          :DerivedValue<T>(name),
+           f(f) { }
 };
 
+/**
+ * A Value which always returns the same value, supplied in the constructor.
+ */
 template <typename T>
 class ConstantValue : public DerivedValue<T>{
     protected:
@@ -218,8 +485,9 @@ class ConstantValue : public DerivedValue<T>{
             this->value = const_value;
         }
     public:
-        ConstantValue(T const_value)
-            :const_value(const_value) { }
+        ConstantValue(const std::string& name, T const_value)
+            :DerivedValue<T>(name),
+             const_value(const_value) { }
 };
 }
 #endif // value_hpp

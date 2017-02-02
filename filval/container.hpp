@@ -9,14 +9,14 @@ class GenContainer{
     private:
         std::string name;
         std::string desc;
-        std::vector<GenFilter*> filters;
+        std::vector<Filter*> filters;
     protected:
         virtual void _fill() = 0;
     public:
         GenContainer(const std::string name)
           :name(name){ }
         void add_filter(GenValue* filter){
-            filters.push_back(dynamic_cast<GenFilter*>(filter));
+            filters.push_back(dynamic_cast<Filter*>(filter));
         }
         void fill(){
             for (auto filter : filters){

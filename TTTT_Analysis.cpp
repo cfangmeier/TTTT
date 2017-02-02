@@ -25,10 +25,10 @@ void test1(){
     double x = 12;
     double y = 12;
 
-    ObservedValue<double> x_val(&x);
-    ObservedValue<double> y_val(&y);
+    ObservedValue<double> x_val("x", &x);
+    ObservedValue<double> y_val("y", &y);
 
-    Pair<double, double> dp(&x_val, &y_val);
+    Pair<double, double> dp("(x,y)", &x_val, &y_val);
     print_pair(dp);
     x = 2;
     y = 2;
@@ -48,7 +48,7 @@ void test1(){
 
 void test2(){
     double x = 12;
-    ObservedValue<double> x_val(&x);
+    ObservedValue<double> x_val("x", &x);
     ContainerTH1D hist("h1", "Hist", 20, 0, 20, &x_val);
     hist.fill();
     hist.fill();

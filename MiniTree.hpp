@@ -2185,20 +2185,6 @@ public :
    virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
-
-   void foo(){
-       std::cout << "IN FOO" << std::endl;
-       float* ptr = (float*) LepGood_pt;
-       std::cout << LepGood_pt << std::endl;
-       std::cout << *LepGood_pt << std::endl;
-       std::cout << "OUT FOO" << std::endl;
-   }
-
-/* void MiniTree::InitField */
-   /* unsigned int get_nJet(){ */
-   /*     return *((unsigned int*) fChain->GetBranch("nJet")->GetAddress()); */
-   /* } */
-
 };
 
 

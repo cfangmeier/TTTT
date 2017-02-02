@@ -9,28 +9,33 @@
  */
 namespace filval {
 
-class GenFilter : public DerivedValue<bool>{};
-
-class Filter : public GenFilter{
+class Filter : public DerivedValue<bool>{
     private:
         std::function<bool()> filter_function;
         void update_value(){
             value = filter_function();
         }
     public:
-        Filter(std::function<bool()> filter_function)
-          :filter_function(filter_function){ }
+        Filter(const std::string& name, std::function<bool()> filter_function)
+          :DerivedValue<bool>(name),
+           filter_function(filter_function){ }
 
         Filter* operator*(Filter *f){
-            return new Filter([this, f](){return this->get_value() && f->get_value();});
+            auto new_name = this->get_name() + "&&" + f->get_name();
+            return new Filter(new_name, [this, f](){return this->get_value() && f->get_value();});
         }
 
         Filter* operator+(Filter *f){
-            return new Filter([this, f](){return this->get_value() || f->get_value();});
+            auto new_name = this->get_name() + "||" + f->get_name();
+            return new Filter(new_name, [this, f](){return this->get_value() || f->get_value();});
         }
 
         Filter* operator!(){
-            return new Filter([this](){return !this->get_value();});
+            std::cout << std::string("!") << std::endl;
+            std::cout << this << this->get_name() << std::endl;
+            auto new_name = std::string("!(") + this->get_name() + std::string(")");
+            std::cout << new_name << std::endl;
+            return new Filter(new_name, [this](){return !this->get_value();});
         }
 };
 
@@ -38,8 +43,8 @@ template <typename T>
 class RangeFilter : public Filter{
     private:
     public:
-        RangeFilter(Value<T>* test_value, T range_low, T range_high):
-          Filter([test_value, range_low, range_high]{
+        RangeFilter(const std::string name, Value<T>* test_value, T range_low, T range_high):
+          Filter(name, [test_value, range_low, range_high]{
                   T val = test_value->get_value();
                   return (val >= range_low) && (val < range_high);
                   }){ }
