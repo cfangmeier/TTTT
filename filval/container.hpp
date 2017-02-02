@@ -13,19 +13,23 @@ class GenContainer{
     protected:
         virtual void _fill() = 0;
     public:
+        GenContainer(const std::string name, const std::string& desc)
+          :name(name),desc(desc) { }
+
         GenContainer(const std::string name)
-          :name(name){ }
+          :GenContainer(name,"N/A"){ }
+
         void add_filter(GenValue* filter){
             filters.push_back(dynamic_cast<Filter*>(filter));
         }
+
         void fill(){
             for (auto filter : filters){
-                if (!filter->get_value()){
-                    return;
-                }
+                if (!filter->get_value()) return;
             }
             _fill();
         }
+
         void set_description(const std::string& description){
             desc = description;
         }
@@ -40,7 +44,7 @@ class Container : public GenContainer{
     protected:
         H* container;
     public:
-        Container(H* container, const std::string name)
+        Container(const std::string& name, H* container)
           :GenContainer(name),
            container(container){ }
         virtual H* get_container(){
@@ -58,13 +62,37 @@ class ContainerVector : public Container<std::vector<T> >{
             this->container->push_back(value->get_value());
         }
     public:
-        ContainerVector(std::vector<T> *container, Value<T>* value, const std::string name)
-          :Container<std::vector<T> >(container, name),
+        ContainerVector(const std::string& name, std::vector<T> *container, Value<T>* value)
+          :Container<std::vector<T> >(name, container),
            value(value){ }
-        ContainerVector(Value<T>* value, const std::string name)
-          :Container<std::vector<T> >(NULL, name),
+        ContainerVector(const std::string& name, Value<T>* value)
+          :Container<std::vector<T> >(name, NULL),
            value(value){
             this->container = new std::vector<T>();
+        }
+};
+
+template <typename T>
+class ContainerMean : public Container<T>{
+    private:
+        Value<T>* value;
+        int count;
+        T sum;
+
+        void _fill(){
+            count++;
+            sum += value->get_value();
+        }
+    public:
+        ContainerMean(const std::string& name, Value<T>* value)
+          :Container<std::vector<T> >(name, NULL),
+           value(value){
+            this->container = new T();
+        }
+
+        T* get_container(){
+            *(this->container) = sum/count;
+            return (this->container);
         }
 };
 

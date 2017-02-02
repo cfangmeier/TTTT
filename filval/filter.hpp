@@ -31,10 +31,7 @@ class Filter : public DerivedValue<bool>{
         }
 
         Filter* operator!(){
-            std::cout << std::string("!") << std::endl;
-            std::cout << this << this->get_name() << std::endl;
             auto new_name = std::string("!(") + this->get_name() + std::string(")");
-            std::cout << new_name << std::endl;
             return new Filter(new_name, [this](){return !this->get_value();});
         }
 };

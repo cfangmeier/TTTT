@@ -6,6 +6,7 @@ __pycache__/
 *.d
 *.so
 *.pcm
+tags
 
 # output data files
 *.root

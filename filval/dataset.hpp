@@ -38,7 +38,12 @@ class DataSet{
             containers[container->get_name()] = container;
         }
         GenContainer* get_container(std::string container_name){
-            return containers.at(container_name);
+            GenContainer* c = containers[container_name];
+            if (c == NULL){
+                std::cout << "Request for container \"" << container_name << "\" failed. Doesn't exist." << std::endl;
+                exit(-1);
+            }
+            return c;
         }
 };
 }

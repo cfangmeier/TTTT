@@ -55,12 +55,44 @@
  */
 namespace filval{
 
-/** 
+/**
+ * In order to enable proper provenance tracking, and at the same time keep
+ * the ability to embed functions into values, the Function class should be
+ * used. It is simply a wrapper around a std::function that also has a name.
+ * This name is used when generating the name of values that use the function.
+ * A function name is automatically prepended with "func::" to explicitly state
+ * that the value is the result of a computation encoded within the function
+ * object, and not from some other Value object. Unfortunately, it is up to the
+ * user to find where that function is defined in the source code to inspect
+ * what it is doing. But hopefully this isn't too onerous by just using grep.
+ */
+template<typename> class Function; // undefined
+template <typename R, typename... ArgTypes>
+class Function<R(ArgTypes...)> {
+    std::string name;
+    std::function<R(ArgTypes...)> f;
+
+    public:
+        Function(const std::string& name, std::function<R(ArgTypes...)> f)
+          :name("func::"+name),f(f){ }
+
+    std::string& get_name(){
+        return name;
+    }
+
+    R operator()(ArgTypes ...args){
+        return f(args...);
+    }
+};
+
+/**
  * A type-agnostic value.
  * It is necessary to create a type-agnostic parent class to Value so that
  * it is possible to handle collections of them. GenValue also provides the
  * rest of the type-independent interface to Value.
  */
+class GenValue;
+typedef std::map<std::string, GenValue*> ValueSet;
 class GenValue{
     private:
         /**
@@ -85,30 +117,71 @@ class GenValue{
          * pointers.
          */
         inline static std::map<const std::string, GenValue*> values;
+        inline static std::map<const std::string, GenValue*> aliases;
     public:
         GenValue(const std::string& name)
           :name(name) {
             values[name] = this;
         }
+
         const std::string& get_name(){
             return name;
         }
+
         static void reset(){
             for (auto val : values){
                 val.second->_reset();
             }
         }
+
         static GenValue* get_value(const std::string& name){
-            return values.at(name);
+            if (aliases[name] != NULL)
+                return aliases[name];
+            else if (values[name] != NULL)
+                return values[name];
+            else{
+                std::cout << "ERROR: Could not find alias or value \"" << name << "\"" << std::endl;
+                std::cout << "I'll tell you the ones I know about." << std::endl;
+                summary();
+                std::cout << "Aborting... :(" << std::endl;
+                exit(-1);
+            }
         }
+
+        static void alias(const std::string& name, GenValue* value){
+            if (aliases[name] != NULL){
+                std::cout << "WARNING: alias \"" << name << "\" overrides previous entry." << std::endl;
+            }
+            aliases[name] = value;
+        }
+
+        static GenValue* alias(const std::string& name){
+            if (values[name] != NULL){
+                std::cout << "WARNING: alias \"" << name << "\" does not exist." << std::endl;
+            }
+            return aliases[name];
+        }
+
         static void summary(){
             std::cout << "The following values have been created: " << std::endl;
             for (auto value : values){
+                if (value.second == NULL) continue;
                 std::cout << "\t\"" << value.first << "\" at address " << value.second << std::endl;
+            }
+            std::cout << "And these aliases:" << std::endl;
+            for (auto alias : aliases){
+                std::string orig("VOID");
+                if (alias.second == NULL) continue;
+                for (auto value : values){
+                    if (alias.second == value.second){
+                        orig = value.second->get_name();
+                        break;
+                    }
+                }
+                std::cout << "\t\"" << alias.first << "\" referring to \"" << orig << "\"" << std::endl;
             }
         }
 };
-typedef std::map<std::string, GenValue*> ValueSet;
 
 
 /**
@@ -230,13 +303,12 @@ class WrapperVector : public DerivedValue<std::vector<T> >{
         }
 
     public:
-        WrapperVector(const std::string& name, Value<int>* _size, Value<T*>* _data)
-          :DerivedValue<std::vector<T> >(name),
-           size(_size), data(_data){ }
+        WrapperVector(Value<int>* size, Value<T*>* data)
+          :DerivedValue<std::vector<T> >("vectorOf("+size->get_name()+","+data->get_name()+")"),
+           size(size), data(data){ }
 
-        WrapperVector(const std::string& name, const std::string &label_size, const std::string &label_data)
-          :WrapperVector(name,
-                         dynamic_cast<Value<int>*>(GenValue::values.at(label_size)),
+        WrapperVector(const std::string &label_size, const std::string &label_data)
+          :WrapperVector(dynamic_cast<Value<int>*>(GenValue::values.at(label_size)),
                          dynamic_cast<Value<T*>*>(GenValue::values.at(label_data))) { }
 };
 
@@ -252,12 +324,11 @@ class Pair : public DerivedValue<std::pair<T1, T2> >{
             this->value.second = value_pair.second->get_value();
         }
     public:
-        Pair(const std::string name, Value<T1> *value1, Value<T2> *value2)
-          :DerivedValue<std::pair<T1, T2> >(name),
+        Pair(Value<T1> *value1, Value<T2> *value2)
+          :DerivedValue<std::pair<T1, T2> >("pair("+value1->get_name()+","+value2->get_name()+")"),
            value_pair(value1, value2){ }
-        Pair(const std::string& name, const std::string& label1, const std::string& label2)
-          :Pair(name,
-                dynamic_cast<Value<T1>*>(GenValue::values.at(label1)),
+        Pair(const std::string& label1, const std::string& label2)
+          :Pair(dynamic_cast<Value<T1>*>(GenValue::values.at(label1)),
                 dynamic_cast<Value<T1>*>(GenValue::values.at(label2))){ }
 };
 
@@ -277,7 +348,7 @@ class Pair : public DerivedValue<std::pair<T1, T2> >{
 template <typename R, typename T>
 class ZipMapFour : public DerivedValue<std::vector<R> >{
     private:
-        std::function<R(T, T, T, T)> f;
+        Function<R(T, T, T, T)> f;
         Value<std::vector<T> >* v1;
         Value<std::vector<T> >* v2;
         Value<std::vector<T> >* v3;
@@ -298,17 +369,16 @@ class ZipMapFour : public DerivedValue<std::vector<R> >{
         }
 
     public:
-        ZipMapFour(const std::string& name, std::function<R(T, T, T, T)> f,
+        ZipMapFour(Function<R(T, T, T, T)> f,
                    Value<std::vector<T> >* v1, Value<std::vector<T> >* v2,
                    Value<std::vector<T> >* v3, Value<std::vector<T> >* v4)
-          :DerivedValue<std::vector<R> >(name),
+          :DerivedValue<std::vector<R> >("zipmap("+f.get_name()+":"+v1->get_name()+","+v2->get_name()+","+v3->get_name()+","+v4->get_name()+")"),
            f(f), v1(v1), v2(v2), v3(v3), v4(v4) { }
 
-        ZipMapFour(const std::string& name,
-                   std::function<R(T, T, T, T)> f,
+        ZipMapFour(Function<R(T, T, T, T)> f,
                    const std::string &label1, const std::string &label2,
                    const std::string &label3, const std::string &label4)
-          :ZipMapFour(name, f,
+          :ZipMapFour(f,
                       dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label1)),
                       dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label2)),
                       dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label3)),
@@ -324,18 +394,18 @@ class ZipMapFour : public DerivedValue<std::vector<R> >{
 template <typename T>
 class Reduce : public DerivedValue<T>{
     private:
-        std::function<T(std::vector<T>)> reduce;
+        Function<T(std::vector<T>)> reduce;
         Value<std::vector<T> >* v;
         void update_value(){
             this->value = reduce(v->get_value());
         }
     public:
-        Reduce(const std::string& name, std::function<T(std::vector<T>)> reduce, Value<std::vector<T> >* v)
-          :DerivedValue<T>(name),
+        Reduce(Function<T(std::vector<T>)> reduce, Value<std::vector<T> >* v)
+          :DerivedValue<T>("reduceWith("+reduce.get_name()+":"+v->get_name()+")"),
            reduce(reduce), v(v) { }
 
-        Reduce(const std::string& name, std::function<T(std::vector<T>)> reduce, const std::string& v_name)
-          :Reduce(name, reduce, dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(v_name))) { }
+        Reduce(Function<T(std::vector<T>)> reduce, const std::string& v_name)
+          :Reduce(reduce, dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(v_name))) { }
 };
 
 /**
@@ -344,8 +414,10 @@ class Reduce : public DerivedValue<T>{
 template <typename T>
 class Max : public Reduce<T>{
     public:
-        Max(const std::string& name, const std::string& v_name)
-          :Reduce<T>(name, [](std::vector<T> vec){ return std::max(vec.begin(), vec.end());}, v_name) { }
+        Max(const std::string& v_name)
+          :Reduce<T>(Function<T(std::vector<T>)>("max", [](std::vector<T> vec){ 
+                         return *std::max_element(vec.begin(), vec.end());}),
+                     v_name) { }
 };
 
 /**
@@ -354,8 +426,10 @@ class Max : public Reduce<T>{
 template <typename T>
 class Min : public Reduce<T>{
     public:
-        Min(const std::string& name, const std::string& v_name)
-          :Reduce<T>(name, [](std::vector<T> vec){ return std::min(vec.begin(), vec.end());}, v_name) { }
+        Min(const std::string& v_name)
+          :Reduce<T>(Function<T(std::vector<T>)>("min", [](std::vector<T> vec){ 
+                         return *std::min_element(vec.begin(), vec.end());}),
+                     v_name) { }
 };
 
 /**
@@ -364,12 +438,11 @@ class Min : public Reduce<T>{
 template <typename T>
 class Mean : public Reduce<T>{
     public:
-        Mean(const std::string& name, const std::string& v_name)
-          :Reduce<T>(name,
-                     [](std::vector<T> vec){
+        Mean(const std::string& v_name)
+          :Reduce<T>(Function<T(std::vector<T>)>("mean", [](std::vector<T> vec){
                         int n = 0; T sum = 0;
                         for (T e : vec){ n++; sum += e; }
-                        return n>0 ? sum / n : 0; },
+                        return n>0 ? sum / n : 0; }),
                      v_name) { }
 };
 
@@ -379,8 +452,9 @@ class Mean : public Reduce<T>{
 template <typename T>
 class ElementOf : public Reduce<T>{
     public:
-        ElementOf(const std::string& name, Value<int>* index, const std::string& v_name)
-          :Reduce<T>(name, [index](std::vector<T> vec){return vec[index->get_value()];}, v_name) { }
+        ElementOf(Value<int>* index, const std::string& v_name)
+          :Reduce<T>(Function<T(std::vector<T>)>("elementOf", [index](std::vector<T> vec){return vec[index->get_value()];}),
+                     v_name) { }
         ElementOf(const std::string& name, int index, const std::string& v_name)
           :Reduce<T>(name, [index](std::vector<T> vec){return vec[index];}, v_name) { }
 };
@@ -393,18 +467,18 @@ class ElementOf : public Reduce<T>{
 template <typename T>
 class ReduceIndex : public DerivedValue<std::pair<T, int> >{
     private:
-        std::function<std::pair<T,int>(std::vector<T>)> reduce;
+        Function<std::pair<T,int>(std::vector<T>)> reduce;
         Value<std::vector<T> >* v;
         void update_value(){
             this->value = reduce(v->get_value());
         }
     public:
-        ReduceIndex(const std::string& name, std::function<std::pair<T,int>(std::vector<T>)> reduce, Value<std::vector<T> >* v)
-          :DerivedValue<T>(name),
+        ReduceIndex(Function<std::pair<T,int>(std::vector<T>)> reduce, Value<std::vector<T> >* v)
+          :DerivedValue<T>("reduceIndexWith("+reduce.get_name()+":"+v->get_name()+")"),
            reduce(reduce), v(v) { }
 
-        ReduceIndex(const std::string& name, std::function<std::pair<T,int>(std::vector<T>)> reduce, const std::string& v_name)
-          :ReduceIndex(name, reduce, dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(v_name))) { }
+        ReduceIndex(Function<std::pair<T,int>(std::vector<T>)> reduce, const std::string& v_name)
+          :ReduceIndex(reduce, dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(v_name))) { }
 };
 
 /**
@@ -413,11 +487,10 @@ class ReduceIndex : public DerivedValue<std::pair<T, int> >{
 template <typename T>
 class MaxIndex : public ReduceIndex<T>{
     public:
-        MaxIndex(const std::string& name, const std::string& v_name)
-          :ReduceIndex<T>(name,
-                          [](std::vector<T> vec){ 
+        MaxIndex(const std::string& v_name)
+          :ReduceIndex<T>(Function<T(std::vector<T>)>("maxIndex", [](std::vector<T> vec){ 
                               auto elptr = std::max_element(vec.begin(), vec.end());
-                              return std::pair<T,int>(*elptr, int(elptr-vec.begin()));},
+                              return std::pair<T,int>(*elptr, int(elptr-vec.begin()));}),
                           v_name) { }
 };
 
@@ -427,11 +500,10 @@ class MaxIndex : public ReduceIndex<T>{
 template <typename T>
 class MinIndex : public ReduceIndex<T>{
     public:
-        MinIndex(const std::string& name, const std::string& v_name)
-          :ReduceIndex<T>(name,
-                          [](std::vector<T> vec){ 
+        MinIndex(const std::string& v_name)
+          :ReduceIndex<T>(Function<T(std::vector<T>)>("minIndex", [](std::vector<T> vec){ 
                               auto elptr = std::min_element(vec.begin(), vec.end());
-                              return std::pair<T,int>(*elptr, int(elptr-vec.begin()));},
+                              return std::pair<T,int>(*elptr, int(elptr-vec.begin()));}),
                           v_name) { }
 };
 
@@ -439,22 +511,22 @@ class MinIndex : public ReduceIndex<T>{
 /**
  * A variadic 
  */
-template <typename R, typename... T>
-class MultiFunc : public DerivedValue<R>{
-    private:
-        std::function<R(T...)> f;
-        std::tuple<T...> value_tuple;
+/* template <typename R, typename... T> */
+/* class MultiFunc : public DerivedValue<R>{ */
+/*     private: */
+/*         Function<R(T...)> f; */
+/*         std::tuple<T...> value_tuple; */
 
-        void update_value(){
-            this->value = f(value_tuple);
-        }
+/*         void update_value(){ */
+/*             this->value = f(value_tuple); */
+/*         } */
 
-    public:
-        MultiFunc(const std::string& name, std::function<R(std::tuple<T...>)> f, T... varargs)
-          :DerivedValue<R>(name),
-           f(f),
-           value_tuple(varargs...){ }
-};
+/*     public: */
+/*         MultiFunc(const std::string& name, Function<R(std::tuple<T...>)> f, T... varargs) */
+/*           :DerivedValue<R>(name), */
+/*            f(f), */
+/*            value_tuple(varargs...){ } */
+/* }; */
 
 /**
  * A generic value owning only a function object.
@@ -464,14 +536,29 @@ class MultiFunc : public DerivedValue<R>{
 template <typename T>
 class BoundValue : public DerivedValue<T>{
     protected:
-        std::function<T()> f;
+        Function<T()> f;
         void update_value(){
             this->value = f();
         }
     public:
-        BoundValue(const std::string& name, std::function<T()> f)
-          :DerivedValue<T>(name),
+        BoundValue(Function<T()> f)
+          :DerivedValue<T>(f.get_name()+"(<bound>)"),
            f(f) { }
+};
+
+/**
+ * A Value of a pointer. The pointer is constant, however the data the pointer
+ * points to is variable.
+ */
+template <typename T>
+class PointerValue : public DerivedValue<T*>{
+    protected:
+        void update_value(){ }
+    public:
+        PointerValue(const std::string& name, T* ptr)
+          :DerivedValue<T*>(name){ 
+            this->value = ptr;
+        }
 };
 
 /**
@@ -486,7 +573,7 @@ class ConstantValue : public DerivedValue<T>{
         }
     public:
         ConstantValue(const std::string& name, T const_value)
-            :DerivedValue<T>(name),
+            :DerivedValue<T>("const::"+name),
              const_value(const_value) { }
 };
 }
