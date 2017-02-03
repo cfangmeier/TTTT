@@ -1,7 +1,0 @@
-<map id="filval::ReduceIndex&lt; T &gt;" name="filval::ReduceIndex&lt; T &gt;">
-<area shape="rect" id="node5" href="$classfilval_1_1MaxIndex.html" title="Find and return the maximum value of a vector and its index. " alt="" coords="5,333,168,360"/>
-<area shape="rect" id="node6" href="$classfilval_1_1MinIndex.html" title="Find and return the minimum value of a vector and its index. " alt="" coords="193,333,351,360"/>
-<area shape="rect" id="node2" href="$classfilval_1_1DerivedValue.html" title="filval::DerivedValue\l\&lt; std::pair\&lt; T, int \&gt; \&gt;" alt="" coords="95,169,263,211"/>
-<area shape="rect" id="node3" href="$classfilval_1_1Value.html" title="filval::Value\&lt; std\l::pair\&lt; T, int \&gt; \&gt;" alt="" coords="112,80,245,121"/>
-<area shape="rect" id="node4" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="117,5,241,32"/>
-</map>

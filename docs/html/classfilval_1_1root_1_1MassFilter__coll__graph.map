@@ -1,8 +1,0 @@
-<map id="filval::root::MassFilter" name="filval::root::MassFilter">
-<area shape="rect" id="node2" href="$classfilval_1_1Filter.html" title="filval::Filter" alt="" coords="56,301,151,328"/>
-<area shape="rect" id="node3" href="$classfilval_1_1DerivedValue.html" title="filval::DerivedValue\l\&lt; bool \&gt;" alt="" coords="9,183,158,224"/>
-<area shape="rect" id="node4" href="$classfilval_1_1Value.html" title="filval::Value\&lt; bool \&gt;" alt="" coords="5,81,161,108"/>
-<area shape="rect" id="node5" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="137,5,261,32"/>
-<area shape="rect" id="node6" href="$classfilval_1_1Value.html" title="filval::Value\&lt; double \&gt;" alt="" coords="111,132,283,159"/>
-<area shape="rect" id="node7" href="$classfilval_1_1Value.html" title="filval::Value\&lt; TLorentzVector \&gt;" alt="" coords="300,249,525,276"/>
-</map>

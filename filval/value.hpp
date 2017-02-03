@@ -42,6 +42,7 @@
 #ifndef value_hpp
 #define value_hpp
 #include <iostream>
+#include <sstream>
 #include <utility>
 #include <algorithm>
 #include <map>
@@ -49,6 +50,8 @@
 #include <tuple>
 #include <initializer_list>
 #include <functional>
+
+#include "log.hpp"
 
 /**
  * The namespace containing all filval classes and functions.
@@ -120,7 +123,7 @@ class GenValue{
         inline static std::map<const std::string, GenValue*> aliases;
     public:
         GenValue(const std::string& name)
-          :name(name) {
+          :name(name){
             values[name] = this;
         }
 
@@ -135,51 +138,51 @@ class GenValue{
         }
 
         static GenValue* get_value(const std::string& name){
-            if (aliases[name] != NULL)
+            if (aliases[name] != nullptr)
                 return aliases[name];
-            else if (values[name] != NULL)
+            else if (values[name] != nullptr)
                 return values[name];
             else{
-                std::cout << "ERROR: Could not find alias or value \"" << name << "\"" << std::endl;
-                std::cout << "I'll tell you the ones I know about." << std::endl;
-                summary();
-                std::cout << "Aborting... :(" << std::endl;
-                exit(-1);
+                ERROR("Could not find alias or value \"" << name << "\". I'll tell you the ones I know about."
+                        << summary());
+                CRITICAL("Aborting... :(", -1);
             }
         }
 
         static void alias(const std::string& name, GenValue* value){
-            if (aliases[name] != NULL){
-                std::cout << "WARNING: alias \"" << name << "\" overrides previous entry." << std::endl;
+            if (aliases[name] != nullptr){
+                WARNING("WARNING: alias \"" << name << "\" overrides previous entry.");
             }
             aliases[name] = value;
         }
 
         static GenValue* alias(const std::string& name){
-            if (values[name] != NULL){
-                std::cout << "WARNING: alias \"" << name << "\" does not exist." << std::endl;
+            if (values[name] != nullptr){
+                WARNING("Alias \"" << name << "\" does not exist.");
             }
             return aliases[name];
         }
 
-        static void summary(){
-            std::cout << "The following values have been created: " << std::endl;
+        static std::string summary(){
+            std::stringstream ss;
+            ss << "The following values have been created: " << std::endl;
             for (auto value : values){
-                if (value.second == NULL) continue;
-                std::cout << "\t\"" << value.first << "\" at address " << value.second << std::endl;
+                if (value.second == nullptr) continue;
+                ss << "\t\"" << value.first << "\" at address " << value.second << std::endl;
             }
-            std::cout << "And these aliases:" << std::endl;
+            ss << "And these aliases:" << std::endl;
             for (auto alias : aliases){
                 std::string orig("VOID");
-                if (alias.second == NULL) continue;
+                if (alias.second == nullptr) continue;
                 for (auto value : values){
                     if (alias.second == value.second){
                         orig = value.second->get_name();
                         break;
                     }
                 }
-                std::cout << "\t\"" << alias.first << "\" referring to \"" << orig << "\"" << std::endl;
+                ss << "\t\"" << alias.first << "\" referring to \"" << orig << "\"" << std::endl;
             }
+            return ss.str();
         }
 };
 

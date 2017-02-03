@@ -1,7 +1,0 @@
-<map id="filval::Mean&lt; T &gt;" name="filval::Mean&lt; T &gt;">
-<area shape="rect" id="node2" href="$classfilval_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. " alt="" coords="141,273,288,300"/>
-<area shape="rect" id="node3" href="$classfilval_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="51,197,237,224"/>
-<area shape="rect" id="node4" href="$classfilval_1_1Value.html" title="A generic value. " alt="" coords="5,81,141,108"/>
-<area shape="rect" id="node5" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="123,5,247,32"/>
-<area shape="rect" id="node7" href="$classfilval_1_1Value.html" title="filval::Value\&lt; std\l::vector\&lt; T \&gt; \&gt;" alt="" coords="219,132,352,173"/>
-</map>

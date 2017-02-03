@@ -1,0 +1,59 @@
+
+CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
+
+PROJECT (TTTT CXX)
+
+# Declare semantic versioning for FILVAL
+SET(FILVAL_VERSION_MAJOR 0)
+SET(FILVAL_VERSION_MINOR 1)
+SET(FILVAL_VERSION_PATCH 0)
+CONFIGURE_FILE (
+  "${PROJECT_SOURCE_DIR}/filval/filval.hpp"
+  "${PROJECT_BINARY_DIR}/filval/filval.hpp"
+  )
+
+
+SET( TTTT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
+SET( TTTT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
+
+# Setup clang as the project compiler
+SET (CMAKE_CXX_COMPILER             "/usr/bin/clang++")
+SET (CMAKE_CXX_FLAGS                "-Wall")
+SET (CMAKE_CXX_FLAGS_DEBUG          "-g")
+SET (CMAKE_CXX_FLAGS_MINSIZEREL     "-Os -DNDEBUG")
+SET (CMAKE_CXX_FLAGS_RELEASE        "-O4 -DNDEBUG")
+SET (CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
+
+SET (CMAKE_AR      "/usr/bin/llvm-ar")
+SET (CMAKE_LINKER  "/usr/bin/llvm-ld")
+SET (CMAKE_NM      "/usr/bin/llvm-nm")
+SET (CMAKE_OBJDUMP "/usr/bin/llvm-objdump")
+SET (CMAKE_RANLIB  "/usr/bin/llvm-ranlib")
+
+LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
+
+
+# add a target to generate API documentation with Doxygen
+FIND_PACKAGE(Doxygen)
+IF(DOXYGEN_FOUND)
+    CONFIGURE_FILE(
+        ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
+        ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile @ONLY
+        )
+    ADD_CUSTOM_TARGET(docs
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs
+    COMMENT "Generating API documentation with Doxygen" VERBATIM
+    )
+ENDIF(DOXYGEN_FOUND)
+
+
+
+
+FIND_PACKAGE(ROOT REQUIRED)
+INCLUDE_DIRECTORIES(SYSTEM ${ROOT_INCLUDE_DIR})
+LINK_LIBRARIES(${ROOT_LIBRARIES})
+
+
+
+ADD_EXECUTABLE(main TTTT_Analysis.cpp)

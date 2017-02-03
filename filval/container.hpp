@@ -66,7 +66,7 @@ class ContainerVector : public Container<std::vector<T> >{
           :Container<std::vector<T> >(name, container),
            value(value){ }
         ContainerVector(const std::string& name, Value<T>* value)
-          :Container<std::vector<T> >(name, NULL),
+          :Container<std::vector<T> >(name, nullptr),
            value(value){
             this->container = new std::vector<T>();
         }
@@ -85,7 +85,7 @@ class ContainerMean : public Container<T>{
         }
     public:
         ContainerMean(const std::string& name, Value<T>* value)
-          :Container<std::vector<T> >(name, NULL),
+          :Container<std::vector<T> >(name, nullptr),
            value(value){
             this->container = new T();
         }

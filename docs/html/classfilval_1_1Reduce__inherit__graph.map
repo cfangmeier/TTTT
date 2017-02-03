@@ -1,9 +1,0 @@
-<map id="filval::Reduce&lt; T &gt;" name="filval::Reduce&lt; T &gt;">
-<area shape="rect" id="node5" href="$classfilval_1_1ElementOf.html" title="Extract the element at a specific index from a vector. " alt="" coords="5,304,175,331"/>
-<area shape="rect" id="node6" href="$classfilval_1_1Max.html" title="Find and return the maximum value of a vector. " alt="" coords="199,304,325,331"/>
-<area shape="rect" id="node7" href="$classfilval_1_1Mean.html" title="Calculate the mean value of a vector. " alt="" coords="349,304,484,331"/>
-<area shape="rect" id="node8" href="$classfilval_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="509,304,631,331"/>
-<area shape="rect" id="node2" href="$classfilval_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="246,155,433,181"/>
-<area shape="rect" id="node3" href="$classfilval_1_1Value.html" title="A generic value. " alt="" coords="271,80,407,107"/>
-<area shape="rect" id="node4" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="277,5,401,32"/>
-</map>

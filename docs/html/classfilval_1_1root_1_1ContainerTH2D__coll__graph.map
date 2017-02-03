@@ -1,7 +1,0 @@
-<map id="filval::root::ContainerTH2D" name="filval::root::ContainerTH2D">
-<area shape="rect" id="node2" href="$classfilval_1_1root_1_1ContainerTH2.html" title="filval::root::ContainerTH2\l\&lt; double \&gt;" alt="" coords="83,185,268,227"/>
-<area shape="rect" id="node3" href="$classfilval_1_1Container.html" title="filval::Container\&lt;\l TH2 \&gt;" alt="" coords="13,81,149,123"/>
-<area shape="rect" id="node4" href="$classfilval_1_1GenContainer.html" title="filval::GenContainer" alt="" coords="5,5,156,32"/>
-<area shape="rect" id="node5" href="$classfilval_1_1Value.html" title="filval::Value\&lt; std\l::pair\&lt; double, double \&gt; \&gt;" alt="" coords="173,81,369,123"/>
-<area shape="rect" id="node6" href="$classfilval_1_1GenValue.html" title="A type&#45;agnostic value. " alt="" coords="209,5,333,32"/>
-</map>

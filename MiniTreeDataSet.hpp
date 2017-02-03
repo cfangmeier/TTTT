@@ -41,9 +41,9 @@ class MiniTreeDataSet : public DataSet,
         Value<T>* track_branch(const std::string& bname){
             T* bref = (T*) fChain->GetBranch(bname.c_str())->GetAddress();
             fChain->SetBranchStatus(bname.c_str(), true);
-            cout << "Registering branch \"" << bname
-                << "\" with address " << bref
-                << " and type " << typeid(bref).name() << endl;
+            INFO("Registering branch \"" << bname
+                 << "\" with address " << bref
+                 << " and type " << typeid(bref).name());
             return new ObservedValue<T>(bname, bref);
         }
 
@@ -51,9 +51,9 @@ class MiniTreeDataSet : public DataSet,
         Value<T*>* track_branch_ptr(const std::string& bname){
             T* bref = (T*) fChain->GetBranch(bname.c_str())->GetAddress();
             fChain->SetBranchStatus(bname.c_str(), true);
-            cout << "Registering pointer branch \"" << bname
-                << "\" with address " << bref
-                << " and type " << typeid(bref).name() << endl;
+            INFO("Registering pointer branch \"" << bname
+                 << "\" with address " << bref
+                 << " and type " << typeid(bref).name());
             return new PointerValue<T>(bname, bref);
         }
 

@@ -13,7 +13,7 @@ template <typename T>
 class ContainerTH1 : public Container<TH1>{
     private:
         void _fill(){
-            if (container == NULL){
+            if (container == nullptr){
                 init_TH1();
             }
             container->Fill(value->get_value());
@@ -28,7 +28,7 @@ class ContainerTH1 : public Container<TH1>{
     public:
         explicit ContainerTH1(const std::string &name, const std::string& title, GenValue *value,
                      int nbins, T low, T high)
-          :Container<TH1>(name, NULL),
+          :Container<TH1>(name, nullptr),
            title(title), nbins(nbins), low(low), high(high),
            value(dynamic_cast<Value<T>*>(value)) { }
 };
@@ -59,7 +59,7 @@ template <typename T>
 class ContainerTH2 : public Container<TH2>{
     private:
         void _fill(){
-            if (container == NULL){
+            if (container == nullptr){
                 init_TH2();
             }
             std::pair<T, T> val = value->get_value();
@@ -80,7 +80,7 @@ class ContainerTH2 : public Container<TH2>{
                       int nbins_x, double low_x, double high_x,
                       int nbins_y, double low_y, double high_y,
                       GenValue* value)
-          :Container<TH2>(name, NULL),
+          :Container<TH2>(name, nullptr),
            nbins_x(nbins_x), low_x(low_x), high_x(high_x),
            nbins_y(nbins_y), low_y(low_y), high_y(high_y),
            value(dynamic_cast<Value<T>*>(value)) { }
