@@ -1,3 +1,35 @@
+/**
+ * @file
+ * @author  Caleb Fangmeier <caleb@fangmeier.tech>
+ * @version 0.1
+ *
+ * @section LICENSE
+ *
+ *
+ * MIT License
+ *
+ * Copyright (c) 2017 Caleb Fangmeier
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @section DESCRIPTION
+ */
 #ifndef log_hpp
 #define log_hpp
 
@@ -8,14 +40,14 @@
 
 namespace filval::util{
 enum LogPriority {
-    kLogEmergency = 7,   // system is unusable
-    kLogAlert     = 6,   // action must be taken immediately
-    kLogCritical  = 5,    // critical conditions
-    kLogError     = 4,     // error conditions
-    kLogWarning   = 3, // warning conditions
+    kLogEmergency = 7,  // system is unusable
+    kLogAlert     = 6,  // action must be taken immediately
+    kLogCritical  = 5,  // critical conditions
+    kLogError     = 4,  // error conditions
+    kLogWarning   = 3,  // warning conditions
     kLogNotice    = 2,  // normal, but significant, condition
-    kLogInfo      = 1,    // informational message
-    kLogDebug     = 0    // debug-level message
+    kLogInfo      = 1,  // informational message
+    kLogDebug     = 0   // debug-level message
 };
 
 #define CRITICAL(x,y) std::clog << filval::util::LogPriority::kLogCritical << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush; exit(y)

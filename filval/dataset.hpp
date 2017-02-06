@@ -3,18 +3,22 @@
 #include <iostream>
 #include "value.hpp"
 #include "container.hpp"
+#include "log.hpp"
 
 namespace filval{
 class DataSet{
     private:
         void summary(){
-            GenValue::summary();
+            INFO(GenValue::summary());
+            INFO(GenFunction::summary());
         }
+
     protected:
         ContainerSet containers;
         virtual bool load_next() = 0;
         virtual int get_events() = 0;
         virtual int get_current_event() = 0;
+
     public:
         void process(){
             int events, current_event;
@@ -26,10 +30,8 @@ class DataSet{
                 std::cout << "\rprocessing event: " << current_event+1 << "/" << events << std::flush;
                 GenValue::reset();
                 for(auto con : containers){
-                    /* std::cout << std::endl << "Filling container: " << con.first; */
                     con.second->fill();
                 }
-                /* std::cout << std::endl; */
             }
             std::cout << " Finished!" << std::endl;
         }
@@ -37,6 +39,7 @@ class DataSet{
         void add_container(GenContainer *container){
             containers[container->get_name()] = container;
         }
+
         GenContainer* get_container(std::string container_name){
             GenContainer* c = containers[container_name];
             if (c == nullptr){

@@ -59,6 +59,41 @@
 namespace filval{
 
 /**
+ * Parent class to all Function classes. Holds a class-level collection of all
+ * created function objects.
+ */
+class GenFunction {
+    protected:
+        std::string name;
+        std::string impl;
+
+        /**
+         * Static mapping of functions from their name to the object wrapper of
+         * the function.
+         */
+        inline static std::map<std::string, GenFunction*> function_registry;
+
+    public:
+        GenFunction(const std::string& name, const std::string& impl)
+          :name("func::"+name),impl(impl){
+            function_registry[name] = this;
+        }
+
+        std::string& get_name(){
+            return name;
+        }
+
+        static std::string& summary(){
+            std::stringstream ss;
+            for(auto p : function_registry){
+                ss << p.first << std::endl;
+                ss << p.second->impl << std::endl;
+                ss << "*****************************************" << std::endl;
+            }
+        }
+};
+
+/**
  * In order to enable proper provenance tracking, and at the same time keep
  * the ability to embed functions into values, the Function class should be
  * used. It is simply a wrapper around a std::function that also has a name.
@@ -71,22 +106,22 @@ namespace filval{
  */
 template<typename> class Function; // undefined
 template <typename R, typename... ArgTypes>
-class Function<R(ArgTypes...)> {
-    std::string name;
-    std::function<R(ArgTypes...)> f;
+class Function<R(ArgTypes...)> : public GenFunction {
+    private:
+        std::function<R(ArgTypes...)> f;
 
     public:
+        Function(const std::string& name, const std::string& impl, std::function<R(ArgTypes...)> f)
+          :GenFunction(name, impl), f(f){ }
         Function(const std::string& name, std::function<R(ArgTypes...)> f)
-          :name("func::"+name),f(f){ }
+          :Function(name, "N/A", f){ }
 
-    std::string& get_name(){
-        return name;
-    }
-
-    R operator()(ArgTypes ...args){
-        return f(args...);
-    }
+        R operator()(ArgTypes ...args){
+            return f(args...);
+        }
 };
+
+#define FUNC(t, n, f) Function<t>(n, #f, f)
 
 /**
  * A type-agnostic value.
@@ -236,7 +271,7 @@ class ObservedValue : public Value<T>{
  * A DerivedValue is generally defined as some function of other Value objects.
  * For example, a Pair is a function of two other Value objects that makes a
  * pair of them. Note that these other Value objects are free to be either
- * ObservedValues or other DerivedValues. 
+ * ObservedValues or other DerivedValues.
  *
  * It is desireable from a performance standpoint that each DerivedValue be
  * calculated no more than once per observation. Therefore, when a get_value is
@@ -418,7 +453,7 @@ template <typename T>
 class Max : public Reduce<T>{
     public:
         Max(const std::string& v_name)
-          :Reduce<T>(Function<T(std::vector<T>)>("max", [](std::vector<T> vec){ 
+          :Reduce<T>(Function<T(std::vector<T>)>("max", [](std::vector<T> vec){
                          return *std::max_element(vec.begin(), vec.end());}),
                      v_name) { }
 };
@@ -430,7 +465,7 @@ template <typename T>
 class Min : public Reduce<T>{
     public:
         Min(const std::string& v_name)
-          :Reduce<T>(Function<T(std::vector<T>)>("min", [](std::vector<T> vec){ 
+          :Reduce<T>(Function<T(std::vector<T>)>("min", [](std::vector<T> vec){
                          return *std::min_element(vec.begin(), vec.end());}),
                      v_name) { }
 };
@@ -450,7 +485,7 @@ class Mean : public Reduce<T>{
 };
 
 /**
- * Extract the element at a specific index from a vector. 
+ * Extract the element at a specific index from a vector.
  */
 template <typename T>
 class ElementOf : public Reduce<T>{
@@ -491,7 +526,7 @@ template <typename T>
 class MaxIndex : public ReduceIndex<T>{
     public:
         MaxIndex(const std::string& v_name)
-          :ReduceIndex<T>(Function<T(std::vector<T>)>("maxIndex", [](std::vector<T> vec){ 
+          :ReduceIndex<T>(Function<T(std::vector<T>)>("maxIndex", [](std::vector<T> vec){
                               auto elptr = std::max_element(vec.begin(), vec.end());
                               return std::pair<T,int>(*elptr, int(elptr-vec.begin()));}),
                           v_name) { }
@@ -504,7 +539,7 @@ template <typename T>
 class MinIndex : public ReduceIndex<T>{
     public:
         MinIndex(const std::string& v_name)
-          :ReduceIndex<T>(Function<T(std::vector<T>)>("minIndex", [](std::vector<T> vec){ 
+          :ReduceIndex<T>(Function<T(std::vector<T>)>("minIndex", [](std::vector<T> vec){
                               auto elptr = std::min_element(vec.begin(), vec.end());
                               return std::pair<T,int>(*elptr, int(elptr-vec.begin()));}),
                           v_name) { }
@@ -512,7 +547,7 @@ class MinIndex : public ReduceIndex<T>{
 
 
 /**
- * A variadic 
+ * A variadic
  */
 /* template <typename R, typename... T> */
 /* class MultiFunc : public DerivedValue<R>{ */
@@ -559,7 +594,7 @@ class PointerValue : public DerivedValue<T*>{
         void update_value(){ }
     public:
         PointerValue(const std::string& name, T* ptr)
-          :DerivedValue<T*>(name){ 
+          :DerivedValue<T*>(name){
             this->value = ptr;
         }
 };
