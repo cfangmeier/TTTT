@@ -4,7 +4,7 @@
 #include "filter.hpp"
 #include <vector>
 
-namespace filval{
+namespace fv{
 class GenContainer{
     private:
         std::string name;
@@ -36,6 +36,8 @@ class GenContainer{
         const std::string& get_name(){
             return name;
         }
+        virtual void save_as(const std::string& fname) = 0;
+        virtual void save() = 0;
 };
 typedef std::map<std::string, GenContainer*> ContainerSet;
 
@@ -70,6 +72,8 @@ class ContainerVector : public Container<std::vector<T> >{
            value(value){
             this->container = new std::vector<T>();
         }
+        void save_as(const std::string& fname) { }
+        virtual void save() { }
 };
 
 template <typename T>
@@ -94,6 +98,8 @@ class ContainerMean : public Container<T>{
             *(this->container) = sum/count;
             return (this->container);
         }
+        void save_as(const std::string& fname) { }
+        virtual void save() { }
 };
 
 }

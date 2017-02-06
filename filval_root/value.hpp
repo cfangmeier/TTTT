@@ -3,7 +3,7 @@
 #include "value.hpp"
 #include "TLorentzVector.h"
 
-namespace filval::root{
+namespace fv::root{
 
 class LorentzVector : public DerivedValue<TLorentzVector>{
     protected:

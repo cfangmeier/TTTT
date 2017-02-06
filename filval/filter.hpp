@@ -7,7 +7,7 @@
  * Container objects have a vector of filters that control if a "fill" call
  * actually places data into the container or not.
  */
-namespace filval {
+namespace fv {
 
 class Filter : public DerivedValue<bool>{
     private:

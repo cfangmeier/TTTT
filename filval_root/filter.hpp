@@ -3,7 +3,7 @@
 #include "value.hpp"
 #include "TLorentzVector.h"
 
-namespace filval::root{
+namespace fv::root{
 
 class MassFilter : public Filter {
     private:

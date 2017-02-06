@@ -9,8 +9,8 @@
 #include "MiniTree.hpp"
 
 using namespace std;
-using namespace filval;
-using namespace filval::root;
+using namespace fv;
+using namespace fv::root;
 
 class MiniTreeDataSet : public DataSet,
                         public MiniTree{

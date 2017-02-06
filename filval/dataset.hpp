@@ -5,7 +5,7 @@
 #include "container.hpp"
 #include "log.hpp"
 
-namespace filval{
+namespace fv{
 class DataSet{
     private:
         void summary(){

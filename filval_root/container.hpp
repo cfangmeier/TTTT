@@ -7,7 +7,7 @@
 #include "TGraph.h"
 #include <iostream>
 
-namespace filval::root {
+namespace fv::root {
 
 template <typename T>
 class ContainerTH1 : public Container<TH1>{
@@ -31,6 +31,17 @@ class ContainerTH1 : public Container<TH1>{
           :Container<TH1>(name, nullptr),
            title(title), nbins(nbins), low(low), high(high),
            value(dynamic_cast<Value<T>*>(value)) { }
+
+        void save_as(const std::string& fname) {
+            TCanvas* c1 = new TCanvas("c1");
+            container->Draw();
+            c1->Draw();
+            c1->SaveAs(fname.c_str());
+            delete c1;
+        }
+        virtual void save() {
+            save_as(this->get_name() + ".png");
+        }
 };
 
 class ContainerTH1D : public ContainerTH1<double>{
@@ -84,6 +95,16 @@ class ContainerTH2 : public Container<TH2>{
            nbins_x(nbins_x), low_x(low_x), high_x(high_x),
            nbins_y(nbins_y), low_y(low_y), high_y(high_y),
            value(dynamic_cast<Value<T>*>(value)) { }
+        void save_as(const std::string& fname) {
+            TCanvas* c1 = new TCanvas("c1");
+            container->Draw();
+            c1->Draw();
+            c1->SaveAs(fname.c_str());
+            delete c1;
+        }
+        virtual void save() {
+            save_as(this->get_name() + ".png");
+        }
 };
 
 class ContainerTH2D : public ContainerTH2<double>{
@@ -134,6 +155,8 @@ class ContainerTGraph : public Container<TGraph>{
             }
             return container;
         }
+        void save_as(const std::string& fname) { }
+        virtual void save() { }
 };
 
 }

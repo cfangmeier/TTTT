@@ -35,7 +35,7 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-namespace filval::util{
+namespace fv::util{
 /// \see http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c#868894
 class ArgParser{
     private:

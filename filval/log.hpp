@@ -38,7 +38,7 @@
 #include <cstring>
 #include <map>
 
-namespace filval::util{
+namespace fv::util{
 enum LogPriority {
     kLogEmergency = 7,  // system is unusable
     kLogAlert     = 6,  // action must be taken immediately
@@ -50,11 +50,11 @@ enum LogPriority {
     kLogDebug     = 0   // debug-level message
 };
 
-#define CRITICAL(x,y) std::clog << filval::util::LogPriority::kLogCritical << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush; exit(y)
-#define ERROR(x) std::clog << filval::util::LogPriority::kLogError << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush
-#define WARNING(x) std::clog << filval::util::LogPriority::kLogWarning << x << std::flush
-#define INFO(x) std::clog << filval::util::LogPriority::kLogInfo << x << std::flush
-#define DEBUG(x) std::clog << filval::util::LogPriority::kLogDebug << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush
+#define CRITICAL(x,y) std::clog << fv::util::LogPriority::kLogCritical << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush; exit(y)
+#define ERROR(x) std::clog << fv::util::LogPriority::kLogError << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush
+#define WARNING(x) std::clog << fv::util::LogPriority::kLogWarning << x << std::flush
+#define INFO(x) std::clog << fv::util::LogPriority::kLogInfo << x << std::flush
+#define DEBUG(x) std::clog << fv::util::LogPriority::kLogDebug << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush
 
 /**
  * /see http://stackoverflow.com/questions/2638654/redirect-c-stdclog-to-syslog-on-unix
