@@ -56,9 +56,10 @@ class MiniTreeDataSet : public DataSet,
                  << " and type " << typeid(bref).name());
             return new PointerValue<T>(bname, bref);
         }
-
-        void register_container(GenContainer* container){
-            containers[container->get_name()] = container;
+        void save_all(){
+            for(auto container : containers){
+                container.second->save_as("outfile", SaveOption::ROOT);
+            }
         }
 };
 #endif // minitreedataset_h

@@ -1,11 +1,44 @@
 #ifndef root_container_hpp
 #define root_container_hpp
 #include <utility>
-#include "../filval/filval.hpp"
+#include <iostream>
+#include "TFile.h"
 #include "TH1.h"
 #include "TH2.h"
 #include "TGraph.h"
-#include <iostream>
+#include "TROOT.h"
+
+#include "../filval/filval.hpp"
+
+namespace fv::root::util{
+void _save_img(TObject* container, const std::string& fname){
+    TCanvas* c1 = new TCanvas("c1");
+    container->Draw();
+    c1->Draw();
+    c1->SaveAs(fname.c_str());
+    delete c1;
+}
+
+void _save_bin(TObject* container, const std::string& fname){
+    INFO("Saving object: " << container->GetName() << " into file " << fname);
+    TFile* f = TFile::Open(fname.c_str(), "UPDATE");
+    container->Write(container->GetName());
+    f->Close();
+}
+
+void _save_as(TObject* container, const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+    switch(option){
+        case PNG:
+            _save_img(container, fname+".png"); break;
+        case PDF:
+            _save_img(container, fname+".pdf"); break;
+        case ROOT:
+            _save_bin(container, fname+".root"); break;
+        default:
+            break;
+    }
+}
+}
 
 namespace fv::root {
 
@@ -18,6 +51,7 @@ class ContainerTH1 : public Container<TH1>{
             }
             container->Fill(value->get_value());
         }
+
     protected:
         std::string title;
         int nbins;
@@ -32,15 +66,12 @@ class ContainerTH1 : public Container<TH1>{
            title(title), nbins(nbins), low(low), high(high),
            value(dynamic_cast<Value<T>*>(value)) { }
 
-        void save_as(const std::string& fname) {
-            TCanvas* c1 = new TCanvas("c1");
-            container->Draw();
-            c1->Draw();
-            c1->SaveAs(fname.c_str());
-            delete c1;
+        void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+            util::_save_as(container, fname, option);
         }
-        virtual void save() {
-            save_as(this->get_name() + ".png");
+
+        void save(const SaveOption& option = SaveOption::PNG) {
+            save_as(this->get_name(), option);
         }
 };
 
@@ -76,6 +107,7 @@ class ContainerTH2 : public Container<TH2>{
             std::pair<T, T> val = value->get_value();
             container->Fill(val.first, val.second);
         }
+
     protected:
         std::string title;
         int nbins_x;
@@ -86,6 +118,7 @@ class ContainerTH2 : public Container<TH2>{
         T high_y;
         Value<std::pair<T, T> > *value;
         virtual void init_TH2() = 0;
+
     public:
         explicit ContainerTH2(const std::string& name, const std::string& title,
                       int nbins_x, double low_x, double high_x,
@@ -95,15 +128,13 @@ class ContainerTH2 : public Container<TH2>{
            nbins_x(nbins_x), low_x(low_x), high_x(high_x),
            nbins_y(nbins_y), low_y(low_y), high_y(high_y),
            value(dynamic_cast<Value<T>*>(value)) { }
-        void save_as(const std::string& fname) {
-            TCanvas* c1 = new TCanvas("c1");
-            container->Draw();
-            c1->Draw();
-            c1->SaveAs(fname.c_str());
-            delete c1;
+
+        void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+            util::_save_as(container, fname, option);
         }
-        virtual void save() {
-            save_as(this->get_name() + ".png");
+
+        void save(const SaveOption& option = SaveOption::PNG) {
+            save_as(this->get_name(), option);
         }
 };
 
@@ -155,8 +186,13 @@ class ContainerTGraph : public Container<TGraph>{
             }
             return container;
         }
-        void save_as(const std::string& fname) { }
-        virtual void save() { }
+        void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+            util::_save_as(container, fname, option);
+        }
+
+        void save(const SaveOption& option = SaveOption::PNG) {
+            save_as(this->get_name(), option);
+        }
 };
 
 }

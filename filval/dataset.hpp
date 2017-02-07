@@ -36,15 +36,22 @@ class DataSet{
             std::cout << " Finished!" << std::endl;
         }
 
-        void add_container(GenContainer *container){
+        virtual void save_all(){
+            for(auto container : containers)
+                container.second->save();
+        }
+
+        void register_container(GenContainer *container){
+            if (containers[container->get_name()] != nullptr){
+                CRITICAL("Container with name \""+container->get_name()+"\" already exists.", -1);
+            }
             containers[container->get_name()] = container;
         }
 
         GenContainer* get_container(std::string container_name){
             GenContainer* c = containers[container_name];
             if (c == nullptr){
-                std::cout << "Request for container \"" << container_name << "\" failed. Doesn't exist." << std::endl;
-                exit(-1);
+                CRITICAL("Request for container \"" << container_name << "\" failed. Doesn't exist.", -1);
             }
             return c;
         }

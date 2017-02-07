@@ -29,6 +29,7 @@
  * SOFTWARE.
  *
  * @section DESCRIPTION
+ * \see http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c#868894
  */
 #ifndef argparse_hpp
 #define argparse_hpp
@@ -36,7 +37,6 @@
 #include <string>
 #include <vector>
 namespace fv::util{
-/// \see http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c#868894
 class ArgParser{
     private:
         std::vector <std::string> tokens;

@@ -49,6 +49,7 @@ void declare_values(MiniTreeDataSet& mt){
     auto eta_wrapper = new WrapperVector<float>("nLepGood", "LepGood_eta");
     auto phi_wrapper = new WrapperVector<float>("nLepGood", "LepGood_phi");
     auto m_wrapper   = new WrapperVector<float>("nLepGood", "LepGood_mass");
+    /* auto dxy_wrapper   = new WrapperVector<float>("nLepGood", "LepGood_dxy"); */
 
     auto& get_energy = GenFunction::register_function<float(float,float,float,float)>("get_energy", FUNC(([](float pt, float eta, float phi, float m){
         TLorentzVector t;
@@ -72,27 +73,19 @@ void declare_values(MiniTreeDataSet& mt){
 }
 
 void declare_containers(MiniTreeDataSet& mt){
-    mt.add_container(new ContainerTH1I("nLepGood", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
+    mt.register_container(new ContainerTH1I("nLepGood", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
 
-    mt.add_container(new ContainerTH1I("nLepGood2", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
+    mt.register_container(new ContainerTH1I("nLepGood2", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
     mt.get_container("nLepGood2")->add_filter(lookup_filter("3<=nLepGood<5"));
 
-    mt.add_container(new ContainerTH1I("nLepGood3", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
+    mt.register_container(new ContainerTH1I("nLepGood3", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
     mt.get_container("nLepGood3")->add_filter(!(*lookup_filter("3<=nLepGood<5")));
 
-    mt.add_container(new ContainerTGraph("nLepvsnJet", new Pair<int, int>("nLepGood", "nJet") ));
+    /* mt.register_container(new ContainerTGraph("nLepvsnJet", new Pair<int, int>("nLepGood", "nJet") )); */
 
-    mt.add_container(new ContainerTH1F("avg_lepton_energy", "Average Lepton Energy", lookup("avg_lepton_energy"), 50, 0, 500));
-    mt.add_container(new ContainerTH1F("max_lepton_energy", "Maximum Lepton Energy", lookup("max_lepton_energy"), 50, 0, 500));
+    mt.register_container(new ContainerTH1F("avg_lepton_energy", "Average Lepton Energy", lookup("avg_lepton_energy"), 50, 0, 500));
+    mt.register_container(new ContainerTH1F("max_lepton_energy", "Maximum Lepton Energy", lookup("max_lepton_energy"), 50, 0, 500));
 
-}
-
-void save_containers(MiniTreeDataSet& mt){
-    mt.get_container("nLepGood")->save();
-    mt.get_container("nLepGood2")->save();
-    mt.get_container("nLepGood3")->save();
-    mt.get_container("avg_lepton_energy")->save();
-    mt.get_container("max_lepton_energy")->save();
 }
 
 void run_analysis(const std::string& filename){
@@ -102,14 +95,14 @@ void run_analysis(const std::string& filename){
     enable_branches(mt);
     declare_values(mt);
     declare_containers(mt);
-    /* DEBUG(GenValue::summary()); */
     mt.process();
-    save_containers(mt);
+    mt.save_all();
+    /* save_containers(mt); */
 }
 
 int main(int argc, char * argv[])
 {
-    clog.rdbuf(new Log("mylog.txt", LogPriority::kLogDebug));
+    Log::init_logger("log.txt", LogPriority::kLogDebug);
     ArgParser args(argc, argv);
     if(args.cmdOptionExists("-f")) {
         run_analysis(args.getCmdOption("-f"));

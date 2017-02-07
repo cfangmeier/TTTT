@@ -50,7 +50,7 @@ enum LogPriority {
     kLogDebug     = 0   // debug-level message
 };
 
-#define CRITICAL(x,y) std::clog << fv::util::LogPriority::kLogCritical << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush; exit(y)
+#define CRITICAL(x,y) std::clog << fv::util::LogPriority::kLogCritical << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush; std::cout << "Errors encountered! See log file for details."<<std::endl;exit(y)
 #define ERROR(x) std::clog << fv::util::LogPriority::kLogError << __FILE__ << "@L" << __LINE__ << " :: " << x << std::flush
 #define WARNING(x) std::clog << fv::util::LogPriority::kLogWarning << x << std::flush
 #define INFO(x) std::clog << fv::util::LogPriority::kLogInfo << x << std::flush
@@ -67,14 +67,15 @@ private:
     std::ofstream logfile;
     LogPriority priority_curr;
     LogPriority priority_set;
-    std::map<LogPriority,std::string> name_map = {{kLogEmergency, "EMERGENCY"},
-                                                  {kLogAlert,     "ALERT"},
-                                                  {kLogCritical,  "CRITICAL"},
-                                                  {kLogError,     "ERROR"},
-                                                  {kLogWarning,   "WARNING"},
-                                                  {kLogNotice,    "NOTICE"},
-                                                  {kLogInfo,      "INFO"},
-                                                  {kLogDebug,     "DEBUG"}};
+    inline static Log* singleton = nullptr;
+    const std::map<LogPriority,std::string> name_map = {{kLogEmergency, "EMERGENCY"},
+                                                        {kLogAlert,     "ALERT"},
+                                                        {kLogCritical,  "CRITICAL"},
+                                                        {kLogError,     "ERROR"},
+                                                        {kLogWarning,   "WARNING"},
+                                                        {kLogNotice,    "NOTICE"},
+                                                        {kLogInfo,      "INFO"},
+                                                        {kLogDebug,     "DEBUG"}};
 
     friend std::ostream& operator<< (std::ostream& os, const LogPriority& log_priority){
         static_cast<Log *>(os.rdbuf())->priority_curr = log_priority;
@@ -84,7 +85,7 @@ protected:
     int sync(){
         if (buffer_.length()) {
             if (priority_curr >= priority_set){
-                logfile << name_map[priority_curr] << ": " <<  buffer_ << std::endl << std::flush;
+                logfile << name_map.at(priority_curr) << ": " <<  buffer_ << std::endl << std::flush;
             }
             buffer_.erase();
             /* priority_curr = kLogDebug; // default to debug for each message */
@@ -104,6 +105,15 @@ public:
       :logfile(filename, std::ofstream::out){
         priority_set = priority;
         priority_curr = kLogDebug;
+    }
+
+    static Log& init_logger(std::string filename, LogPriority priority){
+        if (singleton == nullptr){
+            singleton = new Log(filename, priority);
+            std::cout << "Writing log data to " << filename << std::endl;
+            std::clog.rdbuf(singleton);
+        }
+        return *singleton;
     }
 };
 }

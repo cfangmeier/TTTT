@@ -41,6 +41,7 @@
  */
 #ifndef value_hpp
 #define value_hpp
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <utility>
@@ -68,9 +69,6 @@ class GenFunction {
     private:
         std::string name;
         std::string impl;
-    protected:
-        /* virtual void _() = 0; */
-
 
     public:
         /**
@@ -89,18 +87,35 @@ class GenFunction {
             return name;
         }
 
+        /**
+         * Attempt to invoke clang-format for the purpose of printing out
+         * nicely formatted functions to the log file. If clang-format is not
+         * present, this function just passes through the code unmodified.
+         */
+        static std::string format_code(const std::string& code){
+            std::stringstream code_out("");
+            std::string command("echo \""+code+"\" | clang-format");
+            char buffer[255];
+            FILE *stream = popen(command.c_str(), "r");
+            while (fgets(buffer, 255, stream) != NULL)
+                code_out << buffer;
+            if (pclose(stream) == 0)
+                return code_out.str();
+            else
+                return code;
+        }
+
         static std::string summary(){
             std::stringstream ss;
+            ss << "The following functions have been registered" << std::endl;
             for(auto p : function_registry){
                 if (p.second == nullptr) continue;
-                ss << p.second->name << std::endl;
-                ss << "\t" << p.second->impl << std::endl;
-                ss << "##############################" << std::endl;
+                ss << "-->" << p.second->name << std::endl;
+                ss << format_code(p.second->impl);
             }
             return ss.str();
         }
 
-        /* template <typename R, typename... ArgTypes> */
         template <typename T>
         static Function<T>& register_function(const std::string& name, std::function<T> f, const std::string& impl){
             in_register_function = true;
@@ -117,10 +132,6 @@ class GenFunction {
             in_register_function = false;
             return *func;
         }
-
-        /* static Function<R(ArgTypes...)>& register_function(const std::string& name, std::function<R(ArgTypes...)> f){ */
-        /*     return Function<R(ArgTypes...)>::register_function(name, f, "N/A"); */
-        /* } */
 };
 
 
@@ -215,7 +226,7 @@ class GenValue{
             else if (values[name] != nullptr)
                 return values[name];
             else{
-                ERROR("Could not find alias or value \"" << name << "\". I'll tell you the ones I know about."
+                ERROR("Could not find alias or value \"" << name << "\". I'll tell you the ones I know about." << std::endl
                         << summary());
                 CRITICAL("Aborting... :(", -1);
             }
@@ -256,7 +267,12 @@ class GenValue{
             }
             return ss.str();
         }
+        friend std::ostream& operator<<(std::ostream& os, const GenValue& gv);
 };
+std::ostream& operator<<(std::ostream& os, GenValue& gv){
+    os << gv.get_name();
+    return os;
+}
 
 
 /**
@@ -383,8 +399,8 @@ class WrapperVector : public DerivedValue<std::vector<T> >{
            size(size), data(data){ }
 
         WrapperVector(const std::string &label_size, const std::string &label_data)
-          :WrapperVector(dynamic_cast<Value<int>*>(GenValue::values.at(label_size)),
-                         dynamic_cast<Value<T*>*>(GenValue::values.at(label_data))) { }
+          :WrapperVector(dynamic_cast<Value<int>*>(GenValue::get_value(label_size)),
+                         dynamic_cast<Value<T*>*>(GenValue::get_value(label_data))) { }
 };
 
 /**
@@ -459,6 +475,7 @@ class ZipMapFour : public DerivedValue<std::vector<R> >{
                       dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label3)),
                       dynamic_cast<Value<std::vector<T> >*>(GenValue::values.at(label4))){ }
 };
+
 
 /**
  * Reduce a Value of type vector<T> to just a T.

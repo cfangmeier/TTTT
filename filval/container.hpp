@@ -5,6 +5,13 @@
 #include <vector>
 
 namespace fv{
+
+enum SaveOption{
+    PNG = 0,
+    PDF = 1,
+    ROOT = 2
+};
+
 class GenContainer{
     private:
         std::string name;
@@ -36,8 +43,8 @@ class GenContainer{
         const std::string& get_name(){
             return name;
         }
-        virtual void save_as(const std::string& fname) = 0;
-        virtual void save() = 0;
+        virtual void save_as(const std::string& fname, const SaveOption& option) = 0;
+        virtual void save(const SaveOption& option=SaveOption::PNG) = 0;
 };
 typedef std::map<std::string, GenContainer*> ContainerSet;
 
