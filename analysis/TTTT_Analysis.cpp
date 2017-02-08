@@ -1,3 +1,36 @@
+/**
+ * @file
+ * @author  Caleb Fangmeier <caleb@fangmeier.tech>
+ * @version 0.1
+ *
+ * @section LICENSE
+ *
+ *
+ * MIT License
+ *
+ * Copyright (c) 2017 Caleb Fangmeier
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @section DESCRIPTION
+ * Main analysis routine file
+ */
 #include <iostream>
 #include <vector>
 #include <utility>
@@ -6,9 +39,8 @@
 #include "TTree.h"
 #include "TCanvas.h"
 
-#include "filval/filval.hpp"
-#include "filval_root/filval_root.hpp"
-#include "filval/log.hpp"
+#include "filval.hpp"
+#include "filval_root.hpp"
 
 #include "MiniTreeDataSet.hpp"
 
@@ -50,21 +82,6 @@ void enable_branches(MiniTreeDataSet& mt){
 }
 
 void declare_values(MiniTreeDataSet& mt){
-    auto& mean = GenFunction::register_function<float(vector<float>)>("mean", FUNC(([](vector<float> v){
-            int n = 0;
-            float sum = 0;
-            for (float e : v){
-                n++;
-                sum += e;
-            }
-            return n>0 ? sum / n : 0;
-            })));
-
-    new WrapperVector<float>("nLepGood", "LepGood_pt", "LepGood_pt");
-    new WrapperVector<float>("nLepGood", "LepGood_eta", "LepGood_eta");
-    new WrapperVector<float>("nLepGood", "LepGood_phi", "LepGood_phi");
-    new WrapperVector<float>("nLepGood", "LepGood_mass", "LepGood_mass");
-
     auto& get_energy = GenFunction::register_function<float(float,float,float,float)>("get_energy",
             FUNC(([](float pt, float eta, float phi, float m){
                 TLorentzVector t;
@@ -72,18 +89,28 @@ void declare_values(MiniTreeDataSet& mt){
                 return t.E();
             })));
 
-    auto lepton_energy = new ZipMapFour<float, float>(get_energy, "LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass");
-    GenValue::alias("lepton_energy", lepton_energy);
+    new WrapperVector<float>("nLepGood", "LepGood_pt", "LepGood_pt");
+    new WrapperVector<float>("nLepGood", "LepGood_eta", "LepGood_eta");
+    new WrapperVector<float>("nLepGood", "LepGood_phi", "LepGood_phi");
+    new WrapperVector<float>("nLepGood", "LepGood_mass", "LepGood_mass");
 
-    GenValue::alias("avg_lepton_energy", new Reduce<float>(mean , "lepton_energy"));
-    GenValue::alias("max_lepton_energy", new Max<float>("lepton_energy"));
+
+    new ZipMapFour<float, float>(get_energy, "LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass",
+                                 "lepton_energy");
+
+    new Pair<vector<float>,vector<float>>("lepton_energy", "LepGood_pt", "lepton_energy_lepton_pt");
+
+    new Max<float>("lepton_energy", "lepton_energy_max");
+    new Min<float>("lepton_energy", "lepton_energy_min");
+    new Range<float>("lepton_energy", "lepton_energy_range");
+    new Mean<float>("lepton_energy", "lepton_energy_mean");
 
 
-    new Filter("nLepGood>=3", [nLepGood=lookup("nLepGood")](){
-            return dynamic_cast<Value<int>*>(nLepGood)->get_value() >=3;});
+    new Filter("nLepGood>=3", FUNC(([nLepGood=lookup("nLepGood")](){
+            return dynamic_cast<Value<int>*>(nLepGood)->get_value() >=3;})));
 
-    new Filter("nLepGood<=4", [nLepGood=lookup("nLepGood")](){
-            return dynamic_cast<Value<int>*>(nLepGood)->get_value() <=4;});
+    new Filter("nLepGood<=4", FUNC(([nLepGood=lookup("nLepGood")](){
+            return dynamic_cast<Value<int>*>(nLepGood)->get_value() <=4;})));
     new RangeFilter<int>("3<=nLepGood<5", dynamic_cast<Value<int>*>(lookup("nLepGood")), 3, 5);
 }
 
@@ -91,7 +118,10 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container(new ContainerTH1I("lepton_count", "Lepton Multiplicity", lookup("nLepGood"), 8, 0, 8));
     mt.register_container(new ContainerTH1I("top_quark_count", "Top Quark Multiplicity", lookup("nGenTop"), 8, 0, 8));
 
-    mt.register_container(new ContainerTH1FMany("lepton_pt_all", "Lepton Pt - All", lookup("LepGood_pt"), 50, 0, 500));
+    mt.register_container(new ContainerTH1FMany("lepton_energy_all", "Lepton Energy - All", lookup("lepton_energy"), 50, 0, 500));
+    mt.register_container(new ContainerTH1F("lepton_energy_max", "Lepton Energy - Max", lookup("lepton_energy_max"), 50, 0, 500));
+    mt.register_container(new ContainerTH1F("lepton_energy_min", "Lepton Energy - Min", lookup("lepton_energy_min"), 50, 0, 500));
+    mt.register_container(new ContainerTH1F("lepton_energy_rng", "Lepton Energy - Range", lookup("lepton_energy_range"), 50, 0, 500));
 
     mt.register_container(new ContainerTH1I("nLepGood2", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
     mt.get_container("nLepGood2")->add_filter(lookup_filter("3<=nLepGood<5"));
@@ -101,9 +131,8 @@ void declare_containers(MiniTreeDataSet& mt){
 
     mt.register_container(new ContainerTGraph("nLepvsnJet", new Pair<int, int>("nLepGood", "nJet") ));
 
-    mt.register_container(new ContainerTH1F("avg_lepton_energy", "Average Lepton Energy", lookup("avg_lepton_energy"), 50, 0, 500));
-    mt.register_container(new ContainerTH1F("max_lepton_energy", "Maximum Lepton Energy", lookup("max_lepton_energy"), 50, 0, 500));
-
+    mt.register_container(new ContainerTH2FMany("lepton_energy_vs_pt", "Lepton Energy - Range", lookup("lepton_energy_lepton_pt"),
+                                               50, 0, 500, 50, 0, 500));
 }
 
 void run_analysis(const std::string& filename){

@@ -59,7 +59,7 @@
  */
 namespace fv{
 
-bool in_register_function = false;
+/* bool in_register_function = false; */
 template<typename> class Function; // undefined
 /**
  * Parent class to all Function classes. Holds a class-level collection of all
@@ -69,6 +69,8 @@ class GenFunction {
     private:
         std::string name;
         std::string impl;
+    protected:
+        inline static bool in_register_function=false;
 
     public:
         /**
@@ -123,7 +125,7 @@ class GenFunction {
             if (GenFunction::function_registry[name] != nullptr){
                 func = dynamic_cast<Function<T>*>(GenFunction::function_registry[name]);
                 if (func == nullptr){
-                    ERROR("Trying to register function which has already been registerd with a different type");
+                    ERROR("Trying to register function which has already been registered with a different type");
                 }
             } else {
                 func = new Function<T>(name, impl, f);
@@ -155,7 +157,7 @@ class Function<R(ArgTypes...)> : public GenFunction {
         Function(const std::string& name, const std::string& impl, std::function<R(ArgTypes...)> f)
           :GenFunction(name, impl), f(f){
             if (!in_register_function) {
-                WARNING("Don't instantiate Function objects directly! Use register_function instead.");
+                WARNING("Don't instantiate Function objects directly! Use GenFunction::register_function instead.");
             }
           }
         Function(const std::string& name, std::function<R(ArgTypes...)> f)
@@ -385,7 +387,6 @@ class DerivedValue : public Value<T>{
  * object containing the array itself as well as another Value object
  * containing the size of that array. Currently, update_value will simply copy
  * the contents of the array into the interally held vector.
- * \todo avoid an unneccessary copy and set the vectors data directly.
  */
 template <typename T>
 class WrapperVector : public DerivedValue<std::vector<T> >{
@@ -396,10 +397,7 @@ class WrapperVector : public DerivedValue<std::vector<T> >{
         void update_value(){
             int n = size->get_value();
             T* data_ref = data->get_value();
-            this->value.resize(n);
-            for (int i=0; i<n; i++){
-                this->value[i] = *(data_ref+i);
-            }
+            this->value.assign(data_ref, data_ref+n);
         }
 
     public:
@@ -532,8 +530,9 @@ template <typename T>
 class Min : public Reduce<T>{
     public:
         Min(const std::string& v_name, const std::string alias="")
-          :Reduce<T>(new Function<T(std::vector<T>)>("min", [](std::vector<T> vec){
-                         return *std::min_element(vec.begin(), vec.end());}),
+          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("min",
+                      FUNC(([](std::vector<T> vec){
+                         return *std::min_element(vec.begin(), vec.end());}))),
                      v_name, alias) { }
 };
 
@@ -544,10 +543,25 @@ template <typename T>
 class Mean : public Reduce<T>{
     public:
         Mean(const std::string& v_name, const std::string alias="")
-          :Reduce<T>(new Function<T(std::vector<T>)>("mean", [](std::vector<T> vec){
+          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("mean",
+                      FUNC(([](std::vector<T> vec){
                         int n = 0; T sum = 0;
                         for (T e : vec){ n++; sum += e; }
-                        return n>0 ? sum / n : 0; }),
+                        return n>0 ? sum / n : 0; }))),
+                     v_name, alias) { }
+};
+
+/**
+ * Calculate the range of the values in a vector
+ */
+template <typename T>
+class Range : public Reduce<T>{
+    public:
+        Range(const std::string& v_name, const std::string alias="")
+          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("range",
+                      FUNC(([](std::vector<T> vec){
+                        auto minmax = std::minmax_element(vec.begin(), vec.end());
+                        return (*minmax.second) - (*minmax.first); }))),
                      v_name, alias) { }
 };
 
@@ -558,7 +572,8 @@ template <typename T>
 class ElementOf : public Reduce<T>{
     public:
         ElementOf(Value<int>* index, const std::string& v_name, const std::string alias="")
-          :Reduce<T>(new Function<T(std::vector<T>)>("elementOf", [index](std::vector<T> vec){return vec[index->get_value()];}),
+          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("elementOf",
+                      FUNC(([index](std::vector<T> vec){return vec[index->get_value()];}))),
                      v_name, alias) { }
         ElementOf(const std::string& name, int index, const std::string& v_name, const std::string alias="")
           :Reduce<T>(name, [index](std::vector<T> vec){return vec[index];}, v_name, alias) { }
