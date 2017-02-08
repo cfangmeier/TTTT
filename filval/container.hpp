@@ -44,7 +44,9 @@ class GenContainer{
             return name;
         }
         virtual void save_as(const std::string& fname, const SaveOption& option) = 0;
-        virtual void save(const SaveOption& option=SaveOption::PNG) = 0;
+        virtual void save(const SaveOption& option=SaveOption::PNG) {
+            save_as(get_name(), option);
+        }
 };
 typedef std::map<std::string, GenContainer*> ContainerSet;
 

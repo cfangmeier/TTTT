@@ -220,8 +220,8 @@ void MiniTree::Loop(HistCollection* hc){
          *
          */
         ++(*hc); // Increments event count
-        hc->lepton_count->Fill(nLepGood);
-        hc->top_quark_count->Fill(nGenTop);
+        hc->lepton_count->Fill(nLepGood); //DONE
+        hc->top_quark_count->Fill(nGenTop); //DONE
         for(int i=0; i<nLepGood; i++){
             double delta_pt_val = LepGood_pt[i] - LepGood_mcPt[i];
             hc->delta_pt->Fill(delta_pt_val);

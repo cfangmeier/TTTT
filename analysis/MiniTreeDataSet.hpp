@@ -39,7 +39,11 @@ class MiniTreeDataSet : public DataSet,
 
         template <typename T>
         Value<T>* track_branch(const std::string& bname){
-            T* bref = (T*) fChain->GetBranch(bname.c_str())->GetAddress();
+            TBranch* branch = fChain->GetBranch(bname.c_str());
+            if (branch == nullptr){
+                CRITICAL("Branch: " << bname << " does not exist in input tree.", -1);
+            }
+            T* bref = (T*) branch->GetAddress();
             fChain->SetBranchStatus(bname.c_str(), true);
             INFO("Registering branch \"" << bname
                  << "\" with address " << bref
@@ -49,7 +53,11 @@ class MiniTreeDataSet : public DataSet,
 
         template <typename T>
         Value<T*>* track_branch_ptr(const std::string& bname){
-            T* bref = (T*) fChain->GetBranch(bname.c_str())->GetAddress();
+            TBranch* branch = fChain->GetBranch(bname.c_str());
+            if (branch == nullptr){
+                CRITICAL("Branch: " << bname << " does not exist in input tree.", -1);
+            }
+            T* bref = (T*) branch->GetAddress();
             fChain->SetBranchStatus(bname.c_str(), true);
             INFO("Registering pointer branch \"" << bname
                  << "\" with address " << bref
