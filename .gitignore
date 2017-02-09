@@ -12,5 +12,4 @@ tags
 
 # output data files
 *.root
-*.png
 *.pdf
