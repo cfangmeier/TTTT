@@ -1,8 +1,45 @@
 import io
 import sys
 from math import ceil, sqrt
+from subprocess import run
 import itertools as it
 import ROOT
+
+
+class HistCollection:
+    def __init__(self, sample_name, input_filename,
+                 exe_path="../build/main",
+                 rebuild_hists = False):
+        self.sample_name = sample_name
+        if rebuild_hists:
+            run([exe_path, "-s", "-f", input_filename])
+        output_filename = input_filename.replace(".root", "_result.root")
+        self._file = ROOT.TFile.Open(output_filename)
+        l = self._file.GetListOfKeys()
+        self.map = {}
+        for i in range(l.GetSize()):
+            name = l.At(i).GetName()
+            self.map[name] = self._file.Get(name)
+            setattr(self, name, self.map[name])
+
+    def draw(self, canvas, shape=None):
+        if shape is None:
+            n = int(ceil(sqrt(len(self.map))))
+            shape = (n, n)
+        print(shape)
+        canvas.Clear()
+        canvas.Divide(*shape)
+        for i, hist in enumerate(self.map.values()):
+            canvas.cd(i+1)
+            try:
+                hist.SetStats(False)
+            except AttributeError:
+                pass
+            print(i, hist, str(type(hist)))
+            draw_option = ""
+            if (type(hist) == ROOT.TH2F):
+                draw_option = "COLZ"
+            hist.Draw(draw_option)
 
 
 class OutputCapture:
@@ -93,7 +130,7 @@ def stack_hist(hists,
 def stack_hist_array(canvas, histcollections, fields, titles,
                      shape=None, **kwargs):
     def get_hist_set(attrname):
-        hists, labels = zip(*[(getattr(h, attrname), h.get_sample_name())
+        hists, labels = zip(*[(getattr(h, attrname), h.sample_name)
                               for h in histcollections])
         return hists, labels
     n_fields = len(fields)

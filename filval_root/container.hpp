@@ -19,11 +19,11 @@ void _save_img(TObject* container, const std::string& fname){
     delete c1;
 }
 
-void _save_bin(TObject* container, const std::string& fname){
-    INFO("Saving object: " << container->GetName() << " into file " << fname);
-    TFile* f = TFile::Open(fname.c_str(), "UPDATE");
+void _save_bin(TObject* container){
+    INFO("Saving object: " << container->GetName() << " into file " << gDirectory->GetName());
+    /* TFile* f = TFile::Open(fname.c_str(), "UPDATE"); */
     container->Write(container->GetName(), TObject::kOverwrite);
-    f->Close();
+    /* f->Close(); */
 }
 
 void _save_as(TObject* container, const std::string& fname, const SaveOption& option = SaveOption::PNG) {
@@ -33,7 +33,7 @@ void _save_as(TObject* container, const std::string& fname, const SaveOption& op
         case PDF:
             _save_img(container, fname+".pdf"); break;
         case ROOT:
-            _save_bin(container, fname+".root"); break;
+            _save_bin(container); break;
         default:
             break;
     }

@@ -486,6 +486,30 @@ class ZipMapFour : public DerivedValue<std::vector<R> >{
                       alias){ }
 };
 
+/**
+ *
+ */
+template<typename T>
+class Count : public DerivedValue<int>{
+    private:
+        Function<bool(T)>& selector;
+        Value<std::vector<T> >* v;
+        void update_value(){
+            value = 0;
+            for(auto val : v->get_value()){
+                if(selector(val))
+                    value++;
+            }
+        }
+    public:
+        Count(Function<bool(T)>& selector, Value<std::vector<T>>* v, const std::string alias="")
+          :DerivedValue<int>("count("+selector.get_name()+":"+v->get_name()+")", alias),
+           selector(selector), v(v) { }
+
+        Count(Function<bool(T)>& selector, const std::string& v_name, const std::string alias="")
+          :Count(selector, dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(v_name)), alias) { }
+};
+
 
 /**
  * Reduce a Value of type vector<T> to just a T.

@@ -15,6 +15,10 @@ using namespace fv::root;
 class MiniTreeDataSet : public DataSet,
                         public MiniTree{
     private:
+        std::string input_filename;
+        std::string output_filename;
+        TFile* input_file;
+        TFile* output_file;
         long next_entry;
         long nentries;
         bool load_next(){
@@ -31,11 +35,20 @@ class MiniTreeDataSet : public DataSet,
         }
 
     public:
-        MiniTreeDataSet(TTree *tree)
-          :MiniTree(tree){
-            next_entry = 0;
+        MiniTreeDataSet(const std::string& input_filename, const std::string output_filename)
+          :input_filename(input_filename),
+           output_filename(output_filename),
+           next_entry(0) {
+            input_file = TFile::Open(input_filename.c_str());
+            Init((TTree*) input_file->Get("tree"));
             nentries = fChain->GetEntriesFast();
+            output_file = TFile::Open(output_filename.c_str(), "UPDATE");
           }
+
+        ~MiniTreeDataSet(){
+            input_file->Close();
+            output_file->Close();
+        }
 
         template <typename T>
         Value<T>* track_branch(const std::string& bname){
@@ -65,6 +78,7 @@ class MiniTreeDataSet : public DataSet,
             return new PointerValue<T>(bname, bref);
         }
         void save_all(){
+            output_file->cd();
             for(auto container : containers){
                 container.second->save_as("outfile", SaveOption::ROOT);
             }

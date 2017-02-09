@@ -94,6 +94,8 @@ void declare_values(MiniTreeDataSet& mt){
     new WrapperVector<float>("nLepGood", "LepGood_phi", "LepGood_phi");
     new WrapperVector<float>("nLepGood", "LepGood_mass", "LepGood_mass");
 
+    new WrapperVector<float>("nJet", "Jet_btagCMVA", "Jet_btagCMVA");
+
 
     new ZipMapFour<float, float>(get_energy, "LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass",
                                  "lepton_energy");
@@ -106,12 +108,22 @@ void declare_values(MiniTreeDataSet& mt){
     new Mean<float>("lepton_energy", "lepton_energy_mean");
 
 
-    new Filter("nLepGood>=3", FUNC(([nLepGood=lookup("nLepGood")](){
-            return dynamic_cast<Value<int>*>(nLepGood)->get_value() >=3;})));
+    new Count<float>(GenFunction::register_function<bool(float)>("bJet_Selection", FUNC(([](float x){return x>0;}))),
+                     "Jet_btagCMVA",  "b_jet_count");
 
-    new Filter("nLepGood<=4", FUNC(([nLepGood=lookup("nLepGood")](){
-            return dynamic_cast<Value<int>*>(nLepGood)->get_value() <=4;})));
-    new RangeFilter<int>("3<=nLepGood<5", dynamic_cast<Value<int>*>(lookup("nLepGood")), 3, 5);
+    new Filter("trilepton", FUNC(([nLepGood=lookup("nLepGood")](){
+            return dynamic_cast<Value<int>*>(nLepGood)->get_value() ==3;})));
+
+    new Filter("os-dilepton", FUNC(([nLepGood=lookup("nLepGood"), LepGood_charge=lookup("LepGood_charge")](){
+                    bool is_dilepton = dynamic_cast<Value<int>*>(nLepGood)->get_value()==2;
+                    int* charge = dynamic_cast<Value<int*>*>(LepGood_charge)->get_value();
+                    return is_dilepton && (charge[0] != charge[1]);})));
+
+    new Filter("ss-dilepton", FUNC(([nLepGood=lookup("nLepGood"), LepGood_charge=lookup("LepGood_charge")](){
+                    bool is_dilepton = dynamic_cast<Value<int>*>(nLepGood)->get_value()==2;
+                    int* charge = dynamic_cast<Value<int*>*>(LepGood_charge)->get_value();
+                    return is_dilepton && (charge[0] == charge[1]);})));
+
 }
 
 void declare_containers(MiniTreeDataSet& mt){
@@ -123,38 +135,50 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container(new ContainerTH1F("lepton_energy_min", "Lepton Energy - Min", lookup("lepton_energy_min"), 50, 0, 500));
     mt.register_container(new ContainerTH1F("lepton_energy_rng", "Lepton Energy - Range", lookup("lepton_energy_range"), 50, 0, 500));
 
-    mt.register_container(new ContainerTH1I("nLepGood2", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
-    mt.get_container("nLepGood2")->add_filter(lookup_filter("3<=nLepGood<5"));
-
-    mt.register_container(new ContainerTH1I("nLepGood3", "Lepton Multiplicity", lookup("nLepGood"), 10, 0, 10));
-    mt.get_container("nLepGood3")->add_filter(!(*lookup_filter("3<=nLepGood<5")));
 
     mt.register_container(new ContainerTGraph("nLepvsnJet", new Pair<int, int>("nLepGood", "nJet") ));
 
     mt.register_container(new ContainerTH2FMany("lepton_energy_vs_pt", "Lepton Energy - Range", lookup("lepton_energy_lepton_pt"),
                                                50, 0, 500, 50, 0, 500));
+
+    mt.register_container(new ContainerTH1I("b_jet_count", "B-Jet Multiplicity", lookup("b_jet_count"), 10, 0, 10));
+
+
+    mt.register_container(new ContainerTH1I("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events", lookup("nJet"), 14, 0, 14));
+    mt.get_container("jet_count_os_dilepton")->add_filter(lookup_filter("os-dilepton"));
+    mt.register_container(new ContainerTH1I("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events", lookup("nJet"), 14, 0, 14));
+    mt.get_container("jet_count_ss_dilepton")->add_filter(lookup_filter("ss-dilepton"));
+    mt.register_container(new ContainerTH1I("jet_count_trilepton", "Jet Multiplicity - Trilepton Events", lookup("nJet"), 14, 0, 14));
+    mt.get_container("jet_count_trilepton")->add_filter(lookup_filter("trilepton"));
 }
 
-void run_analysis(const std::string& filename){
-    TFile *f = TFile::Open(filename.c_str());
-    TTree *tree = (TTree*) f->Get("tree");
-    MiniTreeDataSet mt(tree);
+std::string replace_suffix(const std::string& input, const std::string& new_suffix){
+    return input.substr(0, input.find_last_of(".")) + new_suffix;
+}
+
+void run_analysis(const std::string& input_filename, bool silent){
+    string log_filename = replace_suffix(input_filename, "_result.log");
+    Log::init_logger(log_filename, LogPriority::kLogDebug);
+
+    string output_filename = replace_suffix(input_filename, "_result.root");
+    MiniTreeDataSet mt(input_filename, output_filename);
+
     enable_branches(mt);
     declare_values(mt);
     declare_containers(mt);
-    mt.process();
+
+    mt.process(silent);
     mt.save_all();
 }
 
 int main(int argc, char * argv[])
 {
-    Log::init_logger("log.txt", LogPriority::kLogDebug);
     ArgParser args(argc, argv);
-    if(args.cmdOptionExists("-f")) {
-        run_analysis(args.getCmdOption("-f"));
-    }
-    else {
+    if(!args.cmdOptionExists("-f")) {
         cout << "Usage: ./main -f input_minitree.root" << endl;
+        return -1;
     }
-    return 0;
+    bool silent = args.cmdOptionExists("-s");
+    string input_filename = args.getCmdOption("-f");
+    run_analysis(input_filename, silent);
 }

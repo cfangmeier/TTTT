@@ -2176,7 +2176,7 @@ public :
    TBranch        *b_PhoGood_chHadIsoRC;   //!
    TBranch        *b_PhoGood_drMinParton;   //!
 
-   MiniTree(TTree *tree=0);
+   MiniTree();
    virtual ~MiniTree();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
@@ -2188,26 +2188,9 @@ public :
 };
 
 
-MiniTree::MiniTree(TTree *tree) : fChain(0) 
-{
-// if parameter tree is not specified (or zero), connect the file
-// used to generate this class and read the Tree.
-   if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("TTTT_ext_treeProducerSusyMultilepton_tree.root");
-      if (!f || !f->IsOpen()) {
-         f = new TFile("TTTT_ext_treeProducerSusyMultilepton_tree.root");
-      }
-      f->GetObject("tree",tree);
+MiniTree::MiniTree() : fChain(0) { }
 
-   }
-   Init(tree);
-}
-
-MiniTree::~MiniTree()
-{
-   if (!fChain) return;
-   delete fChain->GetCurrentFile();
-}
+MiniTree::~MiniTree() { }
 
 Int_t MiniTree::GetEntry(Long64_t entry)
 {

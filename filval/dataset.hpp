@@ -20,20 +20,20 @@ class DataSet{
         virtual int get_current_event() = 0;
 
     public:
-        void process(){
+        void process(bool silent=false){
             int events, current_event;
             summary();
             events = get_events();
-            std::cout << std::endl;
+            if (!silent) std::cout << std::endl;
             while( load_next() ){
                 current_event = get_current_event();
-                std::cout << "\rprocessing event: " << current_event+1 << "/" << events << std::flush;
+                if (!silent) std::cout << "\rprocessing event: " << current_event+1 << "/" << events << std::flush;
                 GenValue::reset();
                 for(auto con : containers){
                     con.second->fill();
                 }
             }
-            std::cout << " Finished!" << std::endl;
+            if (!silent) std::cout << " Finished!" << std::endl;
         }
 
         virtual void save_all(){
