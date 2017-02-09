@@ -1,0 +1,94 @@
+\hypertarget{classfv_1_1WrapperVector}{}\section{fv\+:\+:Wrapper\+Vector$<$ T $>$ Class Template Reference}
+\label{classfv_1_1WrapperVector}\index{fv\+::\+Wrapper\+Vector$<$ T $>$@{fv\+::\+Wrapper\+Vector$<$ T $>$}}
+
+
+A std\+::vector wrapper around a C-\/style array.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for fv\+:\+:Wrapper\+Vector$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=211pt]{classfv_1_1WrapperVector__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:Wrapper\+Vector$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfv_1_1WrapperVector__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1WrapperVector_a2bc64820fe35a31f58971c8ed3c28a7a}{}\label{classfv_1_1WrapperVector_a2bc64820fe35a31f58971c8ed3c28a7a} 
+{\bfseries Wrapper\+Vector} (\hyperlink{classfv_1_1Value}{Value}$<$ int $>$ $\ast$size, \hyperlink{classfv_1_1Value}{Value}$<$ T $\ast$$>$ $\ast$data, const std\+::string \&alias=\char`\"{}\char`\"{})
+\item 
+\hypertarget{classfv_1_1WrapperVector_a07359f0cfd9e1656827375bb68f0f0a4}{}\label{classfv_1_1WrapperVector_a07359f0cfd9e1656827375bb68f0f0a4} 
+{\bfseries Wrapper\+Vector} (const std\+::string \&label\+\_\+size, const std\+::string \&label\+\_\+data, const std\+::string \&alias=\char`\"{}\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfv_1_1WrapperVector_a2ee99bc4425642d209df7b48ee2ada95}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1WrapperVector_a10ede4104152047ed9561cf53760c56a}{}\label{classfv_1_1WrapperVector_a10ede4104152047ed9561cf53760c56a} 
+\hyperlink{classfv_1_1Value}{Value}$<$ int $>$ $\ast$ {\bfseries size}
+\item 
+\hypertarget{classfv_1_1WrapperVector_a28f084653f04d7c3b02b0deca2e425a7}{}\label{classfv_1_1WrapperVector_a28f084653f04d7c3b02b0deca2e425a7} 
+\hyperlink{classfv_1_1Value}{Value}$<$ T $\ast$ $>$ $\ast$ {\bfseries data}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fv\+::\+Wrapper\+Vector$<$ T $>$}
+
+A std\+::vector wrapper around a C-\/style array. 
+
+In order to make some of the higher-\/level \hyperlink{classfv_1_1Value}{Value} types easier to work with, it is a good idea to wrap all arrays in the original data source with std\+::vector objects. To do this, it is necessary to supply both a \hyperlink{classfv_1_1Value}{Value} object containing the array itself as well as another \hyperlink{classfv_1_1Value}{Value} object containing the size of that array. Currently, update\+\_\+value will simply copy the contents of the array into the interally held vector. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1WrapperVector_a2ee99bc4425642d209df7b48ee2ada95}{}\label{classfv_1_1WrapperVector_a2ee99bc4425642d209df7b48ee2ada95} 
+\index{fv\+::\+Wrapper\+Vector@{fv\+::\+Wrapper\+Vector}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!fv\+::\+Wrapper\+Vector@{fv\+::\+Wrapper\+Vector}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfv_1_1WrapperVector}{fv\+::\+Wrapper\+Vector}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfv_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfv_1_1DerivedValue_ae59e80a98eb74b95d8961bfe12ee5ec2}{fv\+::\+Derived\+Value$<$ std\+::vector$<$ T $>$ $>$}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{classfv_1_1WrapperVector_a2ee99bc4425642d209df7b48ee2ada95_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

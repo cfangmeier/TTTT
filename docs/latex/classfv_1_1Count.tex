@@ -1,0 +1,77 @@
+\hypertarget{classfv_1_1Count}{}\section{fv\+:\+:Count$<$ T $>$ Class Template Reference}
+\label{classfv_1_1Count}\index{fv\+::\+Count$<$ T $>$@{fv\+::\+Count$<$ T $>$}}
+
+
+Inheritance diagram for fv\+:\+:Count$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{classfv_1_1Count__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:Count$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfv_1_1Count__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1Count_a8d737015331b4bdff6614118c957bfb6}{}\label{classfv_1_1Count_a8d737015331b4bdff6614118c957bfb6} 
+{\bfseries Count} (\hyperlink{classfv_1_1Function}{Function}$<$ bool(T)$>$ \&selector, \hyperlink{classfv_1_1Value}{Value}$<$ std\+::vector$<$ T $>$$>$ $\ast$v, const std\+::string alias=\char`\"{}\char`\"{})
+\item 
+\hypertarget{classfv_1_1Count_a1ea910638294d8a70c6892ac93b23654}{}\label{classfv_1_1Count_a1ea910638294d8a70c6892ac93b23654} 
+{\bfseries Count} (\hyperlink{classfv_1_1Function}{Function}$<$ bool(T)$>$ \&selector, const std\+::string \&v\+\_\+name, const std\+::string alias=\char`\"{}\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfv_1_1Count_afff1c16a8747a82db1cc1c8248c56a08}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1Count_a1dbfccc8020b2c41adcedc5e449ff3be}{}\label{classfv_1_1Count_a1dbfccc8020b2c41adcedc5e449ff3be} 
+\hyperlink{classfv_1_1Function}{Function}$<$ bool(T)$>$ \& {\bfseries selector}
+\item 
+\hypertarget{classfv_1_1Count_a3bb2f22dc995dc833f513805128e3a44}{}\label{classfv_1_1Count_a3bb2f22dc995dc833f513805128e3a44} 
+\hyperlink{classfv_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$ {\bfseries v}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1Count_afff1c16a8747a82db1cc1c8248c56a08}{}\label{classfv_1_1Count_afff1c16a8747a82db1cc1c8248c56a08} 
+\index{fv\+::\+Count@{fv\+::\+Count}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!fv\+::\+Count@{fv\+::\+Count}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfv_1_1Count}{fv\+::\+Count}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfv_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfv_1_1DerivedValue_ae59e80a98eb74b95d8961bfe12ee5ec2}{fv\+::\+Derived\+Value$<$ int $>$}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfv_1_1Count_afff1c16a8747a82db1cc1c8248c56a08_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

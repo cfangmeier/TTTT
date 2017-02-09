@@ -1,0 +1,7 @@
+<map id="fv::ReduceIndex&lt; T &gt;" name="fv::ReduceIndex&lt; T &gt;">
+<area shape="rect" id="node5" href="$classfv_1_1MaxIndex.html" title="Find and return the maximum value of a vector and its index. " alt="" coords="5,333,148,360"/>
+<area shape="rect" id="node6" href="$classfv_1_1MinIndex.html" title="Find and return the minimum value of a vector and its index. " alt="" coords="173,333,311,360"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::pair\&lt; T, int \&gt; \&gt;" alt="" coords="77,169,241,211"/>
+<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::pair\l\&lt; T, int \&gt; \&gt;" alt="" coords="86,80,233,121"/>
+<area shape="rect" id="node4" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="107,5,211,32"/>
+</map>

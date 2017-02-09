@@ -1,0 +1,80 @@
+\hypertarget{classfv_1_1BoundValue}{}\section{fv\+:\+:Bound\+Value$<$ T $>$ Class Template Reference}
+\label{classfv_1_1BoundValue}\index{fv\+::\+Bound\+Value$<$ T $>$@{fv\+::\+Bound\+Value$<$ T $>$}}
+
+
+A generic value owning only a function object.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for fv\+:\+:Bound\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{classfv_1_1BoundValue__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:Bound\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=347pt]{classfv_1_1BoundValue__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1BoundValue_aa5157e0e9ba817cdeaef72f643ba8a79}{}\label{classfv_1_1BoundValue_aa5157e0e9ba817cdeaef72f643ba8a79} 
+{\bfseries Bound\+Value} (\hyperlink{classfv_1_1Function}{Function}$<$ T()$>$ \&f, const std\+::string alias=\char`\"{}\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfv_1_1BoundValue_a51ba914f1eac694af4264d62785282a1}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1BoundValue_a09946c7cd867603db1b66d64a6d43e69}{}\label{classfv_1_1BoundValue_a09946c7cd867603db1b66d64a6d43e69} 
+\hyperlink{classfv_1_1Function}{Function}$<$ T()$>$ \& {\bfseries f}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fv\+::\+Bound\+Value$<$ T $>$}
+
+A generic value owning only a function object. 
+
+All necessary values upon which this value depends must be bound to the function object. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1BoundValue_a51ba914f1eac694af4264d62785282a1}{}\label{classfv_1_1BoundValue_a51ba914f1eac694af4264d62785282a1} 
+\index{fv\+::\+Bound\+Value@{fv\+::\+Bound\+Value}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!fv\+::\+Bound\+Value@{fv\+::\+Bound\+Value}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfv_1_1BoundValue}{fv\+::\+Bound\+Value}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfv_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfv_1_1DerivedValue_ae59e80a98eb74b95d8961bfe12ee5ec2}{fv\+::\+Derived\+Value$<$ T $>$}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

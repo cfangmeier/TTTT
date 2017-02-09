@@ -1,0 +1,81 @@
+\hypertarget{classfv_1_1Pair}{}\section{fv\+:\+:Pair$<$ T1, T2 $>$ Class Template Reference}
+\label{classfv_1_1Pair}\index{fv\+::\+Pair$<$ T1, T2 $>$@{fv\+::\+Pair$<$ T1, T2 $>$}}
+
+
+Creates a std\+::pair type from a two other \hyperlink{classfv_1_1Value}{Value} objects.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for fv\+:\+:Pair$<$ T1, T2 $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{classfv_1_1Pair__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:Pair$<$ T1, T2 $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=203pt]{classfv_1_1Pair__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1Pair_a1846e7f1e986a2fb47e388330cdd8ff3}{}\label{classfv_1_1Pair_a1846e7f1e986a2fb47e388330cdd8ff3} 
+{\bfseries Pair} (\hyperlink{classfv_1_1Value}{Value}$<$ T1 $>$ $\ast$value1, \hyperlink{classfv_1_1Value}{Value}$<$ T2 $>$ $\ast$value2, const std\+::string alias=\char`\"{}\char`\"{})
+\item 
+\hypertarget{classfv_1_1Pair_a9fad00f2ff4488f118455e1dcdd1c11a}{}\label{classfv_1_1Pair_a9fad00f2ff4488f118455e1dcdd1c11a} 
+{\bfseries Pair} (const std\+::string \&label1, const std\+::string \&label2, const std\+::string alias=\char`\"{}\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfv_1_1Pair_ab3225f03f49240fc1547a5005f57b864}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1Pair_a6b7cd0e47693fbff80539b3a7df0ecab}{}\label{classfv_1_1Pair_a6b7cd0e47693fbff80539b3a7df0ecab} 
+std\+::pair$<$ \hyperlink{classfv_1_1Value}{Value}$<$ T1 $>$ $\ast$, \hyperlink{classfv_1_1Value}{Value}$<$ T2 $>$ $\ast$$>$ {\bfseries value\+\_\+pair}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T1, typename T2$>$\newline
+class fv\+::\+Pair$<$ T1, T2 $>$}
+
+Creates a std\+::pair type from a two other \hyperlink{classfv_1_1Value}{Value} objects. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1Pair_ab3225f03f49240fc1547a5005f57b864}{}\label{classfv_1_1Pair_ab3225f03f49240fc1547a5005f57b864} 
+\index{fv\+::\+Pair@{fv\+::\+Pair}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!fv\+::\+Pair@{fv\+::\+Pair}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T1 , typename T2 $>$ \\
+void \hyperlink{classfv_1_1Pair}{fv\+::\+Pair}$<$ T1, T2 $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfv_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfv_1_1DerivedValue_ae59e80a98eb74b95d8961bfe12ee5ec2}{fv\+::\+Derived\+Value$<$ std\+::pair$<$ T1, T2 $>$ $>$}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

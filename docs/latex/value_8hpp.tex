@@ -1,0 +1,121 @@
+\hypertarget{value_8hpp}{}\section{/home/caleb/\+Sources/\+T\+T\+T\+T/filval/value.hpp File Reference}
+\label{value_8hpp}\index{/home/caleb/\+Sources/\+T\+T\+T\+T/filval/value.\+hpp@{/home/caleb/\+Sources/\+T\+T\+T\+T/filval/value.\+hpp}}
+{\ttfamily \#include $<$iomanip$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$tuple$>$}\newline
+{\ttfamily \#include $<$initializer\+\_\+list$>$}\newline
+{\ttfamily \#include $<$functional$>$}\newline
+{\ttfamily \#include \char`\"{}log.\+hpp\char`\"{}}\newline
+Include dependency graph for value.\+hpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{value_8hpp__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=341pt]{value_8hpp__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classfv_1_1Function}{fv\+::\+Function$<$ typename $>$}
+\item 
+class \hyperlink{classfv_1_1GenFunction}{fv\+::\+Gen\+Function}
+\begin{DoxyCompactList}\small\item\em Parent class to all \hyperlink{classfv_1_1Function}{Function} classes. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4}{fv\+::\+Function$<$ R(\+Arg\+Types...)$>$}
+\begin{DoxyCompactList}\small\item\em In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the \hyperlink{classfv_1_1Function}{Function} class should be used. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1GenValue}{fv\+::\+Gen\+Value}
+\item 
+class \hyperlink{classfv_1_1Value}{fv\+::\+Value$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em A generic value. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1ObservedValue}{fv\+::\+Observed\+Value$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em A generic, observed, value. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1DerivedValue}{fv\+::\+Derived\+Value$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em A generic, derived, value. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1WrapperVector}{fv\+::\+Wrapper\+Vector$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em A std\+::vector wrapper around a C-\/style array. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1Pair}{fv\+::\+Pair$<$ T1, T2 $>$}
+\begin{DoxyCompactList}\small\item\em Creates a std\+::pair type from a two other \hyperlink{classfv_1_1Value}{Value} objects. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1ZipMapFour}{fv\+::\+Zip\+Map\+Four$<$ R, T $>$}
+\begin{DoxyCompactList}\small\item\em Takes a set of four \hyperlink{classfv_1_1Value}{Value}$<$std\+::vector$<$\+T$>$ $>$ objects and a function of four Ts and returns a std\+::vector$<$\+R$>$. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1Count}{fv\+::\+Count$<$ T $>$}
+\item 
+class \hyperlink{classfv_1_1Reduce}{fv\+::\+Reduce$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classfv_1_1Reduce}{Reduce} a \hyperlink{classfv_1_1Value}{Value} of type vector$<$\+T$>$ to just a T. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1Max}{fv\+::\+Max$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Find and return the maximum value of a vector. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1Min}{fv\+::\+Min$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Find and return the minimum value of a vector. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1Mean}{fv\+::\+Mean$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Calculate the mean value of a vector. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1Range}{fv\+::\+Range$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Calculate the range of the values in a vector. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1ElementOf}{fv\+::\+Element\+Of$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Extract the element at a specific index from a vector. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1ReduceIndex}{fv\+::\+Reduce\+Index$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Similar to \hyperlink{classfv_1_1Reduce}{Reduce}, but returns a pair of a T and an int. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1MaxIndex}{fv\+::\+Max\+Index$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Find and return the maximum value of a vector and its index. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1MinIndex}{fv\+::\+Min\+Index$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em Find and return the minimum value of a vector and its index. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1BoundValue}{fv\+::\+Bound\+Value$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em A generic value owning only a function object. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1PointerValue}{fv\+::\+Pointer\+Value$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em A \hyperlink{classfv_1_1Value}{Value} of a pointer. \end{DoxyCompactList}\item 
+class \hyperlink{classfv_1_1ConstantValue}{fv\+::\+Constant\+Value$<$ T $>$}
+\begin{DoxyCompactList}\small\item\em A \hyperlink{classfv_1_1Value}{Value} which always returns the same value, supplied in the constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespacefv}{fv}
+\begin{DoxyCompactList}\small\item\em The namespace containing all filval classes and functions. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{value_8hpp_abda9672baa08af6eea0eba8b7f2b025d}{}\label{value_8hpp_abda9672baa08af6eea0eba8b7f2b025d} 
+\#define {\bfseries F\+U\+NC}(f)~f, \#f
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespacefv_acc10056e9b78553b6a5b2110e63456e9}{}\label{namespacefv_acc10056e9b78553b6a5b2110e63456e9} 
+typedef std\+::map$<$ std\+::string, Gen\+Value $\ast$ $>$ {\bfseries fv\+::\+Value\+Set}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{namespacefv_a12225ad5af727a02b469015810b7f83f}{}\label{namespacefv_a12225ad5af727a02b469015810b7f83f} 
+std\+::ostream \& {\bfseries fv\+::operator$<$$<$} (std\+::ostream \&os, Gen\+Value \&gv)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Caleb Fangmeier \href{mailto:caleb@fangmeier.tech}{\tt caleb@fangmeier.\+tech} 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+0.\+1
+\end{DoxyVersion}
+\hypertarget{value_8hpp_LICENSE}{}\subsection{L\+I\+C\+E\+N\+SE}\label{value_8hpp_LICENSE}
+M\+IT License
+
+Copyright (c) 2017 Caleb Fangmeier
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \char`\"{}\+Software\char`\"{}), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions\+:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+T\+HE S\+O\+F\+T\+W\+A\+RE IS P\+R\+O\+V\+I\+D\+ED \char`\"{}\+A\+S I\+S\char`\"{}, W\+I\+T\+H\+O\+UT W\+A\+R\+R\+A\+N\+TY OF A\+NY K\+I\+ND, E\+X\+P\+R\+E\+SS OR I\+M\+P\+L\+I\+ED, I\+N\+C\+L\+U\+D\+I\+NG B\+UT N\+OT L\+I\+M\+I\+T\+ED TO T\+HE W\+A\+R\+R\+A\+N\+T\+I\+ES OF M\+E\+R\+C\+H\+A\+N\+T\+A\+B\+I\+L\+I\+TY, F\+I\+T\+N\+E\+SS F\+OR A P\+A\+R\+T\+I\+C\+U\+L\+AR P\+U\+R\+P\+O\+SE A\+ND N\+O\+N\+I\+N\+F\+R\+I\+N\+G\+E\+M\+E\+NT. IN NO E\+V\+E\+NT S\+H\+A\+LL T\+HE A\+U\+T\+H\+O\+RS OR C\+O\+P\+Y\+R\+I\+G\+HT H\+O\+L\+D\+E\+RS BE L\+I\+A\+B\+LE F\+OR A\+NY C\+L\+A\+IM, D\+A\+M\+A\+G\+ES OR O\+T\+H\+ER L\+I\+A\+B\+I\+L\+I\+TY, W\+H\+E\+T\+H\+ER IN AN A\+C\+T\+I\+ON OF C\+O\+N\+T\+R\+A\+CT, T\+O\+RT OR O\+T\+H\+E\+R\+W\+I\+SE, A\+R\+I\+S\+I\+NG F\+R\+OM, O\+UT OF OR IN C\+O\+N\+N\+E\+C\+T\+I\+ON W\+I\+TH T\+HE S\+O\+F\+T\+W\+A\+RE OR T\+HE U\+SE OR O\+T\+H\+ER D\+E\+A\+L\+I\+N\+GS IN T\+HE S\+O\+F\+T\+W\+A\+RE.\hypertarget{value_8hpp_DESCRIPTION}{}\subsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{value_8hpp_DESCRIPTION}
+This header defines a set of generic classes that wrap up \char`\"{}values\char`\"{}. In essence, a Value$<$\+T$>$ object is just something that contains a value of type T and can provide it when requested. The usefulness stems from composing values together with calculations. This enables very clear dependency mapping and a way to know clearly how every value was arrived at. This could be used to, for example, automatically generate commentary for plots that explain the exect calculation used to create it. Or easily making a series of plots contrasting different values that have been composed slightly differently. 

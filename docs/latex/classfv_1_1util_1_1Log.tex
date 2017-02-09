@@ -1,0 +1,97 @@
+\hypertarget{classfv_1_1util_1_1Log}{}\section{fv\+:\+:util\+:\+:Log Class Reference}
+\label{classfv_1_1util_1_1Log}\index{fv\+::util\+::\+Log@{fv\+::util\+::\+Log}}
+
+
+Inheritance diagram for fv\+:\+:util\+:\+:Log\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=208pt]{classfv_1_1util_1_1Log__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:util\+:\+:Log\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=247pt]{classfv_1_1util_1_1Log__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a0e6f9d1a3088e9176d0a48b6eb104132}{}\label{classfv_1_1util_1_1Log_a0e6f9d1a3088e9176d0a48b6eb104132} 
+{\bfseries Log} (std\+::string filename, Log\+Priority priority)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a8232233797affe8abc97d4b6e0b3b917}{}\label{classfv_1_1util_1_1Log_a8232233797affe8abc97d4b6e0b3b917} 
+static \hyperlink{classfv_1_1util_1_1Log}{Log} \& {\bfseries init\+\_\+logger} (std\+::string filename, Log\+Priority priority)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a133ed49ae8fc4cf3e2d511d0d9e28c94}{}\label{classfv_1_1util_1_1Log_a133ed49ae8fc4cf3e2d511d0d9e28c94} 
+int {\bfseries sync} ()
+\item 
+\hypertarget{classfv_1_1util_1_1Log_ad871974b451c4c5d6dc9ef40af56c5af}{}\label{classfv_1_1util_1_1Log_ad871974b451c4c5d6dc9ef40af56c5af} 
+int {\bfseries overflow} (int c)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a367cd2434a71d3d0c31eca4fa669863f}{}\label{classfv_1_1util_1_1Log_a367cd2434a71d3d0c31eca4fa669863f} 
+std\+::string {\bfseries buffer\+\_\+}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a228072e981f6e3061c574bf44123119b}{}\label{classfv_1_1util_1_1Log_a228072e981f6e3061c574bf44123119b} 
+std\+::ofstream {\bfseries logfile}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a82bba61e99e82b3b08eb1db2a266b1e3}{}\label{classfv_1_1util_1_1Log_a82bba61e99e82b3b08eb1db2a266b1e3} 
+Log\+Priority {\bfseries priority\+\_\+curr}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a741292d02499b1f9bef04739e0971faa}{}\label{classfv_1_1util_1_1Log_a741292d02499b1f9bef04739e0971faa} 
+Log\+Priority {\bfseries priority\+\_\+set}
+\item 
+const std\+::map$<$ Log\+Priority, std\+::string $>$ {\bfseries name\+\_\+map}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_aa65dbac5964f7d5c2a68308e42912350}{}\label{classfv_1_1util_1_1Log_aa65dbac5964f7d5c2a68308e42912350} 
+static \hyperlink{classfv_1_1util_1_1Log}{Log} $\ast$ {\bfseries singleton} = nullptr
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1util_1_1Log_a0424ebdae6a085efdf86eef68d4290bb}{}\label{classfv_1_1util_1_1Log_a0424ebdae6a085efdf86eef68d4290bb} 
+std\+::ostream \& \hyperlink{classfv_1_1util_1_1Log_a0424ebdae6a085efdf86eef68d4290bb}{operator$<$$<$} (std\+::ostream \&os, const Log\+Priority \&log\+\_\+priority)
+\begin{DoxyCompactList}\small\item\em /see \href{http://stackoverflow.com/questions/2638654/redirect-c-stdclog-to-syslog-on-unix}{\tt http\+://stackoverflow.\+com/questions/2638654/redirect-\/c-\/stdclog-\/to-\/syslog-\/on-\/unix} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classfv_1_1util_1_1Log_a9fdd4bed5ad2aabb71418e9244fe25fd}{}\label{classfv_1_1util_1_1Log_a9fdd4bed5ad2aabb71418e9244fe25fd} 
+\index{fv\+::util\+::\+Log@{fv\+::util\+::\+Log}!name\+\_\+map@{name\+\_\+map}}
+\index{name\+\_\+map@{name\+\_\+map}!fv\+::util\+::\+Log@{fv\+::util\+::\+Log}}
+\subsubsection{\texorpdfstring{name\+\_\+map}{name\_map}}
+{\footnotesize\ttfamily const std\+::map$<$Log\+Priority,std\+::string$>$ fv\+::util\+::\+Log\+::name\+\_\+map\hspace{0.3cm}{\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}
+= \{\{kLogEmergency, \textcolor{stringliteral}{"EMERGENCY"}\},
+                                                        \{kLogAlert,     \textcolor{stringliteral}{"ALERT"}\},
+                                                        \{kLogCritical,  \textcolor{stringliteral}{"CRITICAL"}\},
+                                                        \{kLogError,     \textcolor{stringliteral}{"ERROR"}\},
+                                                        \{kLogWarning,   \textcolor{stringliteral}{"WARNING"}\},
+                                                        \{kLogNotice,    \textcolor{stringliteral}{"NOTICE"}\},
+                                                        \{kLogInfo,      \textcolor{stringliteral}{"INFO"}\},
+                                                        \{kLogDebug,     \textcolor{stringliteral}{"DEBUG"}\}\}
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{log_8hpp}{log.\+hpp}\end{DoxyCompactItemize}

@@ -1,0 +1,10 @@
+<map id="fv::Reduce&lt; T &gt;" name="fv::Reduce&lt; T &gt;">
+<area shape="rect" id="node5" href="$classfv_1_1ElementOf.html" title="Extract the element at a specific index from a vector. " alt="" coords="5,304,155,331"/>
+<area shape="rect" id="node6" href="$classfv_1_1Max.html" title="Find and return the maximum value of a vector. " alt="" coords="179,304,285,331"/>
+<area shape="rect" id="node7" href="$classfv_1_1Mean.html" title="Calculate the mean value of a vector. " alt="" coords="309,304,424,331"/>
+<area shape="rect" id="node8" href="$classfv_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="449,304,551,331"/>
+<area shape="rect" id="node9" href="$classfv_1_1Range.html" title="Calculate the range of the values in a vector. " alt="" coords="575,304,697,331"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="283,155,450,181"/>
+<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="A generic value. " alt="" coords="309,80,425,107"/>
+<area shape="rect" id="node4" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="315,5,419,32"/>
+</map>

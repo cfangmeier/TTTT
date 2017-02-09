@@ -1,0 +1,86 @@
+\hypertarget{classfv_1_1ReduceIndex}{}\section{fv\+:\+:Reduce\+Index$<$ T $>$ Class Template Reference}
+\label{classfv_1_1ReduceIndex}\index{fv\+::\+Reduce\+Index$<$ T $>$@{fv\+::\+Reduce\+Index$<$ T $>$}}
+
+
+Similar to \hyperlink{classfv_1_1Reduce}{Reduce}, but returns a pair of a T and an int.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for fv\+:\+:Reduce\+Index$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=310pt]{classfv_1_1ReduceIndex__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:Reduce\+Index$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=300pt]{classfv_1_1ReduceIndex__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1ReduceIndex_ad118a68262cfa9519bb7030502115ca9}{}\label{classfv_1_1ReduceIndex_ad118a68262cfa9519bb7030502115ca9} 
+{\bfseries Reduce\+Index} (\hyperlink{classfv_1_1Function}{Function}$<$ std\+::pair$<$ T, int $>$(std\+::vector$<$ T $>$)$>$ \&reduce, \hyperlink{classfv_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$v, const std\+::string alias=\char`\"{}\char`\"{})
+\item 
+\hypertarget{classfv_1_1ReduceIndex_a0036e4d7f41cce518020a40666506a57}{}\label{classfv_1_1ReduceIndex_a0036e4d7f41cce518020a40666506a57} 
+{\bfseries Reduce\+Index} (\hyperlink{classfv_1_1Function}{Function}$<$ std\+::pair$<$ T, int $>$(std\+::vector$<$ T $>$)$>$ \&reduce, const std\+::string \&v\+\_\+name, const std\+::string alias=\char`\"{}\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfv_1_1ReduceIndex_a462bffebe2a93c940aca526566d48e37}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1ReduceIndex_a36e2279f62f6480d882be0bc08cba098}{}\label{classfv_1_1ReduceIndex_a36e2279f62f6480d882be0bc08cba098} 
+\hyperlink{classfv_1_1Function}{Function}$<$ std\+::pair$<$ T, int $>$std\+::vector$<$ T $>$)$>$ \& {\bfseries reduce}
+\item 
+\hypertarget{classfv_1_1ReduceIndex_a964863091c91f86b5718973f010dbb00}{}\label{classfv_1_1ReduceIndex_a964863091c91f86b5718973f010dbb00} 
+\hyperlink{classfv_1_1Value}{Value}$<$ std\+::vector$<$ T $>$ $>$ $\ast$ {\bfseries v}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fv\+::\+Reduce\+Index$<$ T $>$}
+
+Similar to \hyperlink{classfv_1_1Reduce}{Reduce}, but returns a pair of a T and an int. 
+
+This is useful if you need to know where in the vector exists the element being returned. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1ReduceIndex_a462bffebe2a93c940aca526566d48e37}{}\label{classfv_1_1ReduceIndex_a462bffebe2a93c940aca526566d48e37} 
+\index{fv\+::\+Reduce\+Index@{fv\+::\+Reduce\+Index}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!fv\+::\+Reduce\+Index@{fv\+::\+Reduce\+Index}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfv_1_1ReduceIndex}{fv\+::\+Reduce\+Index}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfv_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfv_1_1DerivedValue_ae59e80a98eb74b95d8961bfe12ee5ec2}{fv\+::\+Derived\+Value$<$ std\+::pair$<$ T, int $>$ $>$}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

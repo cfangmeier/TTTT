@@ -1,0 +1,63 @@
+\hypertarget{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4}{}\section{fv\+:\+:Function$<$ R(Arg\+Types...)$>$ Class Template Reference}
+\label{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4}\index{fv\+::\+Function$<$ R(\+Arg\+Types...)$>$@{fv\+::\+Function$<$ R(\+Arg\+Types...)$>$}}
+
+
+In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the \hyperlink{classfv_1_1Function}{Function} class should be used.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for fv\+:\+:Function$<$ R(Arg\+Types...)$>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=239pt]{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:Function$<$ R(Arg\+Types...)$>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=239pt]{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_ad817eb370743cd056b4551d9a2c43b84}{}\label{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_ad817eb370743cd056b4551d9a2c43b84} 
+{\bfseries Function} (const std\+::string \&name, const std\+::string \&impl, std\+::function$<$ R(Arg\+Types...)$>$ f)
+\item 
+\hypertarget{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_aa399197dc7e4aabd0f58da4b0d7af159}{}\label{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_aa399197dc7e4aabd0f58da4b0d7af159} 
+{\bfseries Function} (const std\+::string \&name, std\+::function$<$ R(Arg\+Types...)$>$ f)
+\item 
+\hypertarget{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_a469f0f13b73bd497489272117e0a7968}{}\label{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_a469f0f13b73bd497489272117e0a7968} 
+R {\bfseries operator()} (Arg\+Types ...args)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_a7c512b1f9098f11b878ed0cf7f3d0c70}{}\label{classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4_a7c512b1f9098f11b878ed0cf7f3d0c70} 
+std\+::function$<$ R(Arg\+Types...)$>$ {\bfseries f}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename R, typename... Arg\+Types$>$\newline
+class fv\+::\+Function$<$ R(\+Arg\+Types...)$>$}
+
+In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the \hyperlink{classfv_1_1Function}{Function} class should be used. 
+
+It is simply a wrapper around a std\+::function that also has a name. This name is used when generating the name of values that use the function. A function name is automatically prepended with \char`\"{}func\+::\char`\"{} to explicitly state that the value is the result of a computation encoded within the function object, and not from some other \hyperlink{classfv_1_1Value}{Value} object. Unfortunately, it is up to the user to find where that function is defined in the source code to inspect what it is doing. But hopefully this isn\textquotesingle{}t too onerous by just using grep. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

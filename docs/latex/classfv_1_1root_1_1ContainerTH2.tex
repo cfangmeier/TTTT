@@ -1,0 +1,78 @@
+\hypertarget{classfv_1_1root_1_1ContainerTH2}{}\section{fv\+:\+:root\+:\+:Container\+T\+H2$<$ V, D $>$ Class Template Reference}
+\label{classfv_1_1root_1_1ContainerTH2}\index{fv\+::root\+::\+Container\+T\+H2$<$ V, D $>$@{fv\+::root\+::\+Container\+T\+H2$<$ V, D $>$}}
+
+
+Inheritance diagram for fv\+:\+:root\+:\+:Container\+T\+H2$<$ V, D $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=204pt]{classfv_1_1root_1_1ContainerTH2__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:root\+:\+:Container\+T\+H2$<$ V, D $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfv_1_1root_1_1ContainerTH2__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a2b0419d5acc2d1c0f5812105b0509ff0}{}\label{classfv_1_1root_1_1ContainerTH2_a2b0419d5acc2d1c0f5812105b0509ff0} 
+{\bfseries Container\+T\+H2} (const std\+::string \&name, const std\+::string \&title, \hyperlink{classfv_1_1GenValue}{Gen\+Value} $\ast$value, int nbins\+\_\+x, D low\+\_\+x, D high\+\_\+x, int nbins\+\_\+y, D low\+\_\+y, D high\+\_\+y)
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_ac22e15adea4f5338e2592fc0a239771d}{}\label{classfv_1_1root_1_1ContainerTH2_ac22e15adea4f5338e2592fc0a239771d} 
+void {\bfseries save\+\_\+as} (const std\+::string \&fname, const Save\+Option \&option=Save\+Option\+::\+P\+NG)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_af9056cafd1a764a54dfd17ca417ed0db}{}\label{classfv_1_1root_1_1ContainerTH2_af9056cafd1a764a54dfd17ca417ed0db} 
+virtual void {\bfseries init\+\_\+\+T\+H2} ()=0
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a7a52f5fa3875d7f44645cc206902d9c2}{}\label{classfv_1_1root_1_1ContainerTH2_a7a52f5fa3875d7f44645cc206902d9c2} 
+virtual void {\bfseries \+\_\+do\+\_\+fill} (std\+::pair$<$ V, V $>$ \&val)=0
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_ab3abaab718577d0ff5d5ea159865abde}{}\label{classfv_1_1root_1_1ContainerTH2_ab3abaab718577d0ff5d5ea159865abde} 
+std\+::string {\bfseries title}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a1ca7024c8e83d685c512aacba09f014c}{}\label{classfv_1_1root_1_1ContainerTH2_a1ca7024c8e83d685c512aacba09f014c} 
+int {\bfseries nbins\+\_\+x}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_aa8d7eda9cb6499fa58bbace45e66cd09}{}\label{classfv_1_1root_1_1ContainerTH2_aa8d7eda9cb6499fa58bbace45e66cd09} 
+int {\bfseries nbins\+\_\+y}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a5c9f679947c3898ec87ab0d08b03f9cd}{}\label{classfv_1_1root_1_1ContainerTH2_a5c9f679947c3898ec87ab0d08b03f9cd} 
+D {\bfseries low\+\_\+x}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a377d3d7e8f0a83c8b95a8deb85c1d75a}{}\label{classfv_1_1root_1_1ContainerTH2_a377d3d7e8f0a83c8b95a8deb85c1d75a} 
+D {\bfseries low\+\_\+y}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a000b6a2036b6e55dfe37b037802ca9cb}{}\label{classfv_1_1root_1_1ContainerTH2_a000b6a2036b6e55dfe37b037802ca9cb} 
+D {\bfseries high\+\_\+x}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a7e3f8be46428572f464383c9f8c01760}{}\label{classfv_1_1root_1_1ContainerTH2_a7e3f8be46428572f464383c9f8c01760} 
+D {\bfseries high\+\_\+y}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_a7912a4979605432d6e34d2f509d41445}{}\label{classfv_1_1root_1_1ContainerTH2_a7912a4979605432d6e34d2f509d41445} 
+\hyperlink{classfv_1_1Value}{Value}$<$ std\+::pair$<$ V, V $>$ $>$ $\ast$ {\bfseries value}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1root_1_1ContainerTH2_af46f002830001dc66ce4b586d682e718}{}\label{classfv_1_1root_1_1ContainerTH2_af46f002830001dc66ce4b586d682e718} 
+void {\bfseries \+\_\+fill} ()
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval\+\_\+root/container.\+hpp\end{DoxyCompactItemize}

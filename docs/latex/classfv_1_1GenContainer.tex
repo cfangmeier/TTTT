@@ -1,0 +1,62 @@
+\hypertarget{classfv_1_1GenContainer}{}\section{fv\+:\+:Gen\+Container Class Reference}
+\label{classfv_1_1GenContainer}\index{fv\+::\+Gen\+Container@{fv\+::\+Gen\+Container}}
+
+
+Inheritance diagram for fv\+:\+:Gen\+Container\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfv_1_1GenContainer__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1GenContainer_acd03ede0e7e0cf362011e5614c787c7b}{}\label{classfv_1_1GenContainer_acd03ede0e7e0cf362011e5614c787c7b} 
+{\bfseries Gen\+Container} (const std\+::string name, const std\+::string \&desc)
+\item 
+\hypertarget{classfv_1_1GenContainer_a34630bea6b7a4f97507420997122ae38}{}\label{classfv_1_1GenContainer_a34630bea6b7a4f97507420997122ae38} 
+{\bfseries Gen\+Container} (const std\+::string name)
+\item 
+\hypertarget{classfv_1_1GenContainer_a5ec383ec157a845610061c3e50f275ac}{}\label{classfv_1_1GenContainer_a5ec383ec157a845610061c3e50f275ac} 
+void {\bfseries add\+\_\+filter} (\hyperlink{classfv_1_1GenValue}{Gen\+Value} $\ast$filter)
+\item 
+\hypertarget{classfv_1_1GenContainer_af9b35ceab9c8238f0d7b51174a28aad9}{}\label{classfv_1_1GenContainer_af9b35ceab9c8238f0d7b51174a28aad9} 
+void {\bfseries fill} ()
+\item 
+\hypertarget{classfv_1_1GenContainer_a58d3266f1dad3fa9b6caa9fdacb57323}{}\label{classfv_1_1GenContainer_a58d3266f1dad3fa9b6caa9fdacb57323} 
+void {\bfseries set\+\_\+description} (const std\+::string \&description)
+\item 
+\hypertarget{classfv_1_1GenContainer_ad21df0a48fca797ff0cc9fec6a0d46f9}{}\label{classfv_1_1GenContainer_ad21df0a48fca797ff0cc9fec6a0d46f9} 
+const std\+::string \& {\bfseries get\+\_\+name} ()
+\item 
+\hypertarget{classfv_1_1GenContainer_a9c4dd0c4bf7017525c2091f356d67d50}{}\label{classfv_1_1GenContainer_a9c4dd0c4bf7017525c2091f356d67d50} 
+virtual void {\bfseries save\+\_\+as} (const std\+::string \&fname, const Save\+Option \&option)=0
+\item 
+\hypertarget{classfv_1_1GenContainer_a092468704245618c0f4e2faf0f0a5efd}{}\label{classfv_1_1GenContainer_a092468704245618c0f4e2faf0f0a5efd} 
+virtual void {\bfseries save} (const Save\+Option \&option=Save\+Option\+::\+P\+NG)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1GenContainer_ad7e9b2f7dcd1cda772e4a1481690897a}{}\label{classfv_1_1GenContainer_ad7e9b2f7dcd1cda772e4a1481690897a} 
+virtual void {\bfseries \+\_\+fill} ()=0
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1GenContainer_aee9152c946640607feab1adb84aa08c7}{}\label{classfv_1_1GenContainer_aee9152c946640607feab1adb84aa08c7} 
+std\+::string {\bfseries name}
+\item 
+\hypertarget{classfv_1_1GenContainer_ab81b296313d0911f66301b9343be1b1b}{}\label{classfv_1_1GenContainer_ab81b296313d0911f66301b9343be1b1b} 
+std\+::string {\bfseries desc}
+\item 
+\hypertarget{classfv_1_1GenContainer_ab0a9af04074f17fb7bd7e84fafa5ac6c}{}\label{classfv_1_1GenContainer_ab0a9af04074f17fb7bd7e84fafa5ac6c} 
+std\+::vector$<$ \hyperlink{classfv_1_1Filter}{Filter} $\ast$ $>$ {\bfseries filters}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/container.\+hpp\end{DoxyCompactItemize}

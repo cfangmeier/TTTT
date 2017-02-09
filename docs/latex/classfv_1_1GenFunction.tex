@@ -1,0 +1,85 @@
+\hypertarget{classfv_1_1GenFunction}{}\section{fv\+:\+:Gen\+Function Class Reference}
+\label{classfv_1_1GenFunction}\index{fv\+::\+Gen\+Function@{fv\+::\+Gen\+Function}}
+
+
+Parent class to all \hyperlink{classfv_1_1Function}{Function} classes.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for fv\+:\+:Gen\+Function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=239pt]{classfv_1_1GenFunction__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1GenFunction_a1a4622c277f0a4645cc597ac7e8ffad3}{}\label{classfv_1_1GenFunction_a1a4622c277f0a4645cc597ac7e8ffad3} 
+{\bfseries Gen\+Function} (const std\+::string \&name, const std\+::string \&impl)
+\item 
+\hypertarget{classfv_1_1GenFunction_ac821bad86421d773af1ba36f67174eb1}{}\label{classfv_1_1GenFunction_ac821bad86421d773af1ba36f67174eb1} 
+std\+::string \& {\bfseries get\+\_\+name} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::string \hyperlink{classfv_1_1GenFunction_aecc1187b5bb9c551c104eb8478bdb567}{format\+\_\+code} (const std\+::string \&code)
+\begin{DoxyCompactList}\small\item\em Attempt to invoke clang-\/format for the purpose of printing out nicely formatted functions to the log file. \end{DoxyCompactList}\item 
+\hypertarget{classfv_1_1GenFunction_a1882aa29a5de803a366ed1e87770a4e2}{}\label{classfv_1_1GenFunction_a1882aa29a5de803a366ed1e87770a4e2} 
+static std\+::string {\bfseries summary} ()
+\item 
+\hypertarget{classfv_1_1GenFunction_a2635f33d1ef39f00c07bde754c98cc6f}{}\label{classfv_1_1GenFunction_a2635f33d1ef39f00c07bde754c98cc6f} 
+{\footnotesize template$<$typename T $>$ }\\static \hyperlink{classfv_1_1Function}{Function}$<$ T $>$ \& {\bfseries register\+\_\+function} (const std\+::string \&name, std\+::function$<$ T $>$ f, const std\+::string \&impl)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1GenFunction_a62f52779bd4aa60fefbd842f557b1f7d}{}\label{classfv_1_1GenFunction_a62f52779bd4aa60fefbd842f557b1f7d} 
+static std\+::map$<$ const std\+::string, \hyperlink{classfv_1_1GenFunction}{Gen\+Function} $\ast$ $>$ \hyperlink{classfv_1_1GenFunction_a62f52779bd4aa60fefbd842f557b1f7d}{function\+\_\+registry}
+\begin{DoxyCompactList}\small\item\em Static mapping of functions from their name to the object wrapper of the function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1GenFunction_a8d8c682bb591126b6396eaf78dbf3157}{}\label{classfv_1_1GenFunction_a8d8c682bb591126b6396eaf78dbf3157} 
+static bool {\bfseries in\+\_\+register\+\_\+function} =false
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1GenFunction_a1ebce4419daac987081baf73bb8de795}{}\label{classfv_1_1GenFunction_a1ebce4419daac987081baf73bb8de795} 
+std\+::string {\bfseries name}
+\item 
+\hypertarget{classfv_1_1GenFunction_adafc97b5aa9684e027988bbfb5a8514b}{}\label{classfv_1_1GenFunction_adafc97b5aa9684e027988bbfb5a8514b} 
+std\+::string {\bfseries impl}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Parent class to all \hyperlink{classfv_1_1Function}{Function} classes. 
+
+Holds a class-\/level collection of all created function objects. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1GenFunction_aecc1187b5bb9c551c104eb8478bdb567}{}\label{classfv_1_1GenFunction_aecc1187b5bb9c551c104eb8478bdb567} 
+\index{fv\+::\+Gen\+Function@{fv\+::\+Gen\+Function}!format\+\_\+code@{format\+\_\+code}}
+\index{format\+\_\+code@{format\+\_\+code}!fv\+::\+Gen\+Function@{fv\+::\+Gen\+Function}}
+\subsubsection{\texorpdfstring{format\+\_\+code()}{format\_code()}}
+{\footnotesize\ttfamily static std\+::string fv\+::\+Gen\+Function\+::format\+\_\+code (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{code }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+
+Attempt to invoke clang-\/format for the purpose of printing out nicely formatted functions to the log file. 
+
+If clang-\/format is not present, this function just passes through the code unmodified. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

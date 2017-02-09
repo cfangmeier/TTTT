@@ -1,0 +1,74 @@
+\hypertarget{classfv_1_1PointerValue}{}\section{fv\+:\+:Pointer\+Value$<$ T $>$ Class Template Reference}
+\label{classfv_1_1PointerValue}\index{fv\+::\+Pointer\+Value$<$ T $>$@{fv\+::\+Pointer\+Value$<$ T $>$}}
+
+
+A \hyperlink{classfv_1_1Value}{Value} of a pointer.  
+
+
+
+
+{\ttfamily \#include $<$value.\+hpp$>$}
+
+
+
+Inheritance diagram for fv\+:\+:Pointer\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=211pt]{classfv_1_1PointerValue__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:Pointer\+Value$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=253pt]{classfv_1_1PointerValue__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1PointerValue_a73dae0d636ddd8b56c57b30759226e74}{}\label{classfv_1_1PointerValue_a73dae0d636ddd8b56c57b30759226e74} 
+{\bfseries Pointer\+Value} (const std\+::string \&\hyperlink{classfv_1_1GenValue_a610f89ee441eaad4c9e78f74d6bde93b}{name}, T $\ast$ptr, const std\+::string alias=\char`\"{}\char`\"{})
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfv_1_1PointerValue_a81e39d040919be39c37f845a27343f3e}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\subsubsection*{template$<$typename T$>$\newline
+class fv\+::\+Pointer\+Value$<$ T $>$}
+
+A \hyperlink{classfv_1_1Value}{Value} of a pointer. 
+
+The pointer is constant, however the data the pointer points to is variable. 
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1PointerValue_a81e39d040919be39c37f845a27343f3e}{}\label{classfv_1_1PointerValue_a81e39d040919be39c37f845a27343f3e} 
+\index{fv\+::\+Pointer\+Value@{fv\+::\+Pointer\+Value}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!fv\+::\+Pointer\+Value@{fv\+::\+Pointer\+Value}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classfv_1_1PointerValue}{fv\+::\+Pointer\+Value}$<$ T $>$\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfv_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfv_1_1DerivedValue_ae59e80a98eb74b95d8961bfe12ee5ec2}{fv\+::\+Derived\+Value$<$ T $\ast$$>$}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval/\hyperlink{value_8hpp}{value.\+hpp}\end{DoxyCompactItemize}

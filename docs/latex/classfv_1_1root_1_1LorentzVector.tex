@@ -1,0 +1,82 @@
+\hypertarget{classfv_1_1root_1_1LorentzVector}{}\section{fv\+:\+:root\+:\+:Lorentz\+Vector Class Reference}
+\label{classfv_1_1root_1_1LorentzVector}\index{fv\+::root\+::\+Lorentz\+Vector@{fv\+::root\+::\+Lorentz\+Vector}}
+
+
+Inheritance diagram for fv\+:\+:root\+:\+:Lorentz\+Vector\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{classfv_1_1root_1_1LorentzVector__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for fv\+:\+:root\+:\+:Lorentz\+Vector\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=322pt]{classfv_1_1root_1_1LorentzVector__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1root_1_1LorentzVector_ae8b26e2d7e4205f1de64ec329f31e263}{}\label{classfv_1_1root_1_1LorentzVector_ae8b26e2d7e4205f1de64ec329f31e263} 
+{\bfseries Lorentz\+Vector} (const std\+::string \&\hyperlink{classfv_1_1GenValue_a610f89ee441eaad4c9e78f74d6bde93b}{name}, \hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$pt, \hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$eta, \hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$phi, \hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$m)
+\item 
+\hypertarget{classfv_1_1root_1_1LorentzVector_a4a3a2b3c1e28d4680a88351c6f342779}{}\label{classfv_1_1root_1_1LorentzVector_a4a3a2b3c1e28d4680a88351c6f342779} 
+{\bfseries Lorentz\+Vector} (const std\+::string \&\hyperlink{classfv_1_1GenValue_a610f89ee441eaad4c9e78f74d6bde93b}{name}, const std\+::string \&pt\+\_\+label, const std\+::string \&eta\+\_\+label, const std\+::string \&phi\+\_\+label, const std\+::string \&m\+\_\+label)
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classfv_1_1root_1_1LorentzVector_aeb17320a2024bd189dad4117cf1f54fb}{update\+\_\+value} ()
+\begin{DoxyCompactList}\small\item\em Updates the internal value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classfv_1_1root_1_1LorentzVector_a6cc4ec252925bf661983805df21d9117}{}\label{classfv_1_1root_1_1LorentzVector_a6cc4ec252925bf661983805df21d9117} 
+\hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$ {\bfseries pt}
+\item 
+\hypertarget{classfv_1_1root_1_1LorentzVector_ade73b3be2bc5e1d15a9b5cc7ea83f0f4}{}\label{classfv_1_1root_1_1LorentzVector_ade73b3be2bc5e1d15a9b5cc7ea83f0f4} 
+\hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$ {\bfseries eta}
+\item 
+\hypertarget{classfv_1_1root_1_1LorentzVector_a3d54673347327d4c879c08446333aa6d}{}\label{classfv_1_1root_1_1LorentzVector_a3d54673347327d4c879c08446333aa6d} 
+\hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$ {\bfseries phi}
+\item 
+\hypertarget{classfv_1_1root_1_1LorentzVector_a6e5edb143de329d47c95bf8f0c3b2b26}{}\label{classfv_1_1root_1_1LorentzVector_a6e5edb143de329d47c95bf8f0c3b2b26} 
+\hyperlink{classfv_1_1Value}{Value}$<$ double $>$ $\ast$ {\bfseries m}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classfv_1_1root_1_1LorentzVector_aeb17320a2024bd189dad4117cf1f54fb}{}\label{classfv_1_1root_1_1LorentzVector_aeb17320a2024bd189dad4117cf1f54fb} 
+\index{fv\+::root\+::\+Lorentz\+Vector@{fv\+::root\+::\+Lorentz\+Vector}!update\+\_\+value@{update\+\_\+value}}
+\index{update\+\_\+value@{update\+\_\+value}!fv\+::root\+::\+Lorentz\+Vector@{fv\+::root\+::\+Lorentz\+Vector}}
+\subsubsection{\texorpdfstring{update\+\_\+value()}{update\_value()}}
+{\footnotesize\ttfamily void fv\+::root\+::\+Lorentz\+Vector\+::update\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+
+
+Updates the internal value. 
+
+This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated \hyperlink{classfv_1_1Value}{Value} objects, doing some calculation on them, and storing the result in value. 
+
+Implements \hyperlink{classfv_1_1DerivedValue_ae59e80a98eb74b95d8961bfe12ee5ec2}{fv\+::\+Derived\+Value$<$ T\+Lorentz\+Vector $>$}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classfv_1_1root_1_1LorentzVector_aeb17320a2024bd189dad4117cf1f54fb_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/caleb/\+Sources/\+T\+T\+T\+T/filval\+\_\+root/value.\+hpp\end{DoxyCompactItemize}
