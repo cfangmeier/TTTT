@@ -47,6 +47,7 @@
 #include <utility>
 #include <algorithm>
 #include <map>
+#include <limits>
 #include <vector>
 #include <tuple>
 #include <initializer_list>
@@ -80,9 +81,8 @@ class GenFunction {
         inline static std::map<const std::string, GenFunction*> function_registry;
 
         GenFunction(const std::string& name, const std::string& impl)
-          :impl(impl),
-           name(name){
-        }
+          :impl(impl), name(name){ }
+
         virtual ~GenFunction() { };
 
         std::string& get_name(){
@@ -189,6 +189,7 @@ class GenValue{
          * values based on their name via GenValue::get_value.
          */
         std::string name;
+
     protected:
         /**
          * Mark the internal value as invalid. This is needed for DerivedValue
@@ -213,6 +214,17 @@ class GenValue{
          * over a name with that value.
          */
         inline static std::map<const std::string, GenValue*> aliases;
+
+        /**
+         * This function serves to check that this Value has been created with
+         * real, i.e. non null, arguments. This is to avoid segfaulting when a
+         * dynamic_cast fails. If no checks need to be made, simple override
+         * this method with a no-op. If checks fail, the function should
+         * utilize the CRITICAL macro with a meaningfull error message stating
+         * what failed and especially the name of the current value.
+         */
+        virtual void verify_integrity() = 0;
+
     public:
         GenValue(const std::string& name, const std::string& alias)
           :name(name){
@@ -239,7 +251,7 @@ class GenValue{
             else{
                 ERROR("Could not find alias or value \"" << name << "\". I'll tell you the ones I know about." << std::endl
                         << summary());
-                CRITICAL("Aborting... :(", -1);
+                CRITICAL("Aborting... :(",-1);
             }
         }
 
@@ -320,6 +332,12 @@ class ObservedValue : public Value<T>{
     private:
         T *val_ref;
         void _reset(){ }
+
+        void verify_integrity() {
+            if (val_ref == nullptr)
+                CRITICAL("ObservedValue " << this->get_name() << " created with null pointer",-1);
+        }
+
     public:
         ObservedValue(const std::string& name, T* val_ref, const std::string& alias="")
           :Value<T>(name, alias),
@@ -400,6 +418,13 @@ class WrapperVector : public DerivedValue<std::vector<T> >{
             this->value.assign(data_ref, data_ref+n);
         }
 
+        void verify_integrity() {
+            if (size == nullptr)
+                CRITICAL("WrapperVector " << this->get_name() << " created with invalid size.",-1);
+            if (data == nullptr)
+                CRITICAL("WrapperVector " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         WrapperVector(Value<int>* size, Value<T*>* data, const std::string& alias="")
           :DerivedValue<std::vector<T> >("vectorOf("+size->get_name()+","+data->get_name()+")", alias),
@@ -421,6 +446,14 @@ class Pair : public DerivedValue<std::pair<T1, T2> >{
             this->value.first = value_pair.first->get_value();
             this->value.second = value_pair.second->get_value();
         }
+
+        void verify_integrity() {
+            if (value_pair.first == nullptr)
+                CRITICAL("Pair " << this->get_name() << " created with invalid first value.",-1);
+            if (value_pair.second == nullptr)
+                CRITICAL("Pair " << this->get_name() << " created with invalid second value.",-1);
+        }
+
     public:
         Pair(Value<T1> *value1, Value<T2> *value2, const std::string alias="")
           :DerivedValue<std::pair<T1, T2> >("pair("+value1->get_name()+","+value2->get_name()+")", alias),
@@ -429,6 +462,72 @@ class Pair : public DerivedValue<std::pair<T1, T2> >{
           :Pair(dynamic_cast<Value<T1>*>(GenValue::get_value(label1)),
                 dynamic_cast<Value<T1>*>(GenValue::get_value(label2)),
                 alias){ }
+};
+
+template<typename... T> class _Zip;
+template<>
+class _Zip<> {
+    protected:
+
+        int _get_size(){
+            return std::numeric_limits<int>::max();
+        }
+
+        std::tuple<> _get_at(int idx){
+            return std::make_tuple();
+        }
+    public:
+        _Zip() { }
+};
+
+template<typename Head, typename... Tail>
+class _Zip<Head, Tail...> : private _Zip<Tail...> {
+    protected:
+        Value<std::vector<Head>>* head;
+
+        int _get_size(){
+            int this_size = head->get_value().size();
+            int rest_size = _Zip<Tail...>::_get_size();
+            return std::min(this_size, rest_size);
+        }
+
+        typename std::tuple<Head,Tail...> _get_at(int idx){
+            auto tail_tuple = _Zip<Tail...>::_get_at(idx);
+            return std::tuple_cat(std::make_tuple(head->get_value()[idx]),tail_tuple);
+        }
+    public:
+        _Zip() { }
+
+        _Zip(Value<std::vector<Head>>* head, Value<std::vector<Tail>>*... tail)
+          : _Zip<Tail...>(tail...),
+            head(head) { }
+};
+
+/**
+ * Zips a series of observations together
+ */
+template <typename... ArgTypes>
+class Zip : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>,
+             private _Zip<ArgTypes...>{
+    protected:
+        void update_value(){
+            /* auto tuple_of_vectors this->_get_value(); */
+            this->value.clear();
+            int size = _Zip<ArgTypes...>::_get_size();
+            for(int i=0; i<size; i++){
+                this->value.push_back(_Zip<ArgTypes...>::_get_at(i));
+            }
+        }
+
+        /**
+         * /todo Implement this.
+         */
+        void verify_integrity() { }
+
+    public:
+        Zip(Value<std::vector<ArgTypes>>*... args, const std::string alias="")
+          :DerivedValue<std::vector<std::tuple<ArgTypes...>>>("a kickin zip", ""),
+           _Zip<ArgTypes...>(args...) { }
 };
 
 /**
@@ -467,6 +566,17 @@ class ZipMapFour : public DerivedValue<std::vector<R> >{
             }
         }
 
+        void verify_integrity() {
+            if (v1 == nullptr)
+                CRITICAL("ZipMapFour " << this->get_name() << " created with invalid first value.",-1);
+            if (v2 == nullptr)
+                CRITICAL("ZipMapFour " << this->get_name() << " created with invalid second value.",-1);
+            if (v3 == nullptr)
+                CRITICAL("ZipMapFour " << this->get_name() << " created with invalid third value.",-1);
+            if (v4 == nullptr)
+                CRITICAL("ZipMapFour " << this->get_name() << " created with invalid fourth value.",-1);
+        }
+
     public:
         ZipMapFour(Function<R(T, T, T, T)>& f,
                    Value<std::vector<T> >* v1, Value<std::vector<T> >* v2,
@@ -487,13 +597,14 @@ class ZipMapFour : public DerivedValue<std::vector<R> >{
 };
 
 /**
- *
+ * Returns the count of elements in the input vector passing a test function.
  */
 template<typename T>
 class Count : public DerivedValue<int>{
     private:
         Function<bool(T)>& selector;
         Value<std::vector<T> >* v;
+
         void update_value(){
             value = 0;
             for(auto val : v->get_value()){
@@ -501,6 +612,12 @@ class Count : public DerivedValue<int>{
                     value++;
             }
         }
+
+        void verify_integrity() {
+            if (v == nullptr)
+                CRITICAL("Count " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         Count(Function<bool(T)>& selector, Value<std::vector<T>>* v, const std::string alias="")
           :DerivedValue<int>("count("+selector.get_name()+":"+v->get_name()+")", alias),
@@ -521,10 +638,19 @@ template <typename T>
 class Reduce : public DerivedValue<T>{
     private:
         Function<T(std::vector<T>)>& reduce;
-        Value<std::vector<T> >* v;
+
         void update_value(){
             this->value = reduce(v->get_value());
         }
+
+        virtual void verify_integrity() {
+            if (v == nullptr)
+                CRITICAL("Reduce " << this->get_name() << " created with invalid value.",-1);
+        }
+
+    protected:
+        Value<std::vector<T> >* v;
+
     public:
         Reduce(Function<T(std::vector<T>)>& reduce, Value<std::vector<T> >* v, const std::string alias="")
           :DerivedValue<T>("reduceWith("+reduce.get_name()+":"+v->get_name()+")", alias),
@@ -539,6 +665,11 @@ class Reduce : public DerivedValue<T>{
  */
 template <typename T>
 class Max : public Reduce<T>{
+    private:
+        void verify_integrity() {
+            if (this->v == nullptr)
+                CRITICAL("Max " << this->get_name() << " created with invalid value.",-1);
+        }
     public:
         Max(const std::string& v_name, const std::string alias="")
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("max",
@@ -552,6 +683,11 @@ class Max : public Reduce<T>{
  */
 template <typename T>
 class Min : public Reduce<T>{
+    private:
+        void verify_integrity() {
+            if (this->v == nullptr)
+                CRITICAL("Min " << this->get_name() << " created with invalid value.",-1);
+        }
     public:
         Min(const std::string& v_name, const std::string alias="")
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("min",
@@ -565,6 +701,12 @@ class Min : public Reduce<T>{
  */
 template <typename T>
 class Mean : public Reduce<T>{
+    private:
+        void verify_integrity() {
+            if (this->v == nullptr)
+                CRITICAL("Mean " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         Mean(const std::string& v_name, const std::string alias="")
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("mean",
@@ -580,6 +722,12 @@ class Mean : public Reduce<T>{
  */
 template <typename T>
 class Range : public Reduce<T>{
+    private:
+        void verify_integrity() {
+            if (this->v == nullptr)
+                CRITICAL("Range " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         Range(const std::string& v_name, const std::string alias="")
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("range",
@@ -594,6 +742,12 @@ class Range : public Reduce<T>{
  */
 template <typename T>
 class ElementOf : public Reduce<T>{
+    private:
+        void verify_integrity() {
+            if (this->v == nullptr)
+                CRITICAL("ElementOf " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         ElementOf(Value<int>* index, const std::string& v_name, const std::string alias="")
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("elementOf",
@@ -613,9 +767,16 @@ class ReduceIndex : public DerivedValue<std::pair<T, int> >{
     private:
         Function<std::pair<T,int>(std::vector<T>)>& reduce;
         Value<std::vector<T> >* v;
+
         void update_value(){
             this->value = reduce(v->get_value());
         }
+
+        virtual void verify_integrity() {
+            if (v == nullptr)
+                CRITICAL("ReduceIndex " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         ReduceIndex(Function<std::pair<T,int>(std::vector<T>)>& reduce, Value<std::vector<T> >* v, const std::string alias="")
           :DerivedValue<T>("reduceIndexWith("+reduce.get_name()+":"+v->get_name()+")", alias),
@@ -630,6 +791,12 @@ class ReduceIndex : public DerivedValue<std::pair<T, int> >{
  */
 template <typename T>
 class MaxIndex : public ReduceIndex<T>{
+    private:
+        void verify_integrity() {
+            if (this->v == nullptr)
+                CRITICAL("MaxIndex " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         MaxIndex(const std::string& v_name, const std::string alias="")
           :ReduceIndex<T>(GenFunction::register_function<T(std::vector<T>)>("maxIndex",
@@ -644,6 +811,12 @@ class MaxIndex : public ReduceIndex<T>{
  */
 template <typename T>
 class MinIndex : public ReduceIndex<T>{
+    private:
+        void verify_integrity() {
+            if (this->v == nullptr)
+                CRITICAL("MinIndex " << this->get_name() << " created with invalid value.",-1);
+        }
+
     public:
         MinIndex(const std::string& v_name, const std::string alias="")
           :ReduceIndex<T>(GenFunction::register_function<T(std::vector<T>)>("minIndex",
@@ -660,6 +833,8 @@ class MinIndex : public ReduceIndex<T>{
  */
 template <typename T>
 class BoundValue : public DerivedValue<T>{
+    private:
+        void verify_integrity() { }
     protected:
         Function<T()>& f;
         void update_value(){
@@ -677,8 +852,15 @@ class BoundValue : public DerivedValue<T>{
  */
 template <typename T>
 class PointerValue : public DerivedValue<T*>{
+    private:
+        void verify_integrity() {
+            if(this->value == nullptr)
+                CRITICAL("PointerValue " << this->get_name() << " created with null pointer",-1);
+        }
+
     protected:
         void update_value(){ }
+
     public:
         PointerValue(const std::string& name, T* ptr, const std::string alias="")
           :DerivedValue<T*>(name, alias){
@@ -691,15 +873,16 @@ class PointerValue : public DerivedValue<T*>{
  */
 template <typename T>
 class ConstantValue : public DerivedValue<T>{
+    private:
+        void verify_integrity() { }
+
     protected:
-        T const_value;
-        void update_value(){
-            this->value = const_value;
-        }
+        void update_value(){ }
+
     public:
         ConstantValue(const std::string& name, T const_value, const std::string alias="")
             :DerivedValue<T>("const::"+name, alias),
-             const_value(const_value) { }
+             Value<T>::value(const_value) { }
 };
 }
 #endif // value_hpp

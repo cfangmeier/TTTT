@@ -1,8 +1,27 @@
 #ifndef container_hpp
 #define container_hpp
+#include <typeindex>
+#include <vector>
+#include <map>
+
 #include "value.hpp"
 #include "filter.hpp"
-#include <vector>
+
+namespace fv::util{
+std::string& get_type_name(const std::type_index& index){
+    std::map<std::type_index, std::string> _map;
+    // Add to this list as needed :)
+    _map[typeid(int)]="int";
+    _map[typeid(unsigned int)]="unsigned int";
+    _map[typeid(float)]="float";
+    _map[typeid(double)]="double";
+
+    if (_map[index] == ""){
+        CRITICAL("Cannot lookup type name of \"" << index.name() << "\"",-1);
+    }
+    return _map[index];
+}
+}
 
 namespace fv{
 
@@ -81,8 +100,9 @@ class ContainerVector : public Container<std::vector<T> >{
            value(value){
             this->container = new std::vector<T>();
         }
-        void save_as(const std::string& fname) { }
-        virtual void save() { }
+        void save_as(const std::string& fname) {
+            WARNING("Saving of ContainerVector objects not supported");
+        }
 };
 
 template <typename T>
@@ -107,8 +127,9 @@ class ContainerMean : public Container<T>{
             *(this->container) = sum/count;
             return (this->container);
         }
-        void save_as(const std::string& fname) { }
-        virtual void save() { }
+        void save_as(const std::string& fname) {
+            WARNING("Saving of ContainerMean objects not supported");
+        }
 };
 
 }

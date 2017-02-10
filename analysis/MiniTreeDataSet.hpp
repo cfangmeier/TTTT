@@ -77,6 +77,13 @@ class MiniTreeDataSet : public DataSet,
                  << " and type " << typeid(bref).name());
             return new PointerValue<T>(bname, bref);
         }
+
+        template <typename T>
+        WrapperVector<T>* track_branch_vec(const std::string& size_bname, const std::string& bname){
+            track_branch_ptr<T>(bname);
+            return new WrapperVector<T>(size_bname, bname, bname);
+        }
+
         void save_all(){
             output_file->cd();
             for(auto container : containers){

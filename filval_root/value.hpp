@@ -11,9 +11,22 @@ class LorentzVector : public DerivedValue<TLorentzVector>{
         Value<double> *eta;
         Value<double> *phi;
         Value<double> *m;
+
         void update_value(){
             value.SetPtEtaPhiM(pt->get_value(), eta->get_value(), phi->get_value(), m->get_value());
         }
+
+        void verify_integrity(){
+            if (pt == nullptr)
+                CRITICAL("LorentzVector " << this->get_name() << " created with invalid pt", -1);
+            if (eta == nullptr)
+                CRITICAL("LorentzVector " << this->get_name() << " created with invalid eta", -1);
+            if (phi == nullptr)
+                CRITICAL("LorentzVector " << this->get_name() << " created with invalid phi", -1);
+            if (m == nullptr)
+                CRITICAL("LorentzVector " << this->get_name() << " created with invalid mass", -1);
+        }
+
     public:
         LorentzVector(const std::string& name,
                       Value<double>* pt,
@@ -42,6 +55,12 @@ class LorentzVectorEnergy : public DerivedValue<double>{
         void update_value(){
             value = vector->get_value().E();
         }
+
+        void verify_integrity(){
+            if (vector == nullptr)
+                CRITICAL("LorentzVectorEnergy " << this->get_name() << " created with invalid vector", -1);
+        }
+
     public:
         LorentzVectorEnergy(const std::string& name, Value<TLorentzVector>* vector)
           :DerivedValue<double>(name),

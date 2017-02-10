@@ -1,39 +1,73 @@
 #ifndef root_container_hpp
 #define root_container_hpp
-#include <utility>
 #include <iostream>
+#include <utility>
+#include <map>
+
+#include "TROOT.h"
 #include "TFile.h"
+#include "TCanvas.h"
+#include "TGraph.h"
 #include "TH1.h"
 #include "TH2.h"
-#include "TGraph.h"
-#include "TROOT.h"
 
 #include "filval.hpp"
 
 namespace fv::root::util{
-void _save_img(TObject* container, const std::string& fname){
-    TCanvas* c1 = new TCanvas("c1");
-    container->Draw();
-    c1->Draw();
-    c1->SaveAs(fname.c_str());
-    delete c1;
-}
 
-void _save_bin(TObject* container){
-    INFO("Saving object: " << container->GetName() << " into file " << gDirectory->GetName());
-    /* TFile* f = TFile::Open(fname.c_str(), "UPDATE"); */
-    container->Write(container->GetName(), TObject::kOverwrite);
-    /* f->Close(); */
-}
+/**
+ * Save a TObject. The TObject will typically be a Histogram or Graph object,
+ * but can really be any TObject. The SaveOption can be used to specify how to
+ * save the file.
+ */
+void save_as(TObject* container, const std::string& fname, const SaveOption& option = SaveOption::PNG) {
 
-void _save_as(TObject* container, const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+    auto save_img = [](TObject* container, const std::string& fname){
+        TCanvas* c1 = new TCanvas("c1");
+        container->Draw();
+        c1->Draw();
+        c1->SaveAs(fname.c_str());
+        delete c1;
+    };
+
+    auto save_bin = [](TObject* container){
+        INFO("Saving object: " << container->GetName() << " into file " << gDirectory->GetName());
+        container->Write(container->GetName(), TObject::kOverwrite);
+    };
+
     switch(option){
         case PNG:
-            _save_img(container, fname+".png"); break;
+            save_img(container, fname+".png"); break;
         case PDF:
-            _save_img(container, fname+".pdf"); break;
+            save_img(container, fname+".pdf"); break;
         case ROOT:
-            _save_bin(container); break;
+            save_bin(container); break;
+        default:
+            break;
+    }
+}
+
+
+/**
+ * Saves an STL container into a ROOT file. ROOT knows how to serialize STL
+ * containers, but it needs the *name* of the type of the container, eg.
+ * std::map<int,int> to be able to do this. In order to generate this name at
+ * run-time, the fv::util::get_type_name function uses RTTI to get type info
+ * and use it to look up the proper name.
+ */
+void save_as_stl(void* container, const std::string& type_name,
+                  const std::string& obj_name,
+                  const SaveOption& option = SaveOption::PNG) {
+    switch(option){
+        case PNG:
+            INFO("Cannot save STL container " << type_name <<" as png");
+            break;
+        case PDF:
+            INFO("Cannot save STL container " << type_name <<" as pdf");
+            break;
+        case ROOT:
+            gDirectory->WriteObjectAny(container, type_name.c_str(), obj_name.c_str());
+            break;
         default:
             break;
     }
@@ -42,8 +76,8 @@ void _save_as(TObject* container, const std::string& fname, const SaveOption& op
 
 namespace fv::root {
 
-template <typename V, typename D>
-class ContainerTH1 : public Container<TH1>{
+template <typename V>
+class _ContainerTH1 : public Container<TH1>{
     private:
         void _fill(){
             if (container == nullptr){
@@ -51,109 +85,54 @@ class ContainerTH1 : public Container<TH1>{
                     CRITICAL("Container: \"" << get_name() << "\" has a null Value object. "
                              << "Probably built with imcompatible type",-1);
                 }
-                init_TH1();
+                this->container = new TH1D(this->get_name().c_str(), this->title.c_str(),
+                                           this->nbins, this->low, this->high);
             }
-            _do_fill(value->get_value());
+            _do_fill();
         }
 
     protected:
         std::string title;
         int nbins;
-        D low;
-        D high;
+        double low;
+        double high;
         Value<V> *value;
-        virtual void init_TH1() = 0;
-        virtual void _do_fill(V& val) = 0;
+
+        virtual void _do_fill() = 0;
 
     public:
-        explicit ContainerTH1(const std::string &name, const std::string& title, GenValue *value,
-                     int nbins, D low, D high)
+        explicit _ContainerTH1(const std::string &name, const std::string& title, GenValue *value,
+                               int nbins, double low, double high)
           :Container<TH1>(name, nullptr),
            title(title), nbins(nbins), low(low), high(high),
            value(dynamic_cast<Value<V>*>(value)) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
-            util::_save_as(get_container(), fname, option);
+            util::save_as(get_container(), fname, option);
         }
 };
 
 template <typename V>
-class _ContainerTH1D : public ContainerTH1<V, double>{
-    using ContainerTH1<V, double>::ContainerTH1;
-    void init_TH1(){
-        this->container = new TH1D(this->get_name().c_str(), this->title.c_str(),
-                                   this->nbins, this->low, this->high);
+class ContainerTH1 : public _ContainerTH1<V>{
+    using _ContainerTH1<V>::_ContainerTH1;
+    void _do_fill(){
+        this->container->Fill(this->value->get_value());
     }
 };
 
-class ContainerTH1D : public _ContainerTH1D<double>{
-    using _ContainerTH1D<double>::_ContainerTH1D;
-    void _do_fill(double& val){
-        this->container->Fill(val);
-    }
-};
-
-class ContainerTH1DMany : public _ContainerTH1D<std::vector<double>>{
-    using _ContainerTH1D<std::vector<double>>::_ContainerTH1D;
-    void _do_fill(std::vector<double>& val){
-        for(double x : val)
+template <typename V>
+class ContainerTH1Many : public _ContainerTH1<std::vector<V>>{
+    using _ContainerTH1<std::vector<V>>::_ContainerTH1;
+    void _do_fill(){
+        for(V x : this->value->get_value())
             this->container->Fill(x);
     }
 };
+
 
 
 template <typename V>
-class _ContainerTH1F : public ContainerTH1<V, float>{
-    using ContainerTH1<V,float>::ContainerTH1;
-    void init_TH1(){
-        this->container = new TH1F(this->get_name().c_str(), this->title.c_str(),
-                                   this->nbins, this->low, this->high);
-    }
-};
-
-class ContainerTH1F : public _ContainerTH1F<float>{
-    using _ContainerTH1F<float>::_ContainerTH1F;
-    void _do_fill(float& val){
-        this->container->Fill(val);
-    }
-};
-
-class ContainerTH1FMany : public _ContainerTH1F<std::vector<float>>{
-    using _ContainerTH1F<std::vector<float>>::_ContainerTH1F;
-    void _do_fill(std::vector<float>& val){
-        for(float x : val)
-            this->container->Fill(x);
-    }
-};
-
-
-template <typename V>
-class _ContainerTH1I : public ContainerTH1<V, int>{
-    using ContainerTH1<V,int>::ContainerTH1;
-    void init_TH1(){
-        this->container = new TH1I(this->get_name().c_str(), this->title.c_str(),
-                                   this->nbins, this->low, this->high);
-    }
-};
-
-class ContainerTH1I : public _ContainerTH1I<int>{
-    using _ContainerTH1I<int>::_ContainerTH1I;
-    void _do_fill(int& val){
-        this->container->Fill(val);
-    }
-};
-
-class ContainerTH1IMany : public _ContainerTH1I<std::vector<int>>{
-    using _ContainerTH1I<std::vector<int>>::_ContainerTH1I;
-    void _do_fill(std::vector<int>& val){
-        for(int x : val)
-            this->container->Fill(x);
-    }
-};
-
-
-template <typename V, typename D>
-class ContainerTH2 : public Container<TH2>{
+class _ContainerTH2 : public Container<TH2>{
     private:
         void _fill(){
             if (container == nullptr){
@@ -161,7 +140,9 @@ class ContainerTH2 : public Container<TH2>{
                     CRITICAL("Container: \"" << get_name() << "\" has a null Value object. "
                              << "Probably built with imcompatible type",-1);
                 }
-                init_TH2();
+                this->container = new TH2D(this->get_name().c_str(), this->title.c_str(),
+                                           this->nbins_x, this->low_x, this->high_x,
+                                           this->nbins_y, this->low_y, this->high_y);
             }
             _do_fill(value->get_value());
         }
@@ -170,101 +151,41 @@ class ContainerTH2 : public Container<TH2>{
         std::string title;
         int nbins_x;
         int nbins_y;
-        D low_x;
-        D low_y;
-        D high_x;
-        D high_y;
+        double low_x;
+        double low_y;
+        double high_x;
+        double high_y;
         Value<std::pair<V,V>> *value;
-        virtual void init_TH2() = 0;
+
         virtual void _do_fill(std::pair<V,V>& val) = 0;
 
     public:
-        explicit ContainerTH2(const std::string& name, const std::string& title,
-                              GenValue* value,
-                              int nbins_x, D low_x, D high_x,
-                              int nbins_y, D low_y, D high_y)
+        explicit _ContainerTH2(const std::string& name, const std::string& title,
+                               GenValue* value,
+                               int nbins_x, double low_x, double high_x,
+                               int nbins_y, double low_y, double high_y)
           :Container<TH2>(name, nullptr),
            nbins_x(nbins_x), low_x(low_x), high_x(high_x),
            nbins_y(nbins_y), low_y(low_y), high_y(high_y),
            value(dynamic_cast<Value<std::pair<V, V>>*>(value)) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
-            util::_save_as(get_container(), fname, option);
+            util::save_as(get_container(), fname, option);
         }
 };
 
 template <typename V>
-class _ContainerTH2D : public ContainerTH2<V, double>{
-    using ContainerTH2<V, double>::ContainerTH2;
-    void init_TH2(){
-        this->container = new TH2D(this->get_name().c_str(), this->title.c_str(),
-                                   this->nbins_x, this->low_x, this->high_x,
-                                   this->nbins_y, this->low_y, this->high_y);
-    }
-};
-
-class ContainerTH2D : public _ContainerTH2D<double>{
-    using _ContainerTH2D<double>::_ContainerTH2D;
-    void _do_fill(std::pair<double,double>& val){
-        this->container->Fill(val.first, val.second);
-    }
-};
-
-class ContainerTH2DMany : public _ContainerTH2D<std::vector<double>>{
-    using _ContainerTH2D<std::vector<double>>::_ContainerTH2D;
-    void _do_fill(std::pair<std::vector<double>,std::vector<double>>& val){
-        int min_size = std::min(val.first.size(), val.second.size());
-        for(int i=0; i<min_size; i++)
-            this->container->Fill(val.first[i],val.second[i]);
+class ContainerTH2 : public _ContainerTH2<std::vector<V>>{
+    using _ContainerTH2<std::vector<V>>::_ContainerTH2;
+    void _do_fill(std::pair<V,V>& val){
+        this->container->Fill(val.first,val.second);
     }
 };
 
 template <typename V>
-class _ContainerTH2F : public ContainerTH2<V, float>{
-    using ContainerTH2<V, float>::ContainerTH2;
-    void init_TH2(){
-        this->container = new TH2F(this->get_name().c_str(), this->title.c_str(),
-                                   this->nbins_x, this->low_x, this->high_x,
-                                   this->nbins_y, this->low_y, this->high_y);
-    }
-};
-
-class ContainerTH2F : public _ContainerTH2F<float>{
-    using _ContainerTH2F<float>::_ContainerTH2F;
-    void _do_fill(std::pair<float,float>& val){
-        this->container->Fill(val.first, val.second);
-    }
-};
-
-class ContainerTH2FMany : public _ContainerTH2F<std::vector<float>>{
-    using _ContainerTH2F<std::vector<float>>::_ContainerTH2F;
-    void _do_fill(std::pair<std::vector<float>,std::vector<float>>& val){
-        int min_size = std::min(val.first.size(), val.second.size());
-        for(int i=0; i<min_size; i++)
-            this->container->Fill(val.first[i],val.second[i]);
-    }
-};
-
-template <typename V>
-class _ContainerTH2I : public ContainerTH2<V, int>{
-    using ContainerTH2<V, int>::ContainerTH2;
-    void init_TH2(){
-        this->container = new TH2I(this->get_name().c_str(), this->title.c_str(),
-                                   this->nbins_x, this->low_x, this->high_x,
-                                   this->nbins_y, this->low_y, this->high_y);
-    }
-};
-
-class ContainerTH2I : public _ContainerTH2I<int>{
-    using _ContainerTH2I<int>::_ContainerTH2I;
-    void _do_fill(std::pair<int,int>& val){
-        this->container->Fill(val.first, val.second);
-    }
-};
-
-class ContainerTH2IMany : public _ContainerTH2I<std::vector<int>>{
-    using _ContainerTH2I<std::vector<int>>::_ContainerTH2I;
-    void _do_fill(std::pair<std::vector<int>,std::vector<int>>& val){
+class ContainerTH2Many : public _ContainerTH2<std::vector<V>>{
+    using _ContainerTH2<std::vector<V>>::_ContainerTH2;
+    void _do_fill(std::pair<std::vector<V>,std::vector<V>>& val){
         int min_size = std::min(val.first.size(), val.second.size());
         for(int i=0; i<min_size; i++)
             this->container->Fill(val.first[i],val.second[i]);
@@ -276,6 +197,7 @@ class ContainerTGraph : public Container<TGraph>{
         Value<std::pair<int, int> > *value;
         std::vector<int> x_data;
         std::vector<int> y_data;
+        std::string title;
         bool data_modified;
         void _fill(){
             auto val = value->get_value();
@@ -284,7 +206,7 @@ class ContainerTGraph : public Container<TGraph>{
             data_modified = true;
         }
     public:
-        ContainerTGraph(const std::string &name, GenValue* value)
+        ContainerTGraph(const std::string& name, const std::string& title, GenValue* value)
           :Container<TGraph>(name, new TGraph()),
            value(dynamic_cast<Value<std::pair<int, int> >*>(value)),
            data_modified(false){ }
@@ -294,14 +216,55 @@ class ContainerTGraph : public Container<TGraph>{
                 delete container;
                 container = new TGraph(x_data.size(), x_data.data(), y_data.data());
                 container->SetName(get_name().c_str());
+                container->SetTitle(title.c_str());
                 data_modified = false;
             }
             return container;
         }
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
-            util::_save_as(get_container(), fname, option);
+            util::save_as(get_container(), fname, option);
         }
 };
 
+
+template <typename V, typename D>
+class _Counter : public Container<std::map<D,int>>{
+    protected:
+        Value<V>* value;
+    public:
+        explicit _Counter(const std::string& name, GenValue* value)
+          :Container<std::map<D,int>>(name, new std::map<D,int>()),
+           value(dynamic_cast<Value<V>*>(value)) { }
+
+        void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+            std::string type_name = "std::map<"+fv::util::get_type_name(typeid(D))+",int>";
+            util::save_as_stl(this->get_container(), type_name, this->get_name(), option);
+        }
+
+};
+
+/**
+ * A Counter that keeps a mapping of the number of occurances of each input
+ * value.
+ */
+template <typename V>
+class Counter : public _Counter<V,V>{
+    using _Counter<V,V>::_Counter;
+        void _fill(){
+            (*this->container)[this->value->get_value()]++;
+        }
+};
+
+/**
+ * Same as Counter but accepts multiple values per fill.
+ */
+template <typename V>
+class CounterMany : public _Counter<std::vector<V>,V>{
+    using _Counter<std::vector<V>,V>::_Counter;
+        void _fill(){
+            for(V& val : this->value->get_value())
+                (*this->container)[val]++;
+        }
+};
 }
 #endif // root_container_hpp

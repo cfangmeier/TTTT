@@ -48,6 +48,9 @@ class Filter : public DerivedValue<bool>{
         void update_value(){
             value = filter_function();
         }
+
+        void verify_integrity(){ };
+
     public:
         Filter(const std::string& name, std::function<bool()> filter_function, const std::string& impl="")
           :DerivedValue<bool>(name),
