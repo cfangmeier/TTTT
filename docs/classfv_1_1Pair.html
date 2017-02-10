@@ -131,6 +131,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab3225f03f49240fc1547a5005f57b864"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Pair.html#ab3225f03f49240fc1547a5005f57b864">update_value</a> ()</td></tr>
 <tr class="memdesc:ab3225f03f49240fc1547a5005f57b864"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the internal value.  <a href="#ab3225f03f49240fc1547a5005f57b864">More...</a><br /></td></tr>
 <tr class="separator:ab3225f03f49240fc1547a5005f57b864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ce3fb2e4e19e4b3329c459daf9f74ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Pair.html#a9ce3fb2e4e19e4b3329c459daf9f74ae">verify_integrity</a> ()</td></tr>
+<tr class="memdesc:a9ce3fb2e4e19e4b3329c459daf9f74ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e.  <a href="#a9ce3fb2e4e19e4b3329c459daf9f74ae">More...</a><br /></td></tr>
+<tr class="separator:a9ce3fb2e4e19e4b3329c459daf9f74ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -206,6 +209,38 @@ template&lt;typename T1 , typename T2 &gt; </div>
 <p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; std::pair&lt; T1, T2 &gt; &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a9ce3fb2e4e19e4b3329c459daf9f74ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ce3fb2e4e19e4b3329c459daf9f74ae">&sect;&nbsp;</a></span>verify_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T1 , typename T2 &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfv_1_1Pair.html">fv::Pair</a>&lt; T1, T2 &gt;::verify_integrity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e. </p>
+<p>non null, arguments. This is to avoid segfaulting when a dynamic_cast fails. If no checks need to be made, simple override this method with a no-op. If checks fail, the function should utilize the CRITICAL macro with a meaningfull error message stating what failed and especially the name of the current value. </p>
+
+<p>Implements <a class="el" href="classfv_1_1GenValue.html#aac23aee146f56d4269753676b0f5936d">fv::GenValue</a>.</p>
 
 </div>
 </div>

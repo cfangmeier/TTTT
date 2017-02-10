@@ -67,6 +67,7 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classfv_1_1BoundValue-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">fv::BoundValue&lt; T &gt; Class Template Reference</div>  </div>
@@ -143,6 +144,12 @@ T&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td></tr>
 <tr class="separator:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a2ade377f9a8200d48b57a1b49559b21b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1BoundValue.html#a2ade377f9a8200d48b57a1b49559b21b">verify_integrity</a> ()</td></tr>
+<tr class="memdesc:a2ade377f9a8200d48b57a1b49559b21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e.  <a href="#a2ade377f9a8200d48b57a1b49559b21b">More...</a><br /></td></tr>
+<tr class="separator:a2ade377f9a8200d48b57a1b49559b21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_static_methods_classfv_1_1GenValue"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classfv_1_1GenValue')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classfv_1_1GenValue.html">fv::GenValue</a></td></tr>
@@ -205,6 +212,38 @@ template&lt;typename T &gt; </div>
 <p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="a2ade377f9a8200d48b57a1b49559b21b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ade377f9a8200d48b57a1b49559b21b">&sect;&nbsp;</a></span>verify_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfv_1_1BoundValue.html">fv::BoundValue</a>&lt; T &gt;::verify_integrity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e. </p>
+<p>non null, arguments. This is to avoid segfaulting when a dynamic_cast fails. If no checks need to be made, simple override this method with a no-op. If checks fail, the function should utilize the CRITICAL macro with a meaningfull error message stating what failed and especially the name of the current value. </p>
+
+<p>Implements <a class="el" href="classfv_1_1GenValue.html#aac23aee146f56d4269753676b0f5936d">fv::GenValue</a>.</p>
 
 </div>
 </div>

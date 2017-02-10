@@ -127,6 +127,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:aeb17320a2024bd189dad4117cf1f54fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1root_1_1LorentzVector.html#aeb17320a2024bd189dad4117cf1f54fb">update_value</a> ()</td></tr>
 <tr class="memdesc:aeb17320a2024bd189dad4117cf1f54fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the internal value.  <a href="#aeb17320a2024bd189dad4117cf1f54fb">More...</a><br /></td></tr>
 <tr class="separator:aeb17320a2024bd189dad4117cf1f54fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e11947694c230154840f15393f789c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1root_1_1LorentzVector.html#a6e11947694c230154840f15393f789c8">verify_integrity</a> ()</td></tr>
+<tr class="memdesc:a6e11947694c230154840f15393f789c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e.  <a href="#a6e11947694c230154840f15393f789c8">More...</a><br /></td></tr>
+<tr class="separator:a6e11947694c230154840f15393f789c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -212,6 +215,36 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="219,13,369,39"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a6e11947694c230154840f15393f789c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e11947694c230154840f15393f789c8">&sect;&nbsp;</a></span>verify_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void fv::root::LorentzVector::verify_integrity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e. </p>
+<p>non null, arguments. This is to avoid segfaulting when a dynamic_cast fails. If no checks need to be made, simple override this method with a no-op. If checks fail, the function should utilize the CRITICAL macro with a meaningfull error message stating what failed and especially the name of the current value. </p>
+
+<p>Implements <a class="el" href="classfv_1_1GenValue.html#aac23aee146f56d4269753676b0f5936d">fv::GenValue</a>.</p>
 
 </div>
 </div>

@@ -66,7 +66,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classfv_1_1ConstantValue-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">fv::ConstantValue&lt; T &gt; Class Template Reference</div>  </div>
@@ -92,9 +92,9 @@ Collaboration diagram for fv::ConstantValue&lt; T &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfv_1_1ConstantValue__coll__graph.png" border="0" usemap="#fv_1_1ConstantValue_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="fv_1_1ConstantValue_3_01T_01_4_coll__map" id="fv_1_1ConstantValue_3_01T_01_4_coll__map">
-<area shape="rect" id="node2" href="classfv_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="5,171,172,197"/>
-<area shape="rect" id="node3" href="classfv_1_1Value.html" title="A generic value. " alt="" coords="31,81,147,108"/>
-<area shape="rect" id="node4" href="classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="37,5,141,32"/>
+<area shape="rect" id="node2" href="classfv_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="56,171,223,197"/>
+<area shape="rect" id="node3" href="classfv_1_1Value.html" title="A generic value. " alt="" coords="5,81,121,108"/>
+<area shape="rect" id="node4" href="classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="11,5,115,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -129,18 +129,11 @@ Protected Member Functions</h2></td></tr>
 <tr class="memdesc:a6581e7fb69c082c07c9714138063b320"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the internal value.  <a href="#a6581e7fb69c082c07c9714138063b320">More...</a><br /></td></tr>
 <tr class="separator:a6581e7fb69c082c07c9714138063b320"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
-Protected Attributes</h2></td></tr>
-<tr class="memitem:a7bd409365b0f9a271a865d7d7abf1648"><td class="memItemLeft" align="right" valign="top"><a id="a7bd409365b0f9a271a865d7d7abf1648"></a>
-T&#160;</td><td class="memItemRight" valign="bottom"><b>const_value</b></td></tr>
-<tr class="separator:a7bd409365b0f9a271a865d7d7abf1648"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classfv_1_1DerivedValue"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1DerivedValue')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1DerivedValue.html">fv::DerivedValue&lt; T &gt;</a></td></tr>
-<tr class="memitem:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aeb7ff5d17ad44b2040fc9930bbcc2c7a"></a>
-T&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
-<tr class="separator:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aafa55adbb38dc7fe210ea15e920515dc"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td></tr>
-<tr class="separator:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:abb45781df516b8bdf3334df8f2efbb46"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1ConstantValue.html#abb45781df516b8bdf3334df8f2efbb46">verify_integrity</a> ()</td></tr>
+<tr class="memdesc:abb45781df516b8bdf3334df8f2efbb46"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e.  <a href="#abb45781df516b8bdf3334df8f2efbb46">More...</a><br /></td></tr>
+<tr class="separator:abb45781df516b8bdf3334df8f2efbb46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -160,6 +153,13 @@ static <a class="el" href="classfv_1_1GenValue.html">GenValue</a> *&#160;</td><t
 <tr class="memitem:a66807a611d5f3e693f538e8430ae9585 inherit pub_static_methods_classfv_1_1GenValue"><td class="memItemLeft" align="right" valign="top"><a id="a66807a611d5f3e693f538e8430ae9585"></a>
 static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>summary</b> ()</td></tr>
 <tr class="separator:a66807a611d5f3e693f538e8430ae9585 inherit pub_static_methods_classfv_1_1GenValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classfv_1_1DerivedValue"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1DerivedValue')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1DerivedValue.html">fv::DerivedValue&lt; T &gt;</a></td></tr>
+<tr class="memitem:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aeb7ff5d17ad44b2040fc9930bbcc2c7a"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
+<tr class="separator:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aafa55adbb38dc7fe210ea15e920515dc"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td></tr>
+<tr class="separator:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_static_attribs_classfv_1_1GenValue"><td colspan="2" onclick="javascript:toggleInherit('pro_static_attribs_classfv_1_1GenValue')"><img src="closed.png" alt="-"/>&#160;Static Protected Attributes inherited from <a class="el" href="classfv_1_1GenValue.html">fv::GenValue</a></td></tr>
 <tr class="memitem:abbb57abc392c44d1f7ad5e7e74a75297 inherit pro_static_attribs_classfv_1_1GenValue"><td class="memItemLeft" align="right" valign="top">static std::map&lt; const std::string, <a class="el" href="classfv_1_1GenValue.html">GenValue</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1GenValue.html#abbb57abc392c44d1f7ad5e7e74a75297">values</a></td></tr>
 <tr class="memdesc:abbb57abc392c44d1f7ad5e7e74a75297 inherit pro_static_attribs_classfv_1_1GenValue"><td class="mdescLeft">&#160;</td><td class="mdescRight">A static mapping containing all created <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects.  <a href="classfv_1_1GenValue.html#abbb57abc392c44d1f7ad5e7e74a75297">More...</a><br /></td></tr>
@@ -203,6 +203,38 @@ template&lt;typename T &gt; </div>
 <p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; T &gt;</a>.</p>
+
+</div>
+</div>
+<a id="abb45781df516b8bdf3334df8f2efbb46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb45781df516b8bdf3334df8f2efbb46">&sect;&nbsp;</a></span>verify_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfv_1_1ConstantValue.html">fv::ConstantValue</a>&lt; T &gt;::verify_integrity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e. </p>
+<p>non null, arguments. This is to avoid segfaulting when a dynamic_cast fails. If no checks need to be made, simple override this method with a no-op. If checks fail, the function should utilize the CRITICAL macro with a meaningfull error message stating what failed and especially the name of the current value. </p>
+
+<p>Implements <a class="el" href="classfv_1_1GenValue.html#aac23aee146f56d4269753676b0f5936d">fv::GenValue</a>.</p>
 
 </div>
 </div>

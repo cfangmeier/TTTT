@@ -72,6 +72,11 @@ $(function() {
 <div class="title">fv::Count&lt; T &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Returns the count of elements in the input vector passing a test function.  
+ <a href="classfv_1_1Count.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="value_8hpp_source.html">value.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for fv::Count&lt; T &gt;:</div>
 <div class="dyncontent">
@@ -128,6 +133,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:afff1c16a8747a82db1cc1c8248c56a08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Count.html#afff1c16a8747a82db1cc1c8248c56a08">update_value</a> ()</td></tr>
 <tr class="memdesc:afff1c16a8747a82db1cc1c8248c56a08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the internal value.  <a href="#afff1c16a8747a82db1cc1c8248c56a08">More...</a><br /></td></tr>
 <tr class="separator:afff1c16a8747a82db1cc1c8248c56a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abadccbf594251b233ba3fb42b9b8c6ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Count.html#abadccbf594251b233ba3fb42b9b8c6ed">verify_integrity</a> ()</td></tr>
+<tr class="memdesc:abadccbf594251b233ba3fb42b9b8c6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e.  <a href="#abadccbf594251b233ba3fb42b9b8c6ed">More...</a><br /></td></tr>
+<tr class="separator:abadccbf594251b233ba3fb42b9b8c6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -171,7 +179,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td><
 <tr class="memdesc:ab58b81925a05884bbebca0d870da80d0 inherit pro_static_attribs_classfv_1_1GenValue"><td class="mdescLeft">&#160;</td><td class="mdescRight">Composite value names are typically nested.  <a href="classfv_1_1GenValue.html#ab58b81925a05884bbebca0d870da80d0">More...</a><br /></td></tr>
 <tr class="separator:ab58b81925a05884bbebca0d870da80d0 inherit pro_static_attribs_classfv_1_1GenValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename T&gt;<br />
+class fv::Count&lt; T &gt;</h3>
+
+<p>Returns the count of elements in the input vector passing a test function. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="afff1c16a8747a82db1cc1c8248c56a08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afff1c16a8747a82db1cc1c8248c56a08">&sect;&nbsp;</a></span>update_value()</h2>
 
@@ -209,6 +222,38 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node2" href="classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="229,5,380,32"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="abadccbf594251b233ba3fb42b9b8c6ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abadccbf594251b233ba3fb42b9b8c6ed">&sect;&nbsp;</a></span>verify_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfv_1_1Count.html">fv::Count</a>&lt; T &gt;::verify_integrity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e. </p>
+<p>non null, arguments. This is to avoid segfaulting when a dynamic_cast fails. If no checks need to be made, simple override this method with a no-op. If checks fail, the function should utilize the CRITICAL macro with a meaningfull error message stating what failed and especially the name of the current value. </p>
+
+<p>Implements <a class="el" href="classfv_1_1GenValue.html#aac23aee146f56d4269753676b0f5936d">fv::GenValue</a>.</p>
 
 </div>
 </div>

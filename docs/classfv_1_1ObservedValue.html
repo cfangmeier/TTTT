@@ -122,6 +122,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:af301f95c27cfa8024105a845ac6a7760"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1ObservedValue.html#af301f95c27cfa8024105a845ac6a7760">_reset</a> ()</td></tr>
 <tr class="memdesc:af301f95c27cfa8024105a845ac6a7760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark the internal value as invalid.  <a href="#af301f95c27cfa8024105a845ac6a7760">More...</a><br /></td></tr>
 <tr class="separator:af301f95c27cfa8024105a845ac6a7760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a460284498a424b6a3a5156795e97e772"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1ObservedValue.html#a460284498a424b6a3a5156795e97e772">verify_integrity</a> ()</td></tr>
+<tr class="memdesc:a460284498a424b6a3a5156795e97e772"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e.  <a href="#a460284498a424b6a3a5156795e97e772">More...</a><br /></td></tr>
+<tr class="separator:a460284498a424b6a3a5156795e97e772"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -191,6 +194,38 @@ template&lt;typename T &gt; </div>
 <p>This is needed for <a class="el" href="classfv_1_1DerivedValue.html" title="A generic, derived, value. ">DerivedValue</a> to force a recalculation of the internal value when a new observation is loaded into memory. It is called automatically for all <a class="el" href="classfv_1_1GenValue.html">GenValue</a> objects when reset is called. </p>
 
 <p>Implements <a class="el" href="classfv_1_1GenValue.html#a26160e53542b728f9e0c11495dce3c20">fv::GenValue</a>.</p>
+
+</div>
+</div>
+<a id="a460284498a424b6a3a5156795e97e772"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a460284498a424b6a3a5156795e97e772">&sect;&nbsp;</a></span>verify_integrity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classfv_1_1ObservedValue.html">fv::ObservedValue</a>&lt; T &gt;::verify_integrity </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e. </p>
+<p>non null, arguments. This is to avoid segfaulting when a dynamic_cast fails. If no checks need to be made, simple override this method with a no-op. If checks fail, the function should utilize the CRITICAL macro with a meaningfull error message stating what failed and especially the name of the current value. </p>
+
+<p>Implements <a class="el" href="classfv_1_1GenValue.html#aac23aee146f56d4269753676b0f5936d">fv::GenValue</a>.</p>
 
 </div>
 </div>

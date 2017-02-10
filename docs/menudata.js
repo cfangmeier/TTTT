@@ -18,7 +18,14 @@ var menudata={children:[
 {text:'o',url:'functions.html#index_o'},
 {text:'u',url:'functions.html#index_u'},
 {text:'v',url:'functions.html#index_v'}]},
-{text:'Functions',url:'functions_func.html'},
+{text:'Functions',url:'functions_func.html',children:[
+{text:'_',url:'functions_func.html#index__'},
+{text:'c',url:'functions_func.html#index_c'},
+{text:'f',url:'functions_func.html#index_f'},
+{text:'g',url:'functions_func.html#index_g'},
+{text:'o',url:'functions_func.html#index_o'},
+{text:'u',url:'functions_func.html#index_u'},
+{text:'v',url:'functions_func.html#index_v'}]},
 {text:'Variables',url:'functions_vars.html'},
 {text:'Related Functions',url:'functions_rela.html'}]}]},
 {text:'Files',url:'files.html',children:[
