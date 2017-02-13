@@ -34,6 +34,20 @@ SET (CMAKE_RANLIB  "/usr/bin/llvm-ranlib")
 
 LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 
+FIND_PACKAGE(Jupyter)
+IF(NBCONVERT_FOUND)
+    ADD_CUSTOM_TARGET(notebook-docs
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_nb ${NBCONVERT_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Converting Jupyter Notebooks to HTML" VERBATIM
+    )
+
+    ADD_CUSTOM_TARGET(notebooks
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_nb ${NBCONVERT_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs --update
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Re-Running notebooks and converting to HTML" VERBATIM
+    )
+ENDIF(NBCONVERT_FOUND)
 
 # add a target to generate API documentation with Doxygen
 FIND_PACKAGE(Doxygen)
@@ -43,11 +57,13 @@ IF(DOXYGEN_FOUND)
         ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile @ONLY
         )
     ADD_CUSTOM_TARGET(docs
-    ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs
-    COMMENT "Generating API documentation with Doxygen" VERBATIM
+        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs
+        COMMENT "Generating API documentation with Doxygen" VERBATIM
+        DEPENDS notebook-docs
     )
 ENDIF(DOXYGEN_FOUND)
+
 
 FIND_PACKAGE(ROOT REQUIRED)
 INCLUDE_DIRECTORIES(SYSTEM ${ROOT_INCLUDE_DIR}

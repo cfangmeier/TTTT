@@ -46,6 +46,7 @@
 
 using namespace std;
 using namespace fv;
+using namespace fv::root;
 
 void enable_branches(MiniTreeDataSet& mt){
     mt.fChain->SetBranchStatus("*", false);
@@ -78,20 +79,7 @@ void enable_branches(MiniTreeDataSet& mt){
 
 void declare_values(MiniTreeDataSet& mt){
 
-    auto& get_energy = GenFunction::register_function<float(float, float, float, float)>("get_energy",
-            FUNC(([](float pt, float eta, float phi, float mass){
-                TLorentzVector lv;
-                lv.SetPtEtaPhiM(pt, eta, phi, mass);
-                return lv.E();
-            })));
-
-    /* lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v") */
-    auto lk = zip<float,float,float,float>(lookup<vector<float>>("LepGood_pt"),
-                                           lookup<vector<float>>("LepGood_eta"),
-                                           lookup<vector<float>>("LepGood_phi"),
-                                           lookup<vector<float>>("LepGood_mass"),
-                                           "lepton_kinematics");
-    map_over(get_energy, lk, "lepton_energy");
+    energies(lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v"), "lepton_energy");
 
     fv::pair<vector<float>,vector<float>>("lepton_energy", "LepGood_pt", "lepton_energy_lepton_pt");
 

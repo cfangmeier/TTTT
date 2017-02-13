@@ -65,7 +65,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classfv_1_1MaxIndex-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">fv::MaxIndex&lt; T &gt; Class Template Reference</div>  </div>
@@ -102,16 +101,13 @@ Collaboration diagram for fv::MaxIndex&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3c57ca62c2924bb21a17518bb245e8b8"><td class="memItemLeft" align="right" valign="top"><a id="a3c57ca62c2924bb21a17518bb245e8b8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MaxIndex</b> (const std::string &amp;v_name, const std::string alias=&quot;&quot;)</td></tr>
-<tr class="separator:a3c57ca62c2924bb21a17518bb245e8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b927acb13a8393ce3c998cab354a90d"><td class="memItemLeft" align="right" valign="top"><a id="a1b927acb13a8393ce3c998cab354a90d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MaxIndex</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; T &gt;&gt; *v, const std::string alias=&quot;&quot;)</td></tr>
+<tr class="separator:a1b927acb13a8393ce3c998cab354a90d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classfv_1_1ReduceIndex"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfv_1_1ReduceIndex')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfv_1_1ReduceIndex.html">fv::ReduceIndex&lt; T &gt;</a></td></tr>
 <tr class="memitem:ad118a68262cfa9519bb7030502115ca9 inherit pub_methods_classfv_1_1ReduceIndex"><td class="memItemLeft" align="right" valign="top"><a id="ad118a68262cfa9519bb7030502115ca9"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ReduceIndex</b> (<a class="el" href="classfv_1_1Function.html">Function</a>&lt; std::pair&lt; T, int &gt;(std::vector&lt; T &gt;)&gt; &amp;reduce, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; T &gt; &gt; *v, const std::string alias=&quot;&quot;)</td></tr>
 <tr class="separator:ad118a68262cfa9519bb7030502115ca9 inherit pub_methods_classfv_1_1ReduceIndex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0036e4d7f41cce518020a40666506a57 inherit pub_methods_classfv_1_1ReduceIndex"><td class="memItemLeft" align="right" valign="top"><a id="a0036e4d7f41cce518020a40666506a57"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ReduceIndex</b> (<a class="el" href="classfv_1_1Function.html">Function</a>&lt; std::pair&lt; T, int &gt;(std::vector&lt; T &gt;)&gt; &amp;reduce, const std::string &amp;v_name, const std::string alias=&quot;&quot;)</td></tr>
-<tr class="separator:a0036e4d7f41cce518020a40666506a57 inherit pub_methods_classfv_1_1ReduceIndex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classfv_1_1DerivedValue"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfv_1_1DerivedValue')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfv_1_1DerivedValue.html">fv::DerivedValue&lt; std::pair&lt; T, int &gt; &gt;</a></td></tr>
 <tr class="memitem:a00219a17112600afdc060d67d6f95b21 inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a00219a17112600afdc060d67d6f95b21"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DerivedValue</b> (const std::string &amp;<a class="el" href="classfv_1_1GenValue.html#a610f89ee441eaad4c9e78f74d6bde93b">name</a>, const std::string &amp;alias=&quot;&quot;)</td></tr>
@@ -131,12 +127,9 @@ std::pair&lt; T, int &gt; &amp;&#160;</td><td class="memItemRight" valign="botto
 <tr class="memitem:a56f7eab1a0043ea73ecf01ec11dafa5c inherit pub_methods_classfv_1_1GenValue"><td class="memItemLeft" align="right" valign="top"><a id="a56f7eab1a0043ea73ecf01ec11dafa5c"></a>
 const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_name</b> ()</td></tr>
 <tr class="separator:a56f7eab1a0043ea73ecf01ec11dafa5c inherit pub_methods_classfv_1_1GenValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:ab4f390430a978f7766f6ffcc1ee68cc7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1MaxIndex.html#ab4f390430a978f7766f6ffcc1ee68cc7">verify_integrity</a> ()</td></tr>
-<tr class="memdesc:ab4f390430a978f7766f6ffcc1ee68cc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e.  <a href="#ab4f390430a978f7766f6ffcc1ee68cc7">More...</a><br /></td></tr>
-<tr class="separator:ab4f390430a978f7766f6ffcc1ee68cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8a4008b9d449fb05ddc825135ba8a2 inherit pub_methods_classfv_1_1GenValue"><td class="memItemLeft" align="right" valign="top"><a id="aff8a4008b9d449fb05ddc825135ba8a2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_name</b> (const std::string &amp;new_name)</td></tr>
+<tr class="separator:aff8a4008b9d449fb05ddc825135ba8a2 inherit pub_methods_classfv_1_1GenValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -176,40 +169,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td><
 class fv::MaxIndex&lt; T &gt;</h3>
 
 <p>Find and return the maximum value of a vector and its index. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab4f390430a978f7766f6ffcc1ee68cc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4f390430a978f7766f6ffcc1ee68cc7">&sect;&nbsp;</a></span>verify_integrity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void <a class="el" href="classfv_1_1MaxIndex.html">fv::MaxIndex</a>&lt; T &gt;::verify_integrity </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This function serves to check that this <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> has been created with real, i.e. </p>
-<p>non null, arguments. This is to avoid segfaulting when a dynamic_cast fails. If no checks need to be made, simple override this method with a no-op. If checks fail, the function should utilize the CRITICAL macro with a meaningfull error message stating what failed and especially the name of the current value. </p>
-
-<p>Reimplemented from <a class="el" href="classfv_1_1ReduceIndex.html#a57887f91467c2098ca6910da6dffd5ec">fv::ReduceIndex&lt; T &gt;</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/caleb/Sources/TTTT/filval/<a class="el" href="value_8hpp_source.html">value.hpp</a></li>
 </ul>
 </div><!-- contents -->

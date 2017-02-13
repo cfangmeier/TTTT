@@ -5,7 +5,11 @@ var searchData=
   ['_5fcontainerth2',['_ContainerTH2',['../classfv_1_1root_1_1__ContainerTH2.html',1,'fv::root']]],
   ['_5fcontainerth2_3c_20std_3a_3avector_3c_20v_20_3e_20_3e',['_ContainerTH2&lt; std::vector&lt; V &gt; &gt;',['../classfv_1_1root_1_1__ContainerTH2.html',1,'fv::root']]],
   ['_5fcounter',['_Counter',['../classfv_1_1root_1_1__Counter.html',1,'fv::root']]],
-  ['_5fcounter_3c_20std_3a_3avector_3c_20int_20_3e_2c_20int_20_3e',['_Counter&lt; std::vector&lt; int &gt;, int &gt;',['../classfv_1_1root_1_1__Counter.html',1,'fv::root']]],
   ['_5fcounter_3c_20std_3a_3avector_3c_20v_20_3e_2c_20v_20_3e',['_Counter&lt; std::vector&lt; V &gt;, V &gt;',['../classfv_1_1root_1_1__Counter.html',1,'fv::root']]],
-  ['_5fcounter_3c_20v_2c_20v_20_3e',['_Counter&lt; V, V &gt;',['../classfv_1_1root_1_1__Counter.html',1,'fv::root']]]
+  ['_5fcounter_3c_20v_2c_20v_20_3e',['_Counter&lt; V, V &gt;',['../classfv_1_1root_1_1__Counter.html',1,'fv::root']]],
+  ['_5fzip',['_Zip',['../classfv_1_1__Zip.html',1,'fv']]],
+  ['_5fzip_3c_20argtypes_2e_2e_2e_20_3e',['_Zip&lt; ArgTypes... &gt;',['../classfv_1_1__Zip.html',1,'fv']]],
+  ['_5fzip_3c_20head_2c_20tail_2e_2e_2e_20_3e',['_Zip&lt; Head, Tail... &gt;',['../classfv_1_1__Zip_3_01Head_00_01Tail_8_8_8_01_4.html',1,'fv']]],
+  ['_5fzip_3c_20tail_2e_2e_2e_20_3e',['_Zip&lt; Tail... &gt;',['../classfv_1_1__Zip.html',1,'fv']]],
+  ['_5fzip_3c_3e',['_Zip&lt;&gt;',['../classfv_1_1__Zip_3_4.html',1,'fv']]]
 ];

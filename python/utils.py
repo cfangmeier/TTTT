@@ -1,9 +1,14 @@
 import io
+from os.path import dirname, join, abspath, normpath
 import sys
 from math import ceil, sqrt
 from subprocess import run
 import itertools as it
 import ROOT
+
+PRJ_PATH = normpath(join(dirname(abspath(__file__)), "../"))
+EXE_PATH = join(PRJ_PATH, "build/main")
+
 
 class OutputCapture:
     def __init__(self):
@@ -52,13 +57,13 @@ def normalize_columns(hist2d):
             normHist.SetBinContent(col, row, norm)
     return normHist
 
+
 class HistCollection:
     def __init__(self, sample_name, input_filename,
-                 exe_path="../build/main",
                  rebuild_hists=False):
         self.sample_name = sample_name
         if rebuild_hists:
-            run([exe_path, "-s", "-f", input_filename])
+            run([EXE_PATH, "-s", "-f", input_filename])
         output_filename = input_filename.replace(".root", "_result.root")
         file = ROOT.TFile.Open(output_filename)
         l = file.GetListOfKeys()
@@ -86,15 +91,15 @@ class HistCollection:
                 pass
         HistCollection.add_collection(self)
 
-    def draw(self, canvas, shape=None):
+    def draw(self, shape=None):
         if shape is None:
             n = int(ceil(sqrt(len(self.map))))
             shape = (n, n)
-        canvas.Clear()
-        canvas.Divide(*shape)
+        self.canvas.Clear()
+        self.canvas.Divide(*shape)
         i = 1
         for hist in self.map.values():
-            canvas.cd(i)
+            self.canvas.cd(i)
             try:
                 hist.SetStats(False)
             except AttributeError:
@@ -111,32 +116,50 @@ class HistCollection:
                 continue  # Not a drawable type(probably)
             hist.Draw(draw_option)
             i += 1
+        self.canvas.Draw()
+
+    @classmethod
+    def get_hist_set(cls, attrname):
+        labels, hists = zip(*[(sample_name, getattr(h, attrname))
+                              for sample_name, h in cls.collections.items()])
+        return labels, hists
 
     @classmethod
     def add_collection(cls, hc):
         if not hasattr(cls, "collections"):
             cls.collections = {}
         cls.collections[hc.sample_name] = hc
+        print("collection added: " + hc.sample_name)
+        print("collections present: " + ', '.join(list(hc.collections.keys())))
 
+    @property
+    def canvas(self):
+        cls = self.__class__
+        if not hasattr(cls, "_canvas"):
+            cls._canvas = ROOT.TCanvas("c1", "", 1600, 1200)
+        return cls._canvas
+
+    @canvas.setter
+    def canvas(self, canvas):
+        cls = self.__class__
+        cls._canvas = canvas
 
     @classmethod
-    def stack_hist(hists,
-                   labels=None, id_=None,
+    def stack_hist(cls,
+                   hist_name,
                    title="", enable_fill=False,
                    normalize_to=0, draw=False,
                    draw_option="",
+                   make_legend=False,
                    _stacks={}):
-        """hists should be a list of TH1D objects
-        returns a new stacked histogram
-        """
+        labels, hists = cls.get_hist_set(hist_name)
+
         colors = it.cycle([ROOT.kRed, ROOT.kBlue, ROOT.kGreen])
-        stack = ROOT.THStack(id_, title)
+        stack = ROOT.THStack(hist_name+"_stack", title)
         if labels is None:
             labels = [hist.GetName() for hist in hists]
         if type(normalize_to) in (int, float):
             normalize_to = [normalize_to]*len(hists)
-        if id_ is None:
-            id_ = hists[0].GetName() + "_stack"
         ens = enumerate(zip(hists, labels, colors, normalize_to))
         for i, (hist, label, color, norm) in ens:
             hist_copy = hist
@@ -152,28 +175,27 @@ class HistCollection:
             stack.Add(hist_copy)
         if draw:
             stack.Draw(draw_option)
-        _stacks[id_] = stack  # prevent stack from getting garbage collected
-                              # needed for multipad plots :/
+            if make_legend:
+                cls._canvas.BuildLegend(0.75, 0.75, 0.95, 0.95, "")
+            # cls._canvas.Draw()
+        # prevent stack from getting garbage collected
+        _stacks[stack.GetName()] = stack
         return stack
 
-
     @classmethod
-    def stack_hist_array(canvas, histcollections, fields, titles,
+    def stack_hist_array(cls,
+                         hist_names,
+                         titles,
                          shape=None, **kwargs):
-        def get_hist_set(attrname):
-            hists, labels = zip(*[(getattr(h, attrname), h.sample_name)
-                                  for h in histcollections])
-            return hists, labels
-        n_fields = len(fields)
+        n_hists = len(hist_names)
         if shape is None:
-            if n_fields <= 4:
-                shape = (1, n_fields)
+            if n_hists <= 4:
+                shape = (1, n_hists)
             else:
-                shape = (ceil(sqrt(n_fields)),)*2
-        canvas.Clear()
-        canvas.Divide(*shape)
-        for i, field, title in zip(bin_range(n_fields), fields, titles):
-            canvas.cd(i)
-            hists, labels = get_hist_set(field)
-            stack_hist(hists, labels, id_=field, title=title, draw=True, **kwargs)
-        canvas.cd(1).BuildLegend(0.75, 0.75, 0.95, 0.95, "")
+                shape = (ceil(sqrt(n_hists)),)*2
+        cls._canvas.Divide(*shape)
+        for i, hist_name, title in zip(bin_range(n_hists), hist_names, titles):
+            cls._canvas.cd(i)
+            hists, labels = cls.get_hist_set(hist_name)
+            cls.stack_hist(hist_name, title=title, draw=True, **kwargs)
+        cls._canvas.cd(1).BuildLegend(0.75, 0.75, 0.95, 0.95, "")

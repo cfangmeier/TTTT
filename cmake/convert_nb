@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Converts all found jupyter notebooks to html and places them in the specified
+# output directory. This is so they can be incorportated into the doxygen docs
+# of the project.
+set -e
+if [ $# < 2 ]
+then
+    echo "Usage: $0 [nbconvert-exe] [output_directory] (--update)"
+    exit 0
+fi
+if [ $# == 3 ] && [ $3 == "--update" ]
+then
+    exec_opt="--ExecutePreprocessor.enabled=True"
+else
+    exec_opt=""
+fi
+
+for nb_file in `find . -type f -name "*.ipynb" ! -path "./.ipynb_checkpoints/*"`
+do
+    echo "Converting file: $nb_file"
+    $1 --to html --template full $exec_opt --output-dir $2 $nb_file
+done 

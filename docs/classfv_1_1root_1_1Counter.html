@@ -70,6 +70,11 @@ $(function() {
 <div class="title">fv::root::Counter&lt; V &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A <a class="el" href="classfv_1_1root_1_1Counter.html" title="A Counter that keeps a mapping of the number of occurances of each input value. ">Counter</a> that keeps a mapping of the number of occurances of each input value.  
+ <a href="classfv_1_1root_1_1Counter.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="root_2container_8hpp_source.html">container.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for fv::root::Counter&lt; V &gt;:</div>
 <div class="dyncontent">
@@ -102,9 +107,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>_fill</b> ()</td></tr
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_methods_classfv_1_1root_1_1__Counter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfv_1_1root_1_1__Counter')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfv_1_1root_1_1__Counter.html">fv::root::_Counter&lt; V, V &gt;</a></td></tr>
-<tr class="memitem:a6fe809beb5de32f10132e4832bd71787 inherit pub_methods_classfv_1_1root_1_1__Counter"><td class="memItemLeft" align="right" valign="top"><a id="a6fe809beb5de32f10132e4832bd71787"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_Counter</b> (const std::string &amp;name, <a class="el" href="classfv_1_1GenValue.html">GenValue</a> *value, const std::string &amp;type_name=&quot;&quot;)</td></tr>
-<tr class="separator:a6fe809beb5de32f10132e4832bd71787 inherit pub_methods_classfv_1_1root_1_1__Counter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ec47a87f4b0433a5ae6c07c4a4e0f49 inherit pub_methods_classfv_1_1root_1_1__Counter"><td class="memItemLeft" align="right" valign="top"><a id="a8ec47a87f4b0433a5ae6c07c4a4e0f49"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_Counter</b> (const std::string &amp;name, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; V &gt; *value)</td></tr>
+<tr class="separator:a8ec47a87f4b0433a5ae6c07c4a4e0f49 inherit pub_methods_classfv_1_1root_1_1__Counter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1100e9471e5138ae16ce2caa1b345b70 inherit pub_methods_classfv_1_1root_1_1__Counter"><td class="memItemLeft" align="right" valign="top"><a id="a1100e9471e5138ae16ce2caa1b345b70"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>save_as</b> (const std::string &amp;fname, const SaveOption &amp;option=SaveOption::PNG)</td></tr>
 <tr class="separator:a1100e9471e5138ae16ce2caa1b345b70 inherit pub_methods_classfv_1_1root_1_1__Counter"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,15 +146,17 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (con
 <tr class="memitem:a5f72133b39ea19456fe6b0b9785ecbfa inherit pro_attribs_classfv_1_1root_1_1__Counter"><td class="memItemLeft" align="right" valign="top"><a id="a5f72133b39ea19456fe6b0b9785ecbfa"></a>
 <a class="el" href="classfv_1_1Value.html">Value</a>&lt; V &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 <tr class="separator:a5f72133b39ea19456fe6b0b9785ecbfa inherit pro_attribs_classfv_1_1root_1_1__Counter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4751c1e193c0a77f0eec5f306d1398fa inherit pro_attribs_classfv_1_1root_1_1__Counter"><td class="memItemLeft" align="right" valign="top"><a id="a4751c1e193c0a77f0eec5f306d1398fa"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>type_name</b></td></tr>
-<tr class="separator:a4751c1e193c0a77f0eec5f306d1398fa inherit pro_attribs_classfv_1_1root_1_1__Counter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classfv_1_1Container"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1Container')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1Container.html">fv::Container&lt; std::map&lt; V, int &gt; &gt;</a></td></tr>
 <tr class="memitem:aa5e74e62f69e756cad950fdc94e9a8c0 inherit pro_attribs_classfv_1_1Container"><td class="memItemLeft" align="right" valign="top"><a id="aa5e74e62f69e756cad950fdc94e9a8c0"></a>
 std::map&lt; V, int &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>container</b></td></tr>
 <tr class="separator:aa5e74e62f69e756cad950fdc94e9a8c0 inherit pro_attribs_classfv_1_1Container"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename V&gt;<br />
+class fv::root::Counter&lt; V &gt;</h3>
+
+<p>A <a class="el" href="classfv_1_1root_1_1Counter.html" title="A Counter that keeps a mapping of the number of occurances of each input value. ">Counter</a> that keeps a mapping of the number of occurances of each input value. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/caleb/Sources/TTTT/filval_root/<a class="el" href="root_2container_8hpp_source.html">container.hpp</a></li>
 </ul>
 </div><!-- contents -->

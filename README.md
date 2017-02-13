@@ -23,7 +23,9 @@ Once the code has been built, there should be a `main` executable in the build d
 ./main -f path_to_minitree_file
 ```
 
+
 This will create a results `ROOT` file containing a set of histograms extracted
 from the Minitree. Create one of these for each input Minitree. The results are
 then usually processed in Jupyter Notebooks to produce final
-plots/measurements.
+plots/measurements. For example, a basic listing of generated histograms can be
+found [here](./TTTT_Analysis.html)

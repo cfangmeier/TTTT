@@ -78,7 +78,10 @@ struct call_impl<F, Tuple, true, Total, N...>
     }
 };
 
-// This calls a function of type F with the contents of the tuple as arguments
+/**
+ * This calls a function of type F with the contents of the tuple as arguments
+ *  \see http://stackoverflow.com/questions/10766112/c11-i-can-go-from-multiple-args-to-tuple-but-can-i-go-from-tuple-to-multiple
+ */
 template <typename F, typename Tuple>
 auto call(F f, Tuple && t)
 {

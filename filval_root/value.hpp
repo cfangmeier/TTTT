@@ -28,13 +28,35 @@ class LorentzVectors : public DerivedValue<std::vector<TLorentzVector>>{
         }
 
     public:
-        LorentzVectors(const std::string& name,
-                      Value<std::vector<float>>* pt,
+        LorentzVectors(Value<std::vector<float>>* pt,
                       Value<std::vector<float>>* eta,
                       Value<std::vector<float>>* phi,
-                      Value<std::vector<float>>* mass)
-          :DerivedValue<std::vector<TLorentzVector>>(name),
+                      Value<std::vector<float>>* mass,
+                      const std::string& alias)
+          :DerivedValue<std::vector<TLorentzVector>>("lorentz_vectors("+pt->get_name()+","
+                                                                       +eta->get_name()+","
+                                                                       +phi->get_name()+","
+                                                                       +mass->get_name()+")",
+                                                     alias),
            pt_val(pt), eta_val(eta), phi_val(phi), mass_val(mass) { }
+};
+
+class Energies : public DerivedValue<std::vector<float>>{
+    protected:
+        Value<std::vector<TLorentzVector>> *vectors;
+        void update_value(){
+            std::vector<TLorentzVector>& vecs = vectors->get_value();
+            this->value.clear();
+            for (auto v : vecs){
+                this->value.push_back(v.Energy());
+            }
+        }
+
+    public:
+        Energies(Value<std::vector<TLorentzVector>> *vectors,
+                 const std::string& alias)
+          :DerivedValue<std::vector<float>>("energies("+vectors->get_name()+")", alias),
+           vectors(vectors) { }
 };
 
 }
