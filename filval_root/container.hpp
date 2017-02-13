@@ -11,7 +11,7 @@
 #include "TH1.h"
 #include "TH2.h"
 
-#include "filval.hpp"
+#include "filval/container.hpp"
 
 namespace fv::root::util{
 
@@ -101,11 +101,11 @@ class _ContainerTH1 : public Container<TH1>{
         virtual void _do_fill() = 0;
 
     public:
-        explicit _ContainerTH1(const std::string &name, const std::string& title, GenValue *value,
+        explicit _ContainerTH1(const std::string &name, const std::string& title, Value<V>* value,
                                int nbins, double low, double high)
           :Container<TH1>(name, nullptr),
            title(title), nbins(nbins), low(low), high(high),
-           value(dynamic_cast<Value<V>*>(value)) { }
+           value(value) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             util::save_as(get_container(), fname, option);
@@ -161,13 +161,13 @@ class _ContainerTH2 : public Container<TH2>{
 
     public:
         explicit _ContainerTH2(const std::string& name, const std::string& title,
-                               GenValue* value,
+                               Value<std::pair<V, V>>* value,
                                int nbins_x, double low_x, double high_x,
                                int nbins_y, double low_y, double high_y)
           :Container<TH2>(name, nullptr),
            nbins_x(nbins_x), low_x(low_x), high_x(high_x),
            nbins_y(nbins_y), low_y(low_y), high_y(high_y),
-           value(dynamic_cast<Value<std::pair<V, V>>*>(value)) { }
+           value(value) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             util::save_as(get_container(), fname, option);
@@ -206,9 +206,9 @@ class ContainerTGraph : public Container<TGraph>{
             data_modified = true;
         }
     public:
-        ContainerTGraph(const std::string& name, const std::string& title, GenValue* value)
+        ContainerTGraph(const std::string& name, const std::string& title, Value<std::pair<int, int>>* value)
           :Container<TGraph>(name, new TGraph()),
-           value(dynamic_cast<Value<std::pair<int, int> >*>(value)),
+           value(value),
            data_modified(false){ }
 
         TGraph* get_container(){
@@ -232,9 +232,9 @@ class _Counter : public Container<std::map<D,int>>{
     protected:
         Value<V>* value;
     public:
-        explicit _Counter(const std::string& name, GenValue* value)
+        explicit _Counter(const std::string& name, Value<V>* value)
           :Container<std::map<D,int>>(name, new std::map<D,int>()),
-           value(dynamic_cast<Value<V>*>(value)) { }
+           value(value) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             std::string type_name = "std::map<"+fv::util::get_type_name(typeid(D))+",int>";

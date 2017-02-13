@@ -1,74 +1,41 @@
 #ifndef root_value_hpp
 #define root_value_hpp
-#include "value.hpp"
+#include "filval/value.hpp"
 #include "TLorentzVector.h"
 
 namespace fv::root{
 
-class LorentzVector : public DerivedValue<TLorentzVector>{
+class LorentzVectors : public DerivedValue<std::vector<TLorentzVector>>{
     protected:
-        Value<double> *pt;
-        Value<double> *eta;
-        Value<double> *phi;
-        Value<double> *m;
+        Value<std::vector<float>> *pt_val;
+        Value<std::vector<float>> *eta_val;
+        Value<std::vector<float>> *phi_val;
+        Value<std::vector<float>> *mass_val;
 
         void update_value(){
-            value.SetPtEtaPhiM(pt->get_value(), eta->get_value(), phi->get_value(), m->get_value());
-        }
-
-        void verify_integrity(){
-            if (pt == nullptr)
-                CRITICAL("LorentzVector " << this->get_name() << " created with invalid pt", -1);
-            if (eta == nullptr)
-                CRITICAL("LorentzVector " << this->get_name() << " created with invalid eta", -1);
-            if (phi == nullptr)
-                CRITICAL("LorentzVector " << this->get_name() << " created with invalid phi", -1);
-            if (m == nullptr)
-                CRITICAL("LorentzVector " << this->get_name() << " created with invalid mass", -1);
+            auto pt = pt_val->get_value();
+            auto eta = eta_val->get_value();
+            auto phi = phi_val->get_value();
+            auto mass = mass_val->get_value();
+            std::vector<int> sizes = {pt.size(), eta.size(), phi.size(), mass.size()};
+            int size = *std::min_element(sizes.begin(), sizes.end());
+            this->value.clear();
+            TLorentzVector lv;
+            for (int i =0; i<size; i++){
+                lv.SetPtEtaPhiM(pt[i], eta[i], phi[i], mass[i]);
+                this->value.push_back(lv);
+            }
         }
 
     public:
-        LorentzVector(const std::string& name,
-                      Value<double>* pt,
-                      Value<double>* eta,
-                      Value<double>* phi,
-                      Value<double>* m)
-          :DerivedValue<TLorentzVector>(name),
-           pt(pt), eta(eta),
-           phi(phi), m(m) { }
-
-        LorentzVector(const std::string& name,
-                      const std::string &pt_label,
-                      const std::string &eta_label,
-                      const std::string &phi_label,
-                      const std::string &m_label)
-          :LorentzVector(name,
-                         dynamic_cast<Value<double>*>(GenValue::get_value(pt_label)),
-                         dynamic_cast<Value<double>*>(GenValue::get_value(eta_label)),
-                         dynamic_cast<Value<double>*>(GenValue::get_value(phi_label)),
-                         dynamic_cast<Value<double>*>(GenValue::get_value(m_label))){ }
+        LorentzVectors(const std::string& name,
+                      Value<std::vector<float>>* pt,
+                      Value<std::vector<float>>* eta,
+                      Value<std::vector<float>>* phi,
+                      Value<std::vector<float>>* mass)
+          :DerivedValue<std::vector<TLorentzVector>>(name),
+           pt_val(pt), eta_val(eta), phi_val(phi), mass_val(mass) { }
 };
 
-class LorentzVectorEnergy : public DerivedValue<double>{
-    protected:
-        Value<TLorentzVector>* vector;
-        void update_value(){
-            value = vector->get_value().E();
-        }
-
-        void verify_integrity(){
-            if (vector == nullptr)
-                CRITICAL("LorentzVectorEnergy " << this->get_name() << " created with invalid vector", -1);
-        }
-
-    public:
-        LorentzVectorEnergy(const std::string& name, Value<TLorentzVector>* vector)
-          :DerivedValue<double>(name),
-           vector(vector){ }
-
-        LorentzVectorEnergy(const std::string& name, const std::string& vector_label)
-          :LorentzVectorEnergy(name,
-                               dynamic_cast<Value<TLorentzVector>*>(GenValue::get_value(vector_label))){ }
-};
 }
 #endif // root_value_hpp

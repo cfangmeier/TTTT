@@ -8,4 +8,5 @@
 #include "dataset.hpp"
 #include "log.hpp"
 #include "argparse.hpp"
+#include "api.hpp"
 #endif // filval_hpp

@@ -39,22 +39,13 @@
 #include <tuple>
 #include <utility>
 
-#include "filval.hpp"
-#include "filval_root.hpp"
+#include "filval/filval.hpp"
+#include "filval_root/filval_root.hpp"
 
 #include "MiniTreeDataSet.hpp"
 
 using namespace std;
 using namespace fv;
-using namespace fv::root;
-using namespace fv::util;
-
-GenValue* lookup(const string& name){
-    return GenValue::get_value(name);
-}
-Filter* lookup_filter(const string& name){
-    return dynamic_cast<Filter*>(GenValue::get_value(name));
-}
 
 void enable_branches(MiniTreeDataSet& mt){
     mt.fChain->SetBranchStatus("*", false);
@@ -84,87 +75,85 @@ void enable_branches(MiniTreeDataSet& mt){
     mt.track_branch<int>("nVert");
 }
 
+
 void declare_values(MiniTreeDataSet& mt){
-    auto& get_energy = GenFunction::register_function<float(float,float,float,float)>("get_energy",
-            FUNC(([](float pt, float eta, float phi, float m){
-                TLorentzVector t;
-                t.SetPtEtaPhiM(pt, eta, phi, m);
-                return t.E();
+
+    auto& get_energy = GenFunction::register_function<float(float, float, float, float)>("get_energy",
+            FUNC(([](float pt, float eta, float phi, float mass){
+                TLorentzVector lv;
+                lv.SetPtEtaPhiM(pt, eta, phi, mass);
+                return lv.E();
             })));
 
-    new ZipMapFour<float, float>(get_energy, "LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass",
-                                 "lepton_energy");
+    /* lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v") */
+    auto lk = zip<float,float,float,float>(lookup<vector<float>>("LepGood_pt"),
+                                           lookup<vector<float>>("LepGood_eta"),
+                                           lookup<vector<float>>("LepGood_phi"),
+                                           lookup<vector<float>>("LepGood_mass"),
+                                           "lepton_kinematics");
+    map_over(get_energy, lk, "lepton_energy");
 
-    typedef tuple<float,float,float,float> PtEtaPhiM;
-    auto& get_energy2 = GenFunction::register_function<float(PtEtaPhiM)>("get_energy",
-            FUNC(([](PtEtaPhiM ptetaphim){
-                float pt, eta, phi, m;
-                tie(pt, eta, phi, m) = ptetaphim;
-                TLorentzVector t;
-                t.SetPtEtaPhiM(pt, eta, phi, m);
-                return t.E();
-            })));
+    fv::pair<vector<float>,vector<float>>("lepton_energy", "LepGood_pt", "lepton_energy_lepton_pt");
 
-    new Zip<float,float,float,float>(dynamic_cast<Value<vector<float>>*>(lookup("LepGood_pt")),
-                                     dynamic_cast<Value<vector<float>>*>(lookup("LepGood_eta")),
-                                     dynamic_cast<Value<vector<float>>*>(lookup("LepGood_phi")),
-                                     dynamic_cast<Value<vector<float>>*>(lookup("LepGood_mass")),
-                                     "lepton_kinematics");
+    max<float>("lepton_energy", "lepton_energy_max");
+    min<float>("lepton_energy", "lepton_energy_min");
+    range<float>("lepton_energy", "lepton_energy_range");
+    mean<float>("lepton_energy", "lepton_energy_mean");
 
-    new Pair<vector<float>,vector<float>>("lepton_energy", "LepGood_pt", "lepton_energy_lepton_pt");
-
-    new Max<float>("lepton_energy", "lepton_energy_max");
-    new Min<float>("lepton_energy", "lepton_energy_min");
-    new Range<float>("lepton_energy", "lepton_energy_range");
-    new Mean<float>("lepton_energy", "lepton_energy_mean");
-
-    new Count<float>(GenFunction::register_function<bool(float)>("bJet_Selection", FUNC(([](float x){return x>0;}))),
+    count<float>(GenFunction::register_function<bool(float)>("bJet_Selection", FUNC(([](float x){return x>0;}))),
                      "Jet_btagCMVA",  "b_jet_count");
 
-    
+    filter("trilepton", FUNC(([nLepGood=lookup<int>("nLepGood")](){
+                return dynamic_cast<Value<int>*>(nLepGood)->get_value() == 3;})));
 
+    filter("os-dilepton", FUNC(([LepGood_charge=lookup<vector<int>>("LepGood_charge")](){
+               auto& charges = LepGood_charge->get_value();
+               return charges.size()==2 && (charges[0] != charges[1]);})));
 
-    new Filter("trilepton", FUNC(([nLepGood=lookup("nLepGood")](){
-            return dynamic_cast<Value<int>*>(nLepGood)->get_value() == 3;})));
-
-    new Filter("os-dilepton", FUNC(([LepGood_charge=lookup("LepGood_charge")](){
-                    auto& charges = static_cast<Value<vector<int>>*>(LepGood_charge)->get_value();
-                    return charges.size()==2 && (charges[0] != charges[1]);})));
-
-    new Filter("ss-dilepton", FUNC(([LepGood_charge=lookup("LepGood_charge")](){
-                    auto& charges = static_cast<Value<vector<int>>*>(LepGood_charge)->get_value();
-                    return charges.size()==2 && (charges[0] == charges[1]);})));
+    filter("ss-dilepton", FUNC(([LepGood_charge=lookup<vector<int>>("LepGood_charge")](){
+               auto& charges = LepGood_charge->get_value();
+               return charges.size()==2 && (charges[0] == charges[1]); })));
 
 }
 
 void declare_containers(MiniTreeDataSet& mt){
-    mt.register_container(new ContainerTH1<int>("lepton_count", "Lepton Multiplicity", lookup("nLepGood"), 8, 0, 8));
-    mt.register_container(new ContainerTH1<int>("top_quark_count", "Top Quark Multiplicity", lookup("nGenTop"), 8, 0, 8));
+    mt.register_container(new ContainerTH1<int>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8));
+    mt.register_container(new ContainerTH1<int>("top_quark_count", "Top Quark Multiplicity", lookup<int>("nGenTop"), 8, 0, 8));
 
-    mt.register_container(new ContainerTH1Many<float>("lepton_energy_all", "Lepton Energy - All", lookup("lepton_energy"), 50, 0, 500));
-    mt.register_container(new ContainerTH1<float>("lepton_energy_max", "Lepton Energy - Max", lookup("lepton_energy_max"), 50, 0, 500));
-    mt.register_container(new ContainerTH1<float>("lepton_energy_min", "Lepton Energy - Min", lookup("lepton_energy_min"), 50, 0, 500));
-    mt.register_container(new ContainerTH1<float>("lepton_energy_rng", "Lepton Energy - Range", lookup("lepton_energy_range"), 50, 0, 500));
-
-
-    mt.register_container(new ContainerTGraph("nLepvsnJet", "Number of Leptons vs Number of Jets", new Pair<int, int>("nLepGood", "nJet") ));
-
-    mt.register_container(new ContainerTH2Many<float>("lepton_energy_vs_pt", "Lepton Energy - Range", lookup("lepton_energy_lepton_pt"),
-                                                50, 0, 500, 50, 0, 500));
-
-    mt.register_container(new ContainerTH1<int>("b_jet_count", "B-Jet Multiplicity", lookup("b_jet_count"), 10, 0, 10));
+    mt.register_container(new ContainerTH1Many<float>("lepton_energy_all", "Lepton Energy - All",
+                                                      lookup<vector<float>>("lepton_energy"), 50, 0, 500));
+    mt.register_container(new ContainerTH1<float>("lepton_energy_max", "Lepton Energy - Max",
+                                                  lookup<float>("lepton_energy_max"), 50, 0, 500));
+    mt.register_container(new ContainerTH1<float>("lepton_energy_min", "Lepton Energy - Min",
+                                                  lookup<float>("lepton_energy_min"), 50, 0, 500));
+    mt.register_container(new ContainerTH1<float>("lepton_energy_rng", "Lepton Energy - Range",
+                                                  lookup<float>("lepton_energy_range"), 50, 0, 500));
 
 
-    mt.register_container(new ContainerTH1<int>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events", lookup("nJet"), 14, 0, 14));
+    mt.register_container(new ContainerTGraph("nLepvsnJet", "Number of Leptons vs Number of Jets",
+                                              fv::pair<int, int>("nLepGood", "nJet") ));
+
+    mt.register_container(new ContainerTH2Many<float>("lepton_energy_vs_pt", "Lepton Energy - Range",
+                                                      lookup<std::pair<std::vector<float>,std::vector<float>>>("lepton_energy_lepton_pt"),
+                                                      50, 0, 500, 50, 0, 500));
+
+    mt.register_container(new ContainerTH1<int>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10));
+
+
+    mt.register_container(new ContainerTH1<int>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events",
+                                                lookup<int>("nJet"), 14, 0, 14));
     mt.get_container("jet_count_os_dilepton")->add_filter(lookup_filter("os-dilepton"));
-    mt.register_container(new ContainerTH1<int>("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events", lookup("nJet"), 14, 0, 14));
+    mt.register_container(new ContainerTH1<int>("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events",
+                lookup<int>("nJet"), 14, 0, 14));
     mt.get_container("jet_count_ss_dilepton")->add_filter(lookup_filter("ss-dilepton"));
-    mt.register_container(new ContainerTH1<int>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events",     lookup("nJet"), 14, 0, 14));
+    mt.register_container(new ContainerTH1<int>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events",
+                lookup<int>("nJet"), 14, 0, 14));
     mt.get_container("jet_count_trilepton")->add_filter(lookup_filter("trilepton"));
 
-    mt.register_container(new ContainerTH1<int>("primary_vert_count", "Number of Primary Vertices", lookup("nVert"), 50, 0, 50));
+    mt.register_container(new ContainerTH1<int>("primary_vert_count", "Number of Primary Vertices",
+                lookup<int>("nVert"), 50, 0, 50));
 
-    mt.register_container(new CounterMany<int>("GenTop_pdg_id", lookup("GenTop_pdgId")));
+    mt.register_container(new CounterMany<int>("GenTop_pdg_id", lookup<vector<int>>("GenTop_pdgId")));
 }
 
 
@@ -173,7 +162,7 @@ void run_analysis(const std::string& input_filename, bool silent){
         return input.substr(0, input.find_last_of(".")) + new_suffix;
     };
     string log_filename = replace_suffix(input_filename, "_result.log");
-    Log::init_logger(log_filename, LogPriority::kLogDebug);
+    fv::util::Log::init_logger(log_filename, fv::util::LogPriority::kLogDebug);
 
     string output_filename = replace_suffix(input_filename, "_result.root");
     MiniTreeDataSet mt(input_filename, output_filename);
@@ -188,7 +177,7 @@ void run_analysis(const std::string& input_filename, bool silent){
 
 int main(int argc, char * argv[])
 {
-    ArgParser args(argc, argv);
+    fv::util::ArgParser args(argc, argv);
     if(!args.cmdOptionExists("-f")) {
         cout << "Usage: ./main -f input_minitree.root" << endl;
         return -1;
