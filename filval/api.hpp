@@ -39,9 +39,9 @@ namespace fv{
     }
 
     template <typename Ret, typename... ArgTypes>
-    MapOver<Ret(ArgTypes...)>* map_over(Function<Ret(ArgTypes...)>& fn,
+    Map<Ret(ArgTypes...)>* map(Function<Ret(ArgTypes...)>& fn,
                                         Zip<ArgTypes...>* arg, const std::string& alias=""){
-        return new MapOver<Ret(ArgTypes...)>(fn, arg, alias);
+        return new Map<Ret(ArgTypes...)>(fn, arg, alias);
     }
 
     template <typename T>

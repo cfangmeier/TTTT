@@ -20,5 +20,6 @@ var searchData=
   ['value_3c_20t_20_2a_20_3e',['Value&lt; T * &gt;',['../classfv_1_1Value.html',1,'fv']]],
   ['value_3c_20t_20_2a_3e',['Value&lt; T *&gt;',['../classfv_1_1Value.html',1,'fv']]],
   ['value_3c_20tlorentzvector_20_3e',['Value&lt; TLorentzVector &gt;',['../classfv_1_1Value.html',1,'fv']]],
-  ['value_3c_20v_20_3e',['Value&lt; V &gt;',['../classfv_1_1Value.html',1,'fv']]]
+  ['value_3c_20v_20_3e',['Value&lt; V &gt;',['../classfv_1_1Value.html',1,'fv']]],
+  ['vector',['Vector',['../classfv_1_1root_1_1Vector.html',1,'fv::root']]]
 ];

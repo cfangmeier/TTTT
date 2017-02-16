@@ -523,7 +523,19 @@ class _Zip<Head, Tail...> : private _Zip<Tail...> {
 };
 
 /**
- * Zips a series of observations together
+ * Zips a series of vectors together. Can be combined with Map to
+ * yield a Value whose elements are individually a function of the
+ * corresponding elements of the vectors that were zipped together. For those
+ * familiar with python, it accompilishes the same thing as
+ * @code{.py}
+ * xs = [1,2,3,4]
+ * ys = [10,20,30,40]
+ * print(list(map(lambda t:t[0]+t[1],zip(xs,ys))))
+ * @endcode
+ * which outputs
+ * @code
+ * [11, 22, 33, 44]
+ * @endcode
  */
 template <typename... ArgTypes>
 class Zip : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>,
@@ -549,9 +561,9 @@ class Zip : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>,
         }
 };
 
-template<typename> class MapOver; // undefined
+template<typename> class Map; // undefined
 template <typename Ret, typename... ArgTypes>
-class MapOver<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
+class Map<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
     private:
         Function<Ret(ArgTypes...)>& fn;
         Zip<ArgTypes...>* arg;
@@ -564,7 +576,7 @@ class MapOver<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
         }
 
     public:
-        MapOver(Function<Ret(ArgTypes...)>& fn, Zip<ArgTypes...>* arg, const std::string& alias)
+        Map(Function<Ret(ArgTypes...)>& fn, Zip<ArgTypes...>* arg, const std::string& alias)
           :DerivedValue<std::vector<Ret>>("map_over("+fn.get_name()+":"+arg->get_name()+")", alias),
            fn(fn), arg(arg){ }
 

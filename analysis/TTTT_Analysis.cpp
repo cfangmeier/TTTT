@@ -38,11 +38,13 @@
 #include <vector>
 #include <tuple>
 #include <utility>
+#include <limits>
 
 #include "filval/filval.hpp"
 #include "filval_root/filval_root.hpp"
 
 #include "MiniTreeDataSet.hpp"
+#include <TSystem.h>
 
 using namespace std;
 using namespace fv;
@@ -69,6 +71,31 @@ void enable_branches(MiniTreeDataSet& mt){
     mt.track_branch<int>("nGenTop");
     mt.track_branch_vec<int>("nGenTop", "GenTop_pdgId");
 
+    mt.track_branch<int>("nGenPart");
+    mt.track_branch_vec<int>("nGenPart", "GenPart_pdgId");
+    mt.track_branch_vec<int>("nGenPart", "GenPart_motherIndex");
+    mt.track_branch_vec<float>("nGenPart", "GenPart_pt");
+    mt.track_branch_vec<float>("nGenPart", "GenPart_eta");
+    mt.track_branch_vec<float>("nGenPart", "GenPart_phi");
+    mt.track_branch_vec<float>("nGenPart", "GenPart_mass");
+
+/*
+    GenPart_motherId                                                              : Int_t pdgId of the mother of the particle for Hard scattering particles, with ancestry and links
+    GenPart_grandmotherId                                                         : Int_t pdgId of the grandmother of the particle for Hard scattering particles, with ancestry and links
+    GenPart_sourceId                                                              : Int_t origin of the particle (heaviest ancestor) : 6=t, 25=h, 23/24=W/Z for Hard scattering particles, with ancestry and links
+    GenPart_charge                                                                : Float_t charge for Hard scattering particles, with ancestry and links
+    GenPart_status                                                                : Int_t status for Hard scattering particles, with ancestry and links
+    GenPart_isPromptHard                                                          : Int_t isPromptHard for Hard scattering particles, with ancestry and links
+    GenPart_pdgId                                                                 : Int_t pdgId for Hard scattering particles, with ancestry and links
+    GenPart_pt                                                                    : Float_t pt for Hard scattering particles, with ancestry and links
+    GenPart_eta                                                                   : Float_t eta for Hard scattering particles, with ancestry and links
+    GenPart_phi                                                                   : Float_t phi for Hard scattering particles, with ancestry and links
+    GenPart_mass                                                                  : Float_t mass for Hard scattering particles, with ancestry and links
+    GenPart_motherIndex                                                           : Int_t index of the mother in the generatorSummary for Hard scattering particles, with ancestry and links
+*/
+
+
+
     mt.track_branch<int>("ngenLep");
     mt.track_branch_vec<int>("ngenLep", "genLep_sourceId");
     mt.track_branch_vec<float>("ngenLep", "genLep_pt");
@@ -79,14 +106,15 @@ void enable_branches(MiniTreeDataSet& mt){
 
 void declare_values(MiniTreeDataSet& mt){
 
-    energies(lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v"), "lepton_energy");
+    energies(lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v"), "LepGood_energy");
+    energies(lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v"), "GenPart_energy");
 
-    fv::pair<vector<float>,vector<float>>("lepton_energy", "LepGood_pt", "lepton_energy_lepton_pt");
+    fv::pair<vector<float>,vector<float>>("LepGood_energy", "LepGood_pt", "LepGood_energy_LepGood_pt");
 
-    max<float>("lepton_energy", "lepton_energy_max");
-    min<float>("lepton_energy", "lepton_energy_min");
-    range<float>("lepton_energy", "lepton_energy_range");
-    mean<float>("lepton_energy", "lepton_energy_mean");
+    max<float>("LepGood_energy", "LepGood_energy_max");
+    min<float>("LepGood_energy", "LepGood_energy_min");
+    range<float>("LepGood_energy", "LepGood_energy_range");
+    mean<float>("LepGood_energy", "LepGood_energy_mean");
 
     count<float>(GenFunction::register_function<bool(float)>("bJet_Selection", FUNC(([](float x){return x>0;}))),
                      "Jet_btagCMVA",  "b_jet_count");
@@ -108,22 +136,26 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container(new ContainerTH1<int>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8));
     mt.register_container(new ContainerTH1<int>("top_quark_count", "Top Quark Multiplicity", lookup<int>("nGenTop"), 8, 0, 8));
 
-    mt.register_container(new ContainerTH1Many<float>("lepton_energy_all", "Lepton Energy - All",
-                                                      lookup<vector<float>>("lepton_energy"), 50, 0, 500));
-    mt.register_container(new ContainerTH1<float>("lepton_energy_max", "Lepton Energy - Max",
-                                                  lookup<float>("lepton_energy_max"), 50, 0, 500));
-    mt.register_container(new ContainerTH1<float>("lepton_energy_min", "Lepton Energy - Min",
-                                                  lookup<float>("lepton_energy_min"), 50, 0, 500));
-    mt.register_container(new ContainerTH1<float>("lepton_energy_rng", "Lepton Energy - Range",
-                                                  lookup<float>("lepton_energy_range"), 50, 0, 500));
+    mt.register_container(new ContainerTH1Many<float>("LepGood_energy_all", "Lepton Energy - All",
+                                                      lookup<vector<float>>("LepGood_energy"), 50, 0, 500));
+    mt.register_container(new ContainerTH1<float>("LepGood_energy_max", "Lepton Energy - Max",
+                                                  lookup<float>("LepGood_energy_max"), 50, 0, 500,
+                                                  "Lepton Energy Max(GeV)"));
+    mt.register_container(new ContainerTH1<float>("LepGood_energy_min", "Lepton Energy - Min",
+                                                  lookup<float>("LepGood_energy_min"), 50, 0, 500,
+                                                  "Lepton Energy Min(GeV)"));
+    mt.register_container(new ContainerTH1<float>("LepGood_energy_range", "Lepton Energy - Range",
+                                                  lookup<float>("LepGood_energy_range"), 50, 0, 500,
+                                                  "Lepton Energy Range(GeV)"));
 
 
     mt.register_container(new ContainerTGraph("nLepvsnJet", "Number of Leptons vs Number of Jets",
                                               fv::pair<int, int>("nLepGood", "nJet") ));
 
-    mt.register_container(new ContainerTH2Many<float>("lepton_energy_vs_pt", "Lepton Energy - Range",
-                                                      lookup<std::pair<std::vector<float>,std::vector<float>>>("lepton_energy_lepton_pt"),
-                                                      50, 0, 500, 50, 0, 500));
+    mt.register_container(new ContainerTH2Many<float>("LepGood_energy_vs_pt", "Lepton Energy vs Lepton Pt",
+                                                      lookup<std::pair<std::vector<float>,std::vector<float>>>("LepGood_energy_LepGood_pt"),
+                                                      50, 0, 500, 50, 0, 500,
+                                                      "lepton energy","lepton Pt"));
 
     mt.register_container(new ContainerTH1<int>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10));
 
@@ -142,10 +174,17 @@ void declare_containers(MiniTreeDataSet& mt){
                 lookup<int>("nVert"), 50, 0, 50));
 
     mt.register_container(new CounterMany<int>("GenTop_pdg_id", lookup<vector<int>>("GenTop_pdgId")));
+    mt.register_container(new CounterMany<int>("GenPart_pdg_id", lookup<vector<int>>("GenPart_pdgId")));
+
+    mt.register_container(new Vector<vector<int>>("GenPart_pdgId", lookup<vector<int>>("GenPart_pdgId")));
+    mt.register_container(new Vector<vector<int>>("GenPart_motherIndex", lookup<vector<int>>("GenPart_motherIndex")));
+    mt.register_container(new Vector<vector<float>>("GenPart_pt", lookup<vector<float>>("GenPart_pt")));
+    mt.register_container(new Vector<vector<float>>("GenPart_energy", lookup<vector<float>>("GenPart_energy")));
 }
 
 
 void run_analysis(const std::string& input_filename, bool silent){
+    gSystem->Load("libfilval.so");
     auto replace_suffix = [](const std::string& input, const std::string& new_suffix){
         return input.substr(0, input.find_last_of(".")) + new_suffix;
     };

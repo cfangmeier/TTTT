@@ -29,3 +29,15 @@ from the Minitree. Create one of these for each input Minitree. The results are
 then usually processed in Jupyter Notebooks to produce final
 plots/measurements. For example, a basic listing of generated histograms can be
 found [here](./TTTT_Analysis.html)
+
+
+
+
+References
+==========
+  - **Four Tops for LHC** ([arXiv](https://arxiv.org/abs/1611.05032v1)) <br/>
+    A theory paper outlining a general strategy for measuring tttt cross-section using the SS-dilepton and trilepton channels
+  - **Efficient Identification of Boosted Semileptonic Top Quarks at the LHC** ([arXiv](https://arxiv.org/abs/1007.2221)) <br/>
+    Detailed description of the "mini-iso" requirement.
+  - **Top-tagging: A Method for Identifying Boosted Hadronic Tops** ([arXiv](https://arxiv.org/abs/0806.0848)) <br/>
+    Description of how to identify hadronically decaying Tops. ie. t->b + W(->q + \bar{q})

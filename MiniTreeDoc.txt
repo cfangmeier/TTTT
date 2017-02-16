@@ -406,7 +406,7 @@ met_jecDown_genEta                                                            : 
 nGenPart                                                                      : nGenPart/I
 GenPart_motherId                                                              : Int_t pdgId of the mother of the particle for Hard scattering particles, with ancestry and links
 GenPart_grandmotherId                                                         : Int_t pdgId of the grandmother of the particle for Hard scattering particles, with ancestry and links
-GenPart_sourceId                                                              : Int_t origin of the particle (heaviest ancestor)                                                                                                                                                                                                                                                                                                             : 6=t, 25=h, 23/24=W/Z for Hard scattering particles, with ancestry and links
+GenPart_sourceId                                                              : Int_t origin of the particle (heaviest ancestor) : 6=t, 25=h, 23/24=W/Z for Hard scattering particles, with ancestry and links
 GenPart_charge                                                                : Float_t charge for Hard scattering particles, with ancestry and links
 GenPart_status                                                                : Int_t status for Hard scattering particles, with ancestry and links
 GenPart_isPromptHard                                                          : Int_t isPromptHard for Hard scattering particles, with ancestry and links
@@ -514,7 +514,8 @@ LepGood_chargedHadRelIso03                                                    : 
 LepGood_chargedHadRelIso04                                                    : Float_t PF Rel Iso, R=0.4, charged hadrons only for Leptons after the preselection
 LepGood_softMuonId                                                            : Int_t Muon POG Soft id for Leptons after the preselection
 LepGood_pfMuonId                                                              : Int_t Muon POG Loose id for Leptons after the preselection
-LepGood_eleCutId2012_full5x5                                                  : Int_t Electron cut-based id (POG 2012, full5x5 shapes) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
+LepGood_eleCutId2012_full5x5                                                  : Int_t Electron cut-based id (POG 2012, full5x5 shapes)
+                                                                                  : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
 LepGood_trackerLayers                                                         : Int_t Tracker Layers for Leptons after the preselection
 LepGood_pixelLayers                                                           : Int_t Pixel Layers for Leptons after the preselection
 LepGood_trackerHits                                                           : Int_t Tracker hits for Leptons after the preselection
@@ -540,7 +541,8 @@ LepGood_hadronicOverEm                                                        : 
 LepGood_eInvMinusPInv                                                         : Float_t Electron 1/E - 1/p  (without absolute value!) for Leptons after the preselection
 LepGood_eInvMinusPInv_tkMom                                                   : Float_t Electron 1/E - 1/p_tk_vtx  (without absolute value!) for Leptons after the preselection
 LepGood_etaSc                                                                 : Float_t Electron supercluster pseudorapidity for Leptons after the preselection
-LepGood_mcMatchPdgId                                                          : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z) : pdgId of the matched gen-level lepton, zero if non-prompt or fake for Leptons after the preselection
+LepGood_mcMatchPdgId                                                          : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z)
+                                                                                  : pdgId of the matched gen-level lepton, zero if non-prompt or fake for Leptons after the preselection
 LepGood_miniRelIsoCharged                                                     : Float_t miniRelIsoCharged for Leptons after the preselection
 LepGood_miniRelIsoNeutral                                                     : Float_t miniRelIsoNeutral for Leptons after the preselection
 LepGood_jetNDauChargedMVASel                                                  : Float_t n charged daughters (with selection for ttH lepMVA) of nearest jet for Leptons after the preselection

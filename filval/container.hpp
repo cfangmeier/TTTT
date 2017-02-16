@@ -7,14 +7,19 @@
 #include "value.hpp"
 #include "filter.hpp"
 
+template class std::vector<std::vector<float> >;
+template class std::vector<std::vector<int> >;
+
 namespace fv::util{
-std::string& get_type_name(const std::type_index& index){
+std::string get_type_name(const std::type_index& index){
     std::map<std::type_index, std::string> _map;
     // Add to this list as needed :)
     _map[typeid(int)]="int";
     _map[typeid(unsigned int)]="unsigned int";
     _map[typeid(float)]="float";
     _map[typeid(double)]="double";
+    _map[typeid(std::vector<int>)]="std::vector<int>";
+    _map[typeid(std::vector<float>)]="std::vector<float>";
 
     if (_map[index] == ""){
         CRITICAL("Cannot lookup type name of \"" << index.name() << "\"",-1);
@@ -81,28 +86,6 @@ class Container : public GenContainer{
             return container;
         }
 
-};
-
-template <typename T>
-class ContainerVector : public Container<std::vector<T> >{
-    private:
-        Value<T>* value;
-
-        void _fill(){
-            this->container->push_back(value->get_value());
-        }
-    public:
-        ContainerVector(const std::string& name, std::vector<T> *container, Value<T>* value)
-          :Container<std::vector<T> >(name, container),
-           value(value){ }
-        ContainerVector(const std::string& name, Value<T>* value)
-          :Container<std::vector<T> >(name, nullptr),
-           value(value){
-            this->container = new std::vector<T>();
-        }
-        void save_as(const std::string& fname) {
-            WARNING("Saving of ContainerVector objects not supported");
-        }
 };
 
 template <typename T>

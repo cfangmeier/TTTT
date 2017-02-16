@@ -53,7 +53,11 @@ void save_as(TObject* container, const std::string& fname, const SaveOption& opt
  * containers, but it needs the *name* of the type of the container, eg.
  * std::map<int,int> to be able to do this. In order to generate this name at
  * run-time, the fv::util::get_type_name function uses RTTI to get type info
- * and use it to look up the proper name.
+ * and use it to look up the proper name. 
+ *
+ * For nexted containers, it is necessary to generate the CLING dictionaries
+ * for each type at compile time to enable serialization. To do this, add the
+ * type definition into the LinkDef.hpp header file.
  */
 void save_as_stl(void* container, const std::string& type_name,
                   const std::string& obj_name,
@@ -87,12 +91,16 @@ class _ContainerTH1 : public Container<TH1>{
                 }
                 this->container = new TH1D(this->get_name().c_str(), this->title.c_str(),
                                            this->nbins, this->low, this->high);
+                this->container->SetXTitle(label_x.c_str());
+                this->container->SetYTitle(label_y.c_str());
             }
             _do_fill();
         }
 
     protected:
         std::string title;
+        std::string label_x;
+        std::string label_y;
         int nbins;
         double low;
         double high;
@@ -102,9 +110,12 @@ class _ContainerTH1 : public Container<TH1>{
 
     public:
         explicit _ContainerTH1(const std::string &name, const std::string& title, Value<V>* value,
-                               int nbins, double low, double high)
+                               int nbins, double low, double high,
+                               const std::string& label_x = "",
+                               const std::string& label_y = "")
           :Container<TH1>(name, nullptr),
            title(title), nbins(nbins), low(low), high(high),
+           label_x(label_x), label_y(label_y),
            value(value) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
@@ -143,12 +154,16 @@ class _ContainerTH2 : public Container<TH2>{
                 this->container = new TH2D(this->get_name().c_str(), this->title.c_str(),
                                            this->nbins_x, this->low_x, this->high_x,
                                            this->nbins_y, this->low_y, this->high_y);
+                this->container->SetXTitle(label_x.c_str());
+                this->container->SetYTitle(label_y.c_str());
             }
             _do_fill(value->get_value());
         }
 
     protected:
         std::string title;
+        std::string label_x;
+        std::string label_y;
         int nbins_x;
         int nbins_y;
         double low_x;
@@ -163,10 +178,14 @@ class _ContainerTH2 : public Container<TH2>{
         explicit _ContainerTH2(const std::string& name, const std::string& title,
                                Value<std::pair<V, V>>* value,
                                int nbins_x, double low_x, double high_x,
-                               int nbins_y, double low_y, double high_y)
+                               int nbins_y, double low_y, double high_y,
+                               const std::string& label_x = "",
+                               const std::string& label_y = "")
           :Container<TH2>(name, nullptr),
+           title(title),
            nbins_x(nbins_x), low_x(low_x), high_x(high_x),
            nbins_y(nbins_y), low_y(low_y), high_y(high_y),
+           label_x(label_x), label_y(label_y),
            value(value) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
@@ -226,6 +245,28 @@ class ContainerTGraph : public Container<TGraph>{
         }
 };
 
+template <typename T>
+class Vector : public Container<std::vector<T> >{
+    private:
+        Value<T>* value;
+
+        void _fill(){
+            this->container->push_back(value->get_value());
+        }
+    public:
+        Vector(const std::string& name, std::vector<T>* container, Value<T>* value)
+          :Container<std::vector<T>>(name, container), value(value){ }
+
+        Vector(const std::string& name, Value<T>* value)
+          :Container<std::vector<T>>(name, nullptr), value(value){
+            this->container = new std::vector<T>();
+        }
+
+        void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+            std::string type_name = "std::vector<"+fv::util::get_type_name(typeid(T))+">";
+            util::save_as_stl(this->get_container(), type_name, this->get_name(), option);
+        }
+};
 
 template <typename V, typename D>
 class _Counter : public Container<std::map<D,int>>{
@@ -242,6 +283,7 @@ class _Counter : public Container<std::map<D,int>>{
         }
 
 };
+
 
 /**
  * A Counter that keeps a mapping of the number of occurances of each input
