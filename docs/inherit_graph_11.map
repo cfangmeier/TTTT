@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfv_1_1Function.html" title="fv::Function\&lt; T(std\l::vector\&lt; T \&gt;)\&gt;" alt="" coords="5,5,149,47"/>
+<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::pair\l\&lt; T, int \&gt; \&gt;" alt="" coords="5,23,152,65"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::pair\&lt; T, int \&gt; \&gt;" alt="" coords="200,23,364,65"/>
+<area shape="rect" id="node3" href="$classfv_1_1ReduceIndex.html" title="Similar to Reduce, but returns a pair of a T and an int. " alt="" coords="412,31,575,57"/>
+<area shape="rect" id="node4" href="$classfv_1_1MaxIndex.html" title="Find and return the maximum value of a vector and its index. " alt="" coords="623,5,765,32"/>
+<area shape="rect" id="node5" href="$classfv_1_1MinIndex.html" title="Find and return the minimum value of a vector and its index. " alt="" coords="625,56,763,83"/>
 </map>

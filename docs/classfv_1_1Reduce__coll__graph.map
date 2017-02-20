@@ -1,7 +1,5 @@
 <map id="fv::Reduce&lt; T &gt;" name="fv::Reduce&lt; T &gt;">
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="485,74,652,101"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="A generic value. " alt="" coords="159,63,275,90"/>
-<area shape="rect" id="node4" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="5,38,109,65"/>
-<area shape="rect" id="node7" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; T \&gt; \&gt;" alt="" coords="299,5,461,47"/>
-<area shape="rect" id="node6" href="$classfv_1_1Function.html" title="fv::Function\&lt; T(std\l::vector\&lt; T \&gt;)\&gt;" alt="" coords="497,125,641,167"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="5,89,172,115"/>
+<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="A generic value. " alt="" coords="31,5,147,32"/>
+<area shape="rect" id="node4" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; T \&gt; \&gt;" alt="" coords="197,81,359,123"/>
 </map>

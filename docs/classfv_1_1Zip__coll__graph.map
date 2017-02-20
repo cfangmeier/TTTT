@@ -1,6 +1,4 @@
 <map id="fv::Zip&lt; ArgTypes &gt;" name="fv::Zip&lt; ArgTypes &gt;">
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::vector\&lt; std::tuple\l\&lt; ArgTypes... \&gt; \&gt; \&gt;" alt="" coords="438,5,602,61"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; std::tuple\&lt; ArgTypes... \&gt; \&gt; \&gt;" alt="" coords="157,13,387,54"/>
-<area shape="rect" id="node4" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="5,20,109,47"/>
-<area shape="rect" id="node5" href="$classfv_1_1__Zip.html" title="fv::_Zip\&lt; ArgTypes... \&gt;" alt="" coords="435,85,605,112"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::vector\&lt; std::tuple\l\&lt; ArgTypes... \&gt; \&gt; \&gt;" alt="" coords="38,95,202,151"/>
+<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; std::tuple\&lt; ArgTypes... \&gt; \&gt; \&gt;" alt="" coords="5,5,235,47"/>
 </map>

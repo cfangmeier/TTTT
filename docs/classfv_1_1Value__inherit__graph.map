@@ -1,13 +1,12 @@
 <map id="fv::Value&lt; T &gt;" name="fv::Value&lt; T &gt;">
-<area shape="rect" id="node3" href="$classfv_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="191,155,358,181"/>
-<area shape="rect" id="node12" href="$classfv_1_1ObservedValue.html" title="A generic, observed, value. " alt="" coords="383,155,561,181"/>
-<area shape="rect" id="node2" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="321,5,425,32"/>
-<area shape="rect" id="node4" href="$classfv_1_1BoundValue.html" title="A generic value owning only a function object. " alt="" coords="5,229,163,256"/>
-<area shape="rect" id="node5" href="$classfv_1_1ConstantValue.html" title="A Value which always returns the same value, supplied in the constructor. " alt="" coords="187,229,362,256"/>
-<area shape="rect" id="node6" href="$classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. " alt="" coords="386,229,513,256"/>
-<area shape="rect" id="node7" href="$classfv_1_1ElementOf.html" title="Extract the element at a specific index from a vector. " alt="" coords="88,304,237,331"/>
-<area shape="rect" id="node8" href="$classfv_1_1Max.html" title="Find and return the maximum value of a vector. " alt="" coords="261,304,368,331"/>
-<area shape="rect" id="node9" href="$classfv_1_1Mean.html" title="Calculate the mean value of a vector. " alt="" coords="392,304,507,331"/>
-<area shape="rect" id="node10" href="$classfv_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="531,304,634,331"/>
-<area shape="rect" id="node11" href="$classfv_1_1Range.html" title="Calculate the range of the values in a vector. " alt="" coords="658,304,779,331"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="191,80,358,107"/>
+<area shape="rect" id="node11" href="$classfv_1_1ObservedValue.html" title="A value supplied by the dataset, not derived. " alt="" coords="383,80,561,107"/>
+<area shape="rect" id="node3" href="$classfv_1_1BoundValue.html" title="A generic value owning only a function object. " alt="" coords="5,155,163,181"/>
+<area shape="rect" id="node4" href="$classfv_1_1ConstantValue.html" title="A Value which always returns the same value, supplied in the constructor. " alt="" coords="187,155,362,181"/>
+<area shape="rect" id="node5" href="$classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. " alt="" coords="386,155,513,181"/>
+<area shape="rect" id="node6" href="$classfv_1_1ElementOf.html" title="Extract the element at a specific index from a vector. " alt="" coords="88,229,237,256"/>
+<area shape="rect" id="node7" href="$classfv_1_1Max.html" title="Find and return the maximum value of a vector. " alt="" coords="261,229,368,256"/>
+<area shape="rect" id="node8" href="$classfv_1_1Mean.html" title="Calculate the mean value of a vector. " alt="" coords="392,229,507,256"/>
+<area shape="rect" id="node9" href="$classfv_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="531,229,634,256"/>
+<area shape="rect" id="node10" href="$classfv_1_1Range.html" title="Calculate the range of the values in a vector. " alt="" coords="658,229,779,256"/>
 </map>

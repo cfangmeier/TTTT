@@ -36,7 +36,6 @@
  */
 #include <iostream>
 #include <vector>
-#include <tuple>
 #include <utility>
 #include <limits>
 
@@ -94,6 +93,9 @@ void enable_branches(MiniTreeDataSet& mt){
     GenPart_motherIndex                                                           : Int_t index of the mother in the generatorSummary for Hard scattering particles, with ancestry and links
 */
 
+    mt.track_branch<int>("nBJetLoose40");
+    mt.track_branch<int>("nBJetMedium40");
+    mt.track_branch<int>("nBJetTight40");
 
 
     mt.track_branch<int>("ngenLep");
@@ -105,6 +107,13 @@ void enable_branches(MiniTreeDataSet& mt){
 
 
 void declare_values(MiniTreeDataSet& mt){
+
+
+    auto& add = GenFunction::register_function<int(int,int)>("add",
+        FUNC(([](int a, int b){
+            return a + b;
+        })));
+    apply(add,fv::tuple<int,int>(lookup<int>("nBJetLoose40"), lookup<int>("nBJetMedium40")), "looseplusmedium");
 
     energies(lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v"), "LepGood_energy");
     energies(lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v"), "GenPart_energy");
@@ -133,6 +142,11 @@ void declare_values(MiniTreeDataSet& mt){
 }
 
 void declare_containers(MiniTreeDataSet& mt){
+
+    mt.register_container(new ContainerTH1<int>("loose", "Loose", lookup<int>("nBJetLoose40"), 10, 0, 10));
+    mt.register_container(new ContainerTH1<int>("medium", "Medium", lookup<int>("nBJetMedium40"), 10, 0, 10));
+    mt.register_container(new ContainerTH1<int>("looseplusmedium", "Loose + Medium", lookup<int>("looseplusmedium"), 10, 0, 10));
+
     mt.register_container(new ContainerTH1<int>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8));
     mt.register_container(new ContainerTH1<int>("top_quark_count", "Top Quark Multiplicity", lookup<int>("nGenTop"), 8, 0, 8));
 

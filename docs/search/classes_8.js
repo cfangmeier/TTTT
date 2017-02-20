@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['log',['Log',['../classfv_1_1util_1_1Log.html',1,'fv::util']]],
-  ['lorentzvectors',['LorentzVectors',['../classfv_1_1root_1_1LorentzVectors.html',1,'fv::root']]]
+  ['observedvalue',['ObservedValue',['../classfv_1_1ObservedValue.html',1,'fv']]]
 ];

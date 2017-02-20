@@ -1,5 +1,4 @@
 <map id="fv::ConstantValue&lt; T &gt;" name="fv::ConstantValue&lt; T &gt;">
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A generic, derived, value. " alt="" coords="56,171,223,197"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="A generic value. " alt="" coords="5,81,121,108"/>
-<area shape="rect" id="node4" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="11,5,115,32"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="9,80,176,107"/>
+<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="A generic value. " alt="" coords="35,5,151,32"/>
 </map>

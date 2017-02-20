@@ -71,12 +71,17 @@ $(function() {
 <div class="title">fv::Container&lt; H &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A class that is used to "hold" values.  
+ <a href="classfv_1_1Container.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="container_8hpp_source.html">container.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for fv::Container&lt; H &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfv_1_1Container__inherit__graph.png" border="0" usemap="#fv_1_1Container_3_01H_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="fv_1_1Container_3_01H_01_4_inherit__map" id="fv_1_1Container_3_01H_01_4_inherit__map">
-<area shape="rect" id="node2" href="classfv_1_1GenContainer.html" title="fv::GenContainer" alt="" coords="13,5,143,32"/>
+<area shape="rect" id="node2" href="classfv_1_1GenContainer.html" title="Generic, untyped parent class of Container. " alt="" coords="13,5,143,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -84,7 +89,7 @@ Collaboration diagram for fv::Container&lt; H &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfv_1_1Container__coll__graph.png" border="0" usemap="#fv_1_1Container_3_01H_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="fv_1_1Container_3_01H_01_4_coll__map" id="fv_1_1Container_3_01H_01_4_coll__map">
-<area shape="rect" id="node2" href="classfv_1_1GenContainer.html" title="fv::GenContainer" alt="" coords="5,5,136,32"/>
+<area shape="rect" id="node2" href="classfv_1_1GenContainer.html" title="Generic, untyped parent class of Container. " alt="" coords="13,5,143,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -104,7 +109,7 @@ virtual H *&#160;</td><td class="memItemRight" valign="bottom"><b>get_container<
 &#160;</td><td class="memItemRight" valign="bottom"><b>GenContainer</b> (const std::string name)</td></tr>
 <tr class="separator:a34630bea6b7a4f97507420997122ae38 inherit pub_methods_classfv_1_1GenContainer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ec383ec157a845610061c3e50f275ac inherit pub_methods_classfv_1_1GenContainer"><td class="memItemLeft" align="right" valign="top"><a id="a5ec383ec157a845610061c3e50f275ac"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>add_filter</b> (<a class="el" href="classfv_1_1GenValue.html">GenValue</a> *filter)</td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_filter</b> (GenValue *filter)</td></tr>
 <tr class="separator:a5ec383ec157a845610061c3e50f275ac inherit pub_methods_classfv_1_1GenContainer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9b35ceab9c8238f0d7b51174a28aad9 inherit pub_methods_classfv_1_1GenContainer"><td class="memItemLeft" align="right" valign="top"><a id="af9b35ceab9c8238f0d7b51174a28aad9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>fill</b> ()</td></tr>
@@ -116,10 +121,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_description</b> (
 const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_name</b> ()</td></tr>
 <tr class="separator:ad21df0a48fca797ff0cc9fec6a0d46f9 inherit pub_methods_classfv_1_1GenContainer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c4dd0c4bf7017525c2091f356d67d50 inherit pub_methods_classfv_1_1GenContainer"><td class="memItemLeft" align="right" valign="top"><a id="a9c4dd0c4bf7017525c2091f356d67d50"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>save_as</b> (const std::string &amp;fname, const SaveOption &amp;option)=0</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>save_as</b> (const std::string &amp;fname, const <a class="el" href="namespacefv.html#a16a191c4b8935d4c7c5aad79fc4ea97e">SaveOption</a> &amp;option)=0</td></tr>
 <tr class="separator:a9c4dd0c4bf7017525c2091f356d67d50 inherit pub_methods_classfv_1_1GenContainer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a092468704245618c0f4e2faf0f0a5efd inherit pub_methods_classfv_1_1GenContainer"><td class="memItemLeft" align="right" valign="top"><a id="a092468704245618c0f4e2faf0f0a5efd"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const SaveOption &amp;option=SaveOption::PNG)</td></tr>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>save</b> (const <a class="el" href="namespacefv.html#a16a191c4b8935d4c7c5aad79fc4ea97e">SaveOption</a> &amp;option=SaveOption::PNG)</td></tr>
 <tr class="separator:a092468704245618c0f4e2faf0f0a5efd inherit pub_methods_classfv_1_1GenContainer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
@@ -135,7 +140,13 @@ Additional Inherited Members</h2></td></tr>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>_fill</b> ()=0</td></tr>
 <tr class="separator:ad7e9b2f7dcd1cda772e4a1481690897a inherit pro_methods_classfv_1_1GenContainer"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename H&gt;<br />
+class fv::Container&lt; H &gt;</h3>
+
+<p>A class that is used to "hold" values. </p>
+<p>When an event is loaded, the associated filters on this container are checked. If they all pass, the <code>_fill()</code> method is called and the <a class="el" href="classfv_1_1Container.html" title="A class that is used to &quot;hold&quot; values. ">Container</a> can access the stored <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> object to process it. For example, if the <a class="el" href="classfv_1_1Container.html" title="A class that is used to &quot;hold&quot; values. ">Container</a> is a ROOT Histogram object, it may call <code>container-&gt;Fill(value-&gt;get_value())</code>. </p>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/caleb/Sources/TTTT/filval/<a class="el" href="container_8hpp_source.html">container.hpp</a></li>
 </ul>
 </div><!-- contents -->

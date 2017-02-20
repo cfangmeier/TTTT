@@ -28,6 +28,26 @@ namespace fv{
         return new Zip<ArgTypes...>(args..., alias);
     }
 
+    template <typename Ret, typename... ArgTypes>
+    Map<Ret(ArgTypes...)>* map(Function<Ret(ArgTypes...)>& fn,
+                                        Zip<ArgTypes...>* arg, const std::string& alias=""){
+        return new Map<Ret(ArgTypes...)>(fn, arg, alias);
+    }
+
+
+    template <typename... ArgTypes>
+    Tuple<ArgTypes...>* tuple(Value<ArgTypes>*... args, const std::string& alias=""){
+        return new Tuple<ArgTypes...>(args..., alias);
+    }
+
+    template <typename Ret, typename... ArgTypes>
+    Apply<Ret(ArgTypes...)>* apply(Function<Ret(ArgTypes...)>& fn,
+                                   Tuple<ArgTypes...>* arg, const std::string& alias=""){
+        return new Apply<Ret(ArgTypes...)>(fn, arg, alias);
+    }
+
+
+
     template <typename T1, typename T2>
     Pair<T1, T2>* pair(Value<T1>* val1, Value<T2>* val2, const std::string& alias=""){
         return new Pair<T1,T2>(val1, val2, alias);
@@ -38,11 +58,6 @@ namespace fv{
         return pair<T1,T2>(lookup<T1>(name1), lookup<T2>(name2), alias);
     }
 
-    template <typename Ret, typename... ArgTypes>
-    Map<Ret(ArgTypes...)>* map(Function<Ret(ArgTypes...)>& fn,
-                                        Zip<ArgTypes...>* arg, const std::string& alias=""){
-        return new Map<Ret(ArgTypes...)>(fn, arg, alias);
-    }
 
     template <typename T>
     Max<T>* max(Value<std::vector<T>>* v, const std::string alias){

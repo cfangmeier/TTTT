@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfv_1_1__Zip.html" title="fv::_Zip\&lt; Tail... \&gt;" alt="" coords="5,5,140,32"/>
-<area shape="rect" id="node2" href="$classfv_1_1__Zip_3_01Head_00_01Tail_8_8_8_01_4.html" title="fv::_Zip\&lt; Head, Tail... \&gt;" alt="" coords="188,5,364,32"/>
+<area shape="rect" id="node1" href="$classfv_1_1GenFunction.html" title="Parent class to all Function classes. " alt="" coords="5,5,128,32"/>
+<area shape="rect" id="node2" href="$classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4.html" title="In order to enable proper provenance tracking, and at the same time keep the ability to embed functio..." alt="" coords="176,5,388,32"/>
 </map>

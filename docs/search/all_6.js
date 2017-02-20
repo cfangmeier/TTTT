@@ -1,16 +1,6 @@
 var searchData=
 [
-  ['filter',['Filter',['../classfv_1_1Filter.html',1,'fv']]],
-  ['filter_2ehpp',['filter.hpp',['../filter_8hpp.html',1,'']]],
-  ['format_5fcode',['format_code',['../classfv_1_1GenFunction.html#aecc1187b5bb9c551c104eb8478bdb567',1,'fv::GenFunction']]],
-  ['function',['Function',['../classfv_1_1Function.html',1,'fv']]],
-  ['function_3c_20bool_28_29_3e',['Function&lt; bool()&gt;',['../classfv_1_1Function.html',1,'fv']]],
-  ['function_3c_20bool_28t_29_3e',['Function&lt; bool(T)&gt;',['../classfv_1_1Function.html',1,'fv']]],
-  ['function_3c_20r_28argtypes_2e_2e_2e_29_3e',['Function&lt; R(ArgTypes...)&gt;',['../classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4.html',1,'fv']]],
-  ['function_3c_20r_28t_2c_20t_2c_20t_2c_20t_29_3e',['Function&lt; R(T, T, T, T)&gt;',['../classfv_1_1Function.html',1,'fv']]],
-  ['function_3c_20ret_28argtypes_2e_2e_2e_29_3e',['Function&lt; Ret(ArgTypes...)&gt;',['../classfv_1_1Function.html',1,'fv']]],
-  ['function_3c_20t_28_29_3e',['Function&lt; T()&gt;',['../classfv_1_1Function.html',1,'fv']]],
-  ['function_3c_20t_28std_3a_3avector_3c_20t_20_3e_29_3e',['Function&lt; T(std::vector&lt; T &gt;)&gt;',['../classfv_1_1Function.html',1,'fv']]],
-  ['function_5fregistry',['function_registry',['../classfv_1_1GenFunction.html#a62f52779bd4aa60fefbd842f557b1f7d',1,'fv::GenFunction']]],
-  ['fv',['fv',['../namespacefv.html',1,'']]]
+  ['gencontainer',['GenContainer',['../classfv_1_1GenContainer.html',1,'fv']]],
+  ['genfunction',['GenFunction',['../classfv_1_1GenFunction.html',1,'fv']]],
+  ['get_5fvalue',['get_value',['../classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff',1,'fv::Value::get_value()'],['../classfv_1_1ObservedValue.html#a10419313294471ba9da25e55d23956ba',1,'fv::ObservedValue::get_value()'],['../classfv_1_1DerivedValue.html#a39970158aa8f6eb062a28037df6e2128',1,'fv::DerivedValue::get_value()']]]
 ];

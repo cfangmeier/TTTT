@@ -1,3 +1,33 @@
+/**
+ * @file
+ * @author  Caleb Fangmeier <caleb@fangmeier.tech>
+ * @version 0.1
+ *
+ * @section LICENSE
+ *
+ *
+ * MIT License
+ *
+ * Copyright (c) 2017 Caleb Fangmeier
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #ifndef dataset_hpp
 #define dataset_hpp
 #include <iostream>
@@ -6,6 +36,17 @@
 #include "log.hpp"
 
 namespace fv{
+
+typedef std::map<std::string, GenContainer*> ContainerSet;
+
+/*
+ * A DataSet is a generic source of data that is used to populate
+ * ObservedValues. For each ObservedValue, it is recommened that the DataSet
+ * have a field whose value is updated when the load_next() method is called. A
+ * pointer to this value is then passed during the creation of the
+ * ObservedValue. It is important, therefore, that the location in memory of
+ * the data not change from event to event.
+ */
 class DataSet{
     private:
         void summary(){

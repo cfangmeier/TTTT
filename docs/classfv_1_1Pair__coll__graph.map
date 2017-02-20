@@ -1,5 +1,4 @@
 <map id="fv::Pair&lt; T1, T2 &gt;" name="fv::Pair&lt; T1, T2 &gt;">
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::pair\&lt; T1, T2 \&gt; \&gt;" alt="" coords="5,169,169,211"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::pair\l\&lt; T1, T2 \&gt; \&gt;" alt="" coords="14,80,161,121"/>
-<area shape="rect" id="node4" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="35,5,139,32"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::pair\&lt; T1, T2 \&gt; \&gt;" alt="" coords="5,95,169,136"/>
+<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::pair\l\&lt; T1, T2 \&gt; \&gt;" alt="" coords="14,5,161,47"/>
 </map>

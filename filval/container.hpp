@@ -1,3 +1,33 @@
+/**
+ * @file
+ * @author  Caleb Fangmeier <caleb@fangmeier.tech>
+ * @version 0.1
+ *
+ * @section LICENSE
+ *
+ *
+ * MIT License
+ *
+ * Copyright (c) 2017 Caleb Fangmeier
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 #ifndef container_hpp
 #define container_hpp
 #include <typeindex>
@@ -30,12 +60,20 @@ std::string get_type_name(const std::type_index& index){
 
 namespace fv{
 
+/**
+ * Enumeration of different options that can be used to save Containers. Not
+ * all options are allowed for all Containers.
+ */
 enum SaveOption{
     PNG = 0,
     PDF = 1,
     ROOT = 2
 };
 
+/**
+ * Generic, untyped parent class of Container. Used to allow for placing
+ * Containers of disparate types in common data structures.
+ */
 class GenContainer{
     private:
         std::string name;
@@ -72,8 +110,14 @@ class GenContainer{
             save_as(get_name(), option);
         }
 };
-typedef std::map<std::string, GenContainer*> ContainerSet;
 
+/**
+ * A class that is used to "hold" values. When an event is loaded, the
+ * associated filters on this container are checked. If they all pass, the
+ * \c _fill() method is called and the Container can access the stored Value
+ * object to process it. For example, if the Container is a ROOT Histogram
+ * object, it may call <tt>container->Fill(value->get_value())</tt>.
+ */
 template <typename H>
 class Container : public GenContainer{
     protected:
@@ -88,6 +132,14 @@ class Container : public GenContainer{
 
 };
 
+/**
+ * Calculate the Mean of a Value over a series of observations. This class is
+ * given a value of some type that supports addition and division(eg. a \c
+ * float) and yields the mean value. Note that this implementation does \i not
+ * support serialization so it is not incredibly useful. See the ROOT
+ * Containers for Containers that support serialization using ROOT's
+ * facilities.
+ */
 template <typename T>
 class ContainerMean : public Container<T>{
     private:

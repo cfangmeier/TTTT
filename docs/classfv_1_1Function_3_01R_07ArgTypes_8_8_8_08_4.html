@@ -72,7 +72,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the <a class="el" href="classfv_1_1Function.html">Function</a> class should be used.  
+<p>In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the Function class should be used.  
  <a href="classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="value_8hpp_source.html">value.hpp</a>&gt;</code></p>
@@ -129,7 +129,7 @@ static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>summary
 <tr class="separator:a1882aa29a5de803a366ed1e87770a4e2 inherit pub_static_methods_classfv_1_1GenFunction"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2635f33d1ef39f00c07bde754c98cc6f inherit pub_static_methods_classfv_1_1GenFunction"><td class="memTemplParams" colspan="2"><a id="a2635f33d1ef39f00c07bde754c98cc6f"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2635f33d1ef39f00c07bde754c98cc6f inherit pub_static_methods_classfv_1_1GenFunction"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classfv_1_1Function.html">Function</a>&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>register_function</b> (const std::string &amp;name, std::function&lt; T &gt; f, const std::string &amp;impl)</td></tr>
+<tr class="memitem:a2635f33d1ef39f00c07bde754c98cc6f inherit pub_static_methods_classfv_1_1GenFunction"><td class="memTemplItemLeft" align="right" valign="top">static Function&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>register_function</b> (const std::string &amp;name, std::function&lt; T &gt; f, const std::string &amp;impl)</td></tr>
 <tr class="separator:a2635f33d1ef39f00c07bde754c98cc6f inherit pub_static_methods_classfv_1_1GenFunction"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_attribs_classfv_1_1GenFunction"><td colspan="2" onclick="javascript:toggleInherit('pub_static_attribs_classfv_1_1GenFunction')"><img src="closed.png" alt="-"/>&#160;Static Public Attributes inherited from <a class="el" href="classfv_1_1GenFunction.html">fv::GenFunction</a></td></tr>
 <tr class="memitem:a62f52779bd4aa60fefbd842f557b1f7d inherit pub_static_attribs_classfv_1_1GenFunction"><td class="memItemLeft" align="right" valign="top"><a id="a62f52779bd4aa60fefbd842f557b1f7d"></a>
@@ -145,7 +145,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>in_register_fu
 <div class="textblock"><h3>template&lt;typename R, typename... ArgTypes&gt;<br />
 class fv::Function&lt; R(ArgTypes...)&gt;</h3>
 
-<p>In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the <a class="el" href="classfv_1_1Function.html">Function</a> class should be used. </p>
+<p>In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the Function class should be used. </p>
 <p>It is simply a wrapper around a std::function that also has a name. This name is used when generating the name of values that use the function. A function name is automatically prepended with "func::" to explicitly state that the value is the result of a computation encoded within the function object, and not from some other <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> object. Unfortunately, it is up to the user to find where that function is defined in the source code to inspect what it is doing. But hopefully this isn't too onerous by just using grep. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/caleb/Sources/TTTT/filval/<a class="el" href="value_8hpp_source.html">value.hpp</a></li>

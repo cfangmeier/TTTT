@@ -60,36 +60,37 @@
  */
 namespace fv{
 
-template <typename F, typename Tuple, bool Done, int Total, int... N>
+template <typename F, typename TUPLE, bool Done, int Total, int... N>
 struct call_impl
 {
-    static auto call(F f, Tuple && t)
+    static auto call(F& f, TUPLE && t)
     {
-        return call_impl<F, Tuple, Total == 1 + sizeof...(N), Total, N..., sizeof...(N)>::call(f, std::forward<Tuple>(t));
+        return call_impl<F, TUPLE, Total == 1 + sizeof...(N), Total, N..., sizeof...(N)>::call(f, std::forward<TUPLE>(t));
     }
 };
 
-template <typename F, typename Tuple, int Total, int... N>
-struct call_impl<F, Tuple, true, Total, N...>
+template <typename F, typename TUPLE, int Total, int... N>
+struct call_impl<F, TUPLE, true, Total, N...>
 {
-    static auto call(F f, Tuple && t)
+    static auto call(F& f, TUPLE && t)
     {
-        return f(std::get<N>(std::forward<Tuple>(t))...);
+        return f(std::get<N>(std::forward<TUPLE>(t))...);
     }
 };
 
 /**
- * This calls a function of type F with the contents of the tuple as arguments
+ * This calls a function of type F with the contents of the tuple as separate arguments.
  *  \see http://stackoverflow.com/questions/10766112/c11-i-can-go-from-multiple-args-to-tuple-but-can-i-go-from-tuple-to-multiple
  */
-template <typename F, typename Tuple>
-auto call(F f, Tuple && t)
+template <typename F, typename TUPLE>
+auto call(F& f, TUPLE && t)
 {
-    typedef typename std::decay<Tuple>::type ttype;
-    return call_impl<F, Tuple, 0 == std::tuple_size<ttype>::value, std::tuple_size<ttype>::value>::call(f, std::forward<Tuple>(t));
+    typedef typename std::decay<TUPLE>::type ttype;
+    return call_impl<F, TUPLE, 0 == std::tuple_size<ttype>::value, std::tuple_size<ttype>::value>::call(f, std::forward<TUPLE>(t));
 }
 
 template<typename> class Function; // undefined
+
 /**
  * Parent class to all Function classes. Holds a class-level collection of all
  * created function objects.
@@ -141,7 +142,7 @@ class GenFunction {
             ss << "The following functions have been registered" << std::endl;
             for(auto p : function_registry){
                 if (p.second == nullptr) continue;
-                ss << "-->" << p.second->name << std::endl;
+                ss << "-->" << p.second->name  << "@" << p.second << std::endl;
                 ss << format_code(p.second->impl);
             }
             return ss.str();
@@ -346,7 +347,7 @@ class Value : public GenValue{
 
 
 /**
- * A generic, observed, value.
+ * A value supplied by the dataset, not derived.
  * An ObservedValue is the interface to your dataset. Upon creation, an
  * ObservedValue is given a pointer to an object of type T. When an observation
  * is loaded into memory, the value at the location referenced by that pointer
@@ -371,7 +372,7 @@ class ObservedValue : public Value<T>{
 
 
 /**
- * A generic, derived, value.
+ * A Value derived from some other Values, not directly from the dataset.
  * A DerivedValue is generally defined as some function of other Value objects.
  * For example, a Pair is a function of two other Value objects that makes a
  * pair of them. Note that these other Value objects are free to be either
@@ -410,7 +411,6 @@ class DerivedValue : public Value<T>{
            value_valid(false) { }
 
         T& get_value(){
-            /* std::cout << "getting value of " << this->get_name() << std::endl; */
             if (!value_valid){
                 update_value();
                 value_valid = true;
@@ -478,10 +478,6 @@ class _Zip<> {
             return std::make_tuple();
         }
 
-        bool _verify_integrity() {
-            return true;
-         }
-
         std::string _get_name(){
             return "";
         }
@@ -505,10 +501,6 @@ class _Zip<Head, Tail...> : private _Zip<Tail...> {
             auto tail_tuple = _Zip<Tail...>::_get_at(idx);
             return std::tuple_cat(std::make_tuple(head->get_value()[idx]),tail_tuple);
         }
-
-        bool _verify_integrity() {
-            return (head != nullptr) &&_Zip<Tail...>::_verify_integrity();
-         }
 
         std::string _get_name(){
             return head->get_name()+","+_Zip<Tail...>::_get_name();
@@ -562,6 +554,13 @@ class Zip : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>,
 };
 
 template<typename> class Map; // undefined
+/**
+ * Maps a function over an input vector. The input vector must be a vector of
+ * tuples, where the the elements of the tuple match the arguments of the
+ * function. For example if the function takes two floats as arguments, the
+ * tuple should contain two floats. The Value object required by Map will
+ * typically be created as a Zip.
+ */
 template <typename Ret, typename... ArgTypes>
 class Map<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
     private:
@@ -577,65 +576,100 @@ class Map<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
 
     public:
         Map(Function<Ret(ArgTypes...)>& fn, Zip<ArgTypes...>* arg, const std::string& alias)
-          :DerivedValue<std::vector<Ret>>("map_over("+fn.get_name()+":"+arg->get_name()+")", alias),
+          :DerivedValue<std::vector<Ret>>("map("+fn.get_name()+":"+arg->get_name()+")", alias),
            fn(fn), arg(arg){ }
 
 };
 
-/**
- * Takes a set of four Value<std::vector<T> > objects and a function of four Ts
- * and returns a std::vector<R>. This is used in, for instance, calculating the
- * energy of a set of particles when one has separate arrays containing pt,
- * eta, phi, and mass. These arrays are first wrapped up in VectorWrappers and
- * then passes along with a function to calculate the energy into a ZipMapFour.
- * The result of this calculation is a new vector containing the energy for
- * each particle. Note that if the input vectors are not all the same size,
- * calculations are only performed up to the size of the shortest.
- * \see MiniTreeDataSet
- * \todo find way to implement for arbitrary number(and possibly type) of
- * vector inputs.
- */
-template <typename R, typename T>
-class ZipMapFour : public DerivedValue<std::vector<R> >{
-    private:
-        Function<R(T, T, T, T)>& f;
-        Value<std::vector<T> >* v1;
-        Value<std::vector<T> >* v2;
-        Value<std::vector<T> >* v3;
-        Value<std::vector<T> >* v4;
+template<typename... T> class _Tuple;
+template<>
+class _Tuple<> {
+    protected:
 
-        void update_value(){
-            std::vector<T> v1_val = v1->get_value();
-            std::vector<T> v2_val = v2->get_value();
-            std::vector<T> v3_val = v3->get_value();
-            std::vector<T> v4_val = v4->get_value();
+        std::tuple<> _get_value(){
+            return std::make_tuple();
+        }
 
-            int n;
-            std::tie(n, std::ignore) = std::minmax({v1_val.size(), v2_val.size(), v3_val.size(), v4_val.size()});
-            this->value.resize(n);
-            for (int i=0; i<n; i++){
-                this->value[i] = f(v1_val[i], v2_val[i], v3_val[i], v4_val[i]);
-            }
+        std::string _get_name(){
+            return "";
         }
 
     public:
-        ZipMapFour(Function<R(T, T, T, T)>& f,
-                   Value<std::vector<T> >* v1, Value<std::vector<T> >* v2,
-                   Value<std::vector<T> >* v3, Value<std::vector<T> >* v4, const std::string alias)
-          :DerivedValue<std::vector<R> >("zipmap("+f.get_name()+":"+v1->get_name()+","+v2->get_name()+","+
-                                                                    v3->get_name()+","+v4->get_name()+")", alias),
-           f(f), v1(v1), v2(v2), v3(v3), v4(v4) { }
-
-        ZipMapFour(Function<R(T, T, T, T)>& f,
-                   const std::string& label1, const std::string& label2,
-                   const std::string& label3, const std::string& label4, const std::string alias)
-          :ZipMapFour(f,
-                      dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(label1)),
-                      dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(label2)),
-                      dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(label3)),
-                      dynamic_cast<Value<std::vector<T> >*>(GenValue::get_value(label4)),
-                      alias){ }
+        _Tuple() { }
 };
+
+template<typename Head, typename... Tail>
+class _Tuple<Head, Tail...> : private _Tuple<Tail...> {
+    protected:
+        Value<Head>* head;
+
+        typename std::tuple<Head,Tail...> _get_value(){
+            auto tail_tuple = _Tuple<Tail...>::_get_value();
+            return std::tuple_cat(std::make_tuple(head->get_value()),tail_tuple);
+        }
+
+
+        std::string _get_name(){
+            return head->get_name()+","+_Tuple<Tail...>::_get_name();
+        }
+
+    public:
+        _Tuple() { }
+
+        _Tuple(Value<Head>* head, Value<Tail>*... tail)
+          : _Tuple<Tail...>(tail...),
+            head(head) { }
+};
+
+/**
+ * Takes a series of Value objects and bundles them together into a std::tuple
+ * object. Typically, this is most usefull when one wants to apply a function
+ * to a few values and store the result. This class can be used in conjunction
+ * with Apply to achieve this.
+ */
+template <typename... ArgTypes>
+class Tuple : public DerivedValue<std::tuple<ArgTypes...>>,
+              private _Tuple<ArgTypes...>{
+    protected:
+        void update_value(){
+            this->value = _Tuple<ArgTypes...>::_get_value();
+        }
+
+        std::string _get_name(){
+            return "tuple("+_Tuple<ArgTypes...>::_get_name()+")";
+        }
+
+    public:
+        Tuple(Value<ArgTypes>*... args, const std::string& alias)
+          :DerivedValue<std::tuple<ArgTypes...>>("", alias),
+           _Tuple<ArgTypes...>(args...) {
+            this->set_name(_get_name());
+        }
+};
+
+template<typename> class Apply; // undefined
+/**
+ * Applies a function to a tuple of values and returns a value. This will
+ * typically be called with a Tuple object as an argument.
+ */
+template <typename Ret, typename... ArgTypes>
+class Apply<Ret(ArgTypes...)> : public DerivedValue<Ret>{
+    private:
+        Function<Ret(ArgTypes...)>& fn;
+        Tuple<ArgTypes...>* arg;
+
+        void update_value(){
+            auto &tup = arg->get_value();
+            this->value = call(fn, tup);
+        }
+
+    public:
+        Apply(Function<Ret(ArgTypes...)>& fn, Tuple<ArgTypes...>* arg, const std::string& alias)
+          :DerivedValue<Ret>("apply("+fn.get_name()+":"+arg->get_name()+")", alias),
+           fn(fn), arg(arg){ }
+
+};
+
 
 /**
  * Returns the count of elements in the input vector passing a test function.
