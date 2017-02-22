@@ -396,13 +396,13 @@ met_jecDown_rawSumEt                                                          : 
 met_jecDown_genPt                                                             : met_jecDown_genPt/F
 met_jecDown_genPhi                                                            : met_jecDown_genPhi/F
 met_jecDown_genEta                                                            : met_jecDown_genEta/F
------------------------------------------------------------------------------------------------------------------------
-   mmm                                       m               #         mmmmm                  m
- m"   "  mmm   m mm    mmm    m mm   mmm   mm#mm   mmm    mmm#         #   "#  mmm    m mm  mm#mm   mmm   m mm    mmm
- #   mm #"  #  #"  #  #"  #   #"  " "   #    #    #"  #  #" "#         #mmm#" "   #   #"  "   #    #" "#  #"  #  #   "
- #    # #""""  #   #  #""""   #     m"""#    #    #""""  #   #         #      m"""#   #       #    #   #  #   #   """m
-  "mmm" "#mm"  #   #  "#mm"   #     "mm"#    "mm  "#mm"  "#m##         #      "mm"#   #       "mm  "#m#"  #   #  "mmm"
------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------
+   mmm                                       m               #         mmmmm                  m      "           ""#
+ m"   "  mmm   m mm    mmm    m mm   mmm   mm#mm   mmm    mmm#         #   "#  mmm    m mm  mm#mm  mmm     mmm     #     mmm    mmm
+ #   mm #"  #  #"  #  #"  #   #"  " "   #    #    #"  #  #" "#         #mmm#" "   #   #"  "   #      #    #"  "    #    #"  #  #   "
+ #    # #""""  #   #  #""""   #     m"""#    #    #""""  #   #         #      m"""#   #       #      #    #        #    #""""   """m
+  "mmm" "#mm"  #   #  "#mm"   #     "mm"#    "mm  "#mm"  "#m##         #      "mm"#   #       "mm  mm#mm  "#mm"    "mm  "#mm"  "mmm"
+------------------------------------------------------------------------------------------------------------------------------------
 nGenPart                                                                      : nGenPart/I
 GenPart_motherId                                                              : Int_t pdgId of the mother of the particle for Hard scattering particles, with ancestry and links
 GenPart_grandmotherId                                                         : Int_t pdgId of the grandmother of the particle for Hard scattering particles, with ancestry and links
@@ -464,122 +464,122 @@ SV_secD3dTracks                                                               : 
                                                   #
                                                   "
 ------------------------------------------------------------------------------------
-nLepGood                                                                      : nLepGood/I
-LepGood_mvaIdSpring15                                                         : Float_t EGamma POG MVA ID for non-triggering electrons, Spring15 re-training; 1 for muons for Leptons after the preselection
-LepGood_mvaTTH                                                                : Float_t Lepton MVA (TTH version) for Leptons after the preselection
-LepGood_mvaSUSY                                                               : Float_t Lepton MVA (SUSY version) for Leptons after the preselection
-LepGood_mvaSoftT2tt                                                           : Float_t Lepton MVA (Soft T2tt version) for Leptons after the preselection
-LepGood_mvaSoftEWK                                                            : Float_t Lepton MVA (Soft EWK version) for Leptons after the preselection
-LepGood_jetPtRatiov1                                                          : Float_t pt(lepton)/pt(nearest jet) for Leptons after the preselection
-LepGood_jetPtRelv1                                                            : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton) for Leptons after the preselection
-LepGood_jetPtRatiov2                                                          : Float_t pt(lepton)/[rawpt(jet-PU-lep)*L2L3Res+pt(lepton)] for Leptons after the preselection
-LepGood_jetPtRelv2                                                            : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton) - v2 for Leptons after the preselection
-LepGood_jetBTagCSV                                                            : Float_t CSV btag of nearest jet for Leptons after the preselection
-LepGood_jetBTagCMVA                                                           : Float_t CMA btag of nearest jet for Leptons after the preselection
-LepGood_jetDR                                                                 : Float_t deltaR(lepton, nearest jet) for Leptons after the preselection
-LepGood_r9                                                                    : Float_t SuperCluster 5x5 r9 variable, only for electrons; -99 for muons for Leptons after the preselection
-LepGood_mvaIdSpring16                                                         : Float_t EGamma POG MVA ID, Spring16; 1 for muons for Leptons after the preselection
-LepGood_charge                                                                : Int_t charge for Leptons after the preselection
-LepGood_tightId                                                               : Int_t POG Tight ID (for electrons it's configured in the analyzer) for Leptons after the preselection
-LepGood_eleCutIdCSA14_25ns_v1                                                 : Int_t Electron cut-based id (POG CSA14_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
-LepGood_eleCutIdCSA14_50ns_v1                                                 : Int_t Electron cut-based id (POG CSA14_50ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
-LepGood_eleCutIdSpring15_25ns_v1                                              : Int_t Electron cut-based id (POG Spring15_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
-LepGood_dxy                                                                   : Float_t d_{xy} with respect to PV, in cm (with sign) for Leptons after the preselection
-LepGood_dz                                                                    : Float_t d_{z} with respect to PV, in cm (with sign) for Leptons after the preselection
-LepGood_edxy                                                                  : Float_t #sigma(d_{xy}) with respect to PV, in cm for Leptons after the preselection
-LepGood_edz                                                                   : Float_t #sigma(d_{z}) with respect to PV, in cm for Leptons after the preselection
-LepGood_ip3d                                                                  : Float_t d_{3d} with respect to PV, in cm (absolute value) for Leptons after the preselection
-LepGood_sip3d                                                                 : Float_t S_{ip3d} with respect to PV (significance) for Leptons after the preselection
-LepGood_convVeto                                                              : Int_t Conversion veto (always true for muons) for Leptons after the preselection
-LepGood_lostHits                                                              : Int_t Number of lost hits on inner track for Leptons after the preselection
-LepGood_relIso03                                                              : Float_t PF Rel Iso, R=0.3, pile-up corrected for Leptons after the preselection
-LepGood_relIso04                                                              : Float_t PF Rel Iso, R=0.4, pile-up corrected for Leptons after the preselection
-LepGood_miniRelIso                                                            : Float_t PF Rel miniRel, pile-up corrected for Leptons after the preselection
-LepGood_relIsoAn04                                                            : Float_t PF Activity Annulus, pile-up corrected for Leptons after the preselection
-LepGood_tightCharge                                                           : Int_t Tight charge criteria : for electrons, 2 if isGsfCtfScPixChargeConsistent, 1 if only isGsfScPixChargeConsistent, 0 otherwise; for muons, 2 if ptError/pt < 0.20, 0 otherwise  for Leptons after the preselection
-LepGood_mcMatchId                                                             : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Leptons after the preselection
-LepGood_mcMatchAny                                                            : Int_t Match to any final state leptons : 0 if unmatched, 1 if light flavour (including prompt), 4 if charm, 5 if bottom for Leptons after the preselection
-LepGood_mcMatchTau                                                            : Int_t True if the leptons comes from a tau for Leptons after the preselection
-LepGood_mcPt                                                                  : Float_t p_{T} of associated gen lepton for Leptons after the preselection
-LepGood_mediumMuonId                                                          : Int_t Muon POG Medium id for Leptons after the preselection
-LepGood_ICHEPsoftMuonId                                                       : Int_t Muon POG Soft id with fix for ICHEP 2016 for Leptons after the preselection
-LepGood_ICHEPmediumMuonId                                                     : Int_t Muon POG Medium id with fix for ICHEP 2016 for Leptons after the preselection
-LepGood_pdgId                                                                 : Int_t pdgId for Leptons after the preselection
-LepGood_pt                                                                    : Float_t pt for Leptons after the preselection
-LepGood_eta                                                                   : Float_t eta for Leptons after the preselection
-LepGood_phi                                                                   : Float_t phi for Leptons after the preselection
-LepGood_mass                                                                  : Float_t mass for Leptons after the preselection
-LepGood_looseIdOnly                                                           : Int_t Loose ID as per LeptonAnalyzer (only what configured in the id part, not also dxy/dz/iso cuts of the lepton analyzer) for Leptons after the preselection
-LepGood_chargedHadRelIso03                                                    : Float_t PF Rel Iso, R=0.3, charged hadrons only for Leptons after the preselection
-LepGood_chargedHadRelIso04                                                    : Float_t PF Rel Iso, R=0.4, charged hadrons only for Leptons after the preselection
-LepGood_softMuonId                                                            : Int_t Muon POG Soft id for Leptons after the preselection
-LepGood_pfMuonId                                                              : Int_t Muon POG Loose id for Leptons after the preselection
+nLepGood                                                                      : nLepGood/I : Leptons after the preselection
+LepGood_mvaIdSpring15                                                         : Float_t EGamma POG MVA ID for non-triggering electrons, Spring15 re-training; 1 for muons
+LepGood_mvaTTH                                                                : Float_t Lepton MVA (TTH version)
+LepGood_mvaSUSY                                                               : Float_t Lepton MVA (SUSY version)
+LepGood_mvaSoftT2tt                                                           : Float_t Lepton MVA (Soft T2tt version)
+LepGood_mvaSoftEWK                                                            : Float_t Lepton MVA (Soft EWK version)
+LepGood_jetPtRatiov1                                                          : Float_t pt(lepton)/pt(nearest jet)
+LepGood_jetPtRelv1                                                            : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton)
+LepGood_jetPtRatiov2                                                          : Float_t pt(lepton)/[rawpt(jet-PU-lep)*L2L3Res+pt(lepton)]
+LepGood_jetPtRelv2                                                            : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton) - v2
+LepGood_jetBTagCSV                                                            : Float_t CSV btag of nearest jet
+LepGood_jetBTagCMVA                                                           : Float_t CMA btag of nearest jet
+LepGood_jetDR                                                                 : Float_t deltaR(lepton, nearest jet)
+LepGood_r9                                                                    : Float_t SuperCluster 5x5 r9 variable, only for electrons; -99 for muons
+LepGood_mvaIdSpring16                                                         : Float_t EGamma POG MVA ID, Spring16; 1 for muons
+LepGood_charge                                                                : Int_t charge
+LepGood_tightId                                                               : Int_t POG Tight ID (for electrons it's configured in the analyzer)
+LepGood_eleCutIdCSA14_25ns_v1                                                 : Int_t Electron cut-based id (POG CSA14_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight
+LepGood_eleCutIdCSA14_50ns_v1                                                 : Int_t Electron cut-based id (POG CSA14_50ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight
+LepGood_eleCutIdSpring15_25ns_v1                                              : Int_t Electron cut-based id (POG Spring15_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight
+LepGood_dxy                                                                   : Float_t d_{xy} with respect to PV, in cm (with sign)
+LepGood_dz                                                                    : Float_t d_{z} with respect to PV, in cm (with sign)
+LepGood_edxy                                                                  : Float_t #sigma(d_{xy}) with respect to PV, in cm
+LepGood_edz                                                                   : Float_t #sigma(d_{z}) with respect to PV, in cm
+LepGood_ip3d                                                                  : Float_t d_{3d} with respect to PV, in cm (absolute value)
+LepGood_sip3d                                                                 : Float_t S_{ip3d} with respect to PV (significance)
+LepGood_convVeto                                                              : Int_t Conversion veto (always true for muons)
+LepGood_lostHits                                                              : Int_t Number of lost hits on inner track
+LepGood_relIso03                                                              : Float_t PF Rel Iso, R=0.3, pile-up corrected
+LepGood_relIso04                                                              : Float_t PF Rel Iso, R=0.4, pile-up corrected
+LepGood_miniRelIso                                                            : Float_t PF Rel miniRel, pile-up corrected
+LepGood_relIsoAn04                                                            : Float_t PF Activity Annulus, pile-up corrected
+LepGood_tightCharge                                                           : Int_t Tight charge criteria : for electrons, 2 if isGsfCtfScPixChargeConsistent, 1 if only isGsfScPixChargeConsistent, 0 otherwise; for muons, 2 if ptError/pt < 0.20, 0 otherwise 
+LepGood_mcMatchId                                                             : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake
+LepGood_mcMatchAny                                                            : Int_t Match to any final state leptons : 0 if unmatched, 1 if light flavour (including prompt), 4 if charm, 5 if bottom
+LepGood_mcMatchTau                                                            : Int_t True if the leptons comes from a tau
+LepGood_mcPt                                                                  : Float_t p_{T} of associated gen lepton
+LepGood_mediumMuonId                                                          : Int_t Muon POG Medium id
+LepGood_ICHEPsoftMuonId                                                       : Int_t Muon POG Soft id with fix for ICHEP 2016
+LepGood_ICHEPmediumMuonId                                                     : Int_t Muon POG Medium id with fix for ICHEP 2016
+LepGood_pdgId                                                                 : Int_t pdgId
+LepGood_pt                                                                    : Float_t pt
+LepGood_eta                                                                   : Float_t eta
+LepGood_phi                                                                   : Float_t phi
+LepGood_mass                                                                  : Float_t mass
+LepGood_looseIdOnly                                                           : Int_t Loose ID as per LeptonAnalyzer (only what configured in the id part, not also dxy/dz/iso cuts of the lepton analyzer)
+LepGood_chargedHadRelIso03                                                    : Float_t PF Rel Iso, R=0.3, charged hadrons only
+LepGood_chargedHadRelIso04                                                    : Float_t PF Rel Iso, R=0.4, charged hadrons only
+LepGood_softMuonId                                                            : Int_t Muon POG Soft id
+LepGood_pfMuonId                                                              : Int_t Muon POG Loose id
 LepGood_eleCutId2012_full5x5                                                  : Int_t Electron cut-based id (POG 2012, full5x5 shapes)
-                                                                                  : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
-LepGood_trackerLayers                                                         : Int_t Tracker Layers for Leptons after the preselection
-LepGood_pixelLayers                                                           : Int_t Pixel Layers for Leptons after the preselection
-LepGood_trackerHits                                                           : Int_t Tracker hits for Leptons after the preselection
-LepGood_lostOuterHits                                                         : Int_t Number of lost hits on inner track for Leptons after the preselection
-LepGood_innerTrackValidHitFraction                                            : Float_t fraction of valid hits on inner track for Leptons after the preselection
-LepGood_innerTrackChi2                                                        : Float_t Inner track normalized chi2 for Leptons after the preselection
-LepGood_nStations                                                             : Float_t Number of matched muons stations (4 for electrons) for Leptons after the preselection
-LepGood_caloCompatibility                                                     : Float_t Calorimetric compatibility for Leptons after the preselection
-LepGood_globalTrackChi2                                                       : Float_t Global track normalized chi2 for Leptons after the preselection
-LepGood_trkKink                                                               : Float_t Tracker kink-finder for Leptons after the preselection
-LepGood_segmentCompatibility                                                  : Float_t Segment-based compatibility for Leptons after the preselection
-LepGood_chi2LocalPosition                                                     : Float_t Tracker-Muon matching in position for Leptons after the preselection
-LepGood_chi2LocalMomentum                                                     : Float_t Tracker-Muon matching in momentum for Leptons after the preselection
-LepGood_glbTrackProbability                                                   : Float_t Global track pseudo-probability for Leptons after the preselection
-LepGood_TMOneStationTightMuonId                                               : Int_t Muon TMOneStationTight ID for Leptons after the preselection
-LepGood_trackHighPurityMuon                                                   : Int_t Muon track high purity for Leptons after the preselection
-LepGood_isGlobalMuon                                                          : Int_t Muon is global for Leptons after the preselection
-LepGood_isTrackerMuon                                                         : Int_t Muon is tracker for Leptons after the preselection
-LepGood_sigmaIEtaIEta                                                         : Float_t Electron sigma(ieta ieta), with full5x5 cluster shapes for Leptons after the preselection
-LepGood_dEtaScTrkIn                                                           : Float_t Electron deltaEtaSuperClusterTrackAtVtx (without absolute value!) for Leptons after the preselection
-LepGood_dPhiScTrkIn                                                           : Float_t Electron deltaPhiSuperClusterTrackAtVtx (without absolute value!) for Leptons after the preselection
-LepGood_hadronicOverEm                                                        : Float_t Electron hadronicOverEm for Leptons after the preselection
-LepGood_eInvMinusPInv                                                         : Float_t Electron 1/E - 1/p  (without absolute value!) for Leptons after the preselection
-LepGood_eInvMinusPInv_tkMom                                                   : Float_t Electron 1/E - 1/p_tk_vtx  (without absolute value!) for Leptons after the preselection
-LepGood_etaSc                                                                 : Float_t Electron supercluster pseudorapidity for Leptons after the preselection
+                                                                                  : 0=none, 1=veto, 2=loose, 3=medium, 4=tight
+LepGood_trackerLayers                                                         : Int_t Tracker Layers
+LepGood_pixelLayers                                                           : Int_t Pixel Layers
+LepGood_trackerHits                                                           : Int_t Tracker hits
+LepGood_lostOuterHits                                                         : Int_t Number of lost hits on inner track
+LepGood_innerTrackValidHitFraction                                            : Float_t fraction of valid hits on inner track
+LepGood_innerTrackChi2                                                        : Float_t Inner track normalized chi2
+LepGood_nStations                                                             : Float_t Number of matched muons stations (4 for electrons)
+LepGood_caloCompatibility                                                     : Float_t Calorimetric compatibility
+LepGood_globalTrackChi2                                                       : Float_t Global track normalized chi2
+LepGood_trkKink                                                               : Float_t Tracker kink-finder
+LepGood_segmentCompatibility                                                  : Float_t Segment-based compatibility
+LepGood_chi2LocalPosition                                                     : Float_t Tracker-Muon matching in position
+LepGood_chi2LocalMomentum                                                     : Float_t Tracker-Muon matching in momentum
+LepGood_glbTrackProbability                                                   : Float_t Global track pseudo-probability
+LepGood_TMOneStationTightMuonId                                               : Int_t Muon TMOneStationTight ID
+LepGood_trackHighPurityMuon                                                   : Int_t Muon track high purity
+LepGood_isGlobalMuon                                                          : Int_t Muon is global
+LepGood_isTrackerMuon                                                         : Int_t Muon is tracker
+LepGood_sigmaIEtaIEta                                                         : Float_t Electron sigma(ieta ieta), with full5x5 cluster shapes
+LepGood_dEtaScTrkIn                                                           : Float_t Electron deltaEtaSuperClusterTrackAtVtx (without absolute value!)
+LepGood_dPhiScTrkIn                                                           : Float_t Electron deltaPhiSuperClusterTrackAtVtx (without absolute value!)
+LepGood_hadronicOverEm                                                        : Float_t Electron hadronicOverEm
+LepGood_eInvMinusPInv                                                         : Float_t Electron 1/E - 1/p  (without absolute value!)
+LepGood_eInvMinusPInv_tkMom                                                   : Float_t Electron 1/E - 1/p_tk_vtx  (without absolute value!)
+LepGood_etaSc                                                                 : Float_t Electron supercluster pseudorapidity
 LepGood_mcMatchPdgId                                                          : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z)
-                                                                                  : pdgId of the matched gen-level lepton, zero if non-prompt or fake for Leptons after the preselection
-LepGood_miniRelIsoCharged                                                     : Float_t miniRelIsoCharged for Leptons after the preselection
-LepGood_miniRelIsoNeutral                                                     : Float_t miniRelIsoNeutral for Leptons after the preselection
-LepGood_jetNDauChargedMVASel                                                  : Float_t n charged daughters (with selection for ttH lepMVA) of nearest jet for Leptons after the preselection
-LepGood_jetCorrFactor_L1                                                      : Float_t matched jet L1 correction factor for Leptons after the preselection
-LepGood_jetCorrFactor_L1L2                                                    : Float_t matched jet L1L2 correction factor for Leptons after the preselection
-LepGood_jetCorrFactor_L1L2L3                                                  : Float_t matched jet L1L2L3 correction factor for Leptons after the preselection
-LepGood_jetCorrFactor_L1L2L3Res                                               : Float_t matched jet L1L2L3Res correction factor for Leptons after the preselection
-LepGood_ecalPFClusterIso                                                      : Float_t Electron ecalPFClusterIso for Leptons after the preselection
-LepGood_hcalPFClusterIso                                                      : Float_t Electron hcalPFClusterIso for Leptons after the preselection
-LepGood_dr03TkSumPt                                                           : Float_t Electron dr03TkSumPt isolation for Leptons after the preselection
-LepGood_trackIso                                                              : Float_t Electron trackIso (in cone of 0.4) for Leptons after the preselection
-LepGood_idEmuTTH                                                              : Float_t Electron pass trigger ID emulation cuts (TTH, E2) for Leptons after the preselection
-LepGood_idEmuRA5                                                              : Float_t Electron pass trigger ID emulation cuts (RA5) for Leptons after the preselection
-LepGood_idIsoEmuRA5                                                           : Float_t Electron pass trigger ID+ISO emulation cuts (RA5) for Leptons after the preselection
-LepGood_mcPrompt                                                              : Int_t isPromptFinalState for Leptons after the preselection
-LepGood_mcPromptTau                                                           : Int_t isDirectPromptTauDecayProductFinalState for Leptons after the preselection
-LepGood_mcPromptGamma                                                         : Int_t Photon isPromptFinalState for Leptons after the preselection
-LepGood_mcGamma                                                               : Int_t Matched to a photon for Leptons after the preselection
-LepGood_RelIsoMIV03                                                           : Float_t RelIsoMIV03 for Leptons after the preselection
-LepGood_RelIsoMIVCharged03                                                    : Float_t RelIsoMIVCharged03 for Leptons after the preselection
-LepGood_RelIsoMIVNeutral03                                                    : Float_t RelIsoMIVNeutral03 for Leptons after the preselection
-LepGood_RelIsoMIV04                                                           : Float_t RelIsoMIV04 for Leptons after the preselection
-LepGood_RelIsoMIVCharged04                                                    : Float_t RelIsoMIVCharged04 for Leptons after the preselection
-LepGood_RelIsoMIVNeutral04                                                    : Float_t RelIsoMIVNeutral04 for Leptons after the preselection
-LepGood_jetPtRelHv2                                                           : Float_t pt of the jet (subtracting the lepton) transverse to the lepton axis - v2 for Leptons after the preselection
-LepGood_isoRelH04                                                             : Float_t transverse relative isolation R=0.4 H for Leptons after the preselection
-LepGood_jetBasedRelIsoCharged                                                 : Float_t relative charged isolation from jet chH constituents for Leptons after the preselection
-LepGood_hasSV                                                                 : Int_t 2 if lepton track is from a SV, 1 if loosely matched, 0 if no SV found. for Leptons after the preselection
-LepGood_svSip3d                                                               : Float_t S_{ip3d} of associated SV for Leptons after the preselection
-LepGood_svRedPt                                                               : Float_t pT of associated SV, removing the lepton track for Leptons after the preselection
-LepGood_svMass                                                                : Float_t mass of associated SV for Leptons after the preselection
-LepGood_svNTracks                                                             : Float_t Number of tracks of associated SV for Leptons after the preselection
-LepGood_mcUCSXMatchId                                                         : Float_t MC truth matching a la UCSX for Leptons after the preselection
-LepGood_jetLepAwareJEC_pt                                                     : Float_t jetLepAwareJEC_pt for Leptons after the preselection
-LepGood_jetLepAwareJEC_eta                                                    : Float_t jetLepAwareJEC_eta for Leptons after the preselection
-LepGood_jetLepAwareJEC_phi                                                    : Float_t jetLepAwareJEC_phi for Leptons after the preselection
-LepGood_jetLepAwareJEC_energy                                                 : Float_t jetLepAwareJEC_energy for Leptons after the preselection
+                                                                                  : pdgId of the matched gen-level lepton, zero if non-prompt or fake
+LepGood_miniRelIsoCharged                                                     : Float_t miniRelIsoCharged
+LepGood_miniRelIsoNeutral                                                     : Float_t miniRelIsoNeutral
+LepGood_jetNDauChargedMVASel                                                  : Float_t n charged daughters (with selection for ttH lepMVA) of nearest jet
+LepGood_jetCorrFactor_L1                                                      : Float_t matched jet L1 correction factor
+LepGood_jetCorrFactor_L1L2                                                    : Float_t matched jet L1L2 correction factor
+LepGood_jetCorrFactor_L1L2L3                                                  : Float_t matched jet L1L2L3 correction factor
+LepGood_jetCorrFactor_L1L2L3Res                                               : Float_t matched jet L1L2L3Res correction factor
+LepGood_ecalPFClusterIso                                                      : Float_t Electron ecalPFClusterIso
+LepGood_hcalPFClusterIso                                                      : Float_t Electron hcalPFClusterIso
+LepGood_dr03TkSumPt                                                           : Float_t Electron dr03TkSumPt isolation
+LepGood_trackIso                                                              : Float_t Electron trackIso (in cone of 0.4)
+LepGood_idEmuTTH                                                              : Float_t Electron pass trigger ID emulation cuts (TTH, E2)
+LepGood_idEmuRA5                                                              : Float_t Electron pass trigger ID emulation cuts (RA5)
+LepGood_idIsoEmuRA5                                                           : Float_t Electron pass trigger ID+ISO emulation cuts (RA5)
+LepGood_mcPrompt                                                              : Int_t isPromptFinalState
+LepGood_mcPromptTau                                                           : Int_t isDirectPromptTauDecayProductFinalState
+LepGood_mcPromptGamma                                                         : Int_t Photon isPromptFinalState
+LepGood_mcGamma                                                               : Int_t Matched to a photon
+LepGood_RelIsoMIV03                                                           : Float_t RelIsoMIV03
+LepGood_RelIsoMIVCharged03                                                    : Float_t RelIsoMIVCharged03
+LepGood_RelIsoMIVNeutral03                                                    : Float_t RelIsoMIVNeutral03
+LepGood_RelIsoMIV04                                                           : Float_t RelIsoMIV04
+LepGood_RelIsoMIVCharged04                                                    : Float_t RelIsoMIVCharged04
+LepGood_RelIsoMIVNeutral04                                                    : Float_t RelIsoMIVNeutral04
+LepGood_jetPtRelHv2                                                           : Float_t pt of the jet (subtracting the lepton) transverse to the lepton axis - v2
+LepGood_isoRelH04                                                             : Float_t transverse relative isolation R=0.4 H
+LepGood_jetBasedRelIsoCharged                                                 : Float_t relative charged isolation from jet chH constituents
+LepGood_hasSV                                                                 : Int_t 2 if lepton track is from a SV, 1 if loosely matched, 0 if no SV found.
+LepGood_svSip3d                                                               : Float_t S_{ip3d} of associated SV
+LepGood_svRedPt                                                               : Float_t pT of associated SV, removing the lepton track
+LepGood_svMass                                                                : Float_t mass of associated SV
+LepGood_svNTracks                                                             : Float_t Number of tracks of associated SV
+LepGood_mcUCSXMatchId                                                         : Float_t MC truth matching a la UCSX
+LepGood_jetLepAwareJEC_pt                                                     : Float_t jetLepAwareJEC_pt
+LepGood_jetLepAwareJEC_eta                                                    : Float_t jetLepAwareJEC_eta
+LepGood_jetLepAwareJEC_phi                                                    : Float_t jetLepAwareJEC_phi
+LepGood_jetLepAwareJEC_energy                                                 : Float_t jetLepAwareJEC_energy
 -----------------------------------------------------------------------------------------------------------------------
  mmmm     "                                    #             #         m                      m
  #   "m mmm     mmm    mmm    mmm    m mm   mmm#   mmm    mmm#         #       mmm   mmmm   mm#mm   mmm   m mm    mmm
@@ -643,51 +643,51 @@ DiscLep_mvaIdSpring16                                                         : 
                                                          #
                                                          "
 ------------------------------------------------------------------------------------------
-nLepOther                                                                     : nLepOther/I
-LepOther_charge                                                               : Int_t charge for Leptons after the preselection
-LepOther_tightId                                                              : Int_t POG Tight ID (for electrons it's configured in the analyzer) for Leptons after the preselection
-LepOther_eleCutIdCSA14_25ns_v1                                                : Int_t Electron cut-based id (POG CSA14_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
-LepOther_eleCutIdCSA14_50ns_v1                                                : Int_t Electron cut-based id (POG CSA14_50ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
-LepOther_eleCutIdSpring15_25ns_v1                                             : Int_t Electron cut-based id (POG Spring15_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight for Leptons after the preselection
-LepOther_dxy                                                                  : Float_t d_{xy} with respect to PV, in cm (with sign) for Leptons after the preselection
-LepOther_dz                                                                   : Float_t d_{z} with respect to PV, in cm (with sign) for Leptons after the preselection
-LepOther_edxy                                                                 : Float_t #sigma(d_{xy}) with respect to PV, in cm for Leptons after the preselection
-LepOther_edz                                                                  : Float_t #sigma(d_{z}) with respect to PV, in cm for Leptons after the preselection
-LepOther_ip3d                                                                 : Float_t d_{3d} with respect to PV, in cm (absolute value) for Leptons after the preselection
-LepOther_sip3d                                                                : Float_t S_{ip3d} with respect to PV (significance) for Leptons after the preselection
-LepOther_convVeto                                                             : Int_t Conversion veto (always true for muons) for Leptons after the preselection
-LepOther_lostHits                                                             : Int_t Number of lost hits on inner track for Leptons after the preselection
-LepOther_relIso03                                                             : Float_t PF Rel Iso, R=0.3, pile-up corrected for Leptons after the preselection
-LepOther_relIso04                                                             : Float_t PF Rel Iso, R=0.4, pile-up corrected for Leptons after the preselection
-LepOther_miniRelIso                                                           : Float_t PF Rel miniRel, pile-up corrected for Leptons after the preselection
-LepOther_relIsoAn04                                                           : Float_t PF Activity Annulus, pile-up corrected for Leptons after the preselection
-LepOther_tightCharge                                                          : Int_t Tight charge criteria : for electrons, 2 if isGsfCtfScPixChargeConsistent, 1 if only isGsfScPixChargeConsistent, 0 otherwise; for muons, 2 if ptError/pt < 0.20, 0 otherwise  for Leptons after the preselection
-LepOther_mcMatchId                                                            : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Leptons after the preselection
-LepOther_mcMatchAny                                                           : Int_t Match to any final state leptons : 0 if unmatched, 1 if light flavour (including prompt), 4 if charm, 5 if bottom for Leptons after the preselection
-LepOther_mcMatchTau                                                           : Int_t True if the leptons comes from a tau for Leptons after the preselection
-LepOther_mcPt                                                                 : Float_t p_{T} of associated gen lepton for Leptons after the preselection
-LepOther_mediumMuonId                                                         : Int_t Muon POG Medium id for Leptons after the preselection
-LepOther_ICHEPsoftMuonId                                                      : Int_t Muon POG Soft id with fix for ICHEP 2016 for Leptons after the preselection
-LepOther_ICHEPmediumMuonId                                                    : Int_t Muon POG Medium id with fix for ICHEP 2016 for Leptons after the preselection
-LepOther_pdgId                                                                : Int_t pdgId for Leptons after the preselection
-LepOther_pt                                                                   : Float_t pt for Leptons after the preselection
-LepOther_eta                                                                  : Float_t eta for Leptons after the preselection
-LepOther_phi                                                                  : Float_t phi for Leptons after the preselection
-LepOther_mass                                                                 : Float_t mass for Leptons after the preselection
-LepOther_mvaIdSpring15                                                        : Float_t EGamma POG MVA ID for non-triggering electrons, Spring15 re-training; 1 for muons for Leptons after the preselection
-LepOther_mvaTTH                                                               : Float_t Lepton MVA (TTH version) for Leptons after the preselection
-LepOther_mvaSUSY                                                              : Float_t Lepton MVA (SUSY version) for Leptons after the preselection
-LepOther_mvaSoftT2tt                                                          : Float_t Lepton MVA (Soft T2tt version) for Leptons after the preselection
-LepOther_mvaSoftEWK                                                           : Float_t Lepton MVA (Soft EWK version) for Leptons after the preselection
-LepOther_jetPtRatiov1                                                         : Float_t pt(lepton)/pt(nearest jet) for Leptons after the preselection
-LepOther_jetPtRelv1                                                           : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton) for Leptons after the preselection
-LepOther_jetPtRatiov2                                                         : Float_t pt(lepton)/[rawpt(jet-PU-lep)*L2L3Res+pt(lepton)] for Leptons after the preselection
-LepOther_jetPtRelv2                                                           : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton) - v2 for Leptons after the preselection
-LepOther_jetBTagCSV                                                           : Float_t CSV btag of nearest jet for Leptons after the preselection
-LepOther_jetBTagCMVA                                                          : Float_t CMA btag of nearest jet for Leptons after the preselection
-LepOther_jetDR                                                                : Float_t deltaR(lepton, nearest jet) for Leptons after the preselection
-LepOther_r9                                                                   : Float_t SuperCluster 5x5 r9 variable, only for electrons; -99 for muons for Leptons after the preselection
-LepOther_mvaIdSpring16                                                        : Float_t EGamma POG MVA ID, Spring16; 1 for muons for Leptons after the preselection
+nLepOther                                                                     : nLepOther/I : Leptons after the preselection
+LepOther_charge                                                               : Int_t charge
+LepOther_tightId                                                              : Int_t POG Tight ID (for electrons it's configured in the analyzer)
+LepOther_eleCutIdCSA14_25ns_v1                                                : Int_t Electron cut-based id (POG CSA14_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight
+LepOther_eleCutIdCSA14_50ns_v1                                                : Int_t Electron cut-based id (POG CSA14_50ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight
+LepOther_eleCutIdSpring15_25ns_v1                                             : Int_t Electron cut-based id (POG Spring15_25ns_v1) : 0=none, 1=veto, 2=loose, 3=medium, 4=tight
+LepOther_dxy                                                                  : Float_t d_{xy} with respect to PV, in cm (with sign)
+LepOther_dz                                                                   : Float_t d_{z} with respect to PV, in cm (with sign)
+LepOther_edxy                                                                 : Float_t #sigma(d_{xy}) with respect to PV, in cm
+LepOther_edz                                                                  : Float_t #sigma(d_{z}) with respect to PV, in cm
+LepOther_ip3d                                                                 : Float_t d_{3d} with respect to PV, in cm (absolute value)
+LepOther_sip3d                                                                : Float_t S_{ip3d} with respect to PV (significance)
+LepOther_convVeto                                                             : Int_t Conversion veto (always true for muons)
+LepOther_lostHits                                                             : Int_t Number of lost hits on inner track
+LepOther_relIso03                                                             : Float_t PF Rel Iso, R=0.3, pile-up corrected
+LepOther_relIso04                                                             : Float_t PF Rel Iso, R=0.4, pile-up corrected
+LepOther_miniRelIso                                                           : Float_t PF Rel miniRel, pile-up corrected
+LepOther_relIsoAn04                                                           : Float_t PF Activity Annulus, pile-up corrected
+LepOther_tightCharge                                                          : Int_t Tight charge criteria : for electrons, 2 if isGsfCtfScPixChargeConsistent, 1 if only isGsfScPixChargeConsistent, 0 otherwise; for muons, 2 if ptError/pt < 0.20, 0 otherwise 
+LepOther_mcMatchId                                                            : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake
+LepOther_mcMatchAny                                                           : Int_t Match to any final state leptons : 0 if unmatched, 1 if light flavour (including prompt), 4 if charm, 5 if bottom
+LepOther_mcMatchTau                                                           : Int_t True if the leptons comes from a tau
+LepOther_mcPt                                                                 : Float_t p_{T} of associated gen lepton
+LepOther_mediumMuonId                                                         : Int_t Muon POG Medium id
+LepOther_ICHEPsoftMuonId                                                      : Int_t Muon POG Soft id with fix for ICHEP 2016
+LepOther_ICHEPmediumMuonId                                                    : Int_t Muon POG Medium id with fix for ICHEP 2016
+LepOther_pdgId                                                                : Int_t pdgId
+LepOther_pt                                                                   : Float_t pt
+LepOther_eta                                                                  : Float_t eta
+LepOther_phi                                                                  : Float_t phi
+LepOther_mass                                                                 : Float_t mass
+LepOther_mvaIdSpring15                                                        : Float_t EGamma POG MVA ID for non-triggering electrons, Spring15 re-training; 1 for muons
+LepOther_mvaTTH                                                               : Float_t Lepton MVA (TTH version)
+LepOther_mvaSUSY                                                              : Float_t Lepton MVA (SUSY version)
+LepOther_mvaSoftT2tt                                                          : Float_t Lepton MVA (Soft T2tt version)
+LepOther_mvaSoftEWK                                                           : Float_t Lepton MVA (Soft EWK version)
+LepOther_jetPtRatiov1                                                         : Float_t pt(lepton)/pt(nearest jet)
+LepOther_jetPtRelv1                                                           : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton)
+LepOther_jetPtRatiov2                                                         : Float_t pt(lepton)/[rawpt(jet-PU-lep)*L2L3Res+pt(lepton)]
+LepOther_jetPtRelv2                                                           : Float_t pt of the lepton transverse to the jet axis (subtracting the lepton) - v2
+LepOther_jetBTagCSV                                                           : Float_t CSV btag of nearest jet
+LepOther_jetBTagCMVA                                                          : Float_t CMA btag of nearest jet
+LepOther_jetDR                                                                : Float_t deltaR(lepton, nearest jet)
+LepOther_r9                                                                   : Float_t SuperCluster 5x5 r9 variable, only for electrons; -99 for muons
+LepOther_mvaIdSpring16                                                        : Float_t EGamma POG MVA ID, Spring16; 1 for muons
 ----------------------------------------------------------------------------------------------------------------------
    mmm                                       m               #         m                      m
  m"   "  mmm   m mm    mmm    m mm   mmm   mm#mm   mmm    mmm#         #       mmm   mmmm   mm#mm   mmm   m mm    mmm
@@ -879,117 +879,117 @@ GenTop_isPromptHard                                                           : 
      #  #""""    #     """m
  "mmm"  "#mm"    "mm  "mmm"
 ---------------------------
-nJet                                                                          : nJet/I
-Jet_mcMatchFlav                                                               : Int_t Flavour of associated parton from hard scatter (if any) for Cental jets after full selection and cleaning, sorted by pt
-Jet_charge                                                                    : Float_t Jet charge for Cental jets after full selection and cleaning, sorted by pt
-Jet_ctagCsvL                                                                  : Float_t CsvL discriminator for Cental jets after full selection and cleaning, sorted by pt
-Jet_ctagCsvB                                                                  : Float_t CsvB discriminator for Cental jets after full selection and cleaning, sorted by pt
-Jet_area                                                                      : Float_t Catchment area of jet for Cental jets after full selection and cleaning, sorted by pt
-Jet_qgl                                                                       : Float_t QG Likelihood for Cental jets after full selection and cleaning, sorted by pt
-Jet_ptd                                                                       : Float_t QG input variable : ptD for Cental jets after full selection and cleaning, sorted by pt
-Jet_axis2                                                                     : Float_t QG input variable : axis2 for Cental jets after full selection and cleaning, sorted by pt
-Jet_mult                                                                      : Int_t QG input variable : total multiplicity for Cental jets after full selection and cleaning, sorted by pt
-Jet_partonId                                                                  : Int_t parton flavour (manually matching to status 23 particles) for Cental jets after full selection and cleaning, sorted by pt
-Jet_partonMotherId                                                            : Int_t parton flavour (manually matching to status 23 particles) for Cental jets after full selection and cleaning, sorted by pt
-Jet_nLeptons                                                                  : Float_t Number of associated leptons for Cental jets after full selection and cleaning, sorted by pt
-Jet_id                                                                        : Int_t POG Loose jet ID for Cental jets after full selection and cleaning, sorted by pt
-Jet_puId                                                                      : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs : the only thing that is available now) for Cental jets after full selection and cleaning, sorted by pt
-Jet_btagCSV                                                                   : Float_t CSV-IVF v2 discriminator for Cental jets after full selection and cleaning, sorted by pt
-Jet_btagCMVA                                                                  : Float_t CMVA discriminator for Cental jets after full selection and cleaning, sorted by pt
-Jet_rawPt                                                                     : Float_t p_{T} before JEC for Cental jets after full selection and cleaning, sorted by pt
-Jet_mcPt                                                                      : Float_t p_{T} of associated gen jet for Cental jets after full selection and cleaning, sorted by pt
-Jet_mcFlavour                                                                 : Int_t parton flavour (physics definition, i.e. including b's from shower) for Cental jets after full selection and cleaning, sorted by pt
-Jet_partonFlavour                                                             : Int_t purely parton-based flavour for Cental jets after full selection and cleaning, sorted by pt
-Jet_hadronFlavour                                                             : Int_t hadron flavour (ghost matching to B/C hadrons) for Cental jets after full selection and cleaning, sorted by pt
-Jet_mcMatchId                                                                 : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Cental jets after full selection and cleaning, sorted by pt
-Jet_corr_JECUp                                                                : Float_t corr_JECUp for Cental jets after full selection and cleaning, sorted by pt
-Jet_corr_JECDown                                                              : Float_t corr_JECDown for Cental jets after full selection and cleaning, sorted by pt
-Jet_corr                                                                      : Float_t corr for Cental jets after full selection and cleaning, sorted by pt
-Jet_corr_JERUp                                                                : Float_t corr_JERUp for Cental jets after full selection and cleaning, sorted by pt
-Jet_corr_JERDown                                                              : Float_t corr_JERDown for Cental jets after full selection and cleaning, sorted by pt
-Jet_corr_JER                                                                  : Float_t corr_JER for Cental jets after full selection and cleaning, sorted by pt
-Jet_pt                                                                        : Float_t pt for Cental jets after full selection and cleaning, sorted by pt
-Jet_eta                                                                       : Float_t eta for Cental jets after full selection and cleaning, sorted by pt
-Jet_phi                                                                       : Float_t phi for Cental jets after full selection and cleaning, sorted by pt
-Jet_mass                                                                      : Float_t mass for Cental jets after full selection and cleaning, sorted by pt
-Jet_CorrFactor_L1                                                             : Float_t L1 correction factor for Cental jets after full selection and cleaning, sorted by pt
-Jet_CorrFactor_L1L2                                                           : Float_t L1L2 correction factor for Cental jets after full selection and cleaning, sorted by pt
-Jet_CorrFactor_L1L2L3                                                         : Float_t L1L2L3 correction factor for Cental jets after full selection and cleaning, sorted by pt
-Jet_CorrFactor_L1L2L3Res                                                      : Float_t L1L2L3Res correction factor for Cental jets after full selection and cleaning, sorted by pt
+nJet                                                                          : nJet/I : Cental jets after full selection and cleaning, sorted by pt
+Jet_mcMatchFlav                                                               : Int_t Flavour of associated parton from hard scatter (if any) 
+Jet_charge                                                                    : Float_t Jet charge
+Jet_ctagCsvL                                                                  : Float_t CsvL discriminator 
+Jet_ctagCsvB                                                                  : Float_t CsvB discriminator
+Jet_area                                                                      : Float_t Catchment area of jet
+Jet_qgl                                                                       : Float_t QG Likelihood
+Jet_ptd                                                                       : Float_t QG input variable : ptD
+Jet_axis2                                                                     : Float_t QG input variable : axis2
+Jet_mult                                                                      : Int_t QG input variable : total multiplicity
+Jet_partonId                                                                  : Int_t parton flavour (manually matching to status 23 particles)
+Jet_partonMotherId                                                            : Int_t parton flavour (manually matching to status 23 particles)
+Jet_nLeptons                                                                  : Float_t Number of associated leptons
+Jet_id                                                                        : Int_t POG Loose jet ID
+Jet_puId                                                                      : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs : the only thing that is available now)
+Jet_btagCSV                                                                   : Float_t CSV-IVF v2 discriminator
+Jet_btagCMVA                                                                  : Float_t CMVA discriminator
+Jet_rawPt                                                                     : Float_t p_{T} before JEC
+Jet_mcPt                                                                      : Float_t p_{T} of associated gen jet
+Jet_mcFlavour                                                                 : Int_t parton flavour (physics definition, i.e. including b's from shower)
+Jet_partonFlavour                                                             : Int_t purely parton-based flavour
+Jet_hadronFlavour                                                             : Int_t hadron flavour (ghost matching to B/C hadrons)
+Jet_mcMatchId                                                                 : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake
+Jet_corr_JECUp                                                                : Float_t corr_JECUp
+Jet_corr_JECDown                                                              : Float_t corr_JECDown
+Jet_corr                                                                      : Float_t corr
+Jet_corr_JERUp                                                                : Float_t corr_JERUp
+Jet_corr_JERDown                                                              : Float_t corr_JERDown
+Jet_corr_JER                                                                  : Float_t corr_JER
+Jet_pt                                                                        : Float_t pt
+Jet_eta                                                                       : Float_t eta
+Jet_phi                                                                       : Float_t phi
+Jet_mass                                                                      : Float_t mass
+Jet_CorrFactor_L1                                                             : Float_t L1 correction factor
+Jet_CorrFactor_L1L2                                                           : Float_t L1L2 correction factor
+Jet_CorrFactor_L1L2L3                                                         : Float_t L1L2L3 correction factor
+Jet_CorrFactor_L1L2L3Res                                                      : Float_t L1L2L3Res correction factor
 nJet_jecUp                                                                    : nJet_jecUp/I
-Jet_jecUp_mcMatchFlav                                                         : Int_t Flavour of associated parton from hard scatter (if any) for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_charge                                                              : Float_t Jet charge for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_ctagCsvL                                                            : Float_t CsvL discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_ctagCsvB                                                            : Float_t CsvB discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_area                                                                : Float_t Catchment area of jet for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_qgl                                                                 : Float_t QG Likelihood for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_ptd                                                                 : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_axis2                                                               : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_mult                                                                : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_partonId                                                            : Int_t parton flavour (manually matching to status 23 particles) for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_partonMotherId                                                      : Int_t parton flavour (manually matching to status 23 particles) for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_nLeptons                                                            : Float_t Number of associated leptons for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_id                                                                  : Int_t POG Loose jet ID for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_puId                                                                : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_btagCSV                                                             : Float_t CSV-IVF v2 discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_btagCMVA                                                            : Float_t CMVA discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_rawPt                                                               : Float_t p_{T} before JEC for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_mcPt                                                                : Float_t p_{T} of associated gen jet for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_mcFlavour                                                           : Int_t parton flavour (physics definition, i.e. including b's from shower) for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_partonFlavour                                                       : Int_t purely parton-based flavour for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_hadronFlavour                                                       : Int_t hadron flavour (ghost matching to B/C hadrons) for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_mcMatchId                                                           : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_corr_JECUp                                                          : Float_t corr_JECUp for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_corr_JECDown                                                        : Float_t corr_JECDown for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_corr                                                                : Float_t corr for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_corr_JERUp                                                          : Float_t corr_JERUp for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_corr_JERDown                                                        : Float_t corr_JERDown for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_corr_JER                                                            : Float_t corr_JER for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_pt                                                                  : Float_t pt for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_eta                                                                 : Float_t eta for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_phi                                                                 : Float_t phi for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_mass                                                                : Float_t mass for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_CorrFactor_L1                                                       : Float_t L1 correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_CorrFactor_L1L2                                                     : Float_t L1L2 correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_CorrFactor_L1L2L3                                                   : Float_t L1L2L3 correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
-Jet_jecUp_CorrFactor_L1L2L3Res                                                : Float_t L1L2L3Res correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC plus 1sigma)
+Jet_jecUp_mcMatchFlav                                                         : Int_t Flavour of associated parton from hard scatter (if any) (JEC plus 1sigma)
+Jet_jecUp_charge                                                              : Float_t Jet charge (JEC plus 1sigma)
+Jet_jecUp_ctagCsvL                                                            : Float_t CsvL discriminator (JEC plus 1sigma)
+Jet_jecUp_ctagCsvB                                                            : Float_t CsvB discriminator (JEC plus 1sigma)
+Jet_jecUp_area                                                                : Float_t Catchment area of jet (JEC plus 1sigma)
+Jet_jecUp_qgl                                                                 : Float_t QG Likelihood (JEC plus 1sigma)
+Jet_jecUp_ptd                                                                 : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD (JEC plus 1sigma)
+Jet_jecUp_axis2                                                               : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 (JEC plus 1sigma)
+Jet_jecUp_mult                                                                : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity (JEC plus 1sigma)
+Jet_jecUp_partonId                                                            : Int_t parton flavour (manually matching to status 23 particles) (JEC plus 1sigma)
+Jet_jecUp_partonMotherId                                                      : Int_t parton flavour (manually matching to status 23 particles) (JEC plus 1sigma)
+Jet_jecUp_nLeptons                                                            : Float_t Number of associated leptons (JEC plus 1sigma)
+Jet_jecUp_id                                                                  : Int_t POG Loose jet ID (JEC plus 1sigma)
+Jet_jecUp_puId                                                                : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) (JEC plus 1sigma)
+Jet_jecUp_btagCSV                                                             : Float_t CSV-IVF v2 discriminator (JEC plus 1sigma)
+Jet_jecUp_btagCMVA                                                            : Float_t CMVA discriminator (JEC plus 1sigma)
+Jet_jecUp_rawPt                                                               : Float_t p_{T} before JEC (JEC plus 1sigma)
+Jet_jecUp_mcPt                                                                : Float_t p_{T} of associated gen jet (JEC plus 1sigma)
+Jet_jecUp_mcFlavour                                                           : Int_t parton flavour (physics definition, i.e. including b's from shower) (JEC plus 1sigma)
+Jet_jecUp_partonFlavour                                                       : Int_t purely parton-based flavour (JEC plus 1sigma)
+Jet_jecUp_hadronFlavour                                                       : Int_t hadron flavour (ghost matching to B/C hadrons) (JEC plus 1sigma)
+Jet_jecUp_mcMatchId                                                           : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake (JEC plus 1sigma)
+Jet_jecUp_corr_JECUp                                                          : Float_t corr_JECUp (JEC plus 1sigma)
+Jet_jecUp_corr_JECDown                                                        : Float_t corr_JECDown (JEC plus 1sigma)
+Jet_jecUp_corr                                                                : Float_t corr (JEC plus 1sigma)
+Jet_jecUp_corr_JERUp                                                          : Float_t corr_JERUp (JEC plus 1sigma)
+Jet_jecUp_corr_JERDown                                                        : Float_t corr_JERDown (JEC plus 1sigma)
+Jet_jecUp_corr_JER                                                            : Float_t corr_JER (JEC plus 1sigma)
+Jet_jecUp_pt                                                                  : Float_t pt (JEC plus 1sigma)
+Jet_jecUp_eta                                                                 : Float_t eta (JEC plus 1sigma)
+Jet_jecUp_phi                                                                 : Float_t phi (JEC plus 1sigma)
+Jet_jecUp_mass                                                                : Float_t mass (JEC plus 1sigma)
+Jet_jecUp_CorrFactor_L1                                                       : Float_t L1 correction factor (JEC plus 1sigma)
+Jet_jecUp_CorrFactor_L1L2                                                     : Float_t L1L2 correction factor (JEC plus 1sigma)
+Jet_jecUp_CorrFactor_L1L2L3                                                   : Float_t L1L2L3 correction factor (JEC plus 1sigma)
+Jet_jecUp_CorrFactor_L1L2L3Res                                                : Float_t L1L2L3Res correction factor (JEC plus 1sigma)
 nJet_jecDown                                                                  : nJet_jecDown/I
-Jet_jecDown_mcMatchFlav                                                       : Int_t Flavour of associated parton from hard scatter (if any) for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_charge                                                            : Float_t Jet charge for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_ctagCsvL                                                          : Float_t CsvL discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_ctagCsvB                                                          : Float_t CsvB discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_area                                                              : Float_t Catchment area of jet for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_qgl                                                               : Float_t QG Likelihood for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_ptd                                                               : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_axis2                                                             : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_mult                                                              : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_partonId                                                          : Int_t parton flavour (manually matching to status 23 particles) for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_partonMotherId                                                    : Int_t parton flavour (manually matching to status 23 particles) for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_nLeptons                                                          : Float_t Number of associated leptons for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_id                                                                : Int_t POG Loose jet ID for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_puId                                                              : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_btagCSV                                                           : Float_t CSV-IVF v2 discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_btagCMVA                                                          : Float_t CMVA discriminator for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_rawPt                                                             : Float_t p_{T} before JEC for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_mcPt                                                              : Float_t p_{T} of associated gen jet for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_mcFlavour                                                         : Int_t parton flavour (physics definition, i.e. including b's from shower) for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_partonFlavour                                                     : Int_t purely parton-based flavour for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_hadronFlavour                                                     : Int_t hadron flavour (ghost matching to B/C hadrons) for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_mcMatchId                                                         : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_corr_JECUp                                                        : Float_t corr_JECUp for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_corr_JECDown                                                      : Float_t corr_JECDown for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_corr                                                              : Float_t corr for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_corr_JERUp                                                        : Float_t corr_JERUp for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_corr_JERDown                                                      : Float_t corr_JERDown for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_corr_JER                                                          : Float_t corr_JER for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_pt                                                                : Float_t pt for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_eta                                                               : Float_t eta for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_phi                                                               : Float_t phi for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_mass                                                              : Float_t mass for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_CorrFactor_L1                                                     : Float_t L1 correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_CorrFactor_L1L2                                                   : Float_t L1L2 correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_CorrFactor_L1L2L3                                                 : Float_t L1L2L3 correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
-Jet_jecDown_CorrFactor_L1L2L3Res                                              : Float_t L1L2L3Res correction factor for Cental jets after full selection and cleaning, sorted by pt (JEC minus 1sigma)
+Jet_jecDown_mcMatchFlav                                                       : Int_t Flavour of associated parton from hard scatter (if any) (JEC minus 1sigma)
+Jet_jecDown_charge                                                            : Float_t Jet charge (JEC minus 1sigma)
+Jet_jecDown_ctagCsvL                                                          : Float_t CsvL discriminator (JEC minus 1sigma)
+Jet_jecDown_ctagCsvB                                                          : Float_t CsvB discriminator (JEC minus 1sigma)
+Jet_jecDown_area                                                              : Float_t Catchment area of jet (JEC minus 1sigma)
+Jet_jecDown_qgl                                                               : Float_t QG Likelihood (JEC minus 1sigma)
+Jet_jecDown_ptd                                                               : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD (JEC minus 1sigma)
+Jet_jecDown_axis2                                                             : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 (JEC minus 1sigma)
+Jet_jecDown_mult                                                              : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity (JEC minus 1sigma)
+Jet_jecDown_partonId                                                          : Int_t parton flavour (manually matching to status 23 particles) (JEC minus 1sigma)
+Jet_jecDown_partonMotherId                                                    : Int_t parton flavour (manually matching to status 23 particles) (JEC minus 1sigma)
+Jet_jecDown_nLeptons                                                          : Float_t Number of associated leptons (JEC minus 1sigma)
+Jet_jecDown_id                                                                : Int_t POG Loose jet ID (JEC minus 1sigma)
+Jet_jecDown_puId                                                              : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) (JEC minus 1sigma)
+Jet_jecDown_btagCSV                                                           : Float_t CSV-IVF v2 discriminator (JEC minus 1sigma)
+Jet_jecDown_btagCMVA                                                          : Float_t CMVA discriminator (JEC minus 1sigma)
+Jet_jecDown_rawPt                                                             : Float_t p_{T} before JEC (JEC minus 1sigma)
+Jet_jecDown_mcPt                                                              : Float_t p_{T} of associated gen jet (JEC minus 1sigma)
+Jet_jecDown_mcFlavour                                                         : Int_t parton flavour (physics definition, i.e. including b's from shower) (JEC minus 1sigma)
+Jet_jecDown_partonFlavour                                                     : Int_t purely parton-based flavour (JEC minus 1sigma)
+Jet_jecDown_hadronFlavour                                                     : Int_t hadron flavour (ghost matching to B/C hadrons) (JEC minus 1sigma)
+Jet_jecDown_mcMatchId                                                         : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake (JEC minus 1sigma)
+Jet_jecDown_corr_JECUp                                                        : Float_t corr_JECUp (JEC minus 1sigma)
+Jet_jecDown_corr_JECDown                                                      : Float_t corr_JECDown (JEC minus 1sigma)
+Jet_jecDown_corr                                                              : Float_t corr (JEC minus 1sigma)
+Jet_jecDown_corr_JERUp                                                        : Float_t corr_JERUp (JEC minus 1sigma)
+Jet_jecDown_corr_JERDown                                                      : Float_t corr_JERDown (JEC minus 1sigma)
+Jet_jecDown_corr_JER                                                          : Float_t corr_JER (JEC minus 1sigma)
+Jet_jecDown_pt                                                                : Float_t pt (JEC minus 1sigma)
+Jet_jecDown_eta                                                               : Float_t eta (JEC minus 1sigma)
+Jet_jecDown_phi                                                               : Float_t phi (JEC minus 1sigma)
+Jet_jecDown_mass                                                              : Float_t mass (JEC minus 1sigma)
+Jet_jecDown_CorrFactor_L1                                                     : Float_t L1 correction factor (JEC minus 1sigma)
+Jet_jecDown_CorrFactor_L1L2                                                   : Float_t L1L2 correction factor (JEC minus 1sigma)
+Jet_jecDown_CorrFactor_L1L2L3                                                 : Float_t L1L2L3 correction factor (JEC minus 1sigma)
+Jet_jecDown_CorrFactor_L1L2L3Res                                              : Float_t L1L2L3Res correction factor (JEC minus 1sigma)
 --------------------------------------------------------
  mmmmmm          m             mmm           m
  #       mmm   mm#mm             #   mmm   mm#mm   mmm
@@ -997,35 +997,35 @@ Jet_jecDown_CorrFactor_L1L2L3Res                                              : 
  #      m"""#    #               #  #""""    #     """m
  #      "mm"#    "mm         "mmm"  "#mm"    "mm  "mmm"
 --------------------------------------------------------
-nFatJet                                                                       : nFatJet/I
-FatJet_id                                                                     : Int_t POG Loose jet ID for AK8 jets, sorted by pt
-FatJet_puId                                                                   : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) for AK8 jets, sorted by pt
-FatJet_btagCSV                                                                : Float_t CSV-IVF v2 discriminator for AK8 jets, sorted by pt
-FatJet_btagCMVA                                                               : Float_t CMVA discriminator for AK8 jets, sorted by pt
-FatJet_rawPt                                                                  : Float_t p_{T} before JEC for AK8 jets, sorted by pt
-FatJet_mcPt                                                                   : Float_t p_{T} of associated gen jet for AK8 jets, sorted by pt
-FatJet_mcFlavour                                                              : Int_t parton flavour (physics definition, i.e. including b's from shower) for AK8 jets, sorted by pt
-FatJet_partonFlavour                                                          : Int_t purely parton-based flavour for AK8 jets, sorted by pt
-FatJet_hadronFlavour                                                          : Int_t hadron flavour (ghost matching to B/C hadrons) for AK8 jets, sorted by pt
-FatJet_mcMatchId                                                              : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for AK8 jets, sorted by pt
-FatJet_corr_JECUp                                                             : Float_t corr_JECUp for AK8 jets, sorted by pt
-FatJet_corr_JECDown                                                           : Float_t corr_JECDown for AK8 jets, sorted by pt
-FatJet_corr                                                                   : Float_t corr for AK8 jets, sorted by pt
-FatJet_corr_JERUp                                                             : Float_t corr_JERUp for AK8 jets, sorted by pt
-FatJet_corr_JERDown                                                           : Float_t corr_JERDown for AK8 jets, sorted by pt
-FatJet_corr_JER                                                               : Float_t corr_JER for AK8 jets, sorted by pt
-FatJet_pt                                                                     : Float_t pt for AK8 jets, sorted by pt
-FatJet_eta                                                                    : Float_t eta for AK8 jets, sorted by pt
-FatJet_phi                                                                    : Float_t phi for AK8 jets, sorted by pt
-FatJet_mass                                                                   : Float_t mass for AK8 jets, sorted by pt
-FatJet_prunedMass                                                             : Float_t pruned mass for AK8 jets, sorted by pt
-FatJet_softDropMass                                                           : Float_t trimmed mass for AK8 jets, sorted by pt
-FatJet_tau1                                                                   : Float_t 1-subjettiness for AK8 jets, sorted by pt
-FatJet_tau2                                                                   : Float_t 2-subjettiness for AK8 jets, sorted by pt
-FatJet_tau3                                                                   : Float_t 3-subjettiness for AK8 jets, sorted by pt
-FatJet_topMass                                                                : Float_t CA8 jet topMass for AK8 jets, sorted by pt
-FatJet_minMass                                                                : Float_t CA8 jet minMass for AK8 jets, sorted by pt
-FatJet_nSubJets                                                               : Float_t CA8 jet nSubJets for AK8 jets, sorted by pt
+nFatJet                                                                       : nFatJet/I :
+FatJet_id                                                                     : Int_t POG Loose jet ID
+FatJet_puId                                                                   : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs, the only thing that is available now)
+FatJet_btagCSV                                                                : Float_t CSV-IVF v2 discriminator
+FatJet_btagCMVA                                                               : Float_t CMVA discriminator
+FatJet_rawPt                                                                  : Float_t p_{T} before JEC
+FatJet_mcPt                                                                   : Float_t p_{T} of associated gen jet
+FatJet_mcFlavour                                                              : Int_t parton flavour (physics definition, i.e. including b's from shower)
+FatJet_partonFlavour                                                          : Int_t purely parton-based flavour
+FatJet_hadronFlavour                                                          : Int_t hadron flavour (ghost matching to B/C hadrons)
+FatJet_mcMatchId                                                              : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake
+FatJet_corr_JECUp                                                             : Float_t corr_JECUp
+FatJet_corr_JECDown                                                           : Float_t corr_JECDown
+FatJet_corr                                                                   : Float_t corr
+FatJet_corr_JERUp                                                             : Float_t corr_JERUp
+FatJet_corr_JERDown                                                           : Float_t corr_JERDown
+FatJet_corr_JER                                                               : Float_t corr_JER
+FatJet_pt                                                                     : Float_t pt
+FatJet_eta                                                                    : Float_t eta
+FatJet_phi                                                                    : Float_t phi
+FatJet_mass                                                                   : Float_t mass
+FatJet_prunedMass                                                             : Float_t pruned mass
+FatJet_softDropMass                                                           : Float_t trimmed mass
+FatJet_tau1                                                                   : Float_t 1-subjettiness
+FatJet_tau2                                                                   : Float_t 2-subjettiness
+FatJet_tau3                                                                   : Float_t 3-subjettiness
+FatJet_topMass                                                                : Float_t CA8 jet topMass
+FatJet_minMass                                                                : Float_t CA8 jet minMass
+FatJet_nSubJets                                                               : Float_t CA8 jet nSubJets
 -------------------------------------------------------------------------------------------------
  mmmm     "                                    #             #           mmm           m
  #   "m mmm     mmm    mmm    mmm    m mm   mmm#   mmm    mmm#             #   mmm   mm#mm   mmm
@@ -1033,117 +1033,117 @@ FatJet_nSubJets                                                               : 
  #    #   #     """m  #      m"""#   #     #   #  #""""  #   #             #  #""""    #     """m
  #mmm"  mm#mm  "mmm"  "#mm"  "mm"#   #     "#m##  "#mm"  "#m##         "mmm"  "#mm"    "mm  "mmm"
 -------------------------------------------------------------------------------------------------
-nDiscJet                                                                      : nDiscJet/I
-DiscJet_mcMatchFlav                                                           : Int_t Flavour of associated parton from hard scatter (if any) for Jets discarted in the jet-lepton cleaning
-DiscJet_charge                                                                : Float_t Jet charge for Jets discarted in the jet-lepton cleaning
-DiscJet_ctagCsvL                                                              : Float_t CsvL discriminator for Jets discarted in the jet-lepton cleaning
-DiscJet_ctagCsvB                                                              : Float_t CsvB discriminator for Jets discarted in the jet-lepton cleaning
-DiscJet_area                                                                  : Float_t Catchment area of jet for Jets discarted in the jet-lepton cleaning
-DiscJet_qgl                                                                   : Float_t QG Likelihood for Jets discarted in the jet-lepton cleaning
-DiscJet_ptd                                                                   : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD for Jets discarted in the jet-lepton cleaning
-DiscJet_axis2                                                                 : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 for Jets discarted in the jet-lepton cleaning
-DiscJet_mult                                                                  : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity for Jets discarted in the jet-lepton cleaning
-DiscJet_partonId                                                              : Int_t parton flavour (manually matching to status 23 particles) for Jets discarted in the jet-lepton cleaning
-DiscJet_partonMotherId                                                        : Int_t parton flavour (manually matching to status 23 particles) for Jets discarted in the jet-lepton cleaning
-DiscJet_nLeptons                                                              : Float_t Number of associated leptons for Jets discarted in the jet-lepton cleaning
-DiscJet_id                                                                    : Int_t POG Loose jet ID for Jets discarted in the jet-lepton cleaning
-DiscJet_puId                                                                  : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) for Jets discarted in the jet-lepton cleaning
-DiscJet_btagCSV                                                               : Float_t CSV-IVF v2 discriminator for Jets discarted in the jet-lepton cleaning
-DiscJet_btagCMVA                                                              : Float_t CMVA discriminator for Jets discarted in the jet-lepton cleaning
-DiscJet_rawPt                                                                 : Float_t p_{T} before JEC for Jets discarted in the jet-lepton cleaning
-DiscJet_mcPt                                                                  : Float_t p_{T} of associated gen jet for Jets discarted in the jet-lepton cleaning
-DiscJet_mcFlavour                                                             : Int_t parton flavour (physics definition, i.e. including b's from shower) for Jets discarted in the jet-lepton cleaning
-DiscJet_partonFlavour                                                         : Int_t purely parton-based flavour for Jets discarted in the jet-lepton cleaning
-DiscJet_hadronFlavour                                                         : Int_t hadron flavour (ghost matching to B/C hadrons) for Jets discarted in the jet-lepton cleaning
-DiscJet_mcMatchId                                                             : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Jets discarted in the jet-lepton cleaning
-DiscJet_corr_JECUp                                                            : Float_t corr_JECUp for Jets discarted in the jet-lepton cleaning
-DiscJet_corr_JECDown                                                          : Float_t corr_JECDown for Jets discarted in the jet-lepton cleaning
-DiscJet_corr                                                                  : Float_t corr for Jets discarted in the jet-lepton cleaning
-DiscJet_corr_JERUp                                                            : Float_t corr_JERUp for Jets discarted in the jet-lepton cleaning
-DiscJet_corr_JERDown                                                          : Float_t corr_JERDown for Jets discarted in the jet-lepton cleaning
-DiscJet_corr_JER                                                              : Float_t corr_JER for Jets discarted in the jet-lepton cleaning
-DiscJet_pt                                                                    : Float_t pt for Jets discarted in the jet-lepton cleaning
-DiscJet_eta                                                                   : Float_t eta for Jets discarted in the jet-lepton cleaning
-DiscJet_phi                                                                   : Float_t phi for Jets discarted in the jet-lepton cleaning
-DiscJet_mass                                                                  : Float_t mass for Jets discarted in the jet-lepton cleaning
-DiscJet_CorrFactor_L1                                                         : Float_t L1 correction factor for Jets discarted in the jet-lepton cleaning
-DiscJet_CorrFactor_L1L2                                                       : Float_t L1L2 correction factor for Jets discarted in the jet-lepton cleaning
-DiscJet_CorrFactor_L1L2L3                                                     : Float_t L1L2L3 correction factor for Jets discarted in the jet-lepton cleaning
-DiscJet_CorrFactor_L1L2L3Res                                                  : Float_t L1L2L3Res correction factor for Jets discarted in the jet-lepton cleaning
+nDiscJet                                                                      : nDiscJet/I Jets discarded in the jet-lepton cleaning
+DiscJet_mcMatchFlav                                                           : Int_t Flavour of associated parton from hard scatter (if any)
+DiscJet_charge                                                                : Float_t Jet charge 
+DiscJet_ctagCsvL                                                              : Float_t CsvL discriminator 
+DiscJet_ctagCsvB                                                              : Float_t CsvB discriminator 
+DiscJet_area                                                                  : Float_t Catchment area of jet 
+DiscJet_qgl                                                                   : Float_t QG Likelihood 
+DiscJet_ptd                                                                   : Float_t QG input variable, ptD 
+DiscJet_axis2                                                                 : Float_t QG input variable, axis2 
+DiscJet_mult                                                                  : Int_t QG input variable, total multiplicity 
+DiscJet_partonId                                                              : Int_t parton flavour (manually matching to status 23 particles) 
+DiscJet_partonMotherId                                                        : Int_t parton flavour (manually matching to status 23 particles) 
+DiscJet_nLeptons                                                              : Float_t Number of associated leptons 
+DiscJet_id                                                                    : Int_t POG Loose jet ID 
+DiscJet_puId                                                                  : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs, the only thing that is available now)
+DiscJet_btagCSV                                                               : Float_t CSV-IVF v2 discriminator 
+DiscJet_btagCMVA                                                              : Float_t CMVA discriminator 
+DiscJet_rawPt                                                                 : Float_t p_{T} before JEC 
+DiscJet_mcPt                                                                  : Float_t p_{T} of associated gen jet 
+DiscJet_mcFlavour                                                             : Int_t parton flavour (physics definition, i.e. including b's from shower) 
+DiscJet_partonFlavour                                                         : Int_t purely parton-based flavour 
+DiscJet_hadronFlavour                                                         : Int_t hadron flavour (ghost matching to B/C hadrons) 
+DiscJet_mcMatchId                                                             : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake 
+DiscJet_corr_JECUp                                                            : Float_t corr_JECUp 
+DiscJet_corr_JECDown                                                          : Float_t corr_JECDown 
+DiscJet_corr                                                                  : Float_t corr 
+DiscJet_corr_JERUp                                                            : Float_t corr_JERUp 
+DiscJet_corr_JERDown                                                          : Float_t corr_JERDown 
+DiscJet_corr_JER                                                              : Float_t corr_JER 
+DiscJet_pt                                                                    : Float_t pt 
+DiscJet_eta                                                                   : Float_t eta 
+DiscJet_phi                                                                   : Float_t phi 
+DiscJet_mass                                                                  : Float_t mass 
+DiscJet_CorrFactor_L1                                                         : Float_t L1 correction factor 
+DiscJet_CorrFactor_L1L2                                                       : Float_t L1L2 correction factor 
+DiscJet_CorrFactor_L1L2L3                                                     : Float_t L1L2L3 correction factor 
+DiscJet_CorrFactor_L1L2L3Res                                                  : Float_t L1L2L3Res correction factor 
 nDiscJet_jecDown                                                              : nDiscJet_jecDown/I
-DiscJet_jecDown_mcMatchFlav                                                   : Int_t Flavour of associated parton from hard scatter (if any) for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_charge                                                        : Float_t Jet charge for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_ctagCsvL                                                      : Float_t CsvL discriminator for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_ctagCsvB                                                      : Float_t CsvB discriminator for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_area                                                          : Float_t Catchment area of jet for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_qgl                                                           : Float_t QG Likelihood for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_ptd                                                           : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_axis2                                                         : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_mult                                                          : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_partonId                                                      : Int_t parton flavour (manually matching to status 23 particles) for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_partonMotherId                                                : Int_t parton flavour (manually matching to status 23 particles) for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_nLeptons                                                      : Float_t Number of associated leptons for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_id                                                            : Int_t POG Loose jet ID for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_puId                                                          : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_btagCSV                                                       : Float_t CSV-IVF v2 discriminator for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_btagCMVA                                                      : Float_t CMVA discriminator for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_rawPt                                                         : Float_t p_{T} before JEC for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_mcPt                                                          : Float_t p_{T} of associated gen jet for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_mcFlavour                                                     : Int_t parton flavour (physics definition, i.e. including b's from shower) for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_partonFlavour                                                 : Int_t purely parton-based flavour for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_hadronFlavour                                                 : Int_t hadron flavour (ghost matching to B/C hadrons) for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_mcMatchId                                                     : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_corr_JECUp                                                    : Float_t corr_JECUp for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_corr_JECDown                                                  : Float_t corr_JECDown for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_corr                                                          : Float_t corr for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_corr_JERUp                                                    : Float_t corr_JERUp for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_corr_JERDown                                                  : Float_t corr_JERDown for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_corr_JER                                                      : Float_t corr_JER for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_pt                                                            : Float_t pt for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_eta                                                           : Float_t eta for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_phi                                                           : Float_t phi for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_mass                                                          : Float_t mass for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_CorrFactor_L1                                                 : Float_t L1 correction factor for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_CorrFactor_L1L2                                               : Float_t L1L2 correction factor for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_CorrFactor_L1L2L3                                             : Float_t L1L2L3 correction factor for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
-DiscJet_jecDown_CorrFactor_L1L2L3Res                                          : Float_t L1L2L3Res correction factor for Jets discarted in the jet-lepton cleaning (JEC -1sigma)
+DiscJet_jecDown_mcMatchFlav                                                   : Int_t Flavour of associated parton from hard scatter (if any)  (JEC -1sigma)
+DiscJet_jecDown_charge                                                        : Float_t Jet charge  (JEC -1sigma)
+DiscJet_jecDown_ctagCsvL                                                      : Float_t CsvL discriminator  (JEC -1sigma)
+DiscJet_jecDown_ctagCsvB                                                      : Float_t CsvB discriminator  (JEC -1sigma)
+DiscJet_jecDown_area                                                          : Float_t Catchment area of jet  (JEC -1sigma)
+DiscJet_jecDown_qgl                                                           : Float_t QG Likelihood  (JEC -1sigma)
+DiscJet_jecDown_ptd                                                           : Float_t QG input variable, ptD  (JEC -1sigma)
+DiscJet_jecDown_axis2                                                         : Float_t QG input variable, axis2  (JEC -1sigma)
+DiscJet_jecDown_mult                                                          : Int_t QG input variable, total multiplicity  (JEC -1sigma)
+DiscJet_jecDown_partonId                                                      : Int_t parton flavour (manually matching to status 23 particles)  (JEC -1sigma)
+DiscJet_jecDown_partonMotherId                                                : Int_t parton flavour (manually matching to status 23 particles)  (JEC -1sigma)
+DiscJet_jecDown_nLeptons                                                      : Float_t Number of associated leptons  (JEC -1sigma)
+DiscJet_jecDown_id                                                            : Int_t POG Loose jet ID  (JEC -1sigma)
+DiscJet_jecDown_puId                                                          : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs, the only thing that is available now)  (JEC -1sigma)
+DiscJet_jecDown_btagCSV                                                       : Float_t CSV-IVF v2 discriminator  (JEC -1sigma)
+DiscJet_jecDown_btagCMVA                                                      : Float_t CMVA discriminator  (JEC -1sigma)
+DiscJet_jecDown_rawPt                                                         : Float_t p_{T} before JEC  (JEC -1sigma)
+DiscJet_jecDown_mcPt                                                          : Float_t p_{T} of associated gen jet  (JEC -1sigma)
+DiscJet_jecDown_mcFlavour                                                     : Int_t parton flavour (physics definition, i.e. including b's from shower)  (JEC -1sigma)
+DiscJet_jecDown_partonFlavour                                                 : Int_t purely parton-based flavour  (JEC -1sigma)
+DiscJet_jecDown_hadronFlavour                                                 : Int_t hadron flavour (ghost matching to B/C hadrons)  (JEC -1sigma)
+DiscJet_jecDown_mcMatchId                                                     : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake  (JEC -1sigma)
+DiscJet_jecDown_corr_JECUp                                                    : Float_t corr_JECUp  (JEC -1sigma)
+DiscJet_jecDown_corr_JECDown                                                  : Float_t corr_JECDown  (JEC -1sigma)
+DiscJet_jecDown_corr                                                          : Float_t corr  (JEC -1sigma)
+DiscJet_jecDown_corr_JERUp                                                    : Float_t corr_JERUp  (JEC -1sigma)
+DiscJet_jecDown_corr_JERDown                                                  : Float_t corr_JERDown  (JEC -1sigma)
+DiscJet_jecDown_corr_JER                                                      : Float_t corr_JER  (JEC -1sigma)
+DiscJet_jecDown_pt                                                            : Float_t pt  (JEC -1sigma)
+DiscJet_jecDown_eta                                                           : Float_t eta  (JEC -1sigma)
+DiscJet_jecDown_phi                                                           : Float_t phi  (JEC -1sigma)
+DiscJet_jecDown_mass                                                          : Float_t mass  (JEC -1sigma)
+DiscJet_jecDown_CorrFactor_L1                                                 : Float_t L1 correction factor  (JEC -1sigma)
+DiscJet_jecDown_CorrFactor_L1L2                                               : Float_t L1L2 correction factor  (JEC -1sigma)
+DiscJet_jecDown_CorrFactor_L1L2L3                                             : Float_t L1L2L3 correction factor  (JEC -1sigma)
+DiscJet_jecDown_CorrFactor_L1L2L3Res                                          : Float_t L1L2L3Res correction factor  (JEC -1sigma)
 nDiscJet_jecUp                                                                : nDiscJet_jecUp/I
-DiscJet_jecUp_mcMatchFlav                                                     : Int_t Flavour of associated parton from hard scatter (if any) for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_charge                                                          : Float_t Jet charge for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_ctagCsvL                                                        : Float_t CsvL discriminator for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_ctagCsvB                                                        : Float_t CsvB discriminator for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_area                                                            : Float_t Catchment area of jet for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_qgl                                                             : Float_t QG Likelihood for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_ptd                                                             : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_axis2                                                           : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_mult                                                            : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_partonId                                                        : Int_t parton flavour (manually matching to status 23 particles) for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_partonMotherId                                                  : Int_t parton flavour (manually matching to status 23 particles) for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_nLeptons                                                        : Float_t Number of associated leptons for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_id                                                              : Int_t POG Loose jet ID for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_puId                                                            : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_btagCSV                                                         : Float_t CSV-IVF v2 discriminator for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_btagCMVA                                                        : Float_t CMVA discriminator for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_rawPt                                                           : Float_t p_{T} before JEC for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_mcPt                                                            : Float_t p_{T} of associated gen jet for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_mcFlavour                                                       : Int_t parton flavour (physics definition, i.e. including b's from shower) for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_partonFlavour                                                   : Int_t purely parton-based flavour for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_hadronFlavour                                                   : Int_t hadron flavour (ghost matching to B/C hadrons) for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_mcMatchId                                                       : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_corr_JECUp                                                      : Float_t corr_JECUp for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_corr_JECDown                                                    : Float_t corr_JECDown for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_corr                                                            : Float_t corr for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_corr_JERUp                                                      : Float_t corr_JERUp for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_corr_JERDown                                                    : Float_t corr_JERDown for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_corr_JER                                                        : Float_t corr_JER for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_pt                                                              : Float_t pt for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_eta                                                             : Float_t eta for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_phi                                                             : Float_t phi for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_mass                                                            : Float_t mass for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_CorrFactor_L1                                                   : Float_t L1 correction factor for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_CorrFactor_L1L2                                                 : Float_t L1L2 correction factor for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_CorrFactor_L1L2L3                                               : Float_t L1L2L3 correction factor for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
-DiscJet_jecUp_CorrFactor_L1L2L3Res                                            : Float_t L1L2L3Res correction factor for Jets discarted in the jet-lepton cleaning (JEC +1sigma)
+DiscJet_jecUp_mcMatchFlav                                                     : Int_t Flavour of associated parton from hard scatter (if any)  (JEC +1sigma)
+DiscJet_jecUp_charge                                                          : Float_t Jet charge  (JEC +1sigma)
+DiscJet_jecUp_ctagCsvL                                                        : Float_t CsvL discriminator  (JEC +1sigma)
+DiscJet_jecUp_ctagCsvB                                                        : Float_t CsvB discriminator  (JEC +1sigma)
+DiscJet_jecUp_area                                                            : Float_t Catchment area of jet  (JEC +1sigma)
+DiscJet_jecUp_qgl                                                             : Float_t QG Likelihood  (JEC +1sigma)
+DiscJet_jecUp_ptd                                                             : Float_t QG input variable, ptD  (JEC +1sigma)
+DiscJet_jecUp_axis2                                                           : Float_t QG input variable, axis2  (JEC +1sigma)
+DiscJet_jecUp_mult                                                            : Int_t QG input variable, total multiplicity  (JEC +1sigma)
+DiscJet_jecUp_partonId                                                        : Int_t parton flavour (manually matching to status 23 particles)  (JEC +1sigma)
+DiscJet_jecUp_partonMotherId                                                  : Int_t parton flavour (manually matching to status 23 particles)  (JEC +1sigma)
+DiscJet_jecUp_nLeptons                                                        : Float_t Number of associated leptons  (JEC +1sigma)
+DiscJet_jecUp_id                                                              : Int_t POG Loose jet ID  (JEC +1sigma)
+DiscJet_jecUp_puId                                                            : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs, the only thing that is available now)  (JEC +1sigma)
+DiscJet_jecUp_btagCSV                                                         : Float_t CSV-IVF v2 discriminator  (JEC +1sigma)
+DiscJet_jecUp_btagCMVA                                                        : Float_t CMVA discriminator  (JEC +1sigma)
+DiscJet_jecUp_rawPt                                                           : Float_t p_{T} before JEC  (JEC +1sigma)
+DiscJet_jecUp_mcPt                                                            : Float_t p_{T} of associated gen jet  (JEC +1sigma)
+DiscJet_jecUp_mcFlavour                                                       : Int_t parton flavour (physics definition, i.e. including b's from shower)  (JEC +1sigma)
+DiscJet_jecUp_partonFlavour                                                   : Int_t purely parton-based flavour  (JEC +1sigma)
+DiscJet_jecUp_hadronFlavour                                                   : Int_t hadron flavour (ghost matching to B/C hadrons)  (JEC +1sigma)
+DiscJet_jecUp_mcMatchId                                                       : Int_t Match to source from hard scatter (pdgId of heaviest particle in chain, 25 for H, 6 for t, 23/24 for W/Z), zero if non-prompt or fake  (JEC +1sigma)
+DiscJet_jecUp_corr_JECUp                                                      : Float_t corr_JECUp  (JEC +1sigma)
+DiscJet_jecUp_corr_JECDown                                                    : Float_t corr_JECDown  (JEC +1sigma)
+DiscJet_jecUp_corr                                                            : Float_t corr  (JEC +1sigma)
+DiscJet_jecUp_corr_JERUp                                                      : Float_t corr_JERUp  (JEC +1sigma)
+DiscJet_jecUp_corr_JERDown                                                    : Float_t corr_JERDown  (JEC +1sigma)
+DiscJet_jecUp_corr_JER                                                        : Float_t corr_JER  (JEC +1sigma)
+DiscJet_jecUp_pt                                                              : Float_t pt  (JEC +1sigma)
+DiscJet_jecUp_eta                                                             : Float_t eta  (JEC +1sigma)
+DiscJet_jecUp_phi                                                             : Float_t phi  (JEC +1sigma)
+DiscJet_jecUp_mass                                                            : Float_t mass  (JEC +1sigma)
+DiscJet_jecUp_CorrFactor_L1                                                   : Float_t L1 correction factor  (JEC +1sigma)
+DiscJet_jecUp_CorrFactor_L1L2                                                 : Float_t L1L2 correction factor  (JEC +1sigma)
+DiscJet_jecUp_CorrFactor_L1L2L3                                               : Float_t L1L2L3 correction factor  (JEC +1sigma)
+DiscJet_jecUp_CorrFactor_L1L2L3Res                                            : Float_t L1L2L3Res correction factor  (JEC +1sigma)
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
    mmm                                       m               #      m                      m                              m""                          mmmmmmm
  m"   "  mmm   m mm    mmm    m mm   mmm   mm#mm   mmm    mmm#      #       mmm   mmmm   mm#mm   mmm   m mm    mmm      mm#mm   m mm   mmm   mmmmm        #     mmm   m   m   mmm
@@ -1156,7 +1156,7 @@ DiscJet_jecUp_CorrFactor_L1L2L3Res                                            : 
 ngenLepFromTau                                                                : ngenLepFromTau/I
 genLepFromTau_motherId                                                        : Int_t pdgId of the mother of the particle for Generated leptons (e/mu) from decays of taus from W/Z/h decays
 genLepFromTau_grandmotherId                                                   : Int_t pdgId of the grandmother of the particle for Generated leptons (e/mu) from decays of taus from W/Z/h decays
-genLepFromTau_sourceId                                                        : Int_t origin of the particle (heaviest ancestor)                                                                                                                                                                                                                                                                                                             : 6=t, 25=h, 23/24=W/Z for Generated leptons (e/mu) from decays of taus from W/Z/h decays
+genLepFromTau_sourceId                                                        : Int_t origin of the particle (heaviest ancestor), 6=t, 25=h, 23/24=W/Z for Generated leptons (e/mu) from decays of taus from W/Z/h decays
 genLepFromTau_charge                                                          : Float_t charge for Generated leptons (e/mu) from decays of taus from W/Z/h decays
 genLepFromTau_status                                                          : Int_t status for Generated leptons (e/mu) from decays of taus from W/Z/h decays
 genLepFromTau_isPromptHard                                                    : Int_t isPromptHard for Generated leptons (e/mu) from decays of taus from W/Z/h decays
@@ -1176,14 +1176,14 @@ genLepFromTau_motherIndex                                                     : 
 nJetFwd                                                                       : nJetFwd/I
 JetFwd_area                                                                   : Float_t Catchment area of jet for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_qgl                                                                    : Float_t QG Likelihood for Forward jets after full selection and cleaning, sorted by pt
-JetFwd_ptd                                                                    : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : ptD for Forward jets after full selection and cleaning, sorted by pt
-JetFwd_axis2                                                                  : Float_t QG input variable                                                                                                                                                                                                                                                                                                                                    : axis2 for Forward jets after full selection and cleaning, sorted by pt
-JetFwd_mult                                                                   : Int_t QG input variable                                                                                                                                                                                                                                                                                                                                      : total multiplicity for Forward jets after full selection and cleaning, sorted by pt
+JetFwd_ptd                                                                    : Float_t QG input variable, ptD for Forward jets after full selection and cleaning, sorted by pt
+JetFwd_axis2                                                                  : Float_t QG input variable, axis2 for Forward jets after full selection and cleaning, sorted by pt
+JetFwd_mult                                                                   : Int_t QG input variable, total multiplicity for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_partonId                                                               : Int_t parton flavour (manually matching to status 23 particles) for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_partonMotherId                                                         : Int_t parton flavour (manually matching to status 23 particles) for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_nLeptons                                                               : Float_t Number of associated leptons for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_id                                                                     : Int_t POG Loose jet ID for Forward jets after full selection and cleaning, sorted by pt
-JetFwd_puId                                                                   : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs                                                                                                                                                                                                                                                                                                   : the only thing that is available now) for Forward jets after full selection and cleaning, sorted by pt
+JetFwd_puId                                                                   : Int_t puId (full MVA, loose WP, 5.3.X training on AK5PFchs: the only thing that is available now) for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_btagCSV                                                                : Float_t CSV-IVF v2 discriminator for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_btagCMVA                                                               : Float_t CMVA discriminator for Forward jets after full selection and cleaning, sorted by pt
 JetFwd_rawPt                                                                  : Float_t p_{T} before JEC for Forward jets after full selection and cleaning, sorted by pt
