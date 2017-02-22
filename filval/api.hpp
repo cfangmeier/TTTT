@@ -46,8 +46,6 @@ namespace fv{
         return new Apply<Ret(ArgTypes...)>(fn, arg, alias);
     }
 
-
-
     template <typename T1, typename T2>
     Pair<T1, T2>* pair(Value<T1>* val1, Value<T2>* val2, const std::string& alias=""){
         return new Pair<T1,T2>(val1, val2, alias);

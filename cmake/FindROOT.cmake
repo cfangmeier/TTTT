@@ -170,61 +170,6 @@ ELSE(WIN32)
   ENDIF (ROOT_FOUND)
 ENDIF(WIN32)
 
-
-
-  ###########################################
-  #
-  #       Macros for building ROOT dictionary
-  #
-  ###########################################
-
-MACRO (ROOT_GENERATE_DICTIONARY_OLD )
- 
-   set(INFILES "")    
-
-   foreach (_current_FILE ${ARGN})
-
-     IF (${_current_FILE} MATCHES "^.*\\.h$")
-       IF (${_current_FILE} MATCHES "^.*Link.*$")
-         set(LINKDEF_FILE ${_current_FILE})
-       ELSE (${_current_FILE} MATCHES "^.*Link.*$")
-         set(INFILES ${INFILES} ${_current_FILE})
-       ENDIF (${_current_FILE} MATCHES "^.*Link.*$")
-     ELSEIF (${_current_FILE} MATCHES "^.*\\.hh$")
-       IF (${_current_FILE} MATCHES "^.*Link.*$")
-         set(LINKDEF_FILE ${_current_FILE})
-       ELSE (${_current_FILE} MATCHES "^.*Link.*$")
-         set(INFILES ${INFILES} ${_current_FILE})
-       ENDIF (${_current_FILE} MATCHES "^.*Link.*$")
-     ELSE (${_current_FILE} MATCHES "^.*\\.h$")
-       IF (${_current_FILE} MATCHES "^.*\\.cxx$")
-         set(OUTFILE ${_current_FILE})
-       ELSE (${_current_FILE} MATCHES "^.*\\.cxx$")
-         set(INCLUDE_DIRS ${INCLUDE_DIRS} -I${_current_FILE})   
-       ENDIF (${_current_FILE} MATCHES "^.*\\.cxx$")
-     ENDIF (${_current_FILE} MATCHES "^.*\\.h$")
-     
-   endforeach (_current_FILE ${ARGN})
-   
-#  MESSAGE("INFILES: ${INFILES}")
-#  MESSAGE("OutFILE: ${OUTFILE}")
-#  MESSAGE("LINKDEF_FILE: ${LINKDEF_FILE}")
-#  MESSAGE("INCLUDE_DIRS: ${INCLUDE_DIRS}")
-
-   STRING(REGEX REPLACE "(^.*).cxx" "\\1.h" bla "${OUTFILE}")
-#   MESSAGE("BLA: ${bla}")
-   SET (OUTFILES ${OUTFILE} ${bla})
-
-   ADD_CUSTOM_COMMAND(OUTPUT ${OUTFILES}
-      COMMAND ${ROOT_CINT_EXECUTABLE}
-      ARGS -f ${OUTFILE} -c -p -DHAVE_CONFIG_H ${INCLUDE_DIRS} ${INFILES} ${LINKDEF_FILE} 
-      DEPENDS ${INFILES}
-      )
-
-#   MESSAGE("ROOT_CINT_EXECUTABLE has created the dictionary ${OUTFILE}")
-
-ENDMACRO (ROOT_GENERATE_DICTIONARY_OLD)
-
   ###########################################
   #
   #       Macros for building ROOT dictionary
@@ -238,25 +183,14 @@ MACRO (ROOT_GENERATE_DICTIONARY INFILES LINKDEF_FILE OUTFILE INCLUDE_DIRS_IN)
   foreach (_current_FILE ${INCLUDE_DIRS_IN})
     set(INCLUDE_DIRS ${INCLUDE_DIRS} -I${_current_FILE})   
   endforeach (_current_FILE ${INCLUDE_DIRS_IN})
- 
-
-#  MESSAGE("INFILES: ${INFILES}")
-#  MESSAGE("OutFILE: ${OUTFILE}")
-#  MESSAGE("LINKDEF_FILE: ${LINKDEF_FILE}")
-#  MESSAGE("INCLUDE_DIRS: ${INCLUDE_DIRS}")
-
-  STRING(REGEX REPLACE "^(.*)\\.(.*)$" "\\1.h" bla "${OUTFILE}")
-#  MESSAGE("BLA: ${bla}")
-  SET (OUTFILES ${OUTFILE} ${bla})
-
 
   if (CMAKE_SYSTEM_NAME MATCHES Linux)
-    ADD_CUSTOM_COMMAND(OUTPUT ${OUTFILES}
+    ADD_CUSTOM_COMMAND(OUTPUT ${OUTFILE}
        COMMAND LD_LIBRARY_PATH=${ROOT_LIBRARY_DIR} ROOTSYS=${ROOTSYS} ${ROOT_CINT_EXECUTABLE}
        ARGS -f ${OUTFILE} -c -DHAVE_CONFIG_H ${INCLUDE_DIRS} ${INFILES} ${LINKDEF_FILE} DEPENDS ${INFILES} ${LINKDEF_FILE})
   else (CMAKE_SYSTEM_NAME MATCHES Linux)
     if (CMAKE_SYSTEM_NAME MATCHES Darwin)
-      ADD_CUSTOM_COMMAND(OUTPUT ${OUTFILES}
+      ADD_CUSTOM_COMMAND(OUTPUT ${OUTFILE}
        COMMAND DYLD_LIBRARY_PATH=${ROOT_LIBRARY_DIR} ROOTSYS=${ROOTSYS} ${ROOT_CINT_EXECUTABLE}
        ARGS -f ${OUTFILE} -c -DHAVE_CONFIG_H ${INCLUDE_DIRS} ${INFILES} ${LINKDEF_FILE} DEPENDS ${INFILES} ${LINKDEF_FILE})
     endif (CMAKE_SYSTEM_NAME MATCHES Darwin)

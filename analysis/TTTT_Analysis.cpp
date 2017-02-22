@@ -57,8 +57,12 @@ void enable_branches(MiniTreeDataSet& mt){
     mt.track_branch_vec<float>("nLepGood", "LepGood_eta");
     mt.track_branch_vec<float>("nLepGood", "LepGood_phi");
     mt.track_branch_vec<float>("nLepGood", "LepGood_mass");
-    mt.track_branch_vec<float>("nLepGood", "LepGood_mcPt");
-    mt.track_branch_vec<int>("nLepGood", "LepGood_charge");
+    mt.track_branch_vec< int >("nLepGood", "LepGood_charge");
+    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchId");
+    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchPdgId");
+    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchAny");
+    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchTau");
+    mt.track_branch_vec< int >("nLepGood", "LepGood_mcPt");
 
     mt.track_branch<int>("nJet");
     mt.track_branch_vec<float>("nJet", "Jet_pt");
@@ -69,29 +73,16 @@ void enable_branches(MiniTreeDataSet& mt){
 
     mt.track_branch<int>("nGenTop");
     mt.track_branch_vec<int>("nGenTop", "GenTop_pdgId");
+    mt.track_branch_vec<float>("nGenTop", "GenTop_pt");
 
     mt.track_branch<int>("nGenPart");
     mt.track_branch_vec<int>("nGenPart", "GenPart_pdgId");
     mt.track_branch_vec<int>("nGenPart", "GenPart_motherIndex");
+    mt.track_branch_vec<int>("nGenPart", "GenPart_motherId");
     mt.track_branch_vec<float>("nGenPart", "GenPart_pt");
     mt.track_branch_vec<float>("nGenPart", "GenPart_eta");
     mt.track_branch_vec<float>("nGenPart", "GenPart_phi");
     mt.track_branch_vec<float>("nGenPart", "GenPart_mass");
-
-/*
-    GenPart_motherId                                                              : Int_t pdgId of the mother of the particle for Hard scattering particles, with ancestry and links
-    GenPart_grandmotherId                                                         : Int_t pdgId of the grandmother of the particle for Hard scattering particles, with ancestry and links
-    GenPart_sourceId                                                              : Int_t origin of the particle (heaviest ancestor) : 6=t, 25=h, 23/24=W/Z for Hard scattering particles, with ancestry and links
-    GenPart_charge                                                                : Float_t charge for Hard scattering particles, with ancestry and links
-    GenPart_status                                                                : Int_t status for Hard scattering particles, with ancestry and links
-    GenPart_isPromptHard                                                          : Int_t isPromptHard for Hard scattering particles, with ancestry and links
-    GenPart_pdgId                                                                 : Int_t pdgId for Hard scattering particles, with ancestry and links
-    GenPart_pt                                                                    : Float_t pt for Hard scattering particles, with ancestry and links
-    GenPart_eta                                                                   : Float_t eta for Hard scattering particles, with ancestry and links
-    GenPart_phi                                                                   : Float_t phi for Hard scattering particles, with ancestry and links
-    GenPart_mass                                                                  : Float_t mass for Hard scattering particles, with ancestry and links
-    GenPart_motherIndex                                                           : Int_t index of the mother in the generatorSummary for Hard scattering particles, with ancestry and links
-*/
 
     mt.track_branch<int>("nBJetLoose40");
     mt.track_branch<int>("nBJetMedium40");
@@ -113,7 +104,13 @@ void declare_values(MiniTreeDataSet& mt){
         FUNC(([](int a, int b){
             return a + b;
         })));
-    apply(add,fv::tuple<int,int>(lookup<int>("nBJetLoose40"), lookup<int>("nBJetMedium40")), "looseplusmedium");
+    auto& sub = GenFunction::register_function<int(int,int)>("sub",
+        FUNC(([](int a, int b){
+            return a - b;
+        })));
+    auto loose_medium = fv::tuple<int,int>(lookup<int>("nBJetLoose40"), lookup<int>("nBJetMedium40"));
+    apply(add,loose_medium, "looseplusmedium");
+    apply(sub,loose_medium, "looseminusmedium");
 
     energies(lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v"), "LepGood_energy");
     energies(lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v"), "GenPart_energy");
@@ -146,6 +143,7 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container(new ContainerTH1<int>("loose", "Loose", lookup<int>("nBJetLoose40"), 10, 0, 10));
     mt.register_container(new ContainerTH1<int>("medium", "Medium", lookup<int>("nBJetMedium40"), 10, 0, 10));
     mt.register_container(new ContainerTH1<int>("looseplusmedium", "Loose + Medium", lookup<int>("looseplusmedium"), 10, 0, 10));
+    mt.register_container(new ContainerTH1<int>("looseminusmedium", "Loose - Medium", lookup<int>("looseminusmedium"), 10, -5, 5));
 
     mt.register_container(new ContainerTH1<int>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8));
     mt.register_container(new ContainerTH1<int>("top_quark_count", "Top Quark Multiplicity", lookup<int>("nGenTop"), 8, 0, 8));
@@ -174,26 +172,31 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container(new ContainerTH1<int>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10));
 
 
-    mt.register_container(new ContainerTH1<int>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events",
-                                                lookup<int>("nJet"), 14, 0, 14));
+    mt.register_container(new ContainerTH1<int>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events", lookup<int>("nJet"), 14, 0, 14));
     mt.get_container("jet_count_os_dilepton")->add_filter(lookup_filter("os-dilepton"));
-    mt.register_container(new ContainerTH1<int>("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events",
-                lookup<int>("nJet"), 14, 0, 14));
+
+    mt.register_container(new ContainerTH1<int>("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events", lookup<int>("nJet"), 14, 0, 14));
     mt.get_container("jet_count_ss_dilepton")->add_filter(lookup_filter("ss-dilepton"));
-    mt.register_container(new ContainerTH1<int>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events",
-                lookup<int>("nJet"), 14, 0, 14));
+
+    mt.register_container(new ContainerTH1<int>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events", lookup<int>("nJet"), 14, 0, 14));
     mt.get_container("jet_count_trilepton")->add_filter(lookup_filter("trilepton"));
 
-    mt.register_container(new ContainerTH1<int>("primary_vert_count", "Number of Primary Vertices",
-                lookup<int>("nVert"), 50, 0, 50));
+    mt.register_container(new ContainerTH1<int>("primary_vert_count", "Number of Primary Vertices", lookup<int>("nVert"), 50, 0, 50));
 
-    mt.register_container(new CounterMany<int>("GenTop_pdg_id", lookup<vector<int>>("GenTop_pdgId")));
-    mt.register_container(new CounterMany<int>("GenPart_pdg_id", lookup<vector<int>>("GenPart_pdgId")));
+    mt.register_container(new CounterMany<int>("GenTop_pdgId_counter", lookup<vector<int>>("GenTop_pdgId")));
+    mt.register_container(new CounterMany<int>("GenPart_pdgId_counter", lookup<vector<int>>("GenPart_pdgId")));
 
-    mt.register_container(new Vector<vector<int>>("GenPart_pdgId", lookup<vector<int>>("GenPart_pdgId")));
-    mt.register_container(new Vector<vector<int>>("GenPart_motherIndex", lookup<vector<int>>("GenPart_motherIndex")));
-    mt.register_container(new Vector<vector<float>>("GenPart_pt", lookup<vector<float>>("GenPart_pt")));
-    mt.register_container(new Vector<vector<float>>("GenPart_energy", lookup<vector<float>>("GenPart_energy")));
+    mt.register_container(new Vector<vector< int >>("GenTop_pdgId", lookup<vector< int >>("GenTop_pdgId")));
+    mt.register_container(new Vector<vector<float>>("GenTop_pt",    lookup<vector<float>>("GenTop_pt")));
+
+    mt.register_container(new Vector<vector< int >>("GenPart_pdgId",          lookup<vector< int >>("GenPart_pdgId")));
+    mt.register_container(new Vector<vector< int >>("GenPart_motherIndex",    lookup<vector< int >>("GenPart_motherIndex")));
+    mt.register_container(new Vector<vector< int >>("GenPart_motherId",       lookup<vector< int >>("GenPart_motherId")));
+    mt.register_container(new Vector<vector<float>>("GenPart_pt",             lookup<vector<float>>("GenPart_pt")));
+    mt.register_container(new Vector<vector<float>>("GenPart_energy",         lookup<vector<float>>("GenPart_energy")));
+
+    mt.register_container(new Vector<vector< int >>("LepGood_mcMatchId",      lookup<vector< int >>("LepGood_mcMatchId")));
+    mt.register_container(new Vector<vector< int >>("LepGood_mcMatchPdgId",   lookup<vector< int >>("LepGood_mcMatchPdgId")));
 }
 
 
