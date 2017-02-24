@@ -11,6 +11,7 @@ var searchData=
   ['derivedvalue_3c_20std_3a_3avector_3c_20float_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; float &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3avector_3c_20ret_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; Ret &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3avector_3c_20std_3a_3atuple_3c_20argtypes_2e_2e_2e_20_3e_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; std::tuple&lt; ArgTypes... &gt; &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
+  ['derivedvalue_3c_20std_3a_3avector_3c_20std_3a_3atuple_3c_20fst_2c_20snd_20_3e_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; std::tuple&lt; FST, SND &gt; &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3avector_3c_20t_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; T &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3avector_3c_20tlorentzvector_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; TLorentzVector &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20t_20_2a_3e',['DerivedValue&lt; T *&gt;',['../classfv_1_1DerivedValue.html',1,'fv']]]

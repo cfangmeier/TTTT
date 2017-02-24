@@ -898,6 +898,38 @@ class MinIndex : public ReduceIndex<T>{
 };
 
 /**
+ * Find and return the minimum value of a vector and its index.
+ */
+template <typename FST, typename SND>
+class CartProduct : public DerivedValue<std::vector<std::tuple<FST,SND>>>{
+    private:
+        Value<std::vector<FST>>* val1;
+        Value<std::vector<SND>>* val2;
+        bool self_product;
+
+        void update_value(){
+            this->value.clear();
+            auto& v1 = val1->get_value();
+            auto& v2 = val2->get_value();
+            for(int i=0; i<v1.size(); i++){
+                int lower_lim = self_product ? i+1 : 0;
+                for(int j=lower_lim; j<v2.size(); j++){
+                    this->value.push_back(std::tuple<FST,SND>(v1[i],v2[j]));
+                }
+            }
+        }
+
+    public:
+        CartProduct(Value<std::vector<FST>>* val1, Value<std::vector<SND>>* val2, const std::string alias="")
+          :DerivedValue<std::vector<std::tuple<FST,SND>>>("cartProduct("+
+                                                          val1->get_name()+","+
+                                                          val2->get_name()+")", alias),
+           val1(val1),
+           val2(val2),
+           self_product(val1 == val2) { }
+};
+
+/**
  * A generic value owning only a function object.
  * All necessary values upon which this value depends must be bound to the
  * function object.

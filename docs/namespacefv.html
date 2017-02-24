@@ -80,6 +80,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1BoundValue.html">BoundValue</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic value owning only a function object.  <a href="classfv_1_1BoundValue.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1CartProduct.html">CartProduct</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find and return the minimum value of a vector and its index.  <a href="classfv_1_1CartProduct.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1ConstantValue.html">ConstantValue</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> which always returns the same value, supplied in the constructor.  <a href="classfv_1_1ConstantValue.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -189,14 +192,14 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a18680fa2be352500598d8001eb9b2fd1"><td class="memItemLeft" align="right" valign="top"><a id="a18680fa2be352500598d8001eb9b2fd1"></a>
 ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><b>lookup_obs_filter</b> (const std::string &amp;name)</td></tr>
 <tr class="separator:a18680fa2be352500598d8001eb9b2fd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64a1f0e13731499d25233a0869d32371"><td class="memTemplParams" colspan="2"><a id="a64a1f0e13731499d25233a0869d32371"></a>
+<tr class="memitem:a26b50d1fe8359abd46a343b27439c35f"><td class="memTemplParams" colspan="2"><a id="a26b50d1fe8359abd46a343b27439c35f"></a>
 template&lt;typename... ArgTypes&gt; </td></tr>
-<tr class="memitem:a64a1f0e13731499d25233a0869d32371"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfv_1_1Zip.html">Zip</a>&lt; ArgTypes... &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>zip</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; ArgTypes &gt;&gt; *... args, const std::string &amp;alias=&quot;&quot;)</td></tr>
-<tr class="separator:a64a1f0e13731499d25233a0869d32371"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff0268bdaf123eb4989417445795458e"><td class="memTemplParams" colspan="2"><a id="aff0268bdaf123eb4989417445795458e"></a>
+<tr class="memitem:a26b50d1fe8359abd46a343b27439c35f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; std::tuple&lt; ArgTypes... &gt; &gt; &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>zip</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; ArgTypes &gt;&gt; *... args, const std::string &amp;alias=&quot;&quot;)</td></tr>
+<tr class="separator:a26b50d1fe8359abd46a343b27439c35f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a250f5025e8cc7a55e00a7c327f988dc9"><td class="memTemplParams" colspan="2"><a id="a250f5025e8cc7a55e00a7c327f988dc9"></a>
 template&lt;typename Ret , typename... ArgTypes&gt; </td></tr>
-<tr class="memitem:aff0268bdaf123eb4989417445795458e"><td class="memTemplItemLeft" align="right" valign="top">Map&lt; Ret(ArgTypes...)&gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>map</b> (Function&lt; Ret(ArgTypes...)&gt; &amp;fn, <a class="el" href="classfv_1_1Zip.html">Zip</a>&lt; ArgTypes... &gt; *arg, const std::string &amp;alias=&quot;&quot;)</td></tr>
-<tr class="separator:aff0268bdaf123eb4989417445795458e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a250f5025e8cc7a55e00a7c327f988dc9"><td class="memTemplItemLeft" align="right" valign="top">Map&lt; Ret(ArgTypes...)&gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>map</b> (Function&lt; Ret(ArgTypes...)&gt; &amp;fn, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; std::tuple&lt; ArgTypes... &gt;&gt;&gt; *arg, const std::string &amp;alias=&quot;&quot;)</td></tr>
+<tr class="separator:a250f5025e8cc7a55e00a7c327f988dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab32ae470ed0ebfe9f35edf1a617f0f70"><td class="memTemplParams" colspan="2"><a id="ab32ae470ed0ebfe9f35edf1a617f0f70"></a>
 template&lt;typename... ArgTypes&gt; </td></tr>
 <tr class="memitem:ab32ae470ed0ebfe9f35edf1a617f0f70"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfv_1_1Tuple.html">Tuple</a>&lt; ArgTypes... &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>tuple</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; ArgTypes &gt; *... args, const std::string &amp;alias=&quot;&quot;)</td></tr>
@@ -253,6 +256,14 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a5664cf7172a7c27d8d9e19bd8eb5d78d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfv_1_1Count.html">Count</a>&lt; T &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>count</b> (Function&lt; bool(T)&gt; &amp;selector, const std::string &amp;v_name, const std::string alias)</td></tr>
 <tr class="separator:a5664cf7172a7c27d8d9e19bd8eb5d78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4ec4de11b21ee95cc6c73a9b20ea669"><td class="memTemplParams" colspan="2"><a id="aa4ec4de11b21ee95cc6c73a9b20ea669"></a>
+template&lt;typename FST , typename SND &gt; </td></tr>
+<tr class="memitem:aa4ec4de11b21ee95cc6c73a9b20ea669"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; std::tuple&lt; FST, SND &gt; &gt; &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>cart_product</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; FST &gt;&gt; *val1, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; SND &gt;&gt; *val2, const std::string alias)</td></tr>
+<tr class="separator:aa4ec4de11b21ee95cc6c73a9b20ea669"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70cffb6394d7cd9ec70f16797998cc9c"><td class="memTemplParams" colspan="2"><a id="a70cffb6394d7cd9ec70f16797998cc9c"></a>
+template&lt;typename FST , typename SND &gt; </td></tr>
+<tr class="memitem:a70cffb6394d7cd9ec70f16797998cc9c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; std::tuple&lt; FST, SND &gt; &gt; &gt; *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>cart_product</b> (const std::string &amp;val1_name, const std::string &amp;val2_name, const std::string alias=&quot;&quot;)</td></tr>
+<tr class="separator:a70cffb6394d7cd9ec70f16797998cc9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97c916f0cec36778d54ff19e98c8abaf"><td class="memItemLeft" align="right" valign="top"><a id="a97c916f0cec36778d54ff19e98c8abaf"></a>
 ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><b>obs_filter</b> (const std::string &amp;name, std::function&lt; bool()&gt; filter_function, const std::string &amp;impl=&quot;&quot;)</td></tr>
 <tr class="separator:a97c916f0cec36778d54ff19e98c8abaf"><td class="memSeparator" colspan="2">&#160;</td></tr>

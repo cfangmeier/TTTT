@@ -1,6 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; std::tuple\&lt; ArgTypes... \&gt; \&gt; \&gt;" alt="" coords="5,23,235,65"/>
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::vector\&lt; std::tuple\l\&lt; ArgTypes... \&gt; \&gt; \&gt;" alt="" coords="283,16,447,72"/>
-<area shape="rect" id="node3" href="$classfv_1_1TupFilter.html" title="Returns the elements in a vector that pass a test function. " alt="" coords="495,5,680,32"/>
-<area shape="rect" id="node4" href="$classfv_1_1Zip.html" title="Zips a series of vectors together. " alt="" coords="511,56,663,83"/>
+<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; Ret \&gt; \&gt;" alt="" coords="5,5,168,47"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::vector\&lt; Ret \&gt; \&gt;" alt="" coords="216,5,380,47"/>
+<area shape="rect" id="node3" href="$classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4.html" title="Maps a function over an input vector. " alt="" coords="428,13,625,39"/>
 </map>

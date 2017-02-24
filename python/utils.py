@@ -4,6 +4,7 @@ import sys
 import itertools as it
 from os.path import dirname, join, abspath, normpath, getctime
 from math import ceil, floor, sqrt
+from collections import deque
 from subprocess import run, PIPE
 from IPython.display import Image
 
@@ -281,38 +282,43 @@ class HistCollection:
                          hist_names,
                          titles,
                          shape=None, **kwargs):
-        n_hists = len(hist_names)
+        n_hist = len(hist_names)
         if shape is None:
-            if n_hists <= 4:
-                shape = (1, n_hists)
+            if n_hist <= 4:
+                shape = (1, n_hist)
             else:
-                shape = (ceil(sqrt(n_hists)),)*2
+                shape = (ceil(sqrt(n_hist)),)*2
         CANVAS.SetCanvasSize(SINGLE_PLOT_SIZE[0]*shape[0],
                              SINGLE_PLOT_SIZE[1]*shape[1])
         CANVAS.Divide(*shape)
-        for i, hist_name, title in zip(range(1, n_hists+1), hist_names, titles):
+        for i, hist_name, title in zip(range(1, n_hist+1), hist_names, titles):
             CANVAS.cd(i)
             cls.stack_hist(hist_name, title=title, draw=True,
                            draw_canvas=False, **kwargs)
-        CANVAS.cd(n_hists).BuildLegend(0.75, 0.75, 0.95, 0.95, "")
+        CANVAS.cd(n_hist).BuildLegend(0.75, 0.75, 0.95, 0.95, "")
 
-    pts = []
+    pts = deque([], 50)
+
     @classmethod
     def hist_array_single(cls,
                           hist_name,
                           title=None,
                           **kwargs):
-        n_hists = len(cls.collections)
-        shape = cls.calc_shape(n_hists)
+        n_hist = len(cls.collections)
+        shape = cls.calc_shape(n_hist)
         CANVAS.SetCanvasSize(SINGLE_PLOT_SIZE[0]*shape[0],
                              SINGLE_PLOT_SIZE[1]*shape[1])
         CANVAS.Divide(*shape)
         labels, hists = cls.get_hist_set(hist_name)
-        for i, label, hist in zip(range(1, n_hists+1), labels, hists):
-            pt = ROOT.TPaveText(300, 3, 400, 3.5)
+
+        def pave_loc():
+            hist.Get
+        for i, label, hist in zip(range(1, n_hist+1), labels, hists):
             CANVAS.cd(i)
             hist.SetStats(False)
             hist.Draw(cls.get_draw_option(hist))
+
+            pt = ROOT.TPaveText(0.70, 0.87, 0.85, 0.95, "NDC")
             pt.AddText("Dataset: "+label)
             pt.Draw()
             cls.pts.append(pt)

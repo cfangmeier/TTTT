@@ -91,6 +91,11 @@ void enable_branches(MiniTreeDataSet& mt){
 
 
     mt.track_branch<int>("nVert");
+
+    mt.track_branch< int >("run" );
+    mt.track_branch< int >("lumi");
+    mt.track_branch< int >("evt" );
+    mt.track_branch<float>("xsec");
 }
 
 
@@ -98,7 +103,17 @@ void declare_values(MiniTreeDataSet& mt){
 
     energies(lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v"), "LepGood_energy");
     energies(lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v"), "GenPart_energy");
-    energies(lorentz_vectors("Jet_pt", "Jet_eta", "Jet_phi", "Jet_mass", "Jet_4v"), "Jet_energy");
+    energies(lorentz_vectors("Jet_pt",     "Jet_eta",     "Jet_phi",     "Jet_mass",     "Jet_4v"    ), "Jet_energy");
+
+    auto dijet_4v = cart_product<TLorentzVector, TLorentzVector>("Jet_4v", "Jet_4v", "di-jet_4v");
+
+    auto& inv_mass = GenFunction::register_function<float(TLorentzVector, TLorentzVector)>("inv_mass",
+        FUNC(([] (const TLorentzVector& v1, const TLorentzVector& v2){
+            TLorentzVector sum = v1 + v2;
+            return (float)sum.M();
+        })));
+
+    fv::map(inv_mass, dijet_4v, "di-jet_inv_mass");
 
     fv::pair<vector<float>,vector<float>>("LepGood_energy", "LepGood_pt", "LepGood_energy_LepGood_pt");
     fv::pair<vector<float>,vector<float>>("Jet_energy", "Jet_eta", "Jet_energy_vs_Jet_eta");
@@ -184,6 +199,20 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container(new ContainerTH1Many<float>("Jet_mass", "Jet Mass",
                                                       lookup<vector<float>>("Jet_mass"), 50, 0, 200,
                                                       "Jet Mass"));
+
+    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass", "Di-Jet Inv. Mass - All",
+                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      "Di-Jet Mass"));
+    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass_osdilepton", "Di-Jet Inv. Mass - OS Dilepton",
+                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      "Di-Jet Mass"))->add_filter(lookup_obs_filter("os-dilepton"));
+    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass_ssdilepton", "Di-Jet Inv. Mass - SS Dilepton",
+                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      "Di-Jet Mass"))->add_filter(lookup_obs_filter("ss-dilepton"));
+    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass_trilepton", "Di-Jet Inv. Mass - Trilepton",
+                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      "Di-Jet Mass"))->add_filter(lookup_obs_filter("trilepton"));
+
     mt.register_container(new ContainerTH1Many<float>("Jet_energy", "Jet Energy",
                                                       lookup<vector<float>>("Jet_energy"), 100, 0, 400,
                                                       "Jet Energy"));
@@ -241,6 +270,11 @@ void declare_containers(MiniTreeDataSet& mt){
 
     mt.register_container(new Vector<vector< int >>("LepGood_mcMatchId",      lookup<vector< int >>("LepGood_mcMatchId")));
     mt.register_container(new Vector<vector< int >>("LepGood_mcMatchPdgId",   lookup<vector< int >>("LepGood_mcMatchPdgId")));
+
+    mt.register_container(new Vector< int >("run",  lookup< int >("run") ));
+    mt.register_container(new Vector< int >("lumi", lookup< int >("lumi")));
+    mt.register_container(new Vector< int >("evt",  lookup< int >("evt") ));
+    mt.register_container(new Vector<float>("xsec", lookup<float>("xsec")));
 }
 
 
