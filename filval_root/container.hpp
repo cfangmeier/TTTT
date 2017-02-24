@@ -194,8 +194,8 @@ class _ContainerTH2 : public Container<TH2>{
 };
 
 template <typename V>
-class ContainerTH2 : public _ContainerTH2<std::vector<V>>{
-    using _ContainerTH2<std::vector<V>>::_ContainerTH2;
+class ContainerTH2 : public _ContainerTH2<V>{
+    using _ContainerTH2<V>::_ContainerTH2;
     void _do_fill(std::pair<V,V>& val){
         this->container->Fill(val.first,val.second);
     }

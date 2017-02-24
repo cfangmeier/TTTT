@@ -3,7 +3,7 @@ import os
 import sys
 import itertools as it
 from os.path import dirname, join, abspath, normpath, getctime
-from math import ceil, sqrt
+from math import ceil, floor, sqrt
 from subprocess import run, PIPE
 from IPython.display import Image
 
@@ -42,19 +42,41 @@ MAX_WIDTH = 1800
 SCALE = .75
 CAN_SIZE_DEF = (int(1600*SCALE), int(1200*SCALE))
 CANVAS = ROOT.TCanvas("c1", "", *CAN_SIZE_DEF)
+ROOT.gStyle.SetPalette(112)  # set the "virdidis" color map
+
+def clear():
+    CANVAS.Clear()
+    CANVAS.SetCanvasSize(*CAN_SIZE_DEF)
+
+def get_color(val, max_val, min_val = 0):
+    val = (val-min_val)/(max_val-min_val)
+    val = round(val * (ROOT.gStyle.GetNumberOfColors()-1))
+    col_idx = ROOT.gStyle.GetColorPalette(val)
+    col = ROOT.gROOT.GetColor(col_idx)
+    r = floor(256*col.GetRed())
+    g = floor(256*col.GetGreen())
+    b = floor(256*col.GetBlue())
+    gs = (r + g + b)//3
+    text_color = 'white' if gs < 100 else 'black'
+    return '#{:02x}{:02x}{:02x}'.format(r, g, b), text_color
 
 
 def show_event(dataset, idx):
     ids = list(dataset.GenPart_pdgId[idx])
-    nrgs = list(dataset.GenPart_energy[idx])
+    stats = list(dataset.GenPart_status[idx])
+    energies = list(dataset.GenPart_energy[idx])
     links = list(dataset.GenPart_motherIndex[idx])
-    max_nrg = max(nrgs)
-    nrgs_scaled = [nrg/max_nrg for nrg in nrgs]
+    max_energy = max(energies)
     g = pdp.Dot()
     for i, id_ in enumerate(ids):
-        color = ",".join(map(str, [nrgs_scaled[i], .7, .8]))
-        g.add_node(pdp.Node(str(i), label=PDG[id_],
+        color, text_color = get_color(energies[i], max_energy)
+        shape = "ellipse" if stats[i] in (1, 23) else "invhouse"
+        label = "{}({})".format(PDG[id_], stats[i])
+        # label = PDG[id_]+"({:03e})".format(energies[i])
+        g.add_node(pdp.Node(str(i), label=label,
                    style="filled",
+                   shape=shape,
+                   fontcolor=text_color,
                    fillcolor=color))
     for i, mother in enumerate(links):
         if mother != -1:
@@ -88,28 +110,19 @@ class OutputCapture:
         self.stderr = None
 
 
-def bin_range(n, end=None):
-    if end is None:
-        return range(1, n+1)
-    else:
-        return range(n+1, end+1)
-
-
 def normalize_columns(hist2d):
     normHist = ROOT.TH2D(hist2d)
     cols, rows = hist2d.GetNbinsX(), hist2d.GetNbinsY()
-    for col in bin_range(cols):
+    for col in range(1, cols+1):
         sum_ = 0
-        for row in bin_range(rows):
+        for row in range(1, rows+1):
             sum_ += hist2d.GetBinContent(col, row)
         if sum_ == 0:
             continue
-        for row in bin_range(rows):
+        for row in range(1, rows+1):
             norm = hist2d.GetBinContent(col, row) / sum_
             normHist.SetBinContent(col, row, norm)
     return normHist
-
-
 
 
 class HistCollection:
@@ -137,7 +150,7 @@ class HistCollection:
         def recompute():
             print("Running analysis for sample: ", self.sample_name)
             if run([EXE_PATH, "-s", "-f", self.input_filename]).returncode != 0:
-                raise RuntimeError(("Failed recompiling analysis code."
+                raise RuntimeError(("Failed running analysis code."
                                     " See log file for more information"))
 
         if run(["make"], cwd=join(PRJ_PATH, "build"), stdout=PIPE, stderr=PIPE).returncode != 0:
@@ -164,35 +177,46 @@ class HistCollection:
             setattr(self, name, obj)
         file.Close()
 
+    @classmethod
+    def calc_shape(cls, n_plots):
+        if n_plots*SINGLE_PLOT_SIZE[0] > MAX_WIDTH:
+            shape_x = MAX_WIDTH//SINGLE_PLOT_SIZE[0]
+            shape_y = ceil(n_plots / shape_x)
+            return (shape_x, shape_y)
+        else:
+            return (n_plots, 1)
+
+
     def draw(self, shape=None):
+        objs = [obj for obj in self.map.values() if hasattr(obj, "Draw")]
         if shape is None:
-            n_plots = len([obj for obj in self.map.values() if hasattr(obj, "Draw") ])
-            if n_plots*SINGLE_PLOT_SIZE[0] > MAX_WIDTH:
-                shape_x = MAX_WIDTH//SINGLE_PLOT_SIZE[0]
-                shape_y = ceil(n_plots / shape_x)
-                shape = (shape_x, shape_y)
+            n_plots = len(objs)
+            shape = self.calc_shape(n_plots)
         CANVAS.Clear()
         CANVAS.SetCanvasSize(shape[0]*SINGLE_PLOT_SIZE[0], shape[1]*SINGLE_PLOT_SIZE[1])
         CANVAS.Divide(*shape)
         i = 1
-        for hist in self.map.values():
+        for hist in objs:
             CANVAS.cd(i)
             try:
                 hist.SetStats(False)
             except AttributeError:
                 pass
-            draw_option = ""
-            if type(hist) in (ROOT.TH1F, ROOT.TH1I, ROOT.TH1D):
-                draw_option = ""
-            elif type(hist) in (ROOT.TH2F, ROOT.TH2I, ROOT.TH2D):
-                draw_option = "COLZ"
-            elif type(hist) in (ROOT.TGraph,):
-                draw_option = "A*"
-            else:
-                continue  # Not a drawable type(probably)
-            hist.Draw(draw_option)
+            hist.Draw(self.get_draw_option(hist))
             i += 1
         CANVAS.Draw()
+
+    @staticmethod
+    def get_draw_option(obj):
+        obj_type = type(obj)
+        if obj_type in (ROOT.TH1F, ROOT.TH1I, ROOT.TH1D):
+            return ""
+        elif obj_type in (ROOT.TH2F, ROOT.TH2I, ROOT.TH2D):
+            return "COLZ"
+        elif obj_type in (ROOT.TGraph,):
+            return "A*"
+        else:
+            return None
 
     @classmethod
     def get_hist_set(cls, attrname):
@@ -263,11 +287,32 @@ class HistCollection:
                 shape = (1, n_hists)
             else:
                 shape = (ceil(sqrt(n_hists)),)*2
-        CANVAS.SetCanvasSize(SINGLE_PLOT_SIZE[0]*shape[0], SINGLE_PLOT_SIZE[1]*shape[1])
+        CANVAS.SetCanvasSize(SINGLE_PLOT_SIZE[0]*shape[0],
+                             SINGLE_PLOT_SIZE[1]*shape[1])
         CANVAS.Divide(*shape)
-        for i, hist_name, title in zip(bin_range(n_hists), hist_names, titles):
+        for i, hist_name, title in zip(range(1, n_hists+1), hist_names, titles):
             CANVAS.cd(i)
-            hists, labels = cls.get_hist_set(hist_name)
             cls.stack_hist(hist_name, title=title, draw=True,
                            draw_canvas=False, **kwargs)
         CANVAS.cd(n_hists).BuildLegend(0.75, 0.75, 0.95, 0.95, "")
+
+    pts = []
+    @classmethod
+    def hist_array_single(cls,
+                          hist_name,
+                          title=None,
+                          **kwargs):
+        n_hists = len(cls.collections)
+        shape = cls.calc_shape(n_hists)
+        CANVAS.SetCanvasSize(SINGLE_PLOT_SIZE[0]*shape[0],
+                             SINGLE_PLOT_SIZE[1]*shape[1])
+        CANVAS.Divide(*shape)
+        labels, hists = cls.get_hist_set(hist_name)
+        for i, label, hist in zip(range(1, n_hists+1), labels, hists):
+            pt = ROOT.TPaveText(300, 3, 400, 3.5)
+            CANVAS.cd(i)
+            hist.SetStats(False)
+            hist.Draw(cls.get_draw_option(hist))
+            pt.AddText("Dataset: "+label)
+            pt.Draw()
+            cls.pts.append(pt)

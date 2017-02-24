@@ -15,10 +15,10 @@ namespace fv{
         return tv;
     }
 
-    Filter* lookup_filter(const std::string& name){
-        Filter* f =  dynamic_cast<Filter*>(GenValue::get_value(name));
+    ObsFilter* lookup_obs_filter(const std::string& name){
+        ObsFilter* f =  dynamic_cast<ObsFilter*>(GenValue::get_value(name));
         if(f == nullptr){
-            CRITICAL("Filter: "+f->get_name() + "has improper type.",-1);
+            CRITICAL("ObsFilter: "+f->get_name() + "has improper type.",-1);
         }
         return f;
     }
@@ -107,8 +107,8 @@ namespace fv{
         return count<T>(selector, lookup<std::vector<T>>(v_name), alias);
     }
 
-    Filter* filter(const std::string& name, std::function<bool()> filter_function, const std::string& impl=""){
-        return new Filter(name, filter_function, impl);
+    ObsFilter* obs_filter(const std::string& name, std::function<bool()> filter_function, const std::string& impl=""){
+        return new ObsFilter(name, filter_function, impl);
     }
 }
 #endif // API_HPP

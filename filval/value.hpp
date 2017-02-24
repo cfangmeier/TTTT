@@ -164,6 +164,19 @@ class GenFunction {
             in_register_function = false;
             return *func;
         }
+
+        template <typename T>
+        static Function<T>& lookup_function(const std::string& name){
+            if (GenFunction::function_registry[name] == nullptr){
+                CRITICAL("Function \"" << name << "\" not previously registered", -1);
+            } else {
+                Function<T>* func = dynamic_cast<Function<T>*>(GenFunction::function_registry[name]);
+                if (func == nullptr){
+                    CRITICAL("Function \"" << name << "\" request and register have mismatched types", -1);
+                }
+                return *GenFunction::function_registry[name];
+            }
+        }
 };
 
 
@@ -564,8 +577,9 @@ template<typename> class Map; // undefined
 template <typename Ret, typename... ArgTypes>
 class Map<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
     private:
+        typedef Value<std::vector<std::tuple<ArgTypes...>>> arg_type;
         Function<Ret(ArgTypes...)>& fn;
-        Zip<ArgTypes...>* arg;
+        arg_type* arg;
 
         void update_value(){
             this->value.clear();
@@ -575,10 +589,35 @@ class Map<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
         }
 
     public:
-        Map(Function<Ret(ArgTypes...)>& fn, Zip<ArgTypes...>* arg, const std::string& alias)
+        Map(Function<Ret(ArgTypes...)>& fn, arg_type* arg, const std::string& alias)
           :DerivedValue<std::vector<Ret>>("map("+fn.get_name()+":"+arg->get_name()+")", alias),
            fn(fn), arg(arg){ }
 
+};
+/**
+ * Returns the elements in a vector that pass a test function. The elements on
+ * the vector must be tuples. Typically this will be used in conjunction with
+ * Zip and Map.
+ */
+template<typename... ArgTypes>
+class TupFilter : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>{
+    private:
+        typedef std::vector<std::tuple<ArgTypes...>> value_type;
+        Function<bool(ArgTypes...)>& filter;
+        Value<value_type>* arg;
+
+        void update_value(){
+            this->value.clear();
+            for(auto val : arg->get_value()){
+                if(call(filter,val))
+                    this->value.push_back(val);
+            }
+        }
+
+    public:
+        TupFilter(Function<bool(ArgTypes...)>& filter, Value<value_type>* arg, const std::string alias)
+          :DerivedValue<value_type>("filter("+filter.get_name()+":"+arg->get_name()+")", alias),
+           filter(filter), arg(arg) { }
 };
 
 template<typename... T> class _Tuple;
@@ -692,6 +731,29 @@ class Count : public DerivedValue<int>{
         Count(Function<bool(T)>& selector, Value<std::vector<T>>* v, const std::string alias)
           :DerivedValue<int>("count("+selector.get_name()+":"+v->get_name()+")", alias),
            selector(selector), v(v) { }
+};
+
+/**
+ * Returns the elements in a vector that pass a test function.
+ */
+template<typename T>
+class Filter : public DerivedValue<std::vector<T>>{
+    private:
+        Function<bool(T)>& filter;
+        Value<std::vector<T> >* v;
+
+        void update_value(){
+            this->value.clear();
+            for(auto val : v->get_value()){
+                if(selector(val))
+                    this->value.push_back(val);
+            }
+        }
+
+    public:
+        Filter(Function<bool(T)>& filter, Value<std::vector<T>>* v, const std::string alias)
+          :DerivedValue<std::vector<T>>("filter("+filter.get_name()+":"+v->get_name()+")", alias),
+           filter(filter), v(v) { }
 };
 
 

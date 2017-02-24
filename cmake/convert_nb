@@ -8,7 +8,7 @@ then
     echo "Usage: $0 [nbconvert-exe] [output_directory] (--update)"
     exit 0
 fi
-if [ $# -eq 3 ] && [ $3 -eq "--update" ]
+if [ "$#" -eq 3 ] && [ "$3" == "--update" ]
 then
     exec_opt="--ExecutePreprocessor.enabled=True"
 else

@@ -78,7 +78,7 @@ class GenContainer{
     private:
         std::string name;
         std::string desc;
-        std::vector<Filter*> filters;
+        std::vector<ObsFilter*> filters;
     protected:
         virtual void _fill() = 0;
     public:
@@ -88,8 +88,9 @@ class GenContainer{
         GenContainer(const std::string name)
           :GenContainer(name,"N/A"){ }
 
-        void add_filter(GenValue* filter){
-            filters.push_back(dynamic_cast<Filter*>(filter));
+        GenContainer* add_filter(GenValue* filter){
+            filters.push_back(dynamic_cast<ObsFilter*>(filter));
+            return this;
         }
 
         void fill(){

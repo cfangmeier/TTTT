@@ -1,4 +1,4 @@
 <map id="fv::Map&lt; Ret(ArgTypes...)&gt;::update_value" name="fv::Map&lt; Ret(ArgTypes...)&gt;::update_value">
-<area shape="rect" id="node2" href="$namespacefv.html#a182def996bfac5212fd450627a187ae4" title="This calls a function of type F with the contents of the tuple as separate arguments. " alt="" coords="283,5,348,32"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="240,56,391,83"/>
+<area shape="rect" id="node2" href="$classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="240,5,391,32"/>
+<area shape="rect" id="node3" href="$namespacefv.html#a182def996bfac5212fd450627a187ae4" title="This calls a function of type F with the contents of the tuple as separate arguments. " alt="" coords="283,56,348,83"/>
 </map>

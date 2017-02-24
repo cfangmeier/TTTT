@@ -41,7 +41,7 @@
 #include "value.hpp"
 namespace fv {
 
-class Filter : public DerivedValue<bool>{
+class ObsFilter : public DerivedValue<bool>{
     private:
         Function<bool()>& filter_function;
 
@@ -52,40 +52,40 @@ class Filter : public DerivedValue<bool>{
         void verify_integrity(){ };
 
     public:
-        Filter(const std::string& name, std::function<bool()> filter_function, const std::string& impl="")
+        ObsFilter(const std::string& name, std::function<bool()> filter_function, const std::string& impl="")
           :DerivedValue<bool>(name),
            filter_function(GenFunction::register_function<bool()>("filter::"+name, filter_function, impl)){ }
 
         /** Return a new filter that is the conjuction of the two source
          * filters.
          */
-        Filter* operator*(Filter *f){
+        ObsFilter* operator*(ObsFilter *f){
             auto new_name = this->get_name() + "&&" + f->get_name();
-            return new Filter(new_name, [this, f](){return this->get_value() && f->get_value();});
+            return new ObsFilter(new_name, [this, f](){return this->get_value() && f->get_value();});
         }
 
         /** Return a new filter that is the disjunction of the two source
          * filters.
          */
-        Filter* operator+(Filter *f){
+        ObsFilter* operator+(ObsFilter *f){
             auto new_name = this->get_name() + "||" + f->get_name();
-            return new Filter(new_name, [this, f](){return this->get_value() || f->get_value();});
+            return new ObsFilter(new_name, [this, f](){return this->get_value() || f->get_value();});
         }
 
         /** Return a new filter that is the negation of the source filter.
          */
-        Filter* operator!(){
+        ObsFilter* operator!(){
             auto new_name = std::string("!(") + this->get_name() + std::string(")");
-            return new Filter(new_name, [this](){return !this->get_value();});
+            return new ObsFilter(new_name, [this](){return !this->get_value();});
         }
 };
 
 template <typename T>
-class RangeFilter : public Filter{
+class RangeObsFilter : public ObsFilter{
     private:
     public:
-        RangeFilter(const std::string name, Value<T>* test_value, T range_low, T range_high):
-          Filter(name, [test_value, range_low, range_high]{
+        RangeObsFilter(const std::string name, Value<T>* test_value, T range_low, T range_high):
+          ObsFilter(name, [test_value, range_low, range_high]{
                   T val = test_value->get_value();
                   return (val >= range_low) && (val < range_high);
                   }) { }

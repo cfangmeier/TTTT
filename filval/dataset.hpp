@@ -82,11 +82,12 @@ class DataSet{
                 container.second->save();
         }
 
-        void register_container(GenContainer *container){
+        GenContainer* register_container(GenContainer *container){
             if (containers[container->get_name()] != nullptr){
                 CRITICAL("Container with name \""+container->get_name()+"\" already exists.", -1);
             }
             containers[container->get_name()] = container;
+            return container;
         }
 
         GenContainer* get_container(std::string container_name){
