@@ -203,6 +203,8 @@ class HistCollection:
                 hist.SetStats(False)
             except AttributeError:
                 pass
+            if type(hist) in (ROOT.TH1I, ROOT.TH1F, ROOT.TH1D):
+                hist.SetMinimum(0)
             hist.Draw(self.get_draw_option(hist))
             i += 1
         CANVAS.Draw()

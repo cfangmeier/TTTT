@@ -46,6 +46,9 @@
 #include <TSystem.h>
 
 #define PI 3.14159
+#define W_MASS 80.385 // GeV/c^2
+#define Z_MASS 91.188 // GeV/c^2
+#define T_MASS 172.44 // GeV/c^2
 
 using namespace std;
 using namespace fv;
