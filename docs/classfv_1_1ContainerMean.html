@@ -82,7 +82,7 @@ Inheritance diagram for fv::ContainerMean&lt; T &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfv_1_1ContainerMean__inherit__graph.png" border="0" usemap="#fv_1_1ContainerMean_3_01T_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="fv_1_1ContainerMean_3_01T_01_4_inherit__map" id="fv_1_1ContainerMean_3_01T_01_4_inherit__map">
-<area shape="rect" id="node2" href="classfv_1_1Container.html" title="fv::Container\&lt; T \&gt;" alt="" coords="23,80,166,107"/>
+<area shape="rect" id="node2" href="classfv_1_1Container.html" title="fv::Container\&lt; T, T \&gt;" alt="" coords="15,80,174,107"/>
 <area shape="rect" id="node3" href="classfv_1_1GenContainer.html" title="Generic, untyped parent class of Container. " alt="" coords="29,5,160,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -91,7 +91,7 @@ Collaboration diagram for fv::ContainerMean&lt; T &gt;:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfv_1_1ContainerMean__coll__graph.png" border="0" usemap="#fv_1_1ContainerMean_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="fv_1_1ContainerMean_3_01T_01_4_coll__map" id="fv_1_1ContainerMean_3_01T_01_4_coll__map">
-<area shape="rect" id="node2" href="classfv_1_1Container.html" title="fv::Container\&lt; T \&gt;" alt="" coords="23,80,166,107"/>
+<area shape="rect" id="node2" href="classfv_1_1Container.html" title="fv::Container\&lt; T, T \&gt;" alt="" coords="15,80,174,107"/>
 <area shape="rect" id="node3" href="classfv_1_1GenContainer.html" title="Generic, untyped parent class of Container. " alt="" coords="29,5,160,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -107,10 +107,13 @@ T *&#160;</td><td class="memItemRight" valign="bottom"><b>get_container</b> ()</
 <tr class="memitem:a9fa3d582ae665ea4f5ee1c7215fe0ff0"><td class="memItemLeft" align="right" valign="top"><a id="a9fa3d582ae665ea4f5ee1c7215fe0ff0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>save_as</b> (const std::string &amp;fname)</td></tr>
 <tr class="separator:a9fa3d582ae665ea4f5ee1c7215fe0ff0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classfv_1_1Container"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfv_1_1Container')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfv_1_1Container.html">fv::Container&lt; T &gt;</a></td></tr>
-<tr class="memitem:af182df68521c2b1f61f5b6c330508255 inherit pub_methods_classfv_1_1Container"><td class="memItemLeft" align="right" valign="top"><a id="af182df68521c2b1f61f5b6c330508255"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Container</b> (const std::string &amp;name, T *container)</td></tr>
-<tr class="separator:af182df68521c2b1f61f5b6c330508255 inherit pub_methods_classfv_1_1Container"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classfv_1_1Container"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfv_1_1Container')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfv_1_1Container.html">fv::Container&lt; T, T &gt;</a></td></tr>
+<tr class="memitem:a7d13e0636a4778fa6aa2fcdd47ecf9ff inherit pub_methods_classfv_1_1Container"><td class="memItemLeft" align="right" valign="top"><a id="a7d13e0636a4778fa6aa2fcdd47ecf9ff"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Container</b> (const std::string &amp;name, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; T &gt; *value)</td></tr>
+<tr class="separator:a7d13e0636a4778fa6aa2fcdd47ecf9ff inherit pub_methods_classfv_1_1Container"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8712167dfa8443506dc312785719eeab inherit pub_methods_classfv_1_1Container"><td class="memItemLeft" align="right" valign="top"><a id="a8712167dfa8443506dc312785719eeab"></a>
+virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_value_name</b> ()</td></tr>
+<tr class="separator:a8712167dfa8443506dc312785719eeab inherit pub_methods_classfv_1_1Container"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classfv_1_1GenContainer"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfv_1_1GenContainer')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfv_1_1GenContainer.html">fv::GenContainer</a></td></tr>
 <tr class="memitem:acd03ede0e7e0cf362011e5614c787c7b inherit pub_methods_classfv_1_1GenContainer"><td class="memItemLeft" align="right" valign="top"><a id="acd03ede0e7e0cf362011e5614c787c7b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GenContainer</b> (const std::string name, const std::string &amp;desc)</td></tr>
@@ -145,9 +148,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>_fill</b> ()</td></tr
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:aa772cde78fd0971d1ebba909aff491c1"><td class="memItemLeft" align="right" valign="top"><a id="aa772cde78fd0971d1ebba909aff491c1"></a>
-<a class="el" href="classfv_1_1Value.html">Value</a>&lt; T &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
-<tr class="separator:aa772cde78fd0971d1ebba909aff491c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39cdef23a358ab46173eaa588e59ce49"><td class="memItemLeft" align="right" valign="top"><a id="a39cdef23a358ab46173eaa588e59ce49"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>count</b></td></tr>
 <tr class="separator:a39cdef23a358ab46173eaa588e59ce49"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,10 +157,13 @@ T&#160;</td><td class="memItemRight" valign="bottom"><b>sum</b></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_attribs_classfv_1_1Container"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1Container')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1Container.html">fv::Container&lt; T &gt;</a></td></tr>
-<tr class="memitem:aa5e74e62f69e756cad950fdc94e9a8c0 inherit pro_attribs_classfv_1_1Container"><td class="memItemLeft" align="right" valign="top"><a id="aa5e74e62f69e756cad950fdc94e9a8c0"></a>
+<tr class="inherit_header pro_attribs_classfv_1_1Container"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1Container')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1Container.html">fv::Container&lt; T, T &gt;</a></td></tr>
+<tr class="memitem:a22df8e92a737294683e8d7fdec450a35 inherit pro_attribs_classfv_1_1Container"><td class="memItemLeft" align="right" valign="top"><a id="a22df8e92a737294683e8d7fdec450a35"></a>
 T *&#160;</td><td class="memItemRight" valign="bottom"><b>container</b></td></tr>
-<tr class="separator:aa5e74e62f69e756cad950fdc94e9a8c0 inherit pro_attribs_classfv_1_1Container"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a22df8e92a737294683e8d7fdec450a35 inherit pro_attribs_classfv_1_1Container"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7188edd751c7bfca3b683654a928b2c6 inherit pro_attribs_classfv_1_1Container"><td class="memItemLeft" align="right" valign="top"><a id="a7188edd751c7bfca3b683654a928b2c6"></a>
+<a class="el" href="classfv_1_1Value.html">Value</a>&lt; T &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
+<tr class="separator:a7188edd751c7bfca3b683654a928b2c6 inherit pro_attribs_classfv_1_1Container"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />

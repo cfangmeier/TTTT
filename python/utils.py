@@ -10,6 +10,7 @@ from IPython.display import Image
 
 import pydotplus.graphviz as pdp
 import ROOT
+from graph_vals import parse
 
 PRJ_PATH = normpath(join(dirname(abspath(__file__)), "../"))
 EXE_PATH = join(PRJ_PATH, "build/main")
@@ -44,6 +45,8 @@ SCALE = .75
 CAN_SIZE_DEF = (int(1600*SCALE), int(1200*SCALE))
 CANVAS = ROOT.TCanvas("c1", "", *CAN_SIZE_DEF)
 ROOT.gStyle.SetPalette(112)  # set the "virdidis" color map
+
+VALUES = {}
 
 def clear():
     CANVAS.Clear()
@@ -82,6 +85,13 @@ def show_event(dataset, idx):
     for i, mother in enumerate(links):
         if mother != -1:
             g.add_edge(pdp.Edge(str(mother), str(i)))
+    return Image(g.create_gif())
+
+
+def show_value(container):
+    if type(container) != str:
+        container = container.GetName().split(':')[1]
+    g = parse(VALUES[container], container)
     return Image(g.create_gif())
 
 
@@ -135,15 +145,6 @@ class HistCollection:
         self.conditional_recompute()
         self.load_objects()
 
-        # Now add these histograms into the current ROOT directory (in memory)
-        # and remove old versions if needed
-        for obj in self.map.values():
-            try:
-                old_obj = ROOT.gDirectory.Get(obj.GetName())
-                ROOT.gDirectory.Remove(old_obj)
-                ROOT.gDirectory.Add(obj)
-            except AttributeError:
-                pass
         HistCollection.add_collection(self)
 
     def conditional_recompute(self):
@@ -165,6 +166,7 @@ class HistCollection:
         file = ROOT.TFile.Open(self.output_filename)
         l = file.GetListOfKeys()
         self.map = {}
+        VALUES.update(dict(file.Get("_value_lookup")))
         for i in range(l.GetSize()):
             name = l.At(i).GetName()
             new_name = ":".join((self.sample_name, name))
@@ -177,6 +179,16 @@ class HistCollection:
             self.map[name] = obj
             setattr(self, name, obj)
         file.Close()
+
+        # Now add these histograms into the current ROOT directory (in memory)
+        # and remove old versions if needed
+        for obj in self.map.values():
+            try:
+                old_obj = ROOT.gDirectory.Get(obj.GetName())
+                ROOT.gDirectory.Remove(old_obj)
+                ROOT.gDirectory.Add(obj)
+            except AttributeError:
+                pass
 
     @classmethod
     def calc_shape(cls, n_plots):

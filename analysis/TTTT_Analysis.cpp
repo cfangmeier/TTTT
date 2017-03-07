@@ -101,6 +101,16 @@ void enable_branches(MiniTreeDataSet& mt){
     mt.track_branch<float>("xsec");
 }
 
+struct Jet{
+    TLorentzVector v;
+    float          b_cmva;
+    int            idx;
+    public:
+        Jet()
+          :v(),b_cmva(0),idx(0) { }
+        Jet(const TLorentzVector& v, float b_cmva, int idx)
+          :v(v),b_cmva(b_cmva),idx(idx) { }
+};
 
 void declare_values(MiniTreeDataSet& mt){
 
@@ -108,15 +118,57 @@ void declare_values(MiniTreeDataSet& mt){
     energies(lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v"), "GenPart_energy");
     energies(lorentz_vectors("Jet_pt",     "Jet_eta",     "Jet_phi",     "Jet_mass",     "Jet_4v"    ), "Jet_energy");
 
-    auto dijet_4v = cart_product<TLorentzVector, TLorentzVector>("Jet_4v", "Jet_4v", "di-jet_4v");
+    auto& build_jets = GenFunction::register_function<std::vector<Jet>(std::vector<TLorentzVector>,std::vector<float>)>("build_jets",
+        FUNC(([](const std::vector<TLorentzVector>& vs, const std::vector<float>& b_cmvas){
+            std::vector<Jet> jets;
+            for(int i=0; i<vs.size(); i++){
+                jets.push_back(Jet(vs[i],b_cmvas[i],i));
+           }
+            return jets;
+        })));
+    auto jet_parts = fv::tuple<std::vector<TLorentzVector>,std::vector<float>>(lookup<std::vector<TLorentzVector>>("Jet_4v"), lookup<std::vector<float>>("Jet_btagCMVA"));
+    auto jets = apply(build_jets, jet_parts, "jets");
 
-    auto& inv_mass = GenFunction::register_function<float(TLorentzVector, TLorentzVector)>("inv_mass",
-        FUNC(([] (const TLorentzVector& v1, const TLorentzVector& v2){
-            TLorentzVector sum = v1 + v2;
+    auto b_jets = filter(GenFunction::register_function<bool(Jet)>("b_jet_filter",
+        FUNC(([cut=0.0](const Jet& j){
+                return j.b_cmva > cut;
+        }))), jets, "b_jets");
+
+    auto dijets = combinations<Jet,2>(jets, "dijets");
+
+    auto& w_mass_filter = GenFunction::register_function<bool(Jet, Jet)>("w_mass_filter",
+        FUNC(([win_l=W_MASS-10, win_h=W_MASS+10](const Jet& j1, const Jet& j2){
+            float inv_mass = (j1.v + j2.v).M();
+            return inv_mass > win_l && inv_mass < win_h;
+        })));
+    auto w_dijets = tup_filter(w_mass_filter, dijets, "w_dijets");
+
+    auto top_cands = cart_product<std::tuple<Jet,Jet>, Jet>(w_dijets, b_jets);
+
+    auto& dup_filter = GenFunction::register_function<bool(std::tuple<Jet,Jet>,Jet)>("dup_filter",
+        FUNC(([](const std::tuple<Jet,Jet>& w, const Jet& b){
+            int j0 = b.idx;
+            int j1 = std::get<0>(w).idx;
+            int j2 = std::get<1>(w).idx;
+            return (j0 != j1) && (j0 != j2) && (j1 != j2);
+        })));
+    top_cands = tup_filter(dup_filter, top_cands, "top_cands_deduped");
+
+
+    fv::map(GenFunction::register_function<float(std::tuple<Jet,Jet>,Jet)>("t_mass",
+        FUNC(([](const std::tuple<Jet,Jet>& w, const Jet& b){
+            return (std::get<0>(w).v+std::get<1>(w).v+b.v).M();
+        }))),top_cands, "rec_top_mass");
+
+
+    auto& inv_mass2 = GenFunction::register_function<float(Jet, Jet)>("inv_mass2",
+        FUNC(([] (const Jet& j1, const Jet& j2){
+            TLorentzVector sum = j1.v + j2.v;
             return (float)sum.M();
         })));
 
-    fv::map(inv_mass, dijet_4v, "di-jet_inv_mass");
+
+    fv::map(inv_mass2, dijets, "di-jet_inv_mass");
 
     fv::pair<vector<float>,vector<float>>("LepGood_energy", "LepGood_pt", "LepGood_energy_LepGood_pt");
     fv::pair<vector<float>,vector<float>>("Jet_energy", "Jet_eta", "Jet_energy_vs_Jet_eta");
@@ -176,108 +228,112 @@ void declare_values(MiniTreeDataSet& mt){
 
 void declare_containers(MiniTreeDataSet& mt){
 
-    mt.register_container(new ContainerTH1<int>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8));
+    mt.register_container<ContainerTH1<int>>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8);
 
-    mt.register_container(new ContainerTH1Many<float>("LepGood_energy_all", "Lepton Energy - All",
-                                                      lookup<vector<float>>("LepGood_energy"), 50, 0, 500));
-    mt.register_container(new ContainerTH1<float>("LepGood_energy_max", "Lepton Energy - Max",
+    mt.register_container<ContainerTH1Many<float>>("LepGood_energy_all", "Lepton Energy - All",
+                                                      lookup<vector<float>>("LepGood_energy"), 50, 0, 500);
+    mt.register_container<ContainerTH1<float>>("LepGood_energy_max", "Lepton Energy - Max",
                                                   lookup<float>("LepGood_energy_max"), 50, 0, 500,
-                                                  "Lepton Energy Max(GeV)"));
-    mt.register_container(new ContainerTH1<float>("LepGood_energy_min", "Lepton Energy - Min",
+                                                  "Lepton Energy Max(GeV)");
+    mt.register_container<ContainerTH1<float>>("LepGood_energy_min", "Lepton Energy - Min",
                                                   lookup<float>("LepGood_energy_min"), 50, 0, 500,
-                                                  "Lepton Energy Min(GeV)"));
-    mt.register_container(new ContainerTH1<float>("LepGood_energy_range", "Lepton Energy - Range",
+                                                  "Lepton Energy Min(GeV)");
+    mt.register_container<ContainerTH1<float>>("LepGood_energy_range", "Lepton Energy - Range",
                                                   lookup<float>("LepGood_energy_range"), 50, 0, 500,
-                                                  "Lepton Energy Range(GeV)"));
+                                                  "Lepton Energy Range(GeV)");
 
-    mt.register_container(new ContainerTH1Many<float>("Jet_pt", "Jet P_T",
+    mt.register_container<ContainerTH1Many<float>>("Jet_pt", "Jet P_T",
                                                       lookup<vector<float>>("Jet_pt"), 50, 0, 500,
-                                                      "Jet P_T"));
-    mt.register_container(new ContainerTH1Many<float>("Jet_eta", "Jet Eta",
+                                                      "Jet P_T");
+    mt.register_container<ContainerTH1Many<float>>("Jet_eta", "Jet Eta",
                                                       lookup<vector<float>>("Jet_eta"), 50, -3, 3,
-                                                      "Jet Eta"));
-    mt.register_container(new ContainerTH1Many<float>("Jet_phi", "Jet Phi",
+                                                      "Jet Eta");
+    mt.register_container<ContainerTH1Many<float>>("Jet_phi", "Jet Phi",
                                                       lookup<vector<float>>("Jet_phi"), 20, -PI, PI,
-                                                      "Jet Phi"));
-    mt.register_container(new ContainerTH1Many<float>("Jet_mass", "Jet Mass",
+                                                      "Jet Phi");
+    mt.register_container<ContainerTH1Many<float>>("Jet_mass", "Jet Mass",
                                                       lookup<vector<float>>("Jet_mass"), 50, 0, 200,
-                                                      "Jet Mass"));
+                                                      "Jet Mass");
 
-    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass", "Di-Jet Inv. Mass - All",
+    mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass", "Di-Jet Inv. Mass - All",
                                                       lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
-                                                      "Di-Jet Mass"));
-    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass_osdilepton", "Di-Jet Inv. Mass - OS Dilepton",
+                                                      "Di-Jet Mass");
+    mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass_osdilepton", "Di-Jet Inv. Mass - OS Dilepton",
                                                       lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
-                                                      "Di-Jet Mass"))->add_filter(lookup_obs_filter("os-dilepton"));
-    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass_ssdilepton", "Di-Jet Inv. Mass - SS Dilepton",
+                                                      "Di-Jet Mass")->add_filter(lookup_obs_filter("os-dilepton"));
+    mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass_ssdilepton", "Di-Jet Inv. Mass - SS Dilepton",
                                                       lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
-                                                      "Di-Jet Mass"))->add_filter(lookup_obs_filter("ss-dilepton"));
-    mt.register_container(new ContainerTH1Many<float>("dijet_inv_mass_trilepton", "Di-Jet Inv. Mass - Trilepton",
+                                                      "Di-Jet Mass")->add_filter(lookup_obs_filter("ss-dilepton"));
+    mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass_trilepton", "Di-Jet Inv. Mass - Trilepton",
                                                       lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
-                                                      "Di-Jet Mass"))->add_filter(lookup_obs_filter("trilepton"));
+                                                      "Di-Jet Mass")->add_filter(lookup_obs_filter("trilepton"));
 
-    mt.register_container(new ContainerTH1Many<float>("Jet_energy", "Jet Energy",
+    mt.register_container<ContainerTH1Many<float>>("rec_top_mass", "Reconstructed top mass",
+                                                      lookup<vector<float>>("rec_top_mass"), 100, 0, 500,
+                                                      "Tri-jet invarient mass");
+
+    mt.register_container<ContainerTH1Many<float>>("Jet_energy", "Jet Energy",
                                                       lookup<vector<float>>("Jet_energy"), 100, 0, 400,
-                                                      "Jet Energy"));
-    mt.register_container(new ContainerTH2Many<float>("Jet_energy_vs_Jet_eta", "Jet Energy vs Jet Eta",
+                                                      "Jet Energy");
+    mt.register_container<ContainerTH2Many<float>>("Jet_energy_vs_Jet_eta", "Jet Energy vs Jet Eta",
                                                       lookup<std::pair<vector<float>, vector<float>>>("Jet_energy_vs_Jet_eta"),
                                                       100, 0, 400, 50, -3, 3,
-                                                      "Jet Energy", "Jet Eta"));
+                                                      "Jet Energy", "Jet Eta");
 
-    mt.register_container(new ContainerTH2<int>("nLepvsnJet", "Number of Leptons vs Number of Jets",
+    mt.register_container<ContainerTH2<int>>("nLepvsnJet", "Number of Leptons vs Number of Jets",
                                               fv::pair<int, int>("nLepGood", "nJet"),
                                               7, 0, 7, 20, 0, 20,
-                                              "Number of Leptons", "Number of Jets"));
+                                              "Number of Leptons", "Number of Jets");
 
-    mt.register_container(new ContainerTH2Many<float>("LepGood_energy_vs_pt", "Lepton Energy vs Lepton Pt",
+    mt.register_container<ContainerTH2Many<float>>("LepGood_energy_vs_pt", "Lepton Energy vs Lepton Pt",
                                                       lookup<std::pair<std::vector<float>,std::vector<float>>>("LepGood_energy_LepGood_pt"),
                                                       50, 0, 500, 50, 0, 500,
-                                                      "lepton energy","lepton Pt"));
+                                                      "lepton energy","lepton Pt");
 
-    mt.register_container(new ContainerTH2<int>("genEle_count_v_recEle_count", "Number of Generated Electrons v. Number of Reconstructed Electrons",
+    mt.register_container<ContainerTH2<int>>("genEle_count_v_recEle_count", "Number of Generated Electrons v. Number of Reconstructed Electrons",
                                                 lookup<std::pair<int,int>>("genEle_count_v_recEle_count"),
                                                 10, 0, 10, 10, 0, 10,
-                                                "Generated Electrons","Reconstructed Electrons"));
+                                                "Generated Electrons","Reconstructed Electrons");
 
-    mt.register_container(new ContainerTH2<int>("genMu_count_v_recMu_count", "Number of Generated Muons v. Number of Reconstructed Muons",
+    mt.register_container<ContainerTH2<int>>("genMu_count_v_recMu_count", "Number of Generated Muons v. Number of Reconstructed Muons",
                                                 lookup<std::pair<int,int>>("genMu_count_v_recMu_count"),
                                                 10, 0, 10, 10, 0, 10,
-                                                "Generated Muons","Reconstructed Muons"));
+                                                "Generated Muons","Reconstructed Muons");
 
-    mt.register_container(new ContainerTH2<int>("genLep_count_v_recLep_count", "Number of Generated Leptons v. Number of Reconstructed Leptons (e & mu only)",
+    mt.register_container<ContainerTH2<int>>("genLep_count_v_recLep_count", "Number of Generated Leptons v. Number of Reconstructed Leptons (e & mu only)",
                                                 lookup<std::pair<int,int>>("genLep_count_v_recLep_count"),
                                                 10, 0, 10, 10, 0, 10,
-                                                "Generated Leptons","Reconstructed Leptons"));
+                                                "Generated Leptons","Reconstructed Leptons");
 
-    mt.register_container(new ContainerTH1<int>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10));
-
-
-    mt.register_container(new ContainerTH1<int>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events",
-                                                lookup<int>("nJet"), 14, 0, 14))->add_filter(lookup_obs_filter("os-dilepton"));
-    mt.register_container(new ContainerTH1<int>("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events",
-                                                lookup<int>("nJet"), 14, 0, 14))->add_filter(lookup_obs_filter("ss-dilepton"));
-    mt.register_container(new ContainerTH1<int>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events",
-                                                lookup<int>("nJet"), 14, 0, 14))->add_filter(lookup_obs_filter("trilepton"));
-
-    mt.register_container(new ContainerTH1<int>("nVert", "Number of Primary Vertices", lookup<int>("nVert"), 50, 0, 50));
-
-    mt.register_container(new CounterMany<int>("GenPart_pdgId_counter", lookup<vector<int>>("GenPart_pdgId")));
+    mt.register_container<ContainerTH1<int>>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10);
 
 
-    mt.register_container(new Vector<vector< int >>("GenPart_pdgId",          lookup<vector< int >>("GenPart_pdgId")));
-    mt.register_container(new Vector<vector< int >>("GenPart_motherIndex",    lookup<vector< int >>("GenPart_motherIndex")));
-    mt.register_container(new Vector<vector< int >>("GenPart_motherId",       lookup<vector< int >>("GenPart_motherId")));
-    mt.register_container(new Vector<vector<float>>("GenPart_pt",             lookup<vector<float>>("GenPart_pt")));
-    mt.register_container(new Vector<vector<float>>("GenPart_energy",         lookup<vector<float>>("GenPart_energy")));
-    mt.register_container(new Vector<vector< int >>("GenPart_status",         lookup<vector< int >>("GenPart_status")));
+    mt.register_container<ContainerTH1<int>>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events",
+                                                lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("os-dilepton"));
+    mt.register_container<ContainerTH1<int>>("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events",
+                                                lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("ss-dilepton"));
+    mt.register_container<ContainerTH1<int>>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events",
+                                                lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("trilepton"));
 
-    mt.register_container(new Vector<vector< int >>("LepGood_mcMatchId",      lookup<vector< int >>("LepGood_mcMatchId")));
-    mt.register_container(new Vector<vector< int >>("LepGood_mcMatchPdgId",   lookup<vector< int >>("LepGood_mcMatchPdgId")));
+    mt.register_container<ContainerTH1<int>>("nVert", "Number of Primary Vertices", lookup<int>("nVert"), 50, 0, 50);
 
-    mt.register_container(new Vector< int >("run",  lookup< int >("run") ));
-    mt.register_container(new Vector< int >("lumi", lookup< int >("lumi")));
-    mt.register_container(new Vector< int >("evt",  lookup< int >("evt") ));
-    mt.register_container(new Vector<float>("xsec", lookup<float>("xsec")));
+    mt.register_container<CounterMany<int>>("GenPart_pdgId_counter", lookup<vector<int>>("GenPart_pdgId"));
+
+
+    mt.register_container<Vector<vector< int >>>("GenPart_pdgId",          lookup<vector< int >>("GenPart_pdgId"));
+    mt.register_container<Vector<vector< int >>>("GenPart_motherIndex",    lookup<vector< int >>("GenPart_motherIndex"));
+    mt.register_container<Vector<vector< int >>>("GenPart_motherId",       lookup<vector< int >>("GenPart_motherId"));
+    mt.register_container<Vector<vector<float>>>("GenPart_pt",             lookup<vector<float>>("GenPart_pt"));
+    mt.register_container<Vector<vector<float>>>("GenPart_energy",         lookup<vector<float>>("GenPart_energy"));
+    mt.register_container<Vector<vector< int >>>("GenPart_status",         lookup<vector< int >>("GenPart_status"));
+
+    mt.register_container<Vector<vector< int >>>("LepGood_mcMatchId",      lookup<vector< int >>("LepGood_mcMatchId"));
+    mt.register_container<Vector<vector< int >>>("LepGood_mcMatchPdgId",   lookup<vector< int >>("LepGood_mcMatchPdgId"));
+
+    mt.register_container<Vector< int >>("run",  lookup< int >("run") );
+    mt.register_container<Vector< int >>("lumi", lookup< int >("lumi"));
+    mt.register_container<Vector< int >>("evt",  lookup< int >("evt") );
+    mt.register_container<Vector<float>>("xsec", lookup<float>("xsec"));
 }
 
 
@@ -304,7 +360,7 @@ int main(int argc, char * argv[])
 {
     fv::util::ArgParser args(argc, argv);
     if(!args.cmdOptionExists("-f")) {
-        cout << "Usage: ./main -f input_minitree.root" << endl;
+        cout << "Usage: ./main (-s) -f input_minitree.root" << endl;
         return -1;
     }
     bool silent = args.cmdOptionExists("-s");

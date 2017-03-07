@@ -53,7 +53,7 @@ void save_as(TObject* container, const std::string& fname, const SaveOption& opt
  * containers, but it needs the *name* of the type of the container, eg.
  * std::map<int,int> to be able to do this. In order to generate this name at
  * run-time, the fv::util::get_type_name function uses RTTI to get type info
- * and use it to look up the proper name. 
+ * and use it to look up the proper name.
  *
  * For nexted containers, it is necessary to generate the CLING dictionaries
  * for each type at compile time to enable serialization. To do this, add the
@@ -81,12 +81,12 @@ void save_as_stl(void* container, const std::string& type_name,
 namespace fv::root {
 
 template <typename V>
-class _ContainerTH1 : public Container<TH1>{
+class _ContainerTH1 : public Container<TH1,V>{
     private:
         void _fill(){
-            if (container == nullptr){
-                if (value == nullptr){
-                    CRITICAL("Container: \"" << get_name() << "\" has a null Value object. "
+            if (this->container == nullptr){
+                if (this->value == nullptr){
+                    CRITICAL("Container: \"" << this->get_name() << "\" has a null Value object. "
                              << "Probably built with imcompatible type",-1);
                 }
                 this->container = new TH1D(this->get_name().c_str(), this->title.c_str(),
@@ -104,7 +104,6 @@ class _ContainerTH1 : public Container<TH1>{
         int nbins;
         double low;
         double high;
-        Value<V> *value;
 
         virtual void _do_fill() = 0;
 
@@ -113,13 +112,12 @@ class _ContainerTH1 : public Container<TH1>{
                                int nbins, double low, double high,
                                const std::string& label_x = "",
                                const std::string& label_y = "")
-          :Container<TH1>(name, nullptr),
+          :Container<TH1,V>(name, value),
            title(title), nbins(nbins), low(low), high(high),
-           label_x(label_x), label_y(label_y),
-           value(value) { }
+           label_x(label_x), label_y(label_y) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
-            util::save_as(get_container(), fname, option);
+            util::save_as(this->get_container(), fname, option);
         }
 };
 
@@ -143,12 +141,12 @@ class ContainerTH1Many : public _ContainerTH1<std::vector<V>>{
 
 
 template <typename V>
-class _ContainerTH2 : public Container<TH2>{
+class _ContainerTH2 : public Container<TH2,std::pair<V,V>>{
     private:
         void _fill(){
-            if (container == nullptr){
-                if (value == nullptr){
-                    CRITICAL("Container: \"" << get_name() << "\" has a null Value object. "
+            if (this->container == nullptr){
+                if (this->value == nullptr){
+                    CRITICAL("Container: \"" << this->get_name() << "\" has a null Value object. "
                              << "Probably built with imcompatible type",-1);
                 }
                 this->container = new TH2D(this->get_name().c_str(), this->title.c_str(),
@@ -157,7 +155,7 @@ class _ContainerTH2 : public Container<TH2>{
                 this->container->SetXTitle(label_x.c_str());
                 this->container->SetYTitle(label_y.c_str());
             }
-            _do_fill(value->get_value());
+            _do_fill(this->value->get_value());
         }
 
     protected:
@@ -170,7 +168,6 @@ class _ContainerTH2 : public Container<TH2>{
         double low_y;
         double high_x;
         double high_y;
-        Value<std::pair<V,V>> *value;
 
         virtual void _do_fill(std::pair<V,V>& val) = 0;
 
@@ -181,15 +178,14 @@ class _ContainerTH2 : public Container<TH2>{
                                int nbins_y, double low_y, double high_y,
                                const std::string& label_x = "",
                                const std::string& label_y = "")
-          :Container<TH2>(name, nullptr),
+          :Container<TH2,std::pair<V,V>>(name, value),
            title(title),
            nbins_x(nbins_x), low_x(low_x), high_x(high_x),
            nbins_y(nbins_y), low_y(low_y), high_y(high_y),
-           label_x(label_x), label_y(label_y),
-           value(value) { }
+           label_x(label_x), label_y(label_y) { }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
-            util::save_as(get_container(), fname, option);
+            util::save_as(this->get_container(), fname, option);
         }
 };
 
@@ -211,34 +207,35 @@ class ContainerTH2Many : public _ContainerTH2<std::vector<V>>{
     }
 };
 
-class ContainerTGraph : public Container<TGraph>{
+template <typename V>
+class ContainerTGraph : public Container<TGraph,std::pair<V,V>>{
     private:
-        Value<std::pair<int, int> > *value;
-        std::vector<int> x_data;
-        std::vector<int> y_data;
+        std::vector<V> x_data;
+        std::vector<V> y_data;
         std::string title;
         bool data_modified;
         void _fill(){
-            auto val = value->get_value();
+            auto val = this->value->get_value();
             x_data.push_back(val.first);
             y_data.push_back(val.second);
             data_modified = true;
         }
     public:
-        ContainerTGraph(const std::string& name, const std::string& title, Value<std::pair<int, int>>* value)
-          :Container<TGraph>(name, new TGraph()),
-           value(value),
-           data_modified(false){ }
+        ContainerTGraph(const std::string& name, const std::string& title, Value<std::pair<V, V>>* value)
+          :Container<TGraph,std::pair<V,V>>(name, value),
+           data_modified(false){
+            this->container = new TGraph();
+           }
 
         TGraph* get_container(){
             if (data_modified){
-                delete container;
-                container = new TGraph(x_data.size(), x_data.data(), y_data.data());
-                container->SetName(get_name().c_str());
-                container->SetTitle(title.c_str());
+                delete this->container;
+                this->container = new TGraph(x_data.size(), x_data.data(), y_data.data());
+                this->container->SetName(this->get_name().c_str());
+                this->container->SetTitle(title.c_str());
                 data_modified = false;
             }
-            return container;
+            return this->container;
         }
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             util::save_as(get_container(), fname, option);
@@ -246,20 +243,16 @@ class ContainerTGraph : public Container<TGraph>{
 };
 
 template <typename T>
-class Vector : public Container<std::vector<T> >{
+class Vector : public Container<std::vector<T>,T>{
     private:
-        Value<T>* value;
 
         void _fill(){
-            this->container->push_back(value->get_value());
+            this->container->push_back(this->value->get_value());
         }
     public:
-        Vector(const std::string& name, std::vector<T>* container, Value<T>* value)
-          :Container<std::vector<T>>(name, container), value(value){ }
-
         Vector(const std::string& name, Value<T>* value)
-          :Container<std::vector<T>>(name, nullptr), value(value){
-            this->container = new std::vector<T>();
+          :Container<std::vector<T>,T>(name, value){
+            this->container = new std::vector<T>;
         }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
@@ -269,13 +262,12 @@ class Vector : public Container<std::vector<T> >{
 };
 
 template <typename V, typename D>
-class _Counter : public Container<std::map<D,int>>{
-    protected:
-        Value<V>* value;
+class _Counter : public Container<std::map<D,int>,V>{
     public:
         explicit _Counter(const std::string& name, Value<V>* value)
-          :Container<std::map<D,int>>(name, new std::map<D,int>()),
-           value(value) { }
+          :Container<std::map<D,int>,V>(name, value) {
+            this->container = new std::map<D,int>;
+        }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             std::string type_name = "std::map<"+fv::util::get_type_name(typeid(D))+",int>";

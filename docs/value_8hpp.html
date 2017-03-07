@@ -144,11 +144,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4.html">fv::Map&lt; Ret(ArgTypes...)&gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maps a function over an input vector.  <a href="classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1TupFilter.html">fv::TupFilter&lt; ArgTypes &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the elements in a vector that pass a test function.  <a href="classfv_1_1TupFilter.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Tuple.html">fv::Tuple&lt; ArgTypes &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a series of <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects and bundles them together into a std::tuple object.  <a href="classfv_1_1Tuple.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1DeTup.html">fv::DeTup&lt; N, ArgTypes &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the Nth element from a tuple value.  <a href="classfv_1_1DeTup.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1DeTupVector.html">fv::DeTupVector&lt; N, ArgTypes &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a vector of extracting the Nth value from each entry in a vector of tuples.  <a href="classfv_1_1DeTupVector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Apply_3_01Ret_07ArgTypes_8_8_8_08_4.html">fv::Apply&lt; Ret(ArgTypes...)&gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a function to a tuple of values and returns a value.  <a href="classfv_1_1Apply_3_01Ret_07ArgTypes_8_8_8_08_4.html#details">More...</a><br /></td></tr>
@@ -158,6 +161,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Filter.html">fv::Filter&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the elements in a vector that pass a test function.  <a href="classfv_1_1Filter.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1TupFilter.html">fv::TupFilter&lt; ArgTypes &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the elements in a vector that pass a test function.  <a href="classfv_1_1TupFilter.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Reduce.html">fv::Reduce&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. ">Reduce</a> a <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> of type vector&lt;T&gt; to just a T.  <a href="classfv_1_1Reduce.html#details">More...</a><br /></td></tr>
@@ -186,8 +192,11 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1MinIndex.html">fv::MinIndex&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find and return the minimum value of a vector and its index.  <a href="classfv_1_1MinIndex.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Combinations.html">fv::Combinations&lt; T, Size &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find combinations of items from an input vector.  <a href="classfv_1_1Combinations.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1CartProduct.html">fv::CartProduct&lt; FST, SND &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find and return the minimum value of a vector and its index.  <a href="classfv_1_1CartProduct.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the cartesian product of two input vectors.  <a href="classfv_1_1CartProduct.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1BoundValue.html">fv::BoundValue&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A generic value owning only a function object.  <a href="classfv_1_1BoundValue.html#details">More...</a><br /></td></tr>
@@ -219,10 +228,27 @@ typedef std::map&lt; std::string, GenValue * &gt;&#160;</td><td class="memItemRi
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a182def996bfac5212fd450627a187ae4"><td class="memTemplParams" colspan="2">template&lt;typename F , typename TUPLE &gt; </td></tr>
-<tr class="memitem:a182def996bfac5212fd450627a187ae4"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a182def996bfac5212fd450627a187ae4">fv::call</a> (F &amp;f, TUPLE &amp;&amp;t)</td></tr>
-<tr class="memdesc:a182def996bfac5212fd450627a187ae4"><td class="mdescLeft">&#160;</td><td class="mdescRight">This calls a function of type F with the contents of the tuple as separate arguments.  <a href="namespacefv.html#a182def996bfac5212fd450627a187ae4">More...</a><br /></td></tr>
-<tr class="separator:a182def996bfac5212fd450627a187ae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5415e54f934f66b83fa647309478a07"><td class="memTemplParams" colspan="2"><a id="aa5415e54f934f66b83fa647309478a07"></a>
+template&lt;typename Array , std::size_t... I&gt; </td></tr>
+<tr class="memitem:aa5415e54f934f66b83fa647309478a07"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::detail::a2t_impl</b> (const Array &amp;a, std::index_sequence&lt; I... &gt;)</td></tr>
+<tr class="separator:aa5415e54f934f66b83fa647309478a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplParams" colspan="2"><a id="a6f29b37e1d794f52bdb07602096ca21c"></a>
+template&lt;typename T , std::size_t N, typename Indices  = std::make_index_sequence&lt;N&gt;&gt; </td></tr>
+<tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a6f29b37e1d794f52bdb07602096ca21c">fv::a2t</a> (const std::array&lt; T, N &gt; &amp;a)</td></tr>
+<tr class="memdesc:a6f29b37e1d794f52bdb07602096ca21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a std::vector to a std::tuple. <br /></td></tr>
+<tr class="separator:a6f29b37e1d794f52bdb07602096ca21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9e6b31d78187ba1926a90e52d46e6be"><td class="memTemplParams" colspan="2"><a id="ad9e6b31d78187ba1926a90e52d46e6be"></a>
+template&lt;class F , class Tuple , std::size_t... I&gt; </td></tr>
+<tr class="memitem:ad9e6b31d78187ba1926a90e52d46e6be"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::detail::call_impl</b> (F &amp;&amp;f, Tuple &amp;&amp;t, std::index_sequence&lt; I... &gt;)</td></tr>
+<tr class="separator:ad9e6b31d78187ba1926a90e52d46e6be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplParams" colspan="2"><a id="a9a4442455b76c1cbe8951b593f06309c"></a>
+template&lt;class F , class Tuple &gt; </td></tr>
+<tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::call</b> (F &amp;&amp;f, Tuple &amp;&amp;t)</td></tr>
+<tr class="separator:a9a4442455b76c1cbe8951b593f06309c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memTemplParams" colspan="2"><a id="aa34c0f82d3cde6cfa0c405a03f735fa3"></a>
+template&lt;typename T , int N&gt; </td></tr>
+<tr class="memitem:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::t2s</b> (typename HomoTuple&lt; T, N &gt;::type &amp;tup, std::function&lt; std::string(T)&gt; &amp;f)</td></tr>
+<tr class="separator:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12225ad5af727a02b469015810b7f83f"><td class="memItemLeft" align="right" valign="top"><a id="a12225ad5af727a02b469015810b7f83f"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>fv::operator&lt;&lt;</b> (std::ostream &amp;os, GenValue &amp;gv)</td></tr>
 <tr class="separator:a12225ad5af727a02b469015810b7f83f"><td class="memSeparator" colspan="2">&#160;</td></tr>

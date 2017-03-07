@@ -54,12 +54,19 @@ class DataSet{
             INFO(GenFunction::summary());
         }
 
+
     protected:
         ContainerSet containers;
         virtual bool load_next() = 0;
         virtual int get_events() = 0;
         virtual int get_current_event() = 0;
 
+        std::map<std::string,std::string> get_container_name_value_map(){
+            std::map<std::string, std::string> value_map;
+            for(auto container : containers)
+                value_map[container.first] = container.second->get_value_name();
+            return value_map;
+        }
     public:
         void process(bool silent=false){
             int events, current_event;
@@ -82,7 +89,9 @@ class DataSet{
                 container.second->save();
         }
 
-        GenContainer* register_container(GenContainer *container){
+        template<typename C, typename... ArgTypes>
+        C* register_container(ArgTypes... args){
+            C* container = new C(args...);
             if (containers[container->get_name()] != nullptr){
                 CRITICAL("Container with name \""+container->get_name()+"\" already exists.", -1);
             }

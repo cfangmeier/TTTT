@@ -65,7 +65,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classfv_1_1ObservedValue-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -99,6 +98,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4530da20550883f9e956403cb1cfced4"><td class="memItemLeft" align="right" valign="top"><a id="a4530da20550883f9e956403cb1cfced4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ObservedValue</b> (const std::string &amp;name, T *val_ref, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:a4530da20550883f9e956403cb1cfced4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f2d7034cdefb68fec70dd6f58b2e5bc"><td class="memItemLeft" align="right" valign="top"><a id="a4f2d7034cdefb68fec70dd6f58b2e5bc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> ()</td></tr>
+<tr class="separator:a4f2d7034cdefb68fec70dd6f58b2e5bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10419313294471ba9da25e55d23956ba"><td class="memItemLeft" align="right" valign="top"><a id="a10419313294471ba9da25e55d23956ba"></a>
 T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1ObservedValue.html#a10419313294471ba9da25e55d23956ba">get_value</a> ()</td></tr>
 <tr class="memdesc:a10419313294471ba9da25e55d23956ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate, if necessary, and return the value held by this object. <br /></td></tr>
@@ -107,18 +109,25 @@ T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="afded92c24f946c1551c1f1b005f31091"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Value</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:af301f95c27cfa8024105a845ac6a7760"><td class="memItemLeft" align="right" valign="top"><a id="af301f95c27cfa8024105a845ac6a7760"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>_reset</b> ()</td></tr>
-<tr class="separator:af301f95c27cfa8024105a845ac6a7760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a477ab6275568b0c5afbcf92901cc3a6e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (const std::function&lt; std::string(T)&gt; &amp;value_to_string=[](T){return &quot;&quot;;})</td></tr>
+<tr class="separator:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a8a3517fdba15dcb2c141dbd58fc232b1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
+<tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a18aeb656fc14e2161c7b7710ab944829"><td class="memItemLeft" align="right" valign="top"><a id="a18aeb656fc14e2161c7b7710ab944829"></a>
 T *&#160;</td><td class="memItemRight" valign="bottom"><b>val_ref</b></td></tr>
 <tr class="separator:a18aeb656fc14e2161c7b7710ab944829"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_classfv_1_1Value"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1Value')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1Value.html">fv::Value&lt; T &gt;</a></td></tr>
+<tr class="memitem:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="aa0269699348665b8e978c1e848e74abe"></a>
+std::function&lt; std::string(T)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value_to_string</b></td></tr>
+<tr class="separator:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />

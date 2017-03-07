@@ -110,6 +110,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00219a17112600afdc060d67d6f95b21 inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a00219a17112600afdc060d67d6f95b21"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DerivedValue</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:a00219a17112600afdc060d67d6f95b21 inherit pub_methods_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac6d7f0a92fb9753f7c0bfcf26b6b0d inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a7ac6d7f0a92fb9753f7c0bfcf26b6b0d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> ()</td></tr>
+<tr class="separator:a7ac6d7f0a92fb9753f7c0bfcf26b6b0d inherit pub_methods_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39970158aa8f6eb062a28037df6e2128 inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a39970158aa8f6eb062a28037df6e2128"></a>
 std::pair&lt; T, int &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_value</b> ()</td></tr>
 <tr class="memdesc:a39970158aa8f6eb062a28037df6e2128 inherit pub_methods_classfv_1_1DerivedValue"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate, if necessary, and return the value held by this object. <br /></td></tr>
@@ -118,6 +121,12 @@ std::pair&lt; T, int &gt; &amp;&#160;</td><td class="memItemRight" valign="botto
 <tr class="memitem:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="afded92c24f946c1551c1f1b005f31091"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Value</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a477ab6275568b0c5afbcf92901cc3a6e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (const std::function&lt; std::string(std::pair&lt; T, int &gt;)&gt; &amp;value_to_string=[](std::pair&lt; T, int &gt;){return &quot;&quot;;})</td></tr>
+<tr class="separator:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a8a3517fdba15dcb2c141dbd58fc232b1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
+<tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -125,9 +134,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aeb7ff5d17ad44b2040fc9930bbcc2c7a"></a>
 std::pair&lt; T, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 <tr class="separator:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aafa55adbb38dc7fe210ea15e920515dc"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td></tr>
-<tr class="separator:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classfv_1_1Value"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1Value')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1Value.html">fv::Value&lt; std::pair&lt; T, int &gt; &gt;</a></td></tr>
+<tr class="memitem:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="aa0269699348665b8e978c1e848e74abe"></a>
+std::function&lt; std::string(std::pair&lt; T, int &gt;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value_to_string</b></td></tr>
+<tr class="separator:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />

@@ -40,6 +40,7 @@
 template class std::vector<std::vector<float> >;
 template class std::vector<std::vector<int> >;
 
+
 namespace fv::util{
 std::string get_type_name(const std::type_index& index){
     std::map<std::type_index, std::string> _map;
@@ -50,6 +51,7 @@ std::string get_type_name(const std::type_index& index){
     _map[typeid(double)]="double";
     _map[typeid(std::vector<int>)]="std::vector<int>";
     _map[typeid(std::vector<float>)]="std::vector<float>";
+    _map[typeid(std::map<std::string,std::string>)] = "std::map<std::string,std::string>";
 
     if (_map[index] == ""){
         CRITICAL("Cannot lookup type name of \"" << index.name() << "\"",-1);
@@ -103,10 +105,17 @@ class GenContainer{
         void set_description(const std::string& description){
             desc = description;
         }
+
         const std::string& get_name(){
             return name;
         }
+
+        virtual const std::string& get_value_name(){
+            return "N/A";
+        }
+
         virtual void save_as(const std::string& fname, const SaveOption& option) = 0;
+
         virtual void save(const SaveOption& option=SaveOption::PNG) {
             save_as(get_name(), option);
         }
@@ -119,18 +128,24 @@ class GenContainer{
  * object to process it. For example, if the Container is a ROOT Histogram
  * object, it may call <tt>container->Fill(value->get_value())</tt>.
  */
-template <typename H>
+template <typename H, typename V>
 class Container : public GenContainer{
     protected:
         H* container;
+        Value<V> *value;
     public:
-        Container(const std::string& name, H* container)
+        Container(const std::string& name, Value<V>* value)
           :GenContainer(name),
-           container(container){ }
+           container(nullptr),
+           value(value){ }
+
         virtual H* get_container(){
             return container;
         }
 
+        virtual const std::string& get_value_name(){
+            return value->get_name();
+        }
 };
 
 /**
@@ -142,20 +157,18 @@ class Container : public GenContainer{
  * facilities.
  */
 template <typename T>
-class ContainerMean : public Container<T>{
+class ContainerMean : public Container<T,T>{
     private:
-        Value<T>* value;
         int count;
         T sum;
 
         void _fill(){
             count++;
-            sum += value->get_value();
+            sum += this->value->get_value();
         }
     public:
         ContainerMean(const std::string& name, Value<T>* value)
-          :Container<std::vector<T> >(name, nullptr),
-           value(value){
+          :Container<std::vector<T>,T>(name, value){
             this->container = new T();
         }
 
@@ -163,9 +176,12 @@ class ContainerMean : public Container<T>{
             *(this->container) = sum/count;
             return (this->container);
         }
+
+
         void save_as(const std::string& fname) {
             WARNING("Saving of ContainerMean objects not supported");
         }
+
 };
 
 }

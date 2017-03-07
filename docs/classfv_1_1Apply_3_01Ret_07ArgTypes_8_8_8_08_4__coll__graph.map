@@ -1,7 +1,5 @@
 <map id="fv::Apply&lt; Ret(ArgTypes...)&gt;" name="fv::Apply&lt; Ret(ArgTypes...)&gt;">
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; Ret \&gt;" alt="" coords="5,187,185,213"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; Ret \&gt;" alt="" coords="31,103,160,130"/>
-<area shape="rect" id="node4" href="$classfv_1_1Tuple.html" title="fv::Tuple\&lt; ArgTypes... \&gt;" alt="" coords="209,187,387,213"/>
-<area shape="rect" id="node5" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::tuple\&lt; ArgTypes... \&gt; \&gt;" alt="" coords="209,96,387,137"/>
-<area shape="rect" id="node6" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::tuple\l\&lt; ArgTypes... \&gt; \&gt;" alt="" coords="221,5,375,47"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; Ret \&gt;" alt="" coords="5,89,185,115"/>
+<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; Ret \&gt;" alt="" coords="31,5,160,32"/>
+<area shape="rect" id="node4" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::tuple\l\&lt; ArgTypes... \&gt; \&gt;" alt="" coords="210,81,365,123"/>
 </map>

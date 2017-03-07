@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; T * \&gt;" alt="" coords="5,5,132,32"/>
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; T *\&gt;" alt="" coords="180,5,355,32"/>
-<area shape="rect" id="node3" href="$classfv_1_1PointerValue.html" title="A Value of a pointer. " alt="" coords="403,5,565,32"/>
+<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; TLorentzVector \&gt; \&gt;" alt="" coords="5,5,169,47"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::vector\&lt; TLorentzVector \&gt; \&gt;" alt="" coords="217,5,431,47"/>
 </map>

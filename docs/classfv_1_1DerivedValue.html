@@ -67,7 +67,6 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="classfv_1_1DerivedValue-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">fv::DerivedValue&lt; T &gt; Class Template Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -108,6 +107,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00219a17112600afdc060d67d6f95b21"><td class="memItemLeft" align="right" valign="top"><a id="a00219a17112600afdc060d67d6f95b21"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DerivedValue</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:a00219a17112600afdc060d67d6f95b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac6d7f0a92fb9753f7c0bfcf26b6b0d"><td class="memItemLeft" align="right" valign="top"><a id="a7ac6d7f0a92fb9753f7c0bfcf26b6b0d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> ()</td></tr>
+<tr class="separator:a7ac6d7f0a92fb9753f7c0bfcf26b6b0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39970158aa8f6eb062a28037df6e2128"><td class="memItemLeft" align="right" valign="top"><a id="a39970158aa8f6eb062a28037df6e2128"></a>
 T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1DerivedValue.html#a39970158aa8f6eb062a28037df6e2128">get_value</a> ()</td></tr>
 <tr class="memdesc:a39970158aa8f6eb062a28037df6e2128"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate, if necessary, and return the value held by this object. <br /></td></tr>
@@ -116,6 +118,12 @@ T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="afded92c24f946c1551c1f1b005f31091"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Value</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a477ab6275568b0c5afbcf92901cc3a6e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (const std::function&lt; std::string(T)&gt; &amp;value_to_string=[](T){return &quot;&quot;;})</td></tr>
+<tr class="separator:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a8a3517fdba15dcb2c141dbd58fc232b1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
+<tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -128,15 +136,10 @@ Protected Attributes</h2></td></tr>
 <tr class="memitem:aeb7ff5d17ad44b2040fc9930bbcc2c7a"><td class="memItemLeft" align="right" valign="top"><a id="aeb7ff5d17ad44b2040fc9930bbcc2c7a"></a>
 T&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 <tr class="separator:aeb7ff5d17ad44b2040fc9930bbcc2c7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafa55adbb38dc7fe210ea15e920515dc"><td class="memItemLeft" align="right" valign="top"><a id="aafa55adbb38dc7fe210ea15e920515dc"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td></tr>
-<tr class="separator:aafa55adbb38dc7fe210ea15e920515dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:a5c296d4f3171797f31a3fab002dececa"><td class="memItemLeft" align="right" valign="top"><a id="a5c296d4f3171797f31a3fab002dececa"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>_reset</b> ()</td></tr>
-<tr class="separator:a5c296d4f3171797f31a3fab002dececa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classfv_1_1Value"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1Value')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1Value.html">fv::Value&lt; T &gt;</a></td></tr>
+<tr class="memitem:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="aa0269699348665b8e978c1e848e74abe"></a>
+std::function&lt; std::string(T)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value_to_string</b></td></tr>
+<tr class="separator:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
@@ -174,7 +177,7 @@ template&lt;typename T&gt; </div>
 <p>Updates the internal value. </p>
 <p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
-<p>Implemented in <a class="el" href="classfv_1_1ConstantValue.html#a6581e7fb69c082c07c9714138063b320">fv::ConstantValue&lt; T &gt;</a>, <a class="el" href="classfv_1_1PointerValue.html#a81e39d040919be39c37f845a27343f3e">fv::PointerValue&lt; T &gt;</a>, <a class="el" href="classfv_1_1BoundValue.html#a51ba914f1eac694af4264d62785282a1">fv::BoundValue&lt; T &gt;</a>, <a class="el" href="classfv_1_1CartProduct.html#a087a4b184e628e3fa20040b33225a906">fv::CartProduct&lt; FST, SND &gt;</a>, <a class="el" href="classfv_1_1ReduceIndex.html#a462bffebe2a93c940aca526566d48e37">fv::ReduceIndex&lt; T &gt;</a>, <a class="el" href="classfv_1_1Reduce.html#ab0809c4ab1884b84a7f88e005ade76a5">fv::Reduce&lt; T &gt;</a>, <a class="el" href="classfv_1_1Filter.html#a3666dcad055ca8b0f7c7ab675f5eb57d">fv::Filter&lt; T &gt;</a>, <a class="el" href="classfv_1_1Count.html#afff1c16a8747a82db1cc1c8248c56a08">fv::Count&lt; T &gt;</a>, <a class="el" href="classfv_1_1Apply_3_01Ret_07ArgTypes_8_8_8_08_4.html#ab983f969ff7652150e7ce1d1240672e0">fv::Apply&lt; Ret(ArgTypes...)&gt;</a>, <a class="el" href="classfv_1_1Tuple.html#a5cbf67ef6b68f1a18fb4b2b4e8b98c22">fv::Tuple&lt; ArgTypes &gt;</a>, <a class="el" href="classfv_1_1Tuple.html#a5cbf67ef6b68f1a18fb4b2b4e8b98c22">fv::Tuple&lt; ArgTypes... &gt;</a>, <a class="el" href="classfv_1_1TupFilter.html#a0d1078323dca5f712ee122b14bafd20b">fv::TupFilter&lt; ArgTypes &gt;</a>, <a class="el" href="classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4.html#acd85576e1e4eb0eb4ef0d4947299478c">fv::Map&lt; Ret(ArgTypes...)&gt;</a>, <a class="el" href="classfv_1_1Zip.html#abecba2b15aa8dccf72c0dff1f2304c8b">fv::Zip&lt; ArgTypes &gt;</a>, <a class="el" href="classfv_1_1Pair.html#ab3225f03f49240fc1547a5005f57b864">fv::Pair&lt; T1, T2 &gt;</a>, and <a class="el" href="classfv_1_1WrapperVector.html#a2ee99bc4425642d209df7b48ee2ada95">fv::WrapperVector&lt; T &gt;</a>.</p>
+<p>Implemented in <a class="el" href="classfv_1_1ConstantValue.html#a6581e7fb69c082c07c9714138063b320">fv::ConstantValue&lt; T &gt;</a>, <a class="el" href="classfv_1_1PointerValue.html#a81e39d040919be39c37f845a27343f3e">fv::PointerValue&lt; T &gt;</a>, <a class="el" href="classfv_1_1BoundValue.html#a51ba914f1eac694af4264d62785282a1">fv::BoundValue&lt; T &gt;</a>, <a class="el" href="classfv_1_1CartProduct.html#a087a4b184e628e3fa20040b33225a906">fv::CartProduct&lt; FST, SND &gt;</a>, <a class="el" href="classfv_1_1Combinations.html#a69ce557136cf74ba2e8540e06151bfa5">fv::Combinations&lt; T, Size &gt;</a>, <a class="el" href="classfv_1_1ReduceIndex.html#a462bffebe2a93c940aca526566d48e37">fv::ReduceIndex&lt; T &gt;</a>, <a class="el" href="classfv_1_1Reduce.html#ab0809c4ab1884b84a7f88e005ade76a5">fv::Reduce&lt; T &gt;</a>, <a class="el" href="classfv_1_1TupFilter.html#a0d1078323dca5f712ee122b14bafd20b">fv::TupFilter&lt; ArgTypes &gt;</a>, <a class="el" href="classfv_1_1Filter.html#a3666dcad055ca8b0f7c7ab675f5eb57d">fv::Filter&lt; T &gt;</a>, <a class="el" href="classfv_1_1Count.html#afff1c16a8747a82db1cc1c8248c56a08">fv::Count&lt; T &gt;</a>, <a class="el" href="classfv_1_1Apply_3_01Ret_07ArgTypes_8_8_8_08_4.html#ab983f969ff7652150e7ce1d1240672e0">fv::Apply&lt; Ret(ArgTypes...)&gt;</a>, <a class="el" href="classfv_1_1DeTupVector.html#a667043bb8851d8eb56d051e62e6d9646">fv::DeTupVector&lt; N, ArgTypes &gt;</a>, <a class="el" href="classfv_1_1DeTup.html#a9b49bc088a2c98356dec7709e7da8261">fv::DeTup&lt; N, ArgTypes &gt;</a>, <a class="el" href="classfv_1_1Tuple.html#a5cbf67ef6b68f1a18fb4b2b4e8b98c22">fv::Tuple&lt; ArgTypes &gt;</a>, <a class="el" href="classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4.html#acd85576e1e4eb0eb4ef0d4947299478c">fv::Map&lt; Ret(ArgTypes...)&gt;</a>, <a class="el" href="classfv_1_1Zip.html#abecba2b15aa8dccf72c0dff1f2304c8b">fv::Zip&lt; ArgTypes &gt;</a>, <a class="el" href="classfv_1_1Pair.html#ab3225f03f49240fc1547a5005f57b864">fv::Pair&lt; T1, T2 &gt;</a>, and <a class="el" href="classfv_1_1WrapperVector.html#a2ee99bc4425642d209df7b48ee2ada95">fv::WrapperVector&lt; T &gt;</a>.</p>
 
 </div>
 </div>

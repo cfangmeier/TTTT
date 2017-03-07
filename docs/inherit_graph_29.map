@@ -1,3 +1,13 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; V \&gt;" alt="" coords="5,5,123,32"/>
+<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="A generic value. " alt="" coords="5,81,121,108"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="175,56,342,83"/>
+<area shape="rect" id="node11" href="$classfv_1_1ObservedValue.html" title="A value supplied by the dataset, not derived. " alt="" coords="169,107,348,133"/>
+<area shape="rect" id="node3" href="$classfv_1_1BoundValue.html" title="A generic value owning only a function object. " alt="" coords="405,5,562,32"/>
+<area shape="rect" id="node4" href="$classfv_1_1ConstantValue.html" title="A Value which always returns the same value, supplied in the constructor. " alt="" coords="396,56,571,83"/>
+<area shape="rect" id="node5" href="$classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. " alt="" coords="420,107,547,133"/>
+<area shape="rect" id="node6" href="$classfv_1_1ElementOf.html" title="Extract the element at a specific index from a vector. " alt="" coords="619,5,768,32"/>
+<area shape="rect" id="node7" href="$classfv_1_1Max.html" title="Find and return the maximum value of a vector. " alt="" coords="640,56,747,83"/>
+<area shape="rect" id="node8" href="$classfv_1_1Mean.html" title="Calculate the mean value of a vector. " alt="" coords="636,107,751,133"/>
+<area shape="rect" id="node9" href="$classfv_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="642,157,745,184"/>
+<area shape="rect" id="node10" href="$classfv_1_1Range.html" title="Calculate the range of the values in a vector. " alt="" coords="633,208,754,235"/>
 </map>

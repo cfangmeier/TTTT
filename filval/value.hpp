@@ -60,33 +60,78 @@
  */
 namespace fv{
 
-template <typename F, typename TUPLE, bool Done, int Total, int... N>
-struct call_impl
-{
-    static auto call(F& f, TUPLE && t)
-    {
-        return call_impl<F, TUPLE, Total == 1 + sizeof...(N), Total, N..., sizeof...(N)>::call(f, std::forward<TUPLE>(t));
-    }
+namespace detail {
+    template<typename T, int N, bool Done, typename... TYPES>
+    struct _HomoTuple {
+        typedef _HomoTuple<T, N, sizeof...(TYPES)+1==N, TYPES..., T> stype;
+        typedef typename stype::type type;
+    };
+
+    template<typename T, int N, typename... TYPES>
+    struct _HomoTuple<T, N, true, TYPES...> {
+        typedef std::tuple<TYPES...> type;
+    };
+}
+
+template<typename T, int N>
+struct HomoTuple {
+    typedef detail::_HomoTuple<T, N, N==0> stype;
+    typedef typename stype::type type;
 };
 
-template <typename F, typename TUPLE, int Total, int... N>
-struct call_impl<F, TUPLE, true, Total, N...>
-{
-    static auto call(F& f, TUPLE && t)
-    {
-        return f(std::get<N>(std::forward<TUPLE>(t))...);
+namespace detail {
+    // Convert array into a tuple
+    template<typename Array, std::size_t... I>
+    decltype(auto) a2t_impl(const Array& a, std::index_sequence<I...>){
+        return std::make_tuple(a[I]...);
     }
-};
+}
 
 /**
- * This calls a function of type F with the contents of the tuple as separate arguments.
- *  \see http://stackoverflow.com/questions/10766112/c11-i-can-go-from-multiple-args-to-tuple-but-can-i-go-from-tuple-to-multiple
+ * Converts a std::vector to a std::tuple.
  */
-template <typename F, typename TUPLE>
-auto call(F& f, TUPLE && t)
-{
-    typedef typename std::decay<TUPLE>::type ttype;
-    return call_impl<F, TUPLE, 0 == std::tuple_size<ttype>::value, std::tuple_size<ttype>::value>::call(f, std::forward<TUPLE>(t));
+template<typename T, std::size_t N, typename Indices = std::make_index_sequence<N>>
+decltype(auto) a2t(const std::array<T, N>& a){
+    return detail::a2t_impl(a, Indices());
+}
+
+namespace detail {
+    template <class F, class Tuple, std::size_t... I>
+    constexpr decltype(auto) call_impl(F &&f, Tuple &&t, std::index_sequence<I...>){
+        return std::invoke(std::forward<F>(f), std::get<I>(std::forward<Tuple>(t))...);
+    }
+}
+
+template <class F, class Tuple>
+constexpr decltype(auto) call(F &&f, Tuple &&t){
+    return detail::call_impl(
+        std::forward<F>(f), std::forward<Tuple>(t),
+        std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>{});
+}
+
+namespace detail{
+    template <typename T, int N, int I>
+    struct t2s_impl{
+        public:
+            static std::string cvt(typename HomoTuple<T,N>::type& tup, std::function<std::string(T)>& f){
+                std::stringstream ss;
+                ss << f(std::get<N-I>(tup)) << ", " << t2s_impl<T, N, I+1>::cvt(tup, f);
+                return ss.str();
+            }
+    };
+
+    template <typename T, int N>
+    struct t2s_impl<T, N, 0>{
+        public:
+            static std::string cvt(typename HomoTuple<T,N>::type&, std::function<std::string(T)>&){
+                return "";
+            }
+    };
+}
+
+template <typename T, int N>
+std::string t2s(typename HomoTuple<T,N>::type& tup, std::function<std::string(T)>& f){
+    return detail::t2s_impl<T, N, N>(tup, f);
 }
 
 template<typename> class Function; // undefined
@@ -142,7 +187,7 @@ class GenFunction {
             ss << "The following functions have been registered" << std::endl;
             for(auto p : function_registry){
                 if (p.second == nullptr) continue;
-                ss << "-->" << p.second->name  << "@" << p.second << std::endl;
+                ss << "FUNCTION::" << p.second->name  << "@" << p.second << std::endl;
                 ss << format_code(p.second->impl);
             }
             return ss.str();
@@ -240,7 +285,14 @@ class GenValue{
          * observation is loaded into memory. It is called automatically for
          * all GenValue objects when reset is called.
          */
-        virtual void _reset() = 0;
+        bool value_valid;
+        void _reset(){
+            /* if (this->logging_enabled){ */
+            /*     std::cout <<  "Resetting validity for " << this->get_name() << std::endl; */
+            /* } */
+            /* std::cout <<  "Resetting validity for " << this->get_name() << std::endl; */
+            this->value_valid = false;
+        }
         /**
          * A static mapping containing all created Value objects.
          * Every value object must have a unique name, and this name is used as
@@ -258,9 +310,14 @@ class GenValue{
          */
         inline static std::map<const std::string, GenValue*> aliases;
 
+        bool logging_enabled;
+
     public:
         GenValue(const std::string& name, const std::string& alias)
-          :name(name){
+          :name(name),
+           value_valid(false),
+           logging_enabled(false){
+            INFO("Registered value: \"" << name << "\" with alias: \"" << alias << "\"");
             values[name] = this;
             if (alias != "")
                 GenValue::alias(alias, this);
@@ -275,6 +332,8 @@ class GenValue{
             name = new_name;
             values[name] = this;
         }
+
+        virtual void log() = 0;
 
         static void reset(){
             for (auto val : values){
@@ -312,10 +371,10 @@ class GenValue{
 
         static std::string summary(){
             std::stringstream ss;
-            ss << "The following values have been created: " << std::endl;
+            ss << "The following values have been created:" << std::endl;
             for (auto value : values){
                 if (value.second == nullptr) continue;
-                ss << "\t\"" << value.first << "\" at address " << value.second << std::endl;
+                ss << "\tVALUE::\"" << value.first << "\" at address " << value.second << std::endl;
             }
             ss << "And these aliases:" << std::endl;
             for (auto alias : aliases){
@@ -327,7 +386,7 @@ class GenValue{
                         break;
                     }
                 }
-                ss << "\t\"" << alias.first << "\" referring to \"" << orig << "\"" << std::endl;
+                ss << "\tALIAS::\"" << alias.first << "\" referring to \"" << orig << "\"" << std::endl;
             }
             return ss.str();
         }
@@ -350,12 +409,25 @@ std::ostream& operator<<(std::ostream& os, GenValue& gv){
  */
 template <typename T>
 class Value : public GenValue{
+    protected:
+        std::function<std::string(T)> value_to_string;
+
     public:
         Value(const std::string& name, const std::string& alias="")
-          :GenValue(name, alias){ }
+          :value_to_string([](T){return "";}),
+           GenValue(name, alias){ }
         /** Calculate, if necessary, and return the value held by this object.
          */
         virtual T& get_value() = 0;
+
+        void enable_logging(const std::function<std::string(T)>& value_to_string = [](T){return "";}){
+            logging_enabled = true;
+            this->value_to_string = value_to_string;
+        }
+
+        void disable_logging(){
+            logging_enabled = false;
+        }
 };
 
 
@@ -372,13 +444,23 @@ template <typename T>
 class ObservedValue : public Value<T>{
     private:
         T *val_ref;
-        void _reset(){ }
 
     public:
         ObservedValue(const std::string& name, T* val_ref, const std::string& alias="")
           :Value<T>(name, alias),
            val_ref(val_ref){ }
+
+        void log(){
+            if(this->logging_enabled){
+                INFO(this->get_name() << ": " << this->value_to_string(*val_ref));
+            }
+        }
+
         T& get_value(){
+            if (!this->value_valid){
+                this->value_valid = true;
+                this->log();
+            }
             return *val_ref;
         }
 };
@@ -401,13 +483,8 @@ class ObservedValue : public Value<T>{
  */
 template <typename T>
 class DerivedValue : public Value<T>{
-    private:
-        void _reset(){
-            value_valid = false;
-        }
     protected:
         T value;
-        bool value_valid;
 
         /**
          * Updates the internal value.
@@ -420,13 +497,25 @@ class DerivedValue : public Value<T>{
         virtual void update_value() = 0;
     public:
         DerivedValue(const std::string& name, const std::string& alias="")
-          :Value<T>(name, alias),
-           value_valid(false) { }
+          :Value<T>(name, alias){ }
+
+        void log(){
+            if(this->logging_enabled){
+                INFO(this->get_name() << ": " << this->value_to_string(value));
+            }
+        }
 
         T& get_value(){
-            if (!value_valid){
+            /* if (this->logging_enabled){ */
+            /*     std::cout <<  "Getting value for " << this->get_name() << std::endl; */
+            /* } */
+            if (!this->value_valid){
+                /* if (this->logging_enabled){ */
+                /*     std::cout <<  "Updating value for " << this->get_name() << std::endl; */
+                /* } */
                 update_value();
-                value_valid = true;
+                this->value_valid = true;
+                this->log();
             }
             return value;
         }
@@ -487,7 +576,7 @@ class _Zip<> {
             return std::numeric_limits<int>::max();
         }
 
-        std::tuple<> _get_at(int idx){
+        std::tuple<> _get_at(int){
             return std::make_tuple();
         }
 
@@ -594,31 +683,6 @@ class Map<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
            fn(fn), arg(arg){ }
 
 };
-/**
- * Returns the elements in a vector that pass a test function. The elements on
- * the vector must be tuples. Typically this will be used in conjunction with
- * Zip and Map.
- */
-template<typename... ArgTypes>
-class TupFilter : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>{
-    private:
-        typedef std::vector<std::tuple<ArgTypes...>> value_type;
-        Function<bool(ArgTypes...)>& filter;
-        Value<value_type>* arg;
-
-        void update_value(){
-            this->value.clear();
-            for(auto val : arg->get_value()){
-                if(call(filter,val))
-                    this->value.push_back(val);
-            }
-        }
-
-    public:
-        TupFilter(Function<bool(ArgTypes...)>& filter, Value<value_type>* arg, const std::string alias)
-          :DerivedValue<value_type>("filter("+filter.get_name()+":"+arg->get_name()+")", alias),
-           filter(filter), arg(arg) { }
-};
 
 template<typename... T> class _Tuple;
 template<>
@@ -686,6 +750,44 @@ class Tuple : public DerivedValue<std::tuple<ArgTypes...>>,
         }
 };
 
+/**
+ * Gets the Nth element from a tuple value
+ */
+template <size_t N, typename... ArgTypes>
+class DeTup : public DerivedValue<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>{
+    Value<std::tuple<ArgTypes...>> tup;
+    protected:
+        void update_value(){
+            this->value = std::get<N>(tup->get_value());
+        }
+
+    public:
+        DeTup(Value<std::tuple<ArgTypes...>>* tup, const std::string& alias)
+          :DerivedValue<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>("detup("+tup->get_name()+")", alias),
+           tup(tup) { }
+};
+
+/**
+ * Creates a vector of extracting the Nth value from each entry in a vector of
+ * tuples.
+ */
+template <size_t N, typename... ArgTypes>
+class DeTupVector : public DerivedValue<std::vector<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>>{
+    Value<std::vector<std::tuple<ArgTypes...>>>* tup;
+    protected:
+        void update_value(){
+            this->value.clear();
+            for( auto& t : tup->get_value()){
+                this->value.push_back(std::get<N>(t));
+            }
+        }
+
+    public:
+        DeTupVector(Value<std::vector<std::tuple<ArgTypes...>>>* tup, const std::string& alias)
+          :DerivedValue<std::vector<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>>("detup("+tup->get_name()+")", alias),
+           tup(tup) { }
+};
+
 template<typename> class Apply; // undefined
 /**
  * Applies a function to a tuple of values and returns a value. This will
@@ -695,7 +797,7 @@ template <typename Ret, typename... ArgTypes>
 class Apply<Ret(ArgTypes...)> : public DerivedValue<Ret>{
     private:
         Function<Ret(ArgTypes...)>& fn;
-        Tuple<ArgTypes...>* arg;
+        Value<std::tuple<ArgTypes...>>* arg;
 
         void update_value(){
             auto &tup = arg->get_value();
@@ -703,12 +805,11 @@ class Apply<Ret(ArgTypes...)> : public DerivedValue<Ret>{
         }
 
     public:
-        Apply(Function<Ret(ArgTypes...)>& fn, Tuple<ArgTypes...>* arg, const std::string& alias)
+        Apply(Function<Ret(ArgTypes...)>& fn, Value<std::tuple<ArgTypes...>>* arg, const std::string& alias)
           :DerivedValue<Ret>("apply("+fn.get_name()+":"+arg->get_name()+")", alias),
            fn(fn), arg(arg){ }
 
 };
-
 
 /**
  * Returns the count of elements in the input vector passing a test function.
@@ -745,7 +846,7 @@ class Filter : public DerivedValue<std::vector<T>>{
         void update_value(){
             this->value.clear();
             for(auto val : v->get_value()){
-                if(selector(val))
+                if(this->filter(val))
                     this->value.push_back(val);
             }
         }
@@ -756,6 +857,31 @@ class Filter : public DerivedValue<std::vector<T>>{
            filter(filter), v(v) { }
 };
 
+/**
+ * Returns the elements in a vector that pass a test function. The elements on
+ * the vector must be tuples. Typically this will be used in conjunction with
+ * Zip and Map.
+ */
+template<typename... ArgTypes>
+class TupFilter : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>{
+    private:
+        typedef std::vector<std::tuple<ArgTypes...>> value_type;
+        Function<bool(ArgTypes...)>& filter;
+        Value<value_type>* arg;
+
+        void update_value(){
+            this->value.clear();
+            for(auto val : arg->get_value()){
+                if(call(filter,val))
+                    this->value.push_back(val);
+            }
+        }
+
+    public:
+        TupFilter(Function<bool(ArgTypes...)>& filter, Value<value_type>* arg, const std::string alias)
+          :DerivedValue<value_type>("tupfilter("+filter.get_name()+":"+arg->get_name()+")", alias),
+           filter(filter), arg(arg) { }
+};
 
 /**
  * Reduce a Value of type vector<T> to just a T.
@@ -898,35 +1024,81 @@ class MinIndex : public ReduceIndex<T>{
 };
 
 /**
- * Find and return the minimum value of a vector and its index.
+ * Find combinations of items from an input vector
+ */
+template <typename T, int Size>
+class Combinations : public DerivedValue<std::vector<typename HomoTuple<T,Size>::type>>{
+    private:
+        Value<std::vector<T>>* val;
+        typedef typename HomoTuple<T,Size>::type tuple_type;
+
+        void update_value(){
+            auto& v = val->get_value();
+            int data_size = v.size();
+            this->value.clear();
+
+            std::vector<bool> selector(data_size);
+            std::fill(selector.begin(), selector.begin()+std::min({Size,data_size}), true);
+            do {
+                std::array<T, Size> perm;
+                int idx = 0;
+                for (int i=0; i<data_size; i++){
+                    if (selector[i]){
+                        perm[idx] = v[i];
+                        idx++;
+                        if (idx == Size) break;
+                    }
+                }
+                this->value.push_back(a2t(perm)); //!!!
+            } while(std::prev_permutation(selector.begin(), selector.end()));
+        }
+
+        static std::string calc_name(Value<std::vector<T>>* val){
+            std::stringstream ss;
+            ss << "combinations(" << Size << "," << val->get_name() << ")";
+            return ss.str();
+        }
+
+    public:
+        Combinations(Value<std::vector<T>>* val, const std::string alias="")
+          :DerivedValue<std::vector<tuple_type>>(calc_name(val), alias),
+           val(val) { }
+
+};
+
+/**
+ * Calculate the cartesian product of two input vectors
  */
 template <typename FST, typename SND>
 class CartProduct : public DerivedValue<std::vector<std::tuple<FST,SND>>>{
     private:
         Value<std::vector<FST>>* val1;
         Value<std::vector<SND>>* val2;
-        bool self_product;
 
         void update_value(){
             this->value.clear();
             auto& v1 = val1->get_value();
             auto& v2 = val2->get_value();
             for(int i=0; i<v1.size(); i++){
-                int lower_lim = self_product ? i+1 : 0;
-                for(int j=lower_lim; j<v2.size(); j++){
+                for(int j=0; j<v2.size(); j++){
                     this->value.push_back(std::tuple<FST,SND>(v1[i],v2[j]));
                 }
             }
         }
 
+        static std::string calc_name(Value<std::vector<FST>>* val1, Value<std::vector<SND>>* val2){
+            std::stringstream ss;
+            ss << "cartProduct("
+               << val1->get_name() << ", " << val2->get_name()
+               << ")";
+            return ss.str();
+        }
+
     public:
         CartProduct(Value<std::vector<FST>>* val1, Value<std::vector<SND>>* val2, const std::string alias="")
-          :DerivedValue<std::vector<std::tuple<FST,SND>>>("cartProduct("+
-                                                          val1->get_name()+","+
-                                                          val2->get_name()+")", alias),
+          :DerivedValue<std::vector<std::tuple<FST,SND>>>(calc_name(val1, val2), alias),
            val1(val1),
-           val2(val2),
-           self_product(val1 == val2) { }
+           val2(val2) { }
 };
 
 /**

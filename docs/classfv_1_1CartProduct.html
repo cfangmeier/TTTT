@@ -66,6 +66,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classfv_1_1CartProduct-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -73,7 +74,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Find and return the minimum value of a vector and its index.  
+<p>Calculate the cartesian product of two input vectors.  
  <a href="classfv_1_1CartProduct.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="value_8hpp_source.html">value.hpp</a>&gt;</code></p>
@@ -107,6 +108,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a00219a17112600afdc060d67d6f95b21 inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a00219a17112600afdc060d67d6f95b21"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DerivedValue</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:a00219a17112600afdc060d67d6f95b21 inherit pub_methods_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ac6d7f0a92fb9753f7c0bfcf26b6b0d inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a7ac6d7f0a92fb9753f7c0bfcf26b6b0d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>log</b> ()</td></tr>
+<tr class="separator:a7ac6d7f0a92fb9753f7c0bfcf26b6b0d inherit pub_methods_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39970158aa8f6eb062a28037df6e2128 inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a39970158aa8f6eb062a28037df6e2128"></a>
 std::vector&lt; std::tuple&lt; FST, SND &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_value</b> ()</td></tr>
 <tr class="memdesc:a39970158aa8f6eb062a28037df6e2128 inherit pub_methods_classfv_1_1DerivedValue"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate, if necessary, and return the value held by this object. <br /></td></tr>
@@ -115,12 +119,24 @@ std::vector&lt; std::tuple&lt; FST, SND &gt; &gt; &amp;&#160;</td><td class="mem
 <tr class="memitem:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="afded92c24f946c1551c1f1b005f31091"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Value</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
 <tr class="separator:afded92c24f946c1551c1f1b005f31091 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a477ab6275568b0c5afbcf92901cc3a6e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (const std::function&lt; std::string(std::vector&lt; std::tuple&lt; FST, SND &gt; &gt;)&gt; &amp;value_to_string=[](std::vector&lt; std::tuple&lt; FST, SND &gt; &gt;){return &quot;&quot;;})</td></tr>
+<tr class="separator:a477ab6275568b0c5afbcf92901cc3a6e inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a8a3517fdba15dcb2c141dbd58fc232b1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
+<tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a087a4b184e628e3fa20040b33225a906"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1CartProduct.html#a087a4b184e628e3fa20040b33225a906">update_value</a> ()</td></tr>
 <tr class="memdesc:a087a4b184e628e3fa20040b33225a906"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the internal value.  <a href="#a087a4b184e628e3fa20040b33225a906">More...</a><br /></td></tr>
 <tr class="separator:a087a4b184e628e3fa20040b33225a906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
+Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a972e08a268a8657deba7acd0f2bfcde4"><td class="memItemLeft" align="right" valign="top"><a id="a972e08a268a8657deba7acd0f2bfcde4"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>calc_name</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; FST &gt;&gt; *val1, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; SND &gt;&gt; *val2)</td></tr>
+<tr class="separator:a972e08a268a8657deba7acd0f2bfcde4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -130,9 +146,6 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a3d03589f22cf80ae731646046e270ea5"><td class="memItemLeft" align="right" valign="top"><a id="a3d03589f22cf80ae731646046e270ea5"></a>
 <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; SND &gt; &gt; *&#160;</td><td class="memItemRight" valign="bottom"><b>val2</b></td></tr>
 <tr class="separator:a3d03589f22cf80ae731646046e270ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa80b1f9cd5c51bbf948238370dfe3d93"><td class="memItemLeft" align="right" valign="top"><a id="aa80b1f9cd5c51bbf948238370dfe3d93"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>self_product</b></td></tr>
-<tr class="separator:aa80b1f9cd5c51bbf948238370dfe3d93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -140,15 +153,16 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aeb7ff5d17ad44b2040fc9930bbcc2c7a"></a>
 std::vector&lt; std::tuple&lt; FST, SND &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 <tr class="separator:aeb7ff5d17ad44b2040fc9930bbcc2c7a inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="aafa55adbb38dc7fe210ea15e920515dc"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>value_valid</b></td></tr>
-<tr class="separator:aafa55adbb38dc7fe210ea15e920515dc inherit pro_attribs_classfv_1_1DerivedValue"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classfv_1_1Value"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classfv_1_1Value')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classfv_1_1Value.html">fv::Value&lt; std::vector&lt; std::tuple&lt; FST, SND &gt; &gt; &gt;</a></td></tr>
+<tr class="memitem:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="aa0269699348665b8e978c1e848e74abe"></a>
+std::function&lt; std::string(std::vector&lt; std::tuple&lt; FST, SND &gt; &gt;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value_to_string</b></td></tr>
+<tr class="separator:aa0269699348665b8e978c1e848e74abe inherit pro_attribs_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename FST, typename SND&gt;<br />
 class fv::CartProduct&lt; FST, SND &gt;</h3>
 
-<p>Find and return the minimum value of a vector and its index. </p>
+<p>Calculate the cartesian product of two input vectors. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a087a4b184e628e3fa20040b33225a906"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a087a4b184e628e3fa20040b33225a906">&#9670;&nbsp;</a></span>update_value()</h2>

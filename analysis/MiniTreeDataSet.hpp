@@ -119,6 +119,10 @@ class MiniTreeDataSet : public DataSet,
             for(auto container : containers){
                 container.second->save_as("outfile", SaveOption::ROOT);
             }
+            // Save the value names for each container to enable looking up
+            // what values are plotted
+            std::map<string,string> value_lookup = this->get_container_name_value_map();
+            gDirectory->WriteObjectAny(&value_lookup, "std::map<std::string,std::string>", "_value_lookup");
         }
 };
 #endif // minitreedataset_h
