@@ -164,6 +164,10 @@ class GenFunction {
             return name;
         }
 
+        std::string& get_impl(){
+            return impl;
+        }
+
         /**
          * Attempt to invoke clang-format for the purpose of printing out
          * nicely formatted functions to the log file. If clang-format is not

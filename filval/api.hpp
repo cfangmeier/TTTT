@@ -70,8 +70,8 @@ namespace fv{
 
     template <typename... ArgTypes>
     Value<std::tuple<ArgTypes...>>*
-    tuple(Value<ArgTypes>*... args, const std::string& alias=""){
-        return new Tuple<ArgTypes...>(args..., alias);
+    tuple(Value<ArgTypes>*... args){
+        return new Tuple<ArgTypes...>(args..., "");
     }
 
     template <size_t N, typename... ArgTypes>

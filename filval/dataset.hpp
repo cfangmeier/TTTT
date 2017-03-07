@@ -67,6 +67,15 @@ class DataSet{
                 value_map[container.first] = container.second->get_value_name();
             return value_map;
         }
+
+        std::map<std::string,std::string> get_function_name_impl_map(){
+            std::map<std::string, std::string> impl_map;
+            for(auto fn : GenFunction::function_registry)
+                if (fn.second != nullptr){
+                    impl_map[fn.first] = GenFunction::format_code(fn.second->get_impl());
+                }
+            return impl_map;
+        }
     public:
         void process(bool silent=false){
             int events, current_event;

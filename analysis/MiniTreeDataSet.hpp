@@ -73,6 +73,7 @@ class MiniTreeDataSet : public DataSet,
             Init((TTree*) input_file->Get("tree"));
             nentries = fChain->GetEntriesFast();
             output_file = TFile::Open(output_filename.c_str(), "RECREATE");
+            this->fChain->SetBranchStatus("*", false);
           }
 
         ~MiniTreeDataSet(){
@@ -123,6 +124,9 @@ class MiniTreeDataSet : public DataSet,
             // what values are plotted
             std::map<string,string> value_lookup = this->get_container_name_value_map();
             gDirectory->WriteObjectAny(&value_lookup, "std::map<std::string,std::string>", "_value_lookup");
+
+            std::map<string,string> fn_impl_lookup = this->get_function_name_impl_map();
+            gDirectory->WriteObjectAny(&fn_impl_lookup, "std::map<std::string,std::string>", "_function_impl_lookup");
         }
 };
 #endif // minitreedataset_h

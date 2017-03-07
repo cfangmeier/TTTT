@@ -76,6 +76,9 @@ void enable_branches(MiniTreeDataSet& mt){
     mt.track_branch_vec<float>("nJet", "Jet_phi");
     mt.track_branch_vec<float>("nJet", "Jet_mass");
     mt.track_branch_vec<float>("nJet", "Jet_btagCMVA");
+    mt.track_branch_vec< int >("nJet", "Jet_mcMatchFlav");
+    mt.track_branch_vec< int >("nJet", "Jet_mcMatchId");
+    mt.track_branch_vec< int >("nJet", "Jet_mcFlavour");
 
 
     mt.track_branch<int>("nGenPart");
@@ -103,48 +106,46 @@ void enable_branches(MiniTreeDataSet& mt){
 
 struct Jet{
     TLorentzVector v;
-    float          b_cmva;
     int            idx;
-    public:
-        Jet()
-          :v(),b_cmva(0),idx(0) { }
-        Jet(const TLorentzVector& v, float b_cmva, int idx)
-          :v(v),b_cmva(b_cmva),idx(idx) { }
+    int            pdgid;
+    float          b_cmva;
+    Jet() { }
+    Jet(const TLorentzVector& v, int idx, int pdgid, float b_cmva)
+      :v(v),idx(idx),pdgid(pdgid),b_cmva(b_cmva) { }
+
+    static Jet reco(const TLorentzVector& v, int idx, float b_cmva){
+        return Jet(v, idx, 0, b_cmva);
+    }
+
+    static Jet mc(const TLorentzVector& v, int idx, int pdgid){
+        return Jet(v, idx, pdgid, 0);
+    }
 };
 
 void declare_values(MiniTreeDataSet& mt){
 
-    energies(lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v"), "LepGood_energy");
-    energies(lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v"), "GenPart_energy");
-    energies(lorentz_vectors("Jet_pt",     "Jet_eta",     "Jet_phi",     "Jet_mass",     "Jet_4v"    ), "Jet_energy");
+    // Define Lorentz Vector(TLorentzVector) object from fields in ntuple
+    lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v");
+    lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v");
+    lorentz_vectors("Jet_pt",     "Jet_eta",     "Jet_phi",     "Jet_mass",     "Jet_4v"    );
 
-    auto& build_jets = GenFunction::register_function<std::vector<Jet>(std::vector<TLorentzVector>,std::vector<float>)>("build_jets",
-        FUNC(([](const std::vector<TLorentzVector>& vs, const std::vector<float>& b_cmvas){
-            std::vector<Jet> jets;
-            for(int i=0; i<vs.size(); i++){
-                jets.push_back(Jet(vs[i],b_cmvas[i],i));
-           }
-            return jets;
-        })));
-    auto jet_parts = fv::tuple<std::vector<TLorentzVector>,std::vector<float>>(lookup<std::vector<TLorentzVector>>("Jet_4v"), lookup<std::vector<float>>("Jet_btagCMVA"));
-    auto jets = apply(build_jets, jet_parts, "jets");
+    energies("GenPart_4v", "GenPart_energy");
 
-    auto b_jets = filter(GenFunction::register_function<bool(Jet)>("b_jet_filter",
+
+    // Define a couple selections to be used in the top-mass reconstruction.
+    auto& b_mva_filter = GenFunction::register_function<bool(Jet)>("b_mva_filter",
         FUNC(([cut=0.0](const Jet& j){
                 return j.b_cmva > cut;
-        }))), jets, "b_jets");
-
-    auto dijets = combinations<Jet,2>(jets, "dijets");
-
+        })));
+    auto& b_pdgid_filter = GenFunction::register_function<bool(Jet)>("b_pdgid_filter",
+        FUNC(([](const Jet& j){
+                return j.pdgid == 5 || j.pdgid==-5;
+        })));
     auto& w_mass_filter = GenFunction::register_function<bool(Jet, Jet)>("w_mass_filter",
         FUNC(([win_l=W_MASS-10, win_h=W_MASS+10](const Jet& j1, const Jet& j2){
             float inv_mass = (j1.v + j2.v).M();
             return inv_mass > win_l && inv_mass < win_h;
         })));
-    auto w_dijets = tup_filter(w_mass_filter, dijets, "w_dijets");
-
-    auto top_cands = cart_product<std::tuple<Jet,Jet>, Jet>(w_dijets, b_jets);
-
     auto& dup_filter = GenFunction::register_function<bool(std::tuple<Jet,Jet>,Jet)>("dup_filter",
         FUNC(([](const std::tuple<Jet,Jet>& w, const Jet& b){
             int j0 = b.idx;
@@ -152,45 +153,88 @@ void declare_values(MiniTreeDataSet& mt){
             int j2 = std::get<1>(w).idx;
             return (j0 != j1) && (j0 != j2) && (j1 != j2);
         })));
-    top_cands = tup_filter(dup_filter, top_cands, "top_cands_deduped");
+    auto& qg_id_filter = GenFunction::register_function<bool(Jet, Jet)>("qg_id_filter",
+        FUNC(([](const Jet& j1, const Jet& j2){
+            // require both particles be either quarks(not Top) or gluons
+            int id1 = abs(j1.pdgid);
+            int id2 = abs(j2.pdgid);
+            return ((id1 >=1 && id1 <= 5) || id1 == 21) &&
+                   ((id2 >=1 && id2 <= 5) || id2 == 21);
+        })));
+
+    // Here is the calculation of the Top Reconstructed Mass from Jets
+    auto jets = apply(GenFunction::register_function<std::vector<Jet>(std::vector<TLorentzVector>,std::vector<float>)>("build_reco_jets",
+        FUNC(([](const std::vector<TLorentzVector>& vs, const std::vector<float>& b_cmvas){
+            std::vector<Jet> jets;
+            for(int i=0; i<vs.size(); i++){
+                jets.push_back(Jet::reco(vs[i],i, b_cmvas[i]));
+            }
+            return jets;
+        }))), fv::tuple(lookup<std::vector<TLorentzVector>>("Jet_4v"), lookup<std::vector<float>>("Jet_btagCMVA")), "reco_jets");
 
 
-    fv::map(GenFunction::register_function<float(std::tuple<Jet,Jet>,Jet)>("t_mass",
+    auto b_jets = filter(b_mva_filter, jets, "reco_b_jets");
+    auto w_dijets = tup_filter<Jet,Jet>(w_mass_filter, combinations<Jet,2>(jets, "reco_dijets"));
+
+    auto top_cands = cart_product<std::tuple<Jet,Jet>, Jet>(w_dijets, b_jets);
+
+    top_cands = tup_filter(dup_filter, top_cands);
+
+    auto& t_mass = GenFunction::register_function<float(std::tuple<Jet,Jet>,Jet)>("t_mass",
         FUNC(([](const std::tuple<Jet,Jet>& w, const Jet& b){
             return (std::get<0>(w).v+std::get<1>(w).v+b.v).M();
-        }))),top_cands, "rec_top_mass");
+        })));
+
+    fv::map(t_mass, top_cands, "reco_top_mass");
+
+    // Here is the calculation of the Top Reconstructed Mass from Generator-Level objects
+    jets = apply(GenFunction::register_function<std::vector<Jet>(std::vector<TLorentzVector>,std::vector<int>)>("build_mcjets",
+        FUNC(([](const std::vector<TLorentzVector>& vs, const std::vector<int>& pdgid){
+            std::vector<Jet> jets;
+            for(int i=0; i<vs.size(); i++){
+                jets.push_back(Jet::mc(vs[i],i, pdgid[i]));
+            }
+            return jets;
+        }))), fv::tuple(lookup<std::vector<TLorentzVector>>("GenPart_4v"), lookup<std::vector<int>>("GenPart_pdgId")), "mcjets");
+
+    b_jets = filter(b_pdgid_filter, jets);
+
+    w_dijets = tup_filter(qg_id_filter, combinations<Jet,2>(jets));
+    w_dijets = tup_filter(w_mass_filter, w_dijets);
+
+    top_cands = cart_product<std::tuple<Jet,Jet>, Jet>(w_dijets, b_jets);
+
+    top_cands = tup_filter(dup_filter, top_cands);
 
 
+    fv::map(t_mass, top_cands, "mc_top_mass");
+
+
+    // calculation of di-jet inv-mass spectrum
     auto& inv_mass2 = GenFunction::register_function<float(Jet, Jet)>("inv_mass2",
         FUNC(([] (const Jet& j1, const Jet& j2){
             TLorentzVector sum = j1.v + j2.v;
             return (float)sum.M();
         })));
+    fv::map(inv_mass2, lookup<std::vector<std::tuple<Jet,Jet>>>("reco_dijets"), "dijet_inv_mass");
 
 
-    fv::map(inv_mass2, dijets, "di-jet_inv_mass");
 
-    fv::pair<vector<float>,vector<float>>("LepGood_energy", "LepGood_pt", "LepGood_energy_LepGood_pt");
-    fv::pair<vector<float>,vector<float>>("Jet_energy", "Jet_eta", "Jet_energy_vs_Jet_eta");
+    count<float>(GenFunction::register_function<bool(float)>("bJet_Selection",
+        FUNC(([](float x){
+            return x>0;
+        }))), "Jet_btagCMVA",  "b_jet_count");
 
-    max<float>("LepGood_energy", "LepGood_energy_max");
-    min<float>("LepGood_energy", "LepGood_energy_min");
-    range<float>("LepGood_energy", "LepGood_energy_range");
-    mean<float>("LepGood_energy", "LepGood_energy_mean");
-
-    count<float>(GenFunction::register_function<bool(float)>("bJet_Selection", FUNC(([](float x){return x>0;}))),
-                                                             "Jet_btagCMVA",  "b_jet_count");
-
-    auto &is_electron = GenFunction::register_function<bool(int)>("is_electron", FUNC(([](int pdgId)
-        {
+    auto &is_electron = GenFunction::register_function<bool(int)>("is_electron",
+        FUNC(([](int pdgId) {
             return abs(pdgId) == 11;
         })));
-    auto &is_muon = GenFunction::register_function<bool(int)>("is_muon", FUNC(([](int pdgId)
-        {
+    auto &is_muon = GenFunction::register_function<bool(int)>("is_muon",
+        FUNC(([](int pdgId) {
             return abs(pdgId) == 13;
         })));
-    auto &is_lepton = GenFunction::register_function<bool(int)>("is_lepton", FUNC(([ie=&is_electron, im=&is_muon](int pdgId)
-        {
+    auto &is_lepton = GenFunction::register_function<bool(int)>("is_lepton",
+        FUNC(([ie=&is_electron, im=&is_muon](int pdgId) {
             return (*ie)(pdgId) || (*im)(pdgId);
         })));
 
@@ -204,7 +248,7 @@ void declare_values(MiniTreeDataSet& mt){
 
 
     fv::pair<int, int>("genEle_count", "recEle_count", "genEle_count_v_recEle_count");
-    fv::pair<int, int>("genMu_count", "recMu_count", "genMu_count_v_recMu_count");
+    fv::pair<int, int>("genMu_count",  "recMu_count",  "genMu_count_v_recMu_count");
     fv::pair<int, int>("genLep_count", "recLep_count", "genLep_count_v_recLep_count");
 
     obs_filter("trilepton", FUNC(([nLepGood=lookup<int>("nLepGood")]()
@@ -230,65 +274,49 @@ void declare_containers(MiniTreeDataSet& mt){
 
     mt.register_container<ContainerTH1<int>>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8);
 
-    mt.register_container<ContainerTH1Many<float>>("LepGood_energy_all", "Lepton Energy - All",
-                                                      lookup<vector<float>>("LepGood_energy"), 50, 0, 500);
-    mt.register_container<ContainerTH1<float>>("LepGood_energy_max", "Lepton Energy - Max",
-                                                  lookup<float>("LepGood_energy_max"), 50, 0, 500,
-                                                  "Lepton Energy Max(GeV)");
-    mt.register_container<ContainerTH1<float>>("LepGood_energy_min", "Lepton Energy - Min",
-                                                  lookup<float>("LepGood_energy_min"), 50, 0, 500,
-                                                  "Lepton Energy Min(GeV)");
-    mt.register_container<ContainerTH1<float>>("LepGood_energy_range", "Lepton Energy - Range",
-                                                  lookup<float>("LepGood_energy_range"), 50, 0, 500,
-                                                  "Lepton Energy Range(GeV)");
-
-    mt.register_container<ContainerTH1Many<float>>("Jet_pt", "Jet P_T",
+    mt.register_container<ContainerTH1Many<float>>("Jet_pt_dist", "Jet P_T",
                                                       lookup<vector<float>>("Jet_pt"), 50, 0, 500,
                                                       "Jet P_T");
-    mt.register_container<ContainerTH1Many<float>>("Jet_eta", "Jet Eta",
+    mt.register_container<ContainerTH1Many<float>>("Jet_eta_dist", "Jet Eta",
                                                       lookup<vector<float>>("Jet_eta"), 50, -3, 3,
                                                       "Jet Eta");
-    mt.register_container<ContainerTH1Many<float>>("Jet_phi", "Jet Phi",
+    mt.register_container<ContainerTH1Many<float>>("Jet_phi_dist", "Jet Phi",
                                                       lookup<vector<float>>("Jet_phi"), 20, -PI, PI,
                                                       "Jet Phi");
-    mt.register_container<ContainerTH1Many<float>>("Jet_mass", "Jet Mass",
+    mt.register_container<ContainerTH1Many<float>>("Jet_mass_dist", "Jet Mass",
                                                       lookup<vector<float>>("Jet_mass"), 50, 0, 200,
                                                       "Jet Mass");
 
     mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass", "Di-Jet Inv. Mass - All",
-                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      lookup<vector<float>>("dijet_inv_mass"), 100, 0, 500,
                                                       "Di-Jet Mass");
     mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass_osdilepton", "Di-Jet Inv. Mass - OS Dilepton",
-                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      lookup<vector<float>>("dijet_inv_mass"), 100, 0, 500,
                                                       "Di-Jet Mass")->add_filter(lookup_obs_filter("os-dilepton"));
     mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass_ssdilepton", "Di-Jet Inv. Mass - SS Dilepton",
-                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      lookup<vector<float>>("dijet_inv_mass"), 100, 0, 500,
                                                       "Di-Jet Mass")->add_filter(lookup_obs_filter("ss-dilepton"));
     mt.register_container<ContainerTH1Many<float>>("dijet_inv_mass_trilepton", "Di-Jet Inv. Mass - Trilepton",
-                                                      lookup<vector<float>>("di-jet_inv_mass"), 100, 0, 500,
+                                                      lookup<vector<float>>("dijet_inv_mass"), 100, 0, 500,
                                                       "Di-Jet Mass")->add_filter(lookup_obs_filter("trilepton"));
 
-    mt.register_container<ContainerTH1Many<float>>("rec_top_mass", "Reconstructed top mass",
-                                                      lookup<vector<float>>("rec_top_mass"), 100, 0, 500,
+    mt.register_container<ContainerTH1Many<float>>("reco_top_mass", "Reconstructed Top mass",
+                                                      lookup<vector<float>>("reco_top_mass"), 100, 0, 500,
+                                                      "Tri-jet invarient mass");
+    /* mt.register_container<ContainerTH1Many<float>>("reco_top_pt", "Reconstructed Top Pt", */
+    /*                                                   lookup<vector<float>>("reco_top_pt"), 100, 0, 500, */
+    /*                                                   "Tri-jet Pt"); */
+
+    mt.register_container<ContainerTH1Many<float>>("mc_top_mass", "Reconstructed MC Top mass",
+                                                      lookup<vector<float>>("mc_top_mass"), 100, 0, 500,
                                                       "Tri-jet invarient mass");
 
-    mt.register_container<ContainerTH1Many<float>>("Jet_energy", "Jet Energy",
-                                                      lookup<vector<float>>("Jet_energy"), 100, 0, 400,
-                                                      "Jet Energy");
-    mt.register_container<ContainerTH2Many<float>>("Jet_energy_vs_Jet_eta", "Jet Energy vs Jet Eta",
-                                                      lookup<std::pair<vector<float>, vector<float>>>("Jet_energy_vs_Jet_eta"),
-                                                      100, 0, 400, 50, -3, 3,
-                                                      "Jet Energy", "Jet Eta");
 
     mt.register_container<ContainerTH2<int>>("nLepvsnJet", "Number of Leptons vs Number of Jets",
                                               fv::pair<int, int>("nLepGood", "nJet"),
                                               7, 0, 7, 20, 0, 20,
                                               "Number of Leptons", "Number of Jets");
 
-    mt.register_container<ContainerTH2Many<float>>("LepGood_energy_vs_pt", "Lepton Energy vs Lepton Pt",
-                                                      lookup<std::pair<std::vector<float>,std::vector<float>>>("LepGood_energy_LepGood_pt"),
-                                                      50, 0, 500, 50, 0, 500,
-                                                      "lepton energy","lepton Pt");
 
     mt.register_container<ContainerTH2<int>>("genEle_count_v_recEle_count", "Number of Generated Electrons v. Number of Reconstructed Electrons",
                                                 lookup<std::pair<int,int>>("genEle_count_v_recEle_count"),
@@ -320,20 +348,33 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container<CounterMany<int>>("GenPart_pdgId_counter", lookup<vector<int>>("GenPart_pdgId"));
 
 
-    mt.register_container<Vector<vector< int >>>("GenPart_pdgId",          lookup<vector< int >>("GenPart_pdgId"));
-    mt.register_container<Vector<vector< int >>>("GenPart_motherIndex",    lookup<vector< int >>("GenPart_motherIndex"));
-    mt.register_container<Vector<vector< int >>>("GenPart_motherId",       lookup<vector< int >>("GenPart_motherId"));
-    mt.register_container<Vector<vector<float>>>("GenPart_pt",             lookup<vector<float>>("GenPart_pt"));
-    mt.register_container<Vector<vector<float>>>("GenPart_energy",         lookup<vector<float>>("GenPart_energy"));
-    mt.register_container<Vector<vector< int >>>("GenPart_status",         lookup<vector< int >>("GenPart_status"));
+    mt.register_container<Vector<std::vector< int >>>("GenPart_pdgId",       lookup<std::vector< int >>("GenPart_pdgId"));
+    mt.register_container<Vector<std::vector< int >>>("GenPart_motherIndex", lookup<std::vector< int >>("GenPart_motherIndex"));
+    mt.register_container<Vector<std::vector< int >>>("GenPart_motherId",    lookup<std::vector< int >>("GenPart_motherId"));
+    mt.register_container<Vector<std::vector<float>>>("GenPart_pt",          lookup<std::vector<float>>("GenPart_pt"));
+    mt.register_container<Vector<std::vector<float>>>("GenPart_eta",         lookup<std::vector<float>>("GenPart_eta"));
+    mt.register_container<Vector<std::vector<float>>>("GenPart_phi",         lookup<std::vector<float>>("GenPart_phi"));
+    mt.register_container<Vector<std::vector<float>>>("GenPart_mass",        lookup<std::vector<float>>("GenPart_mass"));
+    mt.register_container<Vector<std::vector<float>>>("GenPart_energy",      lookup<std::vector<float>>("GenPart_energy"));
+    mt.register_container<Vector<std::vector< int >>>("GenPart_status",      lookup<std::vector< int >>("GenPart_status"));
 
-    mt.register_container<Vector<vector< int >>>("LepGood_mcMatchId",      lookup<vector< int >>("LepGood_mcMatchId"));
-    mt.register_container<Vector<vector< int >>>("LepGood_mcMatchPdgId",   lookup<vector< int >>("LepGood_mcMatchPdgId"));
+    mt.register_container<Vector<vector< int >>>("LepGood_mcMatchId",        lookup<vector< int >>("LepGood_mcMatchId"));
+    mt.register_container<Vector<vector< int >>>("LepGood_mcMatchPdgId",     lookup<vector< int >>("LepGood_mcMatchPdgId"));
 
-    mt.register_container<Vector< int >>("run",  lookup< int >("run") );
-    mt.register_container<Vector< int >>("lumi", lookup< int >("lumi"));
-    mt.register_container<Vector< int >>("evt",  lookup< int >("evt") );
-    mt.register_container<Vector<float>>("xsec", lookup<float>("xsec"));
+    mt.register_container<Vector< int >>("run",                              lookup< int >("run") );
+    mt.register_container<Vector< int >>("lumi",                             lookup< int >("lumi"));
+    mt.register_container<Vector< int >>("evt",                              lookup< int >("evt") );
+    mt.register_container<Vector<float>>("xsec",                             lookup<float>("xsec"));
+
+    mt.register_container<Vector<std::vector< int >>>("Jet_mcMatchFlav",     lookup<std::vector< int >>("Jet_mcMatchFlav"));
+    mt.register_container<Vector<std::vector< int >>>("Jet_mcMatchId",       lookup<std::vector< int >>("Jet_mcMatchId"));
+    mt.register_container<Vector<std::vector< int >>>("Jet_mcFlavour",       lookup<std::vector< int >>("Jet_mcFlavour"));
+
+    mt.register_container<Vector<std::vector<float>>>("Jet_pt",              lookup<std::vector<float>>("Jet_pt"));
+    mt.register_container<Vector<std::vector<float>>>("Jet_eta",             lookup<std::vector<float>>("Jet_eta"));
+    mt.register_container<Vector<std::vector<float>>>("Jet_phi",             lookup<std::vector<float>>("Jet_phi"));
+    mt.register_container<Vector<std::vector<float>>>("Jet_mass",            lookup<std::vector<float>>("Jet_mass"));
+
 }
 
 

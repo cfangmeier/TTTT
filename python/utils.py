@@ -31,7 +31,7 @@ PDG = {1:   'd',   -1:  'd̄',
        15:  'τ-',  -15: 'τ+',
        16:  'ν_τ', -16: 'ῡ_τ',
 
-       21:  'gluon',
+       21:  'g',
        22:  'γ',
        23:  'Z0',
        24:  'W+',  -24: 'W-',
@@ -92,7 +92,11 @@ def show_value(container):
     if type(container) != str:
         container = container.GetName().split(':')[1]
     g = parse(VALUES[container], container)
-    return Image(g.create_gif())
+    try:
+        return Image(g.create_gif())
+    except Exception as e:
+        print(e)
+        print(g.to_string())
 
 
 class OutputCapture:

@@ -2,7 +2,6 @@ import pydotplus.graphviz as pdp
 import sys
 import re
 
-
 def parse(str_in, alias=None):
     str_in = "("+str_in+")"
 
