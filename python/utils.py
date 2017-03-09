@@ -88,12 +88,24 @@ def show_event(dataset, idx):
     return Image(g.create_gif())
 
 
-def show_value(container):
+def show_function(dataset, fname):
+    from IPython.display import Markdown
+
+    def md_single(fname_):
+        impl = dataset._function_impl_lookup[fname_]
+        return '*{}*\n-----\n```cpp\n{}\n```\n\n---'.format(fname_, impl)
+    try:
+        return Markdown('\n'.join(md_single(fname_) for fname_ in iter(fname)))
+    except TypeError:
+        return Markdown(md_single(fname))
+
+
+def show_value(dataset, container):
     if type(container) != str:
         container = container.GetName().split(':')[1]
-    g = parse(VALUES[container], container)
+    g, functions = parse(VALUES[container], container)
     try:
-        return Image(g.create_gif())
+        return Image(g.create_gif()), show_function(dataset, functions)
     except Exception as e:
         print(e)
         print(g.to_string())
@@ -140,7 +152,7 @@ def normalize_columns(hist2d):
     return normHist
 
 
-class HistCollection:
+class ResultSet:
 
     def __init__(self, sample_name, input_filename):
         self.sample_name = sample_name
@@ -149,7 +161,7 @@ class HistCollection:
         self.conditional_recompute()
         self.load_objects()
 
-        HistCollection.add_collection(self)
+        ResultSet.add_collection(self)
 
     def conditional_recompute(self):
 

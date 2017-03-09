@@ -290,13 +290,11 @@ class GenValue{
          * all GenValue objects when reset is called.
          */
         bool value_valid;
+
         void _reset(){
-            /* if (this->logging_enabled){ */
-            /*     std::cout <<  "Resetting validity for " << this->get_name() << std::endl; */
-            /* } */
-            /* std::cout <<  "Resetting validity for " << this->get_name() << std::endl; */
             this->value_valid = false;
         }
+
         /**
          * A static mapping containing all created Value objects.
          * Every value object must have a unique name, and this name is used as
@@ -305,6 +303,7 @@ class GenValue{
          * pointers.
          */
         inline static std::map<const std::string, GenValue*> values;
+
         /**
          * Composite value names are typically nested. This makes complex
          * values have rather unwieldy names. Therefore, one can declare
@@ -337,6 +336,12 @@ class GenValue{
             values[name] = this;
         }
 
+        /**
+         * If logging is enabled for this value, this function should be
+         * implemented to format the value to a string and place it as an INFO
+         * entry in the log file. Useful for debugging, but may produce alot of
+         * output.
+         */
         virtual void log() = 0;
 
         static void reset(){
@@ -350,13 +355,8 @@ class GenValue{
         static GenValue* get_value(const std::string& name){
             if (aliases[name] != nullptr)
                 return aliases[name];
-            else if (values[name] != nullptr)
+            else
                 return values[name];
-            else{
-                ERROR("Could not find alias or value \"" << name << "\". I'll tell you the ones I know about." << std::endl
-                        << summary());
-                CRITICAL("Aborting... :(",-1);
-            }
         }
 
         static void alias(const std::string& name, GenValue* value){
@@ -403,7 +403,7 @@ std::ostream& operator<<(std::ostream& os, GenValue& gv){
 
 
 /**
- * A generic value.
+ * A templated value.
  * In order to facilitate run-time creation of analysis routines, it is
  * necessary to have some ability to get and store *values*. Values can either
  * be directly taken from some original data source (i.e. ObservedValue), or
@@ -458,6 +458,10 @@ class ObservedValue : public Value<T>{
             if(this->logging_enabled){
                 INFO(this->get_name() << ": " << this->value_to_string(*val_ref));
             }
+        }
+
+        static std::string fmt_name(const std::string& name){
+            return name;
         }
 
         T& get_value(){
@@ -548,8 +552,12 @@ class WrapperVector : public DerivedValue<std::vector<T> >{
         }
 
     public:
+        static std::string fmt_name(Value<int>* size, Value<T*>* data){
+            return "wrapper_vector("+size->get_name()+","+data->get_name()+")";
+        }
+
         WrapperVector(Value<int>* size, Value<T*>* data, const std::string& alias="")
-          :DerivedValue<std::vector<T> >("vectorOf("+size->get_name()+","+data->get_name()+")", alias),
+          :DerivedValue<std::vector<T> >(fmt_name(size,data), alias),
            size(size), data(data){ }
 };
 
@@ -566,8 +574,12 @@ class Pair : public DerivedValue<std::pair<T1, T2> >{
         }
 
     public:
+        static std::string fmt_name(Value<T1> *value1, Value<T2> *value2){
+            return "pair("+value1->get_name()+","+value2->get_name()+")";
+        }
+
         Pair(Value<T1> *value1, Value<T2> *value2, const std::string alias="")
-          :DerivedValue<std::pair<T1, T2> >("pair("+value1->get_name()+","+value2->get_name()+")", alias),
+          :DerivedValue<std::pair<T1, T2> >(fmt_name(value1, value2), alias),
            value_pair(value1, value2){ }
 };
 
@@ -620,6 +632,21 @@ class _Zip<Head, Tail...> : private _Zip<Tail...> {
             head(head) { }
 };
 
+namespace impl {
+    std::string zip_fmt_name(){
+        return "";
+    }
+
+    template<typename Head>
+    std::string zip_fmt_name(Value<std::vector<Head>>* head){
+        return head->get_name();
+    }
+
+    template<typename Head1, typename Head2, typename... Tail>
+    std::string zip_fmt_name(Value<std::vector<Head1>>* head1, Value<std::vector<Head2>>* head2, Value<std::vector<Tail>>*... tail){
+        return head1->get_name() + "," + zip_fmt_name<Head2, Tail...>(head2, tail...);
+    }
+}
 /**
  * Zips a series of vectors together. Can be combined with Map to
  * yield a Value whose elements are individually a function of the
@@ -647,16 +674,14 @@ class Zip : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>,
             }
         }
 
-        std::string _get_name(){
-            return "zip("+_Zip<ArgTypes...>::_get_name()+")";
+    public:
+        static std::string fmt_name(Value<std::vector<ArgTypes>>*... args){
+            return "zip("+zip_fmt_name(args...)+")";
         }
 
-    public:
         Zip(Value<std::vector<ArgTypes>>*... args, const std::string& alias)
-          :DerivedValue<std::vector<std::tuple<ArgTypes...>>>("", alias),
-           _Zip<ArgTypes...>(args...) {
-            this->set_name(_get_name());
-        }
+          :DerivedValue<std::vector<std::tuple<ArgTypes...>>>(fmt_name(args...), alias),
+           _Zip<ArgTypes...>(args...) { }
 };
 
 template<typename> class Map; // undefined
@@ -682,8 +707,12 @@ class Map<Ret(ArgTypes...)> : public DerivedValue<std::vector<Ret>>{
         }
 
     public:
+        static std::string fmt_name(Function<Ret(ArgTypes...)>& fn, arg_type* arg){
+            return "map("+fn.get_name()+":"+arg->get_name()+")";
+        }
+
         Map(Function<Ret(ArgTypes...)>& fn, arg_type* arg, const std::string& alias)
-          :DerivedValue<std::vector<Ret>>("map("+fn.get_name()+":"+arg->get_name()+")", alias),
+          :DerivedValue<std::vector<Ret>>(fmt_name(fn, arg), alias),
            fn(fn), arg(arg){ }
 
 };
@@ -695,10 +724,6 @@ class _Tuple<> {
 
         std::tuple<> _get_value(){
             return std::make_tuple();
-        }
-
-        std::string _get_name(){
-            return "";
         }
 
     public:
@@ -715,11 +740,6 @@ class _Tuple<Head, Tail...> : private _Tuple<Tail...> {
             return std::tuple_cat(std::make_tuple(head->get_value()),tail_tuple);
         }
 
-
-        std::string _get_name(){
-            return head->get_name()+","+_Tuple<Tail...>::_get_name();
-        }
-
     public:
         _Tuple() { }
 
@@ -727,6 +747,22 @@ class _Tuple<Head, Tail...> : private _Tuple<Tail...> {
           : _Tuple<Tail...>(tail...),
             head(head) { }
 };
+
+namespace impl {
+    std::string tuple_fmt_name(){
+        return "";
+    }
+
+    template<typename Head>
+    std::string tuple_fmt_name(Value<Head>* head){
+        return head->get_name();
+    }
+
+    template<typename Head1, typename Head2, typename... Tail>
+    std::string tuple_fmt_name(Value<Head1>* head1, Value<Head2>* head2, Value<Tail>*... tail){
+        return head1->get_name() + "," + tuple_fmt_name<Head2, Tail...>(head2, tail...);
+    }
+}
 
 /**
  * Takes a series of Value objects and bundles them together into a std::tuple
@@ -742,16 +778,14 @@ class Tuple : public DerivedValue<std::tuple<ArgTypes...>>,
             this->value = _Tuple<ArgTypes...>::_get_value();
         }
 
-        std::string _get_name(){
-            return "tuple("+_Tuple<ArgTypes...>::_get_name()+")";
+    public:
+        static std::string fmt_name(Value<ArgTypes>*... args){
+            return "tuple("+impl::tuple_fmt_name(args...)+")";
         }
 
-    public:
         Tuple(Value<ArgTypes>*... args, const std::string& alias)
-          :DerivedValue<std::tuple<ArgTypes...>>("", alias),
-           _Tuple<ArgTypes...>(args...) {
-            this->set_name(_get_name());
-        }
+          :DerivedValue<std::tuple<ArgTypes...>>(fmt_name(args...), alias),
+           _Tuple<ArgTypes...>(args...) { }
 };
 
 /**
@@ -766,8 +800,12 @@ class DeTup : public DerivedValue<typename std::tuple_element<N, std::tuple<ArgT
         }
 
     public:
+        static std::string fmt_name(Value<std::tuple<ArgTypes...>>* tup){
+            return "detup("+tup->get_name()+")";
+        }
+
         DeTup(Value<std::tuple<ArgTypes...>>* tup, const std::string& alias)
-          :DerivedValue<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>("detup("+tup->get_name()+")", alias),
+          :DerivedValue<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>(fmt_name(tup), alias),
            tup(tup) { }
 };
 
@@ -787,8 +825,12 @@ class DeTupVector : public DerivedValue<std::vector<typename std::tuple_element<
         }
 
     public:
+        static std::string fmt_name(Value<std::vector<std::tuple<ArgTypes...>>>* tup){
+            return "detup_vec("+tup->get_name()+")";
+        }
+
         DeTupVector(Value<std::vector<std::tuple<ArgTypes...>>>* tup, const std::string& alias)
-          :DerivedValue<std::vector<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>>("detup("+tup->get_name()+")", alias),
+          :DerivedValue<std::vector<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>>(fmt_name(tup), alias),
            tup(tup) { }
 };
 
@@ -809,8 +851,12 @@ class Apply<Ret(ArgTypes...)> : public DerivedValue<Ret>{
         }
 
     public:
+        static std::string fmt_name(Function<Ret(ArgTypes...)>& fn, Value<std::tuple<ArgTypes...>>* arg){
+            return "apply("+fn.get_name()+":"+arg->get_name()+")";
+        }
+
         Apply(Function<Ret(ArgTypes...)>& fn, Value<std::tuple<ArgTypes...>>* arg, const std::string& alias)
-          :DerivedValue<Ret>("apply("+fn.get_name()+":"+arg->get_name()+")", alias),
+          :DerivedValue<Ret>(fmt_name(fn,arg), alias),
            fn(fn), arg(arg){ }
 
 };
@@ -833,8 +879,12 @@ class Count : public DerivedValue<int>{
         }
 
     public:
+        static std::string fmt_name(Function<bool(T)>& selector, Value<std::vector<T>>* v){
+            return "count("+selector.get_name()+":"+v->get_name()+")";
+        }
+
         Count(Function<bool(T)>& selector, Value<std::vector<T>>* v, const std::string alias)
-          :DerivedValue<int>("count("+selector.get_name()+":"+v->get_name()+")", alias),
+          :DerivedValue<int>(fmt_name(selector,v), alias),
            selector(selector), v(v) { }
 };
 
@@ -856,8 +906,12 @@ class Filter : public DerivedValue<std::vector<T>>{
         }
 
     public:
+        static std::string fmt_name(Function<bool(T)>& filter, Value<std::vector<T>>* v){
+            return "filter("+filter.get_name()+":"+v->get_name()+")";
+        }
+
         Filter(Function<bool(T)>& filter, Value<std::vector<T>>* v, const std::string alias)
-          :DerivedValue<std::vector<T>>("filter("+filter.get_name()+":"+v->get_name()+")", alias),
+          :DerivedValue<std::vector<T>>(fmt_name(filter,v), alias),
            filter(filter), v(v) { }
 };
 
@@ -882,8 +936,12 @@ class TupFilter : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>{
         }
 
     public:
+        static std::string fmt_name(Function<bool(ArgTypes...)>& filter, Value<value_type>* arg){
+            return "tup_filter("+filter.get_name()+":"+arg->get_name()+")";
+        }
+
         TupFilter(Function<bool(ArgTypes...)>& filter, Value<value_type>* arg, const std::string alias)
-          :DerivedValue<value_type>("tupfilter("+filter.get_name()+":"+arg->get_name()+")", alias),
+          :DerivedValue<value_type>(fmt_name(filter, arg), alias),
            filter(filter), arg(arg) { }
 };
 
@@ -917,6 +975,10 @@ class Reduce : public DerivedValue<T>{
 template <typename T>
 class Max : public Reduce<T>{
     public:
+        static std::string fmt_name(Value<std::vector<T>>* v){
+            return "max("+v->get_name()+")";
+        }
+
         Max(Value<std::vector<T>>* v, const std::string alias)
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("max",
                       FUNC(([](std::vector<T> vec){
@@ -930,6 +992,10 @@ class Max : public Reduce<T>{
 template <typename T>
 class Min : public Reduce<T>{
     public:
+        static std::string fmt_name(Value<std::vector<T>>* v){
+            return "min("+v->get_name()+")";
+        }
+
         Min(Value<std::vector<T>>* v, const std::string alias)
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("min",
                       FUNC(([](std::vector<T> vec){
@@ -943,6 +1009,10 @@ class Min : public Reduce<T>{
 template <typename T>
 class Mean : public Reduce<T>{
     public:
+        static std::string fmt_name(Value<std::vector<T>>* v){
+            return "mean("+v->get_name()+")";
+        }
+
         Mean(Value<std::vector<T>>* v, const std::string alias)
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("mean",
                       FUNC(([](std::vector<T> vec){
@@ -958,6 +1028,10 @@ class Mean : public Reduce<T>{
 template <typename T>
 class Range : public Reduce<T>{
     public:
+        static std::string fmt_name(Value<std::vector<T>>* v){
+            return "range("+v->get_name()+")";
+        }
+
         Range(Value<std::vector<T>>* v, const std::string alias)
           :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("range",
                       FUNC(([](std::vector<T> vec){
@@ -1057,15 +1131,15 @@ class Combinations : public DerivedValue<std::vector<typename HomoTuple<T,Size>:
             } while(std::prev_permutation(selector.begin(), selector.end()));
         }
 
-        static std::string calc_name(Value<std::vector<T>>* val){
+    public:
+        static std::string fmt_name(Value<std::vector<T>>* val){
             std::stringstream ss;
             ss << "combinations(" << Size << "," << val->get_name() << ")";
             return ss.str();
         }
 
-    public:
         Combinations(Value<std::vector<T>>* val, const std::string alias="")
-          :DerivedValue<std::vector<tuple_type>>(calc_name(val), alias),
+          :DerivedValue<std::vector<tuple_type>>(fmt_name(val), alias),
            val(val) { }
 
 };
@@ -1099,10 +1173,13 @@ class CartProduct : public DerivedValue<std::vector<std::tuple<FST,SND>>>{
         }
 
     public:
+        static std::string fmt_name(Value<std::vector<FST>>* val1, Value<std::vector<SND>>* val2){
+            return "cartProduct("+val1->get_name()+", "+val2->get_name()+")";
+        }
+
         CartProduct(Value<std::vector<FST>>* val1, Value<std::vector<SND>>* val2, const std::string alias="")
           :DerivedValue<std::vector<std::tuple<FST,SND>>>(calc_name(val1, val2), alias),
-           val1(val1),
-           val2(val2) { }
+           val1(val1), val2(val2) { }
 };
 
 /**

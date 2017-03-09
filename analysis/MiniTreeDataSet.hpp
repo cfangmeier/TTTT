@@ -110,9 +110,9 @@ class MiniTreeDataSet : public DataSet,
         }
 
         template <typename T>
-        WrapperVector<T>* track_branch_vec(const std::string& size_bname, const std::string& bname){
-            track_branch_ptr<T>(bname);
-            return new WrapperVector<T>(lookup<int>(size_bname), lookup<T*>(bname), bname);
+        decltype(auto) track_branch_vec(const std::string& size_bname, const std::string& value_bname){
+            track_branch_ptr<T>(value_bname);
+            return wrapper_vector<T>(lookup<int>(size_bname), lookup<T*>(value_bname), value_bname);
         }
 
         void save_all(){

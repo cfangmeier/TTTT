@@ -28,16 +28,18 @@ class LorentzVectors : public DerivedValue<std::vector<TLorentzVector>>{
         }
 
     public:
+        static std::string fmt_name(Value<std::vector<float>>* pt, Value<std::vector<float>>* eta,
+                                    Value<std::vector<float>>* phi, Value<std::vector<float>>* mass){
+            return "lorentz_vectors("+pt->get_name()+"," +eta->get_name()+","+
+                                      phi->get_name()+"," +mass->get_name()+")";
+        }
+
         LorentzVectors(Value<std::vector<float>>* pt,
                       Value<std::vector<float>>* eta,
                       Value<std::vector<float>>* phi,
                       Value<std::vector<float>>* mass,
                       const std::string& alias)
-          :DerivedValue<std::vector<TLorentzVector>>("lorentz_vectors("+pt->get_name()+","
-                                                                       +eta->get_name()+","
-                                                                       +phi->get_name()+","
-                                                                       +mass->get_name()+")",
-                                                     alias),
+          :DerivedValue<std::vector<TLorentzVector>>(fmt_name(pt,eta,phi,mass), alias),
            pt_val(pt), eta_val(eta), phi_val(phi), mass_val(mass) { }
 };
 
@@ -53,9 +55,13 @@ class Energies : public DerivedValue<std::vector<float>>{
         }
 
     public:
+        static std::string fmt_name(Value<std::vector<TLorentzVector>> *vectors){
+            return "energies("+vectors->get_name()+")";
+        }
+
         Energies(Value<std::vector<TLorentzVector>> *vectors,
                  const std::string& alias)
-          :DerivedValue<std::vector<float>>("energies("+vectors->get_name()+")", alias),
+          :DerivedValue<std::vector<float>>(fmt_name(vectors), alias),
            vectors(vectors) { }
 };
 

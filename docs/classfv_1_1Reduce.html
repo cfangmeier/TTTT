@@ -74,7 +74,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><a class="el" href="classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. ">Reduce</a> a <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> of type vector&lt;T&gt; to just a T.  
+<p><a class="el" href="classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. ">Reduce</a> a <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> of type vector&lt;T&gt; to just a T.  
  <a href="classfv_1_1Reduce.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="value_8hpp_source.html">value.hpp</a>&gt;</code></p>
@@ -89,7 +89,7 @@ Inheritance diagram for fv::Reduce&lt; T &gt;:</div>
 <area shape="rect" id="node7" href="classfv_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="449,229,551,256"/>
 <area shape="rect" id="node8" href="classfv_1_1Range.html" title="Calculate the range of the values in a vector. " alt="" coords="575,229,697,256"/>
 <area shape="rect" id="node2" href="classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="283,80,450,107"/>
-<area shape="rect" id="node3" href="classfv_1_1Value.html" title="A generic value. " alt="" coords="309,5,425,32"/>
+<area shape="rect" id="node3" href="classfv_1_1Value.html" title="A templated value. " alt="" coords="309,5,425,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -98,7 +98,7 @@ Collaboration diagram for fv::Reduce&lt; T &gt;:</div>
 <div class="center"><img src="classfv_1_1Reduce__coll__graph.png" border="0" usemap="#fv_1_1Reduce_3_01T_01_4_coll__map" alt="Collaboration graph"/></div>
 <map name="fv_1_1Reduce_3_01T_01_4_coll__map" id="fv_1_1Reduce_3_01T_01_4_coll__map">
 <area shape="rect" id="node2" href="classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="5,89,172,115"/>
-<area shape="rect" id="node3" href="classfv_1_1Value.html" title="A generic value. " alt="" coords="31,5,147,32"/>
+<area shape="rect" id="node3" href="classfv_1_1Value.html" title="A templated value. " alt="" coords="31,5,147,32"/>
 <area shape="rect" id="node4" href="classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; T \&gt; \&gt;" alt="" coords="197,81,359,123"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
@@ -163,7 +163,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
 class fv::Reduce&lt; T &gt;</h3>
 
-<p><a class="el" href="classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. ">Reduce</a> a <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> of type vector&lt;T&gt; to just a T. </p>
+<p><a class="el" href="classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. ">Reduce</a> a <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> of type vector&lt;T&gt; to just a T. </p>
 <p>This is useful functionality to model, for instance, calculating the maximum element of a vector, or a the mean. See child classes for specific implementations. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab0809c4ab1884b84a7f88e005ade76a5"></a>
@@ -192,7 +192,7 @@ template&lt;typename T &gt; </div>
 </div><div class="memdoc">
 
 <p>Updates the internal value. </p>
-<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
+<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; T &gt;</a>.</p>
 

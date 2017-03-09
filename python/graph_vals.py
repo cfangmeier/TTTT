@@ -2,9 +2,11 @@ import pydotplus.graphviz as pdp
 import sys
 import re
 
+
 def parse(str_in, alias=None):
     str_in = "("+str_in+")"
 
+    functions = []
     ends = {}
     nests = {}
     names = {}
@@ -38,6 +40,7 @@ def parse(str_in, alias=None):
                     styles[name_start] = {"shape": "rectangle"}
                 else:
                     styles[name_start] = {"shape": "invhouse"}
+                    functions.append(name)
                 nests[parens[-1]].append(name_start)
                 name = ""
         else:
@@ -74,7 +77,7 @@ def parse(str_in, alias=None):
             g.add_edge(pdp.Edge(str(group_id), str(child_id)))
     if alias:
         g.add_node(pdp.Node(alias, shape="plain", pos="0,0!"))
-    return g
+    return g, functions
 
 
 if __name__ == '__main__':
@@ -88,7 +91,7 @@ if __name__ == '__main__':
                 aliases[res[0][1]] = res[0][0]
                 continue
     for name, alias in aliases.items():
-        graph = parse(name, alias)
+        graph, _ = parse(name, alias)
         fname = "val_graph_{}.gif".format(alias)
         with open(fname, "wb") as f:
             try:

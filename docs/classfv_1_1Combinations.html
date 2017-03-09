@@ -65,9 +65,9 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classfv_1_1Combinations-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -126,6 +126,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (c
 void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
 <tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a76e1e87514c9a130e1b557243679d180"><td class="memItemLeft" align="right" valign="top"><a id="a76e1e87514c9a130e1b557243679d180"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>fmt_name</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; T &gt;&gt; *val)</td></tr>
+<tr class="separator:a76e1e87514c9a130e1b557243679d180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
 Private Types</h2></td></tr>
 <tr class="memitem:a9ff01c6f111be04fe43fd813b2c7d60c"><td class="memItemLeft" align="right" valign="top"><a id="a9ff01c6f111be04fe43fd813b2c7d60c"></a>
@@ -137,12 +143,6 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a69ce557136cf74ba2e8540e06151bfa5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Combinations.html#a69ce557136cf74ba2e8540e06151bfa5">update_value</a> ()</td></tr>
 <tr class="memdesc:a69ce557136cf74ba2e8540e06151bfa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the internal value.  <a href="#a69ce557136cf74ba2e8540e06151bfa5">More...</a><br /></td></tr>
 <tr class="separator:a69ce557136cf74ba2e8540e06151bfa5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a77f9b16b2e4290f51e1078bfa411fe2b"><td class="memItemLeft" align="right" valign="top"><a id="a77f9b16b2e4290f51e1078bfa411fe2b"></a>
-static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>calc_name</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; T &gt;&gt; *val)</td></tr>
-<tr class="separator:a77f9b16b2e4290f51e1078bfa411fe2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -193,7 +193,7 @@ template&lt;typename T, int Size&gt; </div>
 </div><div class="memdoc">
 
 <p>Updates the internal value. </p>
-<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
+<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 <p>!! </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; std::vector&lt; HomoTuple&lt; T, Size &gt;::type &gt; &gt;</a>.</p>

@@ -65,6 +65,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classfv_1_1Pair-members.html">List of all members</a>  </div>
@@ -73,7 +74,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Creates a std::pair type from a two other <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects.  
+<p>Creates a std::pair type from a two other <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> objects.  
  <a href="classfv_1_1Pair.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="value_8hpp_source.html">value.hpp</a>&gt;</code></p>
@@ -123,6 +124,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (c
 void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
 <tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a9fefc533a8872f8d0010cc78345f6092"><td class="memItemLeft" align="right" valign="top"><a id="a9fefc533a8872f8d0010cc78345f6092"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>fmt_name</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; T1 &gt; *value1, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; T2 &gt; *value2)</td></tr>
+<tr class="separator:a9fefc533a8872f8d0010cc78345f6092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab3225f03f49240fc1547a5005f57b864"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Pair.html#ab3225f03f49240fc1547a5005f57b864">update_value</a> ()</td></tr>
@@ -147,7 +154,7 @@ std::function&lt; std::string(std::pair&lt; T1, T2 &gt;)&gt;&#160;</td><td class
 <div class="textblock"><h3>template&lt;typename T1, typename T2&gt;<br />
 class fv::Pair&lt; T1, T2 &gt;</h3>
 
-<p>Creates a std::pair type from a two other <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects. </p>
+<p>Creates a std::pair type from a two other <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> objects. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ab3225f03f49240fc1547a5005f57b864"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab3225f03f49240fc1547a5005f57b864">&#9670;&nbsp;</a></span>update_value()</h2>
@@ -175,7 +182,7 @@ template&lt;typename T1, typename T2&gt; </div>
 </div><div class="memdoc">
 
 <p>Updates the internal value. </p>
-<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
+<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; std::pair&lt; T1, T2 &gt; &gt;</a>.</p>
 

@@ -14,68 +14,67 @@
 #include "filval/container.hpp"
 
 namespace fv::root::util{
+    /**
+     * Save a TObject. The TObject will typically be a Histogram or Graph object,
+     * but can really be any TObject. The SaveOption can be used to specify how to
+     * save the file.
+     */
+    void save_as(TObject* container, const std::string& fname, const SaveOption& option = SaveOption::PNG) {
 
-/**
- * Save a TObject. The TObject will typically be a Histogram or Graph object,
- * but can really be any TObject. The SaveOption can be used to specify how to
- * save the file.
- */
-void save_as(TObject* container, const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+        auto save_img = [](TObject* container, const std::string& fname){
+            TCanvas* c1 = new TCanvas("c1");
+            container->Draw();
+            c1->Draw();
+            c1->SaveAs(fname.c_str());
+            delete c1;
+        };
 
-    auto save_img = [](TObject* container, const std::string& fname){
-        TCanvas* c1 = new TCanvas("c1");
-        container->Draw();
-        c1->Draw();
-        c1->SaveAs(fname.c_str());
-        delete c1;
-    };
+        auto save_bin = [](TObject* container){
+            INFO("Saving object: " << container->GetName() << " into file " << gDirectory->GetName());
+            container->Write(container->GetName(), TObject::kOverwrite);
+        };
 
-    auto save_bin = [](TObject* container){
-        INFO("Saving object: " << container->GetName() << " into file " << gDirectory->GetName());
-        container->Write(container->GetName(), TObject::kOverwrite);
-    };
-
-    switch(option){
-        case PNG:
-            save_img(container, fname+".png"); break;
-        case PDF:
-            save_img(container, fname+".pdf"); break;
-        case ROOT:
-            save_bin(container); break;
-        default:
-            break;
+        switch(option){
+            case PNG:
+                save_img(container, fname+".png"); break;
+            case PDF:
+                save_img(container, fname+".pdf"); break;
+            case ROOT:
+                save_bin(container); break;
+            default:
+                break;
+        }
     }
-}
 
 
-/**
- * Saves an STL container into a ROOT file. ROOT knows how to serialize STL
- * containers, but it needs the *name* of the type of the container, eg.
- * std::map<int,int> to be able to do this. In order to generate this name at
- * run-time, the fv::util::get_type_name function uses RTTI to get type info
- * and use it to look up the proper name.
- *
- * For nexted containers, it is necessary to generate the CLING dictionaries
- * for each type at compile time to enable serialization. To do this, add the
- * type definition into the LinkDef.hpp header file.
- */
-void save_as_stl(void* container, const std::string& type_name,
-                  const std::string& obj_name,
-                  const SaveOption& option = SaveOption::PNG) {
-    switch(option){
-        case PNG:
-            INFO("Cannot save STL container " << type_name <<" as png");
-            break;
-        case PDF:
-            INFO("Cannot save STL container " << type_name <<" as pdf");
-            break;
-        case ROOT:
-            gDirectory->WriteObjectAny(container, type_name.c_str(), obj_name.c_str());
-            break;
-        default:
-            break;
+    /**
+     * Saves an STL container into a ROOT file. ROOT knows how to serialize STL
+     * containers, but it needs the *name* of the type of the container, eg.
+     * std::map<int,int> to be able to do this. In order to generate this name at
+     * run-time, the fv::util::get_type_name function uses RTTI to get type info
+     * and use it to look up the proper name.
+     *
+     * For nexted containers, it is necessary to generate the CLING dictionaries
+     * for each type at compile time to enable serialization. To do this, add the
+     * type definition into the LinkDef.hpp header file.
+     */
+    void save_as_stl(void* container, const std::string& type_name,
+                      const std::string& obj_name,
+                      const SaveOption& option = SaveOption::PNG) {
+        switch(option){
+            case PNG:
+                INFO("Cannot save STL container " << type_name <<" as png");
+                break;
+            case PDF:
+                INFO("Cannot save STL container " << type_name <<" as pdf");
+                break;
+            case ROOT:
+                gDirectory->WriteObjectAny(container, type_name.c_str(), obj_name.c_str());
+                break;
+            default:
+                break;
+        }
     }
-}
 }
 
 namespace fv::root {

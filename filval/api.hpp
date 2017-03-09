@@ -40,11 +40,23 @@ namespace fv{
     template<typename T>
     Value<T>* lookup(const std::string& name){
         GenValue* gv = GenValue::get_value(name);
+        if (gv == nullptr){
+            CRITICAL("Could not find alias or value \"" << name << "\"."
+                     <<" I'll tell you the ones I know about." << std::endl
+                     << GenValue::summary(), -1);
+        }
         Value<T>* tv = dynamic_cast<Value<T>*>(gv);
         if(tv == nullptr){
             CRITICAL("Value: \""+gv->get_name() + "\" has improper type.",-1);
         }
         return tv;
+    }
+
+    template<typename T>
+    bool check_exists(const std::string name){
+        GenValue* gv = GenValue::get_value(name);
+        Value<T>* tv = dynamic_cast<Value<T>*>(gv);
+        return tv != nullptr;
     }
 
     ObsFilter* lookup_obs_filter(const std::string& name){
@@ -55,161 +67,250 @@ namespace fv{
         return f;
     }
 
+    template <typename T>
+    decltype(auto)
+    wrapper_vector(Value<int>* size, Value<T*>* data, const std::string& alias=""){
+        typedef std::vector<T> type;
+        const std::string& name = WrapperVector<T>::fmt_name(size, data);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new WrapperVector<T>(size, data, alias);
+    }
+
     template <typename... ArgTypes>
-    Value<std::vector<std::tuple<ArgTypes...>>>*
+    decltype(auto)
     zip(Value<std::vector<ArgTypes>>*... args, const std::string& alias=""){
-        return new Zip<ArgTypes...>(args..., alias);
+        typedef std::vector<std::tuple<ArgTypes...>> type;
+        std::string& name = Zip<ArgTypes...>::fmt_name(args...);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Zip<ArgTypes...>(args..., alias);
     }
 
     template <typename Ret, typename... ArgTypes>
-    Value<std::vector<Ret>>*
-    map(Function<Ret(ArgTypes...)>& fn,
-        Value<std::vector<std::tuple<ArgTypes...>>>* arg, const std::string& alias=""){
-        return new Map<Ret(ArgTypes...)>(fn, arg, alias);
+    decltype(auto)
+    map(Function<Ret(ArgTypes...)>& fn, Value<std::vector<std::tuple<ArgTypes...>>>* arg, const std::string& alias=""){
+        typedef std::vector<Ret> type;
+        const std::string& name = Map<Ret(ArgTypes...)>::fmt_name(fn, arg);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Map<Ret(ArgTypes...)>(fn, arg, alias);
     }
 
     template <typename... ArgTypes>
-    Value<std::tuple<ArgTypes...>>*
+    decltype(auto)
     tuple(Value<ArgTypes>*... args){
-        return new Tuple<ArgTypes...>(args..., "");
+        typedef std::tuple<ArgTypes...> type;
+        const std::string& name = Tuple<ArgTypes...>::fmt_name(args...);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Tuple<ArgTypes...>(args..., "");
     }
 
     template <size_t N, typename... ArgTypes>
-    Value<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>*
+    decltype(auto)
     detup(Value<std::tuple<ArgTypes...>>* tup, const std::string& alias=""){
-        return new DeTup<N, ArgTypes...>(tup, alias);
+        typedef typename std::tuple_element<N, std::tuple<ArgTypes...>>::type type;
+        const std::string& name = DeTup<N, ArgTypes...>::fmt_name(tup);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new DeTup<N, ArgTypes...>(tup, alias);
     }
 
     template <size_t N, typename... ArgTypes>
-    Value<std::vector<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type>>*
+    decltype(auto)
     detup_vec(Value<std::vector<std::tuple<ArgTypes...>>>* tup, const std::string& alias=""){
-        return new DeTupVector<N, ArgTypes...>(tup, alias);
+        typedef std::vector<typename std::tuple_element<N, std::tuple<ArgTypes...>>::type> type;
+        const std::string& name = DeTupVector<N, ArgTypes...>::fmt_name(tup);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new DeTupVector<N, ArgTypes...>(tup, alias);
     }
 
     template <typename Ret, typename... ArgTypes>
-    Value<Ret>*
-    apply(Function<Ret(ArgTypes...)>& fn,
-          Value<std::tuple<ArgTypes...>>* arg, const std::string& alias=""){
-        return new Apply<Ret(ArgTypes...)>(fn, arg, alias);
+    decltype(auto)
+    apply(Function<Ret(ArgTypes...)>& fn, Value<std::tuple<ArgTypes...>>* arg, const std::string& alias=""){
+        typedef Ret type;
+        const std::string& name = Apply<Ret(ArgTypes...)>::fmt_name(fn, arg);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Apply<Ret(ArgTypes...)>(fn, arg, alias);
     }
 
     template <typename T1, typename T2>
-    Value<std::pair<T1,T2>>*
+    decltype(auto)
     pair(Value<T1>* val1, Value<T2>* val2, const std::string& alias=""){
-        return new Pair<T1,T2>(val1, val2, alias);
+        typedef std::pair<T1,T2> type;
+        const std::string& name = Pair<T1,T2>::fmt_name(val1, val2);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Pair<T1,T2>(val1, val2, alias);
     }
 
     template <typename T1, typename T2>
-    Value<std::pair<T1,T2>>*
+    decltype(auto)
     pair(const std::string& name1, const std::string& name2, const std::string& alias=""){
         return pair<T1,T2>(lookup<T1>(name1), lookup<T2>(name2), alias);
     }
 
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     max(Value<std::vector<T>>* v, const std::string& alias=""){
-        return new Max<T>(v, alias);
+        typedef T type;
+        const std::string& name = Max<T>::fmt_name(v);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Max<T>(v, alias);
     }
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     max(const std::string& v_name, const std::string& alias=""){
         return max(lookup<std::vector<T>>(v_name), alias);
     }
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     min(Value<std::vector<T>>* v, const std::string& alias=""){
-        return new Min<T>(v, alias);
+        typedef T type;
+        const std::string& name = Min<T>::fmt_name(v);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Min<T>(v, alias);
     }
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     min(const std::string& v_name, const std::string& alias=""){
         return min(lookup<std::vector<T>>(v_name), alias);
     }
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     range(Value<std::vector<T>>* v, const std::string& alias=""){
-        return new Range<T>(v, alias);
+        typedef T type;
+        const std::string& name = Range<T>::fmt_name(v);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Range<T>(v, alias);
     }
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     range(const std::string& v_name, const std::string& alias=""){
         return range(lookup<std::vector<T>>(v_name), alias);
     }
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     mean(Value<std::vector<T>>* v, const std::string& alias=""){
-        return new Mean<T>(v, alias);
+        typedef T type;
+        const std::string& name = Mean<T>::fmt_name(v);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Mean<T>(v, alias);
     }
 
     template <typename T>
-    Value<T>*
+    decltype(auto)
     mean(const std::string& v_name, const std::string& alias=""){
         return mean(lookup<std::vector<T>>(v_name), alias);
     }
 
     template <typename T>
-    Value<int>*
+    decltype(auto)
     count(Function<bool(T)>& selector, Value<std::vector<T>>* v, const std::string& alias=""){
-        return new Count<T>(selector, v, alias);
+        typedef int type;
+        const std::string& name = Count<T>::fmt_name(selector, v);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Count<T>(selector, v, alias);
     }
 
     template <typename T>
-    Value<int>*
+    decltype(auto)
     count(Function<bool(T)>& selector, const std::string& v_name, const std::string& alias=""){
         return count<T>(selector, lookup<std::vector<T>>(v_name), alias);
     }
 
     template <typename FST, typename SND>
-    Value<std::vector<std::tuple<FST,SND>>>*
+    decltype(auto)
     cart_product(Value<std::vector<FST>>* val1, Value<std::vector<SND>>* val2, const std::string& alias=""){
-        return new CartProduct<FST, SND>(val1, val2, alias);
+        typedef std::vector<std::tuple<FST,SND>> type;
+        const std::string& name = CartProduct<FST, SND>::fmt_name(val1, val2);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new CartProduct<FST, SND>(val1, val2, alias);
     }
 
     template <typename FST, typename SND>
-    Value<std::vector<std::tuple<FST,SND>>>*
+    decltype(auto)
     cart_product(const std::string& val1_name, const std::string& val2_name, const std::string& alias=""){
         return cart_product<FST,SND>(lookup<std::vector<FST>>(val1_name), lookup<std::vector<SND>>(val2_name), alias);
     }
 
     template <typename T, int Size>
-    Value<std::vector<typename HomoTuple<T,Size>::type>>*
+    decltype(auto)
     combinations(Value<std::vector<T>>* val, const std::string& alias=""){
-        return new Combinations<T, Size>(val, alias);
+        typedef std::vector<typename HomoTuple<T,Size>::type> type;
+        const std::string& name = Combinations<T, Size>::fmt_name(val);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Combinations<T, Size>(val, alias);
     }
 
     template <typename T, int Size>
-    Value<std::vector<typename HomoTuple<T,Size>::type>>*
+    decltype(auto)
     combinations(const std::string& val_name, const std::string alias = ""){
         return combinations<T, Size>(lookup<std::vector<T>>(val_name), alias);
     }
 
     template <typename T>
-    Value<std::vector<T>>*
+    decltype(auto)
     filter(Function<bool(T)>& filter, Value<std::vector<T>>* val, const std::string alias=""){
-        return new Filter<T>(filter, val, alias);
+        typedef std::vector<T> type;
+        const std::string& name = Filter<T>::fmt_name(filter, val);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Filter<T>(filter, val, alias);
     }
 
     template <typename T>
-    Value<std::vector<T>>*
+    decltype(auto)
     filter(Function<bool(T)>& filter_func, const std::string& val_name, const std::string alias=""){
         return filter<T>(filter_func, lookup<std::vector<T>>(val_name), alias);
     }
 
     template <typename... ArgTypes>
-    Value<std::vector<std::tuple<ArgTypes...>>>*
+    decltype(auto)
     tup_filter(Function<bool(ArgTypes...)>& filter, Value<std::vector<std::tuple<ArgTypes...>>>* val, const std::string alias=""){
-        return new TupFilter<ArgTypes...>(filter, val, alias);
+        typedef std::vector<std::tuple<ArgTypes...>> type;
+        const std::string& name = TupFilter<ArgTypes...>::fmt_name(filter, val);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new TupFilter<ArgTypes...>(filter, val, alias);
     }
 
     template <typename... ArgTypes>
-    Value<std::vector<std::tuple<ArgTypes...>>>*
+    decltype(auto)
     tup_filter(Function<bool(ArgTypes...)>& filter, const std::string& val_name, const std::string alias=""){
         return tup_filter<ArgTypes...>(filter, lookup<std::vector<std::tuple<ArgTypes...>>>(val_name), alias);
     }

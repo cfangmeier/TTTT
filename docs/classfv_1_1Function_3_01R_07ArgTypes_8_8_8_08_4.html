@@ -153,7 +153,7 @@ static bool&#160;</td><td class="memItemRight" valign="bottom"><b>in_register_fu
 class fv::Function&lt; R(ArgTypes...)&gt;</h3>
 
 <p>In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the Function class should be used. </p>
-<p>It is simply a wrapper around a std::function that also has a name. This name is used when generating the name of values that use the function. A function name is automatically prepended with "func::" to explicitly state that the value is the result of a computation encoded within the function object, and not from some other <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> object. Unfortunately, it is up to the user to find where that function is defined in the source code to inspect what it is doing. But hopefully this isn't too onerous by just using grep. </p>
+<p>It is simply a wrapper around a std::function that also has a name. This name is used when generating the name of values that use the function. A function name is automatically prepended with "func::" to explicitly state that the value is the result of a computation encoded within the function object, and not from some other <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> object. Unfortunately, it is up to the user to find where that function is defined in the source code to inspect what it is doing. But hopefully this isn't too onerous by just using grep. </p>
 </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>/home/caleb/Sources/TTTT/filval/<a class="el" href="value_8hpp_source.html">value.hpp</a></li>
 </ul>

@@ -65,6 +65,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classfv_1_1Zip-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -122,14 +123,17 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (c
 void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
 <tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a10112cad0f078d296c7e6fe37baf3990"><td class="memItemLeft" align="right" valign="top"><a id="a10112cad0f078d296c7e6fe37baf3990"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>fmt_name</b> (<a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; ArgTypes &gt;&gt; *... args)</td></tr>
+<tr class="separator:a10112cad0f078d296c7e6fe37baf3990"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:abecba2b15aa8dccf72c0dff1f2304c8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Zip.html#abecba2b15aa8dccf72c0dff1f2304c8b">update_value</a> ()</td></tr>
 <tr class="memdesc:abecba2b15aa8dccf72c0dff1f2304c8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Updates the internal value.  <a href="#abecba2b15aa8dccf72c0dff1f2304c8b">More...</a><br /></td></tr>
 <tr class="separator:abecba2b15aa8dccf72c0dff1f2304c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0a145c679a32d0daddc727cbae66ed3"><td class="memItemLeft" align="right" valign="top"><a id="af0a145c679a32d0daddc727cbae66ed3"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>_get_name</b> ()</td></tr>
-<tr class="separator:af0a145c679a32d0daddc727cbae66ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -147,7 +151,7 @@ std::function&lt; std::string(std::vector&lt; std::tuple&lt; ArgTypes... &gt; &g
 class fv::Zip&lt; ArgTypes &gt;</h3>
 
 <p>Zips a series of vectors together. </p>
-<p>Can be combined with Map to yield a <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> whose elements are individually a function of the corresponding elements of the vectors that were zipped together. For those familiar with python, it accompilishes the same thing as </p><div class="fragment"><div class="line">xs = [1,2,3,4]</div><div class="line">ys = [10,20,30,40]</div><div class="line">print(list(map(<span class="keyword">lambda</span> t:t[0]+t[1],zip(xs,ys))))</div></div><!-- fragment --><p> which outputs </p><div class="fragment"><div class="line">[11, 22, 33, 44]</div></div><!-- fragment --> </div><h2 class="groupheader">Member Function Documentation</h2>
+<p>Can be combined with Map to yield a <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> whose elements are individually a function of the corresponding elements of the vectors that were zipped together. For those familiar with python, it accompilishes the same thing as </p><div class="fragment"><div class="line">xs = [1,2,3,4]</div><div class="line">ys = [10,20,30,40]</div><div class="line">print(list(map(<span class="keyword">lambda</span> t:t[0]+t[1],zip(xs,ys))))</div></div><!-- fragment --><p> which outputs </p><div class="fragment"><div class="line">[11, 22, 33, 44]</div></div><!-- fragment --> </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="abecba2b15aa8dccf72c0dff1f2304c8b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abecba2b15aa8dccf72c0dff1f2304c8b">&#9670;&nbsp;</a></span>update_value()</h2>
 
@@ -174,7 +178,7 @@ template&lt;typename... ArgTypes&gt; </div>
 </div><div class="memdoc">
 
 <p>Updates the internal value. </p>
-<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A generic value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
+<p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; std::vector&lt; std::tuple&lt; ArgTypes... &gt; &gt; &gt;</a>.</p>
 
