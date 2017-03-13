@@ -29,6 +29,14 @@
  * SOFTWARE.
  *
  * @section DESCRIPTION
+ * This is the main api for FilVal. Users should try to avoid instantiating
+ * Value objects directly, but rather use these functions. There are multiple
+ * reasons for this. First of all, these functions do the extra work of making
+ * sure that an identical Value doesn't already exist. If one does, it returns
+ * the old Value object rather than creating a new one. The second reason is
+ * that C++ allows type deduction for functions so one can often leave out the
+ * type definitions to produce shorter, more readable, code. This cannot be
+ * done when creating templated objects directly.
  */
 #ifndef API_HPP
 #define API_HPP
@@ -39,28 +47,23 @@ namespace fv{
 
     template<typename T>
     Value<T>* lookup(const std::string& name){
-        GenValue* gv = GenValue::get_value(name);
-        if (gv == nullptr){
+        Value<T>* tv = GenValue::get_value<T>(name);
+        if (tv == nullptr){
             CRITICAL("Could not find alias or value \"" << name << "\"."
                      <<" I'll tell you the ones I know about." << std::endl
                      << GenValue::summary(), -1);
-        }
-        Value<T>* tv = dynamic_cast<Value<T>*>(gv);
-        if(tv == nullptr){
-            CRITICAL("Value: \""+gv->get_name() + "\" has improper type.",-1);
         }
         return tv;
     }
 
     template<typename T>
     bool check_exists(const std::string name){
-        GenValue* gv = GenValue::get_value(name);
-        Value<T>* tv = dynamic_cast<Value<T>*>(gv);
+        Value<T>* tv = GenValue::get_value<T>(name);
         return tv != nullptr;
     }
 
     ObsFilter* lookup_obs_filter(const std::string& name){
-        ObsFilter* f =  dynamic_cast<ObsFilter*>(GenValue::get_value(name));
+        ObsFilter* f =  dynamic_cast<ObsFilter*>(GenValue::get_value<bool>(name));
         if(f == nullptr){
             CRITICAL("ObsFilter: "+f->get_name() + "has improper type.",-1);
         }

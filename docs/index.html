@@ -67,6 +67,7 @@ $(function() {
 <p>To run this analysis, first aquire relevant MC files for signal(TTTT), and main backgrounds(TTW, TTZ, TT). These should be in the "Minitree" format. Then checkout the <a href="https://github.com/cfangmeier/TTTT">code</a> from Github. After acquiring the code, follow the standard cmake build process of</p>
 <div class="fragment"><div class="line">cd project_directory</div><div class="line">mkdir build</div><div class="line">cd build</div><div class="line">cmake ..</div><div class="line">make</div></div><!-- fragment --><p>Once the code has been built, there should be a <code>main</code> executable in the build directory. Call it with the syntax</p>
 <div class="fragment"><div class="line">./main -f path_to_minitree_file</div></div><!-- fragment --><p>This will create a results <code>ROOT</code> file containing a set of histograms extracted from the Minitree. Create one of these for each input Minitree. The results are then usually processed in Jupyter Notebooks to produce final plots/measurements. For example, a basic listing of generated histograms can be found <a href="./TTTT_Analysis.html">here</a></p>
+<p>A brief rundown of the general analysis framework, FilVal, can be found <a href="./md__home_caleb_Sources_TTTT_AboutFilVal.html">here</a>.</p>
 <h1>References </h1>
 <ul>
 <li><b>Four Tops for LHC</b> (<a href="https://arxiv.org/abs/1611.05032v1">arXiv</a>) <br />

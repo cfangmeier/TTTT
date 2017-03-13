@@ -41,17 +41,18 @@
  */
 #ifndef value_hpp
 #define value_hpp
+#include <algorithm>
+#include <functional>
+#include <initializer_list>
 #include <iomanip>
 #include <iostream>
-#include <sstream>
-#include <utility>
-#include <algorithm>
-#include <map>
 #include <limits>
-#include <vector>
+#include <map>
+#include <sstream>
 #include <tuple>
-#include <initializer_list>
-#include <functional>
+#include <typeindex>
+#include <utility>
+#include <vector>
 
 #include "log.hpp"
 
@@ -88,11 +89,28 @@ namespace detail {
 }
 
 /**
- * Converts a std::vector to a std::tuple.
+ * Converts a std::array to a std::tuple.
  */
 template<typename T, std::size_t N, typename Indices = std::make_index_sequence<N>>
 decltype(auto) a2t(const std::array<T, N>& a){
     return detail::a2t_impl(a, Indices());
+}
+
+namespace detail {
+    // Convert tuple into a vector
+    template<typename R, typename Tuple, std::size_t... Is>
+    decltype(auto) t2v_impl(const Tuple& t, std::index_sequence<Is...>){
+        /* return std::make_tuple(a[I]...); */
+        return std::vector<R>({std::get<Is>(t)...});
+    }
+}
+
+/**
+ * Converts a std::tuple to a std::vector.
+ */
+template<typename R, typename... ArgTypes>
+std::vector<R> t2v(const std::tuple<ArgTypes...>& t){
+    return detail::t2v_impl<R, std::tuple<ArgTypes...>>(t, std::index_sequence_for<ArgTypes...>{});
 }
 
 namespace detail {
@@ -102,36 +120,14 @@ namespace detail {
     }
 }
 
+/**
+ * Call a function f with the elements of the tuple t as arguments
+ */
 template <class F, class Tuple>
 constexpr decltype(auto) call(F &&f, Tuple &&t){
     return detail::call_impl(
         std::forward<F>(f), std::forward<Tuple>(t),
         std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>{});
-}
-
-namespace detail{
-    template <typename T, int N, int I>
-    struct t2s_impl{
-        public:
-            static std::string cvt(typename HomoTuple<T,N>::type& tup, std::function<std::string(T)>& f){
-                std::stringstream ss;
-                ss << f(std::get<N-I>(tup)) << ", " << t2s_impl<T, N, I+1>::cvt(tup, f);
-                return ss.str();
-            }
-    };
-
-    template <typename T, int N>
-    struct t2s_impl<T, N, 0>{
-        public:
-            static std::string cvt(typename HomoTuple<T,N>::type&, std::function<std::string(T)>&){
-                return "";
-            }
-    };
-}
-
-template <typename T, int N>
-std::string t2s(typename HomoTuple<T,N>::type& tup, std::function<std::string(T)>& f){
-    return detail::t2s_impl<T, N, N>(tup, f);
 }
 
 template<typename> class Function; // undefined
@@ -265,6 +261,8 @@ class Function<R(ArgTypes...)> : public GenFunction {
 
 #define FUNC(f) f, #f
 
+template <typename T>
+class Value;
 /**
  * A type-agnostic value.
  * It is necessary to create a type-agnostic parent class to Value so that
@@ -302,7 +300,7 @@ class GenValue{
          * creation of objects as well as avoiding the uneccesary passing of
          * pointers.
          */
-        inline static std::map<const std::string, GenValue*> values;
+        inline static std::map<std::pair<const std::type_index, const std::string>, GenValue*> values;
 
         /**
          * Composite value names are typically nested. This makes complex
@@ -311,30 +309,26 @@ class GenValue{
          * value is requested by name, an alias with that value takes precidence
          * over a name with that value.
          */
-        inline static std::map<const std::string, GenValue*> aliases;
+        inline static std::map<std::pair<const std::type_index, const std::string>, GenValue*> aliases;
 
         bool logging_enabled;
 
     public:
-        GenValue(const std::string& name, const std::string& alias)
-          :name(name),
-           value_valid(false),
-           logging_enabled(false){
-            INFO("Registered value: \"" << name << "\" with alias: \"" << alias << "\"");
-            values[name] = this;
+        GenValue(const std::type_index&& ti, const std::string& name, const std::string& alias)
+          :name(name), value_valid(false), logging_enabled(false){
             if (alias != "")
-                GenValue::alias(alias, this);
+                INFO("Registered value: \"" << name << "\" with alias: \"" << alias << "\"");
+            else
+                INFO("Registered value: \"" << name);
+            values[std::make_pair(ti,name)] = this;
+            if (alias != "")
+                GenValue::alias(ti, alias, this);
         }
 
         const std::string& get_name(){
             return name;
         }
 
-        void set_name(const std::string& new_name){
-            values[name] = nullptr;
-            name = new_name;
-            values[name] = this;
-        }
 
         /**
          * If logging is enabled for this value, this function should be
@@ -352,45 +346,53 @@ class GenValue{
             }
         }
 
-        static GenValue* get_value(const std::string& name){
-            if (aliases[name] != nullptr)
-                return aliases[name];
+        template<typename T>
+        static Value<T>* get_value(const std::string& name){
+            const std::type_index& ti = typeid(T);
+            auto lookup_id = std::make_pair(ti,name);
+            if (aliases[lookup_id] != nullptr)
+                return (Value<T>*)aliases[lookup_id];
             else
-                return values[name];
+                return (Value<T>*)values[lookup_id];
         }
 
-        static void alias(const std::string& name, GenValue* value){
-            if (aliases[name] != nullptr){
+
+        static void alias(const std::type_index& ti, const std::string& name, GenValue* value){
+            auto lookup_id = std::make_pair(ti,name);
+            if (aliases[lookup_id] != nullptr){
                 WARNING("WARNING: alias \"" << name << "\" overrides previous entry.");
             }
-            aliases[name] = value;
+            aliases[lookup_id] = value;
         }
 
-        static GenValue* alias(const std::string& name){
-            if (values[name] != nullptr){
-                WARNING("Alias \"" << name << "\" does not exist.");
-            }
-            return aliases[name];
+        template<typename T>
+        static void alias(const std::string& name, Value<T>* value){
+            alias(typeid(T), name, value);
         }
 
         static std::string summary(){
             std::stringstream ss;
             ss << "The following values have been created:" << std::endl;
-            for (auto value : values){
-                if (value.second == nullptr) continue;
-                ss << "\tVALUE::\"" << value.first << "\" at address " << value.second << std::endl;
+            for (auto item : values){
+                auto& key = item.first;
+                auto& value = item.second;
+                if (value == nullptr) continue;
+                ss << "\tVALUE::\"" << key.second << "\" at address " << value << std::endl;
             }
             ss << "And these aliases:" << std::endl;
-            for (auto alias : aliases){
+            for (auto item : aliases){
+                auto& key = item.first;
+                auto& value = item.second;
                 std::string orig("VOID");
-                if (alias.second == nullptr) continue;
-                for (auto value : values){
-                    if (alias.second == value.second){
-                        orig = value.second->get_name();
+                if (value == nullptr) continue;
+                for (auto v_item : values){
+                    auto& v_value = v_item.second;
+                    if (v_value == value){
+                        orig = v_value->get_name();
                         break;
                     }
                 }
-                ss << "\tALIAS::\"" << alias.first << "\" referring to \"" << orig << "\"" << std::endl;
+                ss << "\tALIAS::\"" << key.second << "\" referring to \"" << orig << "\"" << std::endl;
             }
             return ss.str();
         }
@@ -419,7 +421,7 @@ class Value : public GenValue{
     public:
         Value(const std::string& name, const std::string& alias="")
           :value_to_string([](T){return "";}),
-           GenValue(name, alias){ }
+           GenValue(typeid(T), name, alias){ }
         /** Calculate, if necessary, and return the value held by this object.
          */
         virtual T& get_value() = 0;

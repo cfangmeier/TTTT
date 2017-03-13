@@ -73,5 +73,18 @@ SET( CLINGDICTFILE ${CMAKE_CURRENT_BINARY_DIR}/clingdict.cpp )
 ROOT_GENERATE_DICTIONARY( "" ${CMAKE_CURRENT_SOURCE_DIR}/filval_root/LinkDef.hpp ${CLINGDICTFILE} "" )
 ADD_LIBRARY( filval SHARED ${CLINGDICTFILE} )
 
+
 ADD_EXECUTABLE(main ${CMAKE_CURRENT_SOURCE_DIR}/analysis/TTTT_Analysis.cpp)
 TARGET_LINK_LIBRARIES( main filval ${ROOT_LIBRARIES} )
+
+ADD_CUSTOM_TARGET(examples
+    COMMENT "Building Examples"
+)
+FILE(GLOB ExampleSources ${CMAKE_CURRENT_SOURCE_DIR}/filval/examples/example*.cpp)
+FOREACH(ex_full_name IN LISTS ExampleSources)
+    GET_FILENAME_COMPONENT(ex_name ${ex_full_name} NAME_WE)
+    ADD_EXECUTABLE(${ex_name} EXCLUDE_FROM_ALL ${ex_full_name})
+    ADD_DEPENDENCIES(examples ${ex_name})
+    TARGET_LINK_LIBRARIES(${ex_name} filval ${ROOT_LIBRARIES} )
+ENDFOREACH(ex_full_name)
+

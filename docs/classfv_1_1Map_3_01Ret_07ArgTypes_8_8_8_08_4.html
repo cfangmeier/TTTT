@@ -170,6 +170,8 @@ class fv::Map&lt; Ret(ArgTypes...)&gt;</h3>
 
 <p>Maps a function over an input vector. </p>
 <p>The input vector must be a vector of tuples, where the the elements of the tuple match the arguments of the function. For example if the function takes two floats as arguments, the tuple should contain two floats. The <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> object required by Map will typically be created as a <a class="el" href="classfv_1_1Zip.html" title="Zips a series of vectors together. ">Zip</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="value_8hpp_source.html#l00698">698</a> of file <a class="el" href="value_8hpp_source.html">value.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="acd85576e1e4eb0eb4ef0d4947299478c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd85576e1e4eb0eb4ef0d4947299478c">&#9670;&nbsp;</a></span>update_value()</h2>
@@ -200,12 +202,15 @@ template&lt;typename Ret , typename... ArgTypes&gt; </div>
 <p>This function should be overridden by any child class to do the actual work of updating value based on whatever rules the class chooses. Normally, this consists of geting the values from some associated <a class="el" href="classfv_1_1Value.html" title="A templated value. ">Value</a> objects, doing some calculation on them, and storing the result in value. </p>
 
 <p>Implements <a class="el" href="classfv_1_1DerivedValue.html#ae59e80a98eb74b95d8961bfe12ee5ec2">fv::DerivedValue&lt; std::vector&lt; Ret &gt; &gt;</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="value_8hpp_source.html#l00704">704</a> of file <a class="el" href="value_8hpp_source.html">value.hpp</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4_acd85576e1e4eb0eb4ef0d4947299478c_cgraph.png" border="0" usemap="#classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4_acd85576e1e4eb0eb4ef0d4947299478c_cgraph" alt=""/></div>
 <map name="classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4_acd85576e1e4eb0eb4ef0d4947299478c_cgraph" id="classfv_1_1Map_3_01Ret_07ArgTypes_8_8_8_08_4_acd85576e1e4eb0eb4ef0d4947299478c_cgraph">
-<area shape="rect" id="node2" href="classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="240,13,391,39"/>
+<area shape="rect" id="node2" href="classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="240,5,391,32"/>
+<area shape="rect" id="node3" href="namespacefv.html#a9a4442455b76c1cbe8951b593f06309c" title="Call a function f with the elements of the tuple t as arguments. " alt="" coords="283,56,348,83"/>
 </map>
 </div>
 

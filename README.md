@@ -30,8 +30,7 @@ then usually processed in Jupyter Notebooks to produce final
 plots/measurements. For example, a basic listing of generated histograms can be
 found [here](./TTTT_Analysis.html)
 
-
-
+A brief rundown of the general analysis framework, FilVal, can be found [here](./md__home_caleb_Sources_TTTT_AboutFilVal.html).
 
 References
 ==========

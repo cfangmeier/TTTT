@@ -1,14 +1,17 @@
 <map id="/home/caleb/Sources/TTTT/filval/value.hpp" name="/home/caleb/Sources/TTTT/filval/value.hpp">
 <area shape="rect" id="node2" href="$api_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/api.hpp" alt="" coords="554,184,711,225"/>
 <area shape="rect" id="node3" href="$filval_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/filval.hpp" alt="" coords="197,370,356,411"/>
-<area shape="rect" id="node8" href="$container_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/container.hpp" alt="" coords="265,184,451,225"/>
-<area shape="rect" id="node9" href="$dataset_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/dataset.hpp" alt="" coords="127,273,301,315"/>
-<area shape="rect" id="node11" href="$filter_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/filter.hpp" alt="" coords="47,95,205,136"/>
-<area shape="rect" id="node12" href="$root_2value_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/value.hpp" alt="" coords="802,184,997,225"/>
-<area shape="rect" id="node6" href="$root_2api_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/api.hpp" alt="" coords="670,273,849,315"/>
-<area shape="rect" id="node4" href="$MiniTreeDataSet_8hpp.html" title="/home/caleb/Sources\l/TTTT/analysis/MiniTreeData\lSet.hpp" alt="" coords="314,467,519,523"/>
-<area shape="rect" id="node5" href="$TTTT__Analysis_8cpp.html" title="/home/caleb/Sources\l/TTTT/analysis/TTTT\l_Analysis.cpp" alt="" coords="338,571,495,627"/>
-<area shape="rect" id="node7" href="$filval__root_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filval\l_root.hpp" alt="" coords="475,363,638,419"/>
-<area shape="rect" id="node10" href="$root_2container_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/container.hpp" alt="" coords="377,273,595,315"/>
-<area shape="rect" id="node13" href="$root_2filter_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filter.hpp" alt="" coords="873,273,1061,315"/>
+<area shape="rect" id="node11" href="$container_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/container.hpp" alt="" coords="265,184,451,225"/>
+<area shape="rect" id="node12" href="$dataset_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/dataset.hpp" alt="" coords="127,273,301,315"/>
+<area shape="rect" id="node14" href="$filter_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/filter.hpp" alt="" coords="47,95,205,136"/>
+<area shape="rect" id="node15" href="$root_2value_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/value.hpp" alt="" coords="802,184,997,225"/>
+<area shape="rect" id="node9" href="$root_2api_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/api.hpp" alt="" coords="670,273,849,315"/>
+<area shape="rect" id="node4" href="$example1_8cpp.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example1.cpp" alt="" coords="51,467,214,523"/>
+<area shape="rect" id="node5" href="$example2_8cpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example2.cpp" alt="" coords="170,571,333,627"/>
+<area shape="rect" id="node6" href="$example3_8cpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example3.cpp" alt="" coords="357,571,519,627"/>
+<area shape="rect" id="node7" href="$MiniTreeDataSet_8hpp.html" title="/home/caleb/Sources\l/TTTT/analysis/MiniTreeData\lSet.hpp" alt="" coords="339,467,545,523"/>
+<area shape="rect" id="node8" href="$TTTT__Analysis_8cpp.html" title="/home/caleb/Sources\l/TTTT/analysis/TTTT\l_Analysis.cpp" alt="" coords="543,571,701,627"/>
+<area shape="rect" id="node10" href="$filval__root_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filval\l_root.hpp" alt="" coords="551,363,714,419"/>
+<area shape="rect" id="node13" href="$root_2container_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/container.hpp" alt="" coords="377,273,595,315"/>
+<area shape="rect" id="node16" href="$root_2filter_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filter.hpp" alt="" coords="873,273,1061,315"/>
 </map>

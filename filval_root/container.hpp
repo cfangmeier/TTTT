@@ -11,6 +11,9 @@
 #include "TH1.h"
 #include "TH2.h"
 
+#include "TMVA/Factory.h"
+#include "TMVA/DataLoader.h"
+
 #include "filval/container.hpp"
 
 namespace fv::root::util{
@@ -297,6 +300,37 @@ class CounterMany : public _Counter<std::vector<V>,V>{
         void _fill(){
             for(V& val : this->value->get_value())
                 (*this->container)[val]++;
+        }
+};
+
+// TMVA::DataLoader *dataloader=new TMVA::DataLoader("dataset");
+
+template <typename... ArgTypes>
+class MVA : public Container<TMVA::DataLoader,std::tuple<ArgTypes...>>{
+    private:
+
+        void _fill(){
+            this->container->push_back(this->value->get_value());
+            std::vector<double>& v = t2v<double>(this->value->get_value());
+            this->container->AddSignalTrainingEvent(v, 1);
+            //TODO: Make custom Value type that includes explicit truth info as
+            //well as weights and ablity to specify testing/training dataset.
+        }
+    public:
+        MVA(const std::string& name, Value<std::tuple<ArgTypes...>>* value, const std::vector<std::string>& labels=std::vector<std::string>())
+          :Container<TMVA::DataLoader,std::tuple<ArgTypes...>(name, value){
+            this->container = new DataLoader(name);
+            if (labels.size() != sizeof...(ArgTypes)){
+                CRITICAL("Length of labels vector ("<<labels.size()<<") not equal to number of MVA arguments ("<<sizeof...(ArgTypes)<<")",-1)
+            }
+            for(std::string& label : labels){
+                this->container->AddVariable(label, 'F');
+            }
+        }
+
+        void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+            std::string type_name = "std::vector<"+fv::util::get_type_name(typeid(T))+">";
+            util::save_as_stl(this->get_container(), type_name, this->get_name(), option);
         }
 };
 }

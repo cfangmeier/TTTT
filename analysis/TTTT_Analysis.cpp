@@ -129,10 +129,6 @@ void declare_values(MiniTreeDataSet& mt){
     lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v");
     lorentz_vectors("Jet_pt",     "Jet_eta",     "Jet_phi",     "Jet_mass",     "Jet_4v"    );
 
-    lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v");
-    lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v");
-    lorentz_vectors("Jet_pt",     "Jet_eta",     "Jet_phi",     "Jet_mass",     "Jet_4v"    );
-
     energies("GenPart_4v", "GenPart_energy");
 
 

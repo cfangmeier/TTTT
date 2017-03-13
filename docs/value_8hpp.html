@@ -73,24 +73,25 @@ $(function() {
 <div class="title">value.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iomanip&gt;</code><br />
-<code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;sstream&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;map&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;tuple&gt;</code><br />
-<code>#include &lt;initializer_list&gt;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;initializer_list&gt;</code><br />
+<code>#include &lt;iomanip&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
+<code>#include &lt;sstream&gt;</code><br />
+<code>#include &lt;tuple&gt;</code><br />
+<code>#include &lt;typeindex&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="log_8hpp_source.html">log.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for value.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="value_8hpp__incl.png" border="0" usemap="#_2home_2caleb_2Sources_2TTTT_2filval_2value_8hpp" alt=""/></div>
 <map name="_2home_2caleb_2Sources_2TTTT_2filval_2value_8hpp" id="_2home_2caleb_2Sources_2TTTT_2filval_2value_8hpp">
-<area shape="rect" id="node13" href="log_8hpp.html" title="log.hpp" alt="" coords="206,95,277,121"/>
+<area shape="rect" id="node14" href="log_8hpp.html" title="log.hpp" alt="" coords="562,95,633,121"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -100,16 +101,19 @@ This graph shows which files directly or indirectly include this file:</div>
 <map name="_2home_2caleb_2Sources_2TTTT_2filval_2value_8hppdep" id="_2home_2caleb_2Sources_2TTTT_2filval_2value_8hppdep">
 <area shape="rect" id="node2" href="api_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/api.hpp" alt="" coords="554,184,711,225"/>
 <area shape="rect" id="node3" href="filval_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/filval.hpp" alt="" coords="197,370,356,411"/>
-<area shape="rect" id="node8" href="container_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/container.hpp" alt="" coords="265,184,451,225"/>
-<area shape="rect" id="node9" href="dataset_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/dataset.hpp" alt="" coords="127,273,301,315"/>
-<area shape="rect" id="node11" href="filter_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/filter.hpp" alt="" coords="47,95,205,136"/>
-<area shape="rect" id="node12" href="root_2value_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/value.hpp" alt="" coords="802,184,997,225"/>
-<area shape="rect" id="node6" href="root_2api_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/api.hpp" alt="" coords="670,273,849,315"/>
-<area shape="rect" id="node4" href="MiniTreeDataSet_8hpp.html" title="/home/caleb/Sources\l/TTTT/analysis/MiniTreeData\lSet.hpp" alt="" coords="314,467,519,523"/>
-<area shape="rect" id="node5" href="TTTT__Analysis_8cpp.html" title="/home/caleb/Sources\l/TTTT/analysis/TTTT\l_Analysis.cpp" alt="" coords="338,571,495,627"/>
-<area shape="rect" id="node7" href="filval__root_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filval\l_root.hpp" alt="" coords="475,363,638,419"/>
-<area shape="rect" id="node10" href="root_2container_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/container.hpp" alt="" coords="377,273,595,315"/>
-<area shape="rect" id="node13" href="root_2filter_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filter.hpp" alt="" coords="873,273,1061,315"/>
+<area shape="rect" id="node11" href="container_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/container.hpp" alt="" coords="265,184,451,225"/>
+<area shape="rect" id="node12" href="dataset_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/dataset.hpp" alt="" coords="127,273,301,315"/>
+<area shape="rect" id="node14" href="filter_8hpp.html" title="/home/caleb/Sources\l/TTTT/filval/filter.hpp" alt="" coords="47,95,205,136"/>
+<area shape="rect" id="node15" href="root_2value_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/value.hpp" alt="" coords="802,184,997,225"/>
+<area shape="rect" id="node9" href="root_2api_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/api.hpp" alt="" coords="670,273,849,315"/>
+<area shape="rect" id="node4" href="example1_8cpp.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example1.cpp" alt="" coords="51,467,214,523"/>
+<area shape="rect" id="node5" href="example2_8cpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example2.cpp" alt="" coords="170,571,333,627"/>
+<area shape="rect" id="node6" href="example3_8cpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example3.cpp" alt="" coords="357,571,519,627"/>
+<area shape="rect" id="node7" href="MiniTreeDataSet_8hpp.html" title="/home/caleb/Sources\l/TTTT/analysis/MiniTreeData\lSet.hpp" alt="" coords="339,467,545,523"/>
+<area shape="rect" id="node8" href="TTTT__Analysis_8cpp.html" title="/home/caleb/Sources\l/TTTT/analysis/TTTT\l_Analysis.cpp" alt="" coords="543,571,701,627"/>
+<area shape="rect" id="node10" href="filval__root_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filval\l_root.hpp" alt="" coords="551,363,714,419"/>
+<area shape="rect" id="node13" href="root_2container_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/container.hpp" alt="" coords="377,273,595,315"/>
+<area shape="rect" id="node16" href="root_2filter_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval_root/filter.hpp" alt="" coords="873,273,1061,315"/>
 </map>
 </div>
 </div>
@@ -122,6 +126,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4.html">fv::Function&lt; R(ArgTypes...)&gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">In order to enable proper provenance tracking, and at the same time keep the ability to embed functions into values, the Function class should be used.  <a href="classfv_1_1Function_3_01R_07ArgTypes_8_8_8_08_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Value.html">fv::Value&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A templated value.  <a href="classfv_1_1Value.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classfv_1_1Value.html">fv::Value&lt; T &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A templated value.  <a href="classfv_1_1Value.html#details">More...</a><br /></td></tr>
@@ -235,20 +242,26 @@ template&lt;typename Array , std::size_t... I&gt; </td></tr>
 <tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplParams" colspan="2"><a id="a6f29b37e1d794f52bdb07602096ca21c"></a>
 template&lt;typename T , std::size_t N, typename Indices  = std::make_index_sequence&lt;N&gt;&gt; </td></tr>
 <tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a6f29b37e1d794f52bdb07602096ca21c">fv::a2t</a> (const std::array&lt; T, N &gt; &amp;a)</td></tr>
-<tr class="memdesc:a6f29b37e1d794f52bdb07602096ca21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a std::vector to a std::tuple. <br /></td></tr>
+<tr class="memdesc:a6f29b37e1d794f52bdb07602096ca21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a std::array to a std::tuple. <br /></td></tr>
 <tr class="separator:a6f29b37e1d794f52bdb07602096ca21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20c3a4428b182ed8e1652f76d80af349"><td class="memTemplParams" colspan="2"><a id="a20c3a4428b182ed8e1652f76d80af349"></a>
+template&lt;typename R , typename Tuple , std::size_t... Is&gt; </td></tr>
+<tr class="memitem:a20c3a4428b182ed8e1652f76d80af349"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::detail::t2v_impl</b> (const Tuple &amp;t, std::index_sequence&lt; Is... &gt;)</td></tr>
+<tr class="separator:a20c3a4428b182ed8e1652f76d80af349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b2e09e8c179833ef2963c3d3348c942"><td class="memTemplParams" colspan="2"><a id="a9b2e09e8c179833ef2963c3d3348c942"></a>
+template&lt;typename R , typename... ArgTypes&gt; </td></tr>
+<tr class="memitem:a9b2e09e8c179833ef2963c3d3348c942"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a9b2e09e8c179833ef2963c3d3348c942">fv::t2v</a> (const std::tuple&lt; ArgTypes... &gt; &amp;t)</td></tr>
+<tr class="memdesc:a9b2e09e8c179833ef2963c3d3348c942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a std::tuple to a std::vector. <br /></td></tr>
+<tr class="separator:a9b2e09e8c179833ef2963c3d3348c942"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9e6b31d78187ba1926a90e52d46e6be"><td class="memTemplParams" colspan="2"><a id="ad9e6b31d78187ba1926a90e52d46e6be"></a>
 template&lt;class F , class Tuple , std::size_t... I&gt; </td></tr>
 <tr class="memitem:ad9e6b31d78187ba1926a90e52d46e6be"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::detail::call_impl</b> (F &amp;&amp;f, Tuple &amp;&amp;t, std::index_sequence&lt; I... &gt;)</td></tr>
 <tr class="separator:ad9e6b31d78187ba1926a90e52d46e6be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplParams" colspan="2"><a id="a9a4442455b76c1cbe8951b593f06309c"></a>
 template&lt;class F , class Tuple &gt; </td></tr>
-<tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::call</b> (F &amp;&amp;f, Tuple &amp;&amp;t)</td></tr>
+<tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a9a4442455b76c1cbe8951b593f06309c">fv::call</a> (F &amp;&amp;f, Tuple &amp;&amp;t)</td></tr>
+<tr class="memdesc:a9a4442455b76c1cbe8951b593f06309c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a function f with the elements of the tuple t as arguments. <br /></td></tr>
 <tr class="separator:a9a4442455b76c1cbe8951b593f06309c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memTemplParams" colspan="2"><a id="aa34c0f82d3cde6cfa0c405a03f735fa3"></a>
-template&lt;typename T , int N&gt; </td></tr>
-<tr class="memitem:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><b>fv::t2s</b> (typename HomoTuple&lt; T, N &gt;::type &amp;tup, std::function&lt; std::string(T)&gt; &amp;f)</td></tr>
-<tr class="separator:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12225ad5af727a02b469015810b7f83f"><td class="memItemLeft" align="right" valign="top"><a id="a12225ad5af727a02b469015810b7f83f"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>fv::operator&lt;&lt;</b> (std::ostream &amp;os, GenValue &amp;gv)</td></tr>
 <tr class="separator:a12225ad5af727a02b469015810b7f83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -288,6 +301,8 @@ LICENSE</h1>
 <h1><a class="anchor" id="DESCRIPTION"></a>
 DESCRIPTION</h1>
 <p>This header defines a set of generic classes that wrap up "values". In essence, a Value&lt;T&gt; object is just something that contains a value of type T and can provide it when requested. The usefulness stems from composing values together with calculations. This enables very clear dependency mapping and a way to know clearly how every value was arrived at. This could be used to, for example, automatically generate commentary for plots that explain the exect calculation used to create it. Or easily making a series of plots contrasting different values that have been composed slightly differently. </p>
+
+<p class="definition">Definition in file <a class="el" href="value_8hpp_source.html">value.hpp</a>.</p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

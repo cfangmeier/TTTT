@@ -319,16 +319,18 @@ ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><b>obs_filter</b>
 <tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplParams" colspan="2"><a id="a6f29b37e1d794f52bdb07602096ca21c"></a>
 template&lt;typename T , std::size_t N, typename Indices  = std::make_index_sequence&lt;N&gt;&gt; </td></tr>
 <tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a6f29b37e1d794f52bdb07602096ca21c">a2t</a> (const std::array&lt; T, N &gt; &amp;a)</td></tr>
-<tr class="memdesc:a6f29b37e1d794f52bdb07602096ca21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a std::vector to a std::tuple. <br /></td></tr>
+<tr class="memdesc:a6f29b37e1d794f52bdb07602096ca21c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a std::array to a std::tuple. <br /></td></tr>
 <tr class="separator:a6f29b37e1d794f52bdb07602096ca21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b2e09e8c179833ef2963c3d3348c942"><td class="memTemplParams" colspan="2"><a id="a9b2e09e8c179833ef2963c3d3348c942"></a>
+template&lt;typename R , typename... ArgTypes&gt; </td></tr>
+<tr class="memitem:a9b2e09e8c179833ef2963c3d3348c942"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; R &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a9b2e09e8c179833ef2963c3d3348c942">t2v</a> (const std::tuple&lt; ArgTypes... &gt; &amp;t)</td></tr>
+<tr class="memdesc:a9b2e09e8c179833ef2963c3d3348c942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts a std::tuple to a std::vector. <br /></td></tr>
+<tr class="separator:a9b2e09e8c179833ef2963c3d3348c942"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplParams" colspan="2"><a id="a9a4442455b76c1cbe8951b593f06309c"></a>
 template&lt;class F , class Tuple &gt; </td></tr>
-<tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>call</b> (F &amp;&amp;f, <a class="el" href="classfv_1_1Tuple.html">Tuple</a> &amp;&amp;t)</td></tr>
+<tr class="memitem:a9a4442455b76c1cbe8951b593f06309c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto) constexpr&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a9a4442455b76c1cbe8951b593f06309c">call</a> (F &amp;&amp;f, <a class="el" href="classfv_1_1Tuple.html">Tuple</a> &amp;&amp;t)</td></tr>
+<tr class="memdesc:a9a4442455b76c1cbe8951b593f06309c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a function f with the elements of the tuple t as arguments. <br /></td></tr>
 <tr class="separator:a9a4442455b76c1cbe8951b593f06309c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memTemplParams" colspan="2"><a id="aa34c0f82d3cde6cfa0c405a03f735fa3"></a>
-template&lt;typename T , int N&gt; </td></tr>
-<tr class="memitem:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><b>t2s</b> (typename HomoTuple&lt; T, N &gt;::type &amp;tup, std::function&lt; std::string(T)&gt; &amp;f)</td></tr>
-<tr class="separator:aa34c0f82d3cde6cfa0c405a03f735fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12225ad5af727a02b469015810b7f83f"><td class="memItemLeft" align="right" valign="top"><a id="a12225ad5af727a02b469015810b7f83f"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, GenValue &amp;gv)</td></tr>
 <tr class="separator:a12225ad5af727a02b469015810b7f83f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -350,6 +352,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 
 <p>Enumeration of different options that can be used to save Containers. </p>
 <p>Not all options are allowed for all Containers. </p>
+
+<p class="definition">Definition at line <a class="el" href="container_8hpp_source.html#l00069">69</a> of file <a class="el" href="container_8hpp_source.html">container.hpp</a>.</p>
 
 </div>
 </div>

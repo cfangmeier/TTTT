@@ -1,3 +1,3 @@
 <map id="fv::Apply&lt; Ret(ArgTypes...)&gt;::update_value" name="fv::Apply&lt; Ret(ArgTypes...)&gt;::update_value">
-<area shape="rect" id="node2" href="$namespacefv.html#a182def996bfac5212fd450627a187ae4" title="This calls a function of type F with the contents of the tuple as separate arguments. " alt="" coords="249,13,315,39"/>
+<area shape="rect" id="node2" href="$namespacefv.html#a9a4442455b76c1cbe8951b593f06309c" title="Call a function f with the elements of the tuple t as arguments. " alt="" coords="249,13,315,39"/>
 </map>

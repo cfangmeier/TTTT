@@ -1,3 +1,4 @@
 <map id="fv::TupFilter::update_value" name="fv::TupFilter::update_value">
-<area shape="rect" id="node2" href="$classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="203,13,353,39"/>
+<area shape="rect" id="node2" href="$classfv_1_1Value.html#a4cc70444ceaf5d7651922adf9b7beeff" title="Calculate, if necessary, and return the value held by this object. " alt="" coords="203,5,353,32"/>
+<area shape="rect" id="node3" href="$namespacefv.html#a9a4442455b76c1cbe8951b593f06309c" title="Call a function f with the elements of the tuple t as arguments. " alt="" coords="245,56,311,83"/>
 </map>
