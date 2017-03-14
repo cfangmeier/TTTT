@@ -65,5 +65,34 @@ class Energies : public DerivedValue<std::vector<float>>{
            vectors(vectors) { }
 };
 
+template<typename... DataTypes>
+class MVAData : public DerivedValue<std::tuple<std::tuple<DataTypes...>, bool, bool, double>>{
+    private:
+        Value<std::tuple<DataTypes...>>* data;
+        Value<bool>* is_training;
+        Value<bool>* is_signal;
+        Value<double>* weight;
+
+    public:
+        static std::string fmt_name(Value<std::tuple<DataTypes...>>* data,
+                                    Value<bool>* is_training,
+                                    Value<bool>* is_signal,
+                                    Value<double>* weight){
+            return "mva_data("+data->get_name()+","
+                              +is_training->get_name()+","
+                              +is_signal->get_name()+","
+                              +weight->get_name()+")";
+        }
+
+        MVAData(Value<std::tuple<DataTypes...>>* data,
+                Value<bool>* is_training,
+                Value<bool>* is_signal,
+                Value<double>* weight, const std::string& alias="")
+          :DerivedValue<std::tuple<std::tuple<DataTypes...>, bool, double>>(fmt_name(data, is_training, is_signal, weight), alias),
+           data(data),
+           is_training(is_training),
+           is_signal(is_signal),
+           weight(weight) { }
+};
 }
 #endif // root_value_hpp

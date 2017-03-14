@@ -37,6 +37,7 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <numeric>
 #include <limits>
 
 #include "filval/filval.hpp"
@@ -250,6 +251,18 @@ void declare_values(MiniTreeDataSet& mt){
     fv::pair<int, int>("genEle_count", "recEle_count", "genEle_count_v_recEle_count");
     fv::pair<int, int>("genMu_count",  "recMu_count",  "genMu_count_v_recMu_count");
     fv::pair<int, int>("genLep_count", "recLep_count", "genLep_count_v_recLep_count");
+
+    /* auto& sum = GenFunction::register_function<float(std::vector<float>)>("sum", */
+    /*     FUNC(([](const std::vector<float>& v){ */
+    /*         return std::accumulate(v.begin(), v.end(), 0); */
+    /*     }))); */
+
+    /* auto sum_jet_pt = fv::apply(sum, lookup<std::vector<float>>("Jet_pt")) */
+
+    /* fv::tuple(lookup<float>("nJet"), */
+    /*           lookup<float>("nLepGood"), */
+    /*           lookup<float>("Jet_phi"), */
+    /*           lookup<std::vector<float>>("Jet_mass"), */
 
     obs_filter("trilepton", FUNC(([nLepGood=lookup<int>("nLepGood")]()
         {
