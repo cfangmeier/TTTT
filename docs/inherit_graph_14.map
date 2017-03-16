@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::tuple\l_element\&lt; N, std::tuple\l\&lt; ArgTypes... \&gt; \&gt;::type \&gt;" alt="" coords="5,13,196,69"/>
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::tuple_element\&lt; N, std\l::tuple\&lt; ArgTypes... \&gt;\l \&gt;::type \&gt;" alt="" coords="244,5,421,76"/>
-<area shape="rect" id="node3" href="$classfv_1_1DeTup.html" title="Gets the Nth element from a tuple value. " alt="" coords="469,27,659,54"/>
+<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::tuple\l\&lt; ArgTypes... \&gt; \&gt;" alt="" coords="5,5,160,47"/>
+<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::tuple\&lt; ArgTypes... \&gt; \&gt;" alt="" coords="208,5,387,47"/>
+<area shape="rect" id="node3" href="$classfv_1_1Tuple.html" title="Takes a series of Value objects and bundles them together into a std::tuple object. " alt="" coords="435,13,600,39"/>
 </map>

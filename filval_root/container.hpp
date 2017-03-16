@@ -13,6 +13,7 @@
 
 #include "TMVA/Factory.h"
 #include "TMVA/DataLoader.h"
+#include "TMVA/DataSetInfo.h"
 
 #include "filval/container.hpp"
 
@@ -305,40 +306,41 @@ class CounterMany : public _Counter<std::vector<V>,V>{
 
 
 template <typename... ArgTypes>
-class MVA : public Container<TMVA::DataLoader,MVAData<ArgTypes...>>{
+class MVA : public Container<TMVA::DataLoader,typename MVAData<ArgTypes...>::type>{
     private:
         std::vector<std::pair<std::string,std::string>> methods;
 
+        TCut cut;
+        TString opt;
+
         void _fill(){
             std::tuple<ArgTypes...> t;
-            bool is_training;
-            bool is_signal;
+            typename MVAData<ArgTypes...>::type& event = this->value->get_value();
+            bool is_training, is_signal;
             double weight;
-            std::tie(t, is_training, is_signal, weight) = this->value->get_value();
+            std::tie(is_training, is_signal, weight, t) = event;
             std::vector<double> v = t2v<double>(t);
             if (is_signal){
                 if (is_training){
                     this->container->AddSignalTrainingEvent(v, weight);
                 } else {
-                    this->container->AddSignalTestingEvent(v, weight);
+                    this->container->AddSignalTestEvent(v, weight);
                 }
             } else {
                 if (is_training){
                     this->container->AddBackgroundTrainingEvent(v, weight);
                 } else {
-                    this->container->AddBackgroundTestingEvent(v, weight);
+                    this->container->AddBackgroundTestEvent(v, weight);
                 }
             }
         }
     public:
-        MVA(const std::string& name, Value<std::tuple<ArgTypes...>>* value, const std::vector<std::string>& labels=std::vector<std::string>())
-          :Container<TMVA::DataLoader,std::tuple<ArgTypes...>>(name, value){
+        MVA(const std::string& name, MVAData<ArgTypes...>* value, const std::string& cut = "", const std::string& opt = "")
+          :Container<TMVA::DataLoader,typename MVAData<ArgTypes...>::type>(name, value),
+           cut(cut.c_str()), opt(opt.c_str()) {
             this->container = new TMVA::DataLoader(name);
-            if (labels.size() != sizeof...(ArgTypes)){
-                CRITICAL("Length of labels vector ("<<labels.size()<<") not equal to number of MVA arguments ("<<sizeof...(ArgTypes)<<")",-1);
-            }
-            for(const std::string& label : labels){
-                this->container->AddVariable(label, 'F');
+            for (std::pair<std::string,char>& p : value->get_label_types()){
+                this->container->AddVariable(p.first, p.second);
             }
         }
 
@@ -348,6 +350,8 @@ class MVA : public Container<TMVA::DataLoader,MVAData<ArgTypes...>>{
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             TFile* outputFile = gDirectory->GetFile();
+
+            this->container->PrepareTrainingAndTestTree(cut, opt);
             TMVA::Factory *factory = new TMVA::Factory("TMVAClassification", outputFile,
                                                        "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification");
 

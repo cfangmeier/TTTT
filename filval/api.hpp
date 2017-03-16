@@ -284,6 +284,28 @@ namespace fv{
         return combinations<T, Size>(lookup<std::vector<T>>(val_name), alias);
     }
 
+    template < typename T>
+    decltype(auto)
+    constant(const std::string name, T const_value, const std::string alias=""){
+        typedef T type;
+        const std::string& val_name = ConstantValue<T>::fmt_name(name);
+        if (check_exists<type>(val_name))
+            return lookup<type>(val_name);
+        else
+            return (Value<type>*)new ConstantValue<T>(val_name, const_value, alias);
+    }
+
+    template <typename T>
+    decltype(auto)
+    bound(Function<T()>& f, const std::string alias=""){
+        typedef T type;
+        const std::string& name = BoundValue<T>::fmt_name(f);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new BoundValue<T>(f, alias);
+    }
+
     template <typename T>
     decltype(auto)
     filter(Function<bool(T)>& filter, Value<std::vector<T>>* val, const std::string alias=""){

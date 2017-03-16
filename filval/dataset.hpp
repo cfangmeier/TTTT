@@ -54,6 +54,7 @@ class DataSet{
             INFO(GenFunction::summary());
         }
 
+        Value<int>* current_event_number;
 
     protected:
         ContainerSet containers;
@@ -114,6 +115,18 @@ class DataSet{
                 CRITICAL("Request for container \"" << container_name << "\" failed. Doesn't exist.", -1);
             }
             return c;
+        }
+
+        DataSet(){
+            auto& event_check = GenFunction::register_function<int()>("event_number",
+                FUNC(([ds=this](){
+                    return ds->get_current_event();
+                })));
+            current_event_number = new BoundValue<int>(event_check);
+        }
+
+        Value<int>* get_current_event_number(){
+            return current_event_number;
         }
 };
 }

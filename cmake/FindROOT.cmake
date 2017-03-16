@@ -144,7 +144,7 @@ ELSE(WIN32)
     #  STRING(REGEX MATCHALL "-L([^ ])+"  root_library ${root_flags})
     #  REMOVE_FROM_LIST(root_flags "${root_libs_all}" "${root_library}")
 
-    SET(ROOT_LIBRARIES "${root_flags} -lMinuit -lSpectrum")
+    SET(ROOT_LIBRARIES "${root_flags} -lMinuit -lSpectrum -lTMVA")
 
     # Make variables changeble to the advanced user
     MARK_AS_ADVANCED( ROOT_LIBRARY_DIR ROOT_INCLUDE_DIR ROOT_DEFINITIONS)

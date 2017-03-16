@@ -8,6 +8,7 @@ var searchData=
   ['derivedvalue_3c_20std_3a_3apair_3c_20t_2c_20int_20_3e_20_3e',['DerivedValue&lt; std::pair&lt; T, int &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3apair_3c_20t1_2c_20t2_20_3e_20_3e',['DerivedValue&lt; std::pair&lt; T1, T2 &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3atuple_3c_20argtypes_2e_2e_2e_20_3e_20_3e',['DerivedValue&lt; std::tuple&lt; ArgTypes... &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
+  ['derivedvalue_3c_20std_3a_3atuple_3c_20bool_2c_20bool_2c_20double_2c_20std_3a_3atuple_3c_20datatypes_2e_2e_2e_20_3e_20_3e_20_3e',['DerivedValue&lt; std::tuple&lt; bool, bool, double, std::tuple&lt; DataTypes... &gt; &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3atuple_5felement_3c_20n_2c_20std_3a_3atuple_3c_20argtypes_2e_2e_2e_20_3e_20_3e_3a_3atype_20_3e',['DerivedValue&lt; std::tuple_element&lt; N, std::tuple&lt; ArgTypes... &gt; &gt;::type &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3avector_3c_20float_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; float &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],
   ['derivedvalue_3c_20std_3a_3avector_3c_20homotuple_3c_20t_2c_20size_20_3e_3a_3atype_20_3e_20_3e',['DerivedValue&lt; std::vector&lt; HomoTuple&lt; T, Size &gt;::type &gt; &gt;',['../classfv_1_1DerivedValue.html',1,'fv']]],

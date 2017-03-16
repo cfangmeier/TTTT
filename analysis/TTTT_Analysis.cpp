@@ -400,7 +400,7 @@ void run_analysis(const std::string& input_filename, bool silent){
     fv::util::Log::init_logger(log_filename, fv::util::LogPriority::kLogDebug);
 
     string output_filename = replace_suffix(input_filename, "_result.root");
-    MiniTreeDataSet mt(input_filename, output_filename);
+    MiniTreeDataSet mt(output_filename, input_filename);
 
     enable_branches(mt);
     declare_values(mt);

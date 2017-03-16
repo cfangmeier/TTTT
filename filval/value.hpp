@@ -516,13 +516,7 @@ class DerivedValue : public Value<T>{
         }
 
         T& get_value(){
-            /* if (this->logging_enabled){ */
-            /*     std::cout <<  "Getting value for " << this->get_name() << std::endl; */
-            /* } */
             if (!this->value_valid){
-                /* if (this->logging_enabled){ */
-                /*     std::cout <<  "Updating value for " << this->get_name() << std::endl; */
-                /* } */
                 update_value();
                 this->value_valid = true;
                 this->log();
@@ -1196,9 +1190,14 @@ class BoundValue : public DerivedValue<T>{
         void update_value(){
             this->value = f();
         }
+
     public:
+        static std::string fmt_name(Function<T()> f){
+            return f.get_name()+"(<bound>)";
+        }
+
         BoundValue(Function<T()>& f, const std::string alias="")
-          :DerivedValue<T>(f.get_name()+"(<bound>)", alias),
+          :DerivedValue<T>(fmt_name(f), alias),
            f(f) { }
 };
 
@@ -1227,9 +1226,13 @@ class ConstantValue : public DerivedValue<T>{
         void update_value(){ }
 
     public:
+        static std::string fmt_name(const std::string& name){
+            return "const::"+name;
+        }
         ConstantValue(const std::string& name, T const_value, const std::string alias="")
-            :DerivedValue<T>("const::"+name, alias),
-             Value<T>::value(const_value) { }
+          :DerivedValue<T>(fmt_name(name), alias) {
+            this->value = const_value;
+        }
 };
 }
 #endif // value_hpp

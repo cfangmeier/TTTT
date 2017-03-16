@@ -45,9 +45,9 @@ using namespace fv::root;
 class MiniTreeDataSet : public DataSet,
                         public MiniTree{
     private:
-        std::string input_filename;
+        std::map<std::string,std::string> input_filenames_with_labels;
+        /* std::vector<TFile*> input_files; */
         std::string output_filename;
-        TFile* input_file;
         TFile* output_file;
         long next_entry;
         long nentries;
@@ -65,20 +65,44 @@ class MiniTreeDataSet : public DataSet,
         }
 
     public:
-        MiniTreeDataSet(const std::string& input_filename, const std::string output_filename)
-          :input_filename(input_filename),
+        MiniTreeDataSet(const std::string& output_filename, const std::string input_filename)
+          :DataSet(),
+           input_filenames_with_labels({ {input_filename, "signal"} }),
            output_filename(output_filename),
            next_entry(0) {
-            input_file = TFile::Open(input_filename.c_str());
-            Init((TTree*) input_file->Get("tree"));
-            nentries = fChain->GetEntriesFast();
+            TChain* chain = new TChain("tree");
+            chain->Add(input_filename.c_str());
+            Init(chain);
+            nentries = fChain->GetEntries();
+            output_file = TFile::Open(output_filename.c_str(), "RECREATE");
+            this->fChain->SetBranchStatus("*", false);
+          }
+
+        MiniTreeDataSet(const std::string& output_filename, const std::map<std::string,std::string>& filenames_with_labels)
+          :DataSet(),
+           input_filenames_with_labels(filenames_with_labels),
+           output_filename(output_filename),
+           next_entry(0) {
+            TChain* chain = new TChain("tree");
+            for(auto& p : filenames_with_labels){
+                std::string filename;
+                std::tie(filename, std::ignore) = p;
+                chain->Add(filename.c_str());
+            }
+            Init(chain);
+            nentries = fChain->GetEntries();
             output_file = TFile::Open(output_filename.c_str(), "RECREATE");
             this->fChain->SetBranchStatus("*", false);
           }
 
         ~MiniTreeDataSet(){
-            input_file->Close();
             output_file->Close();
+        }
+
+        const std::string& get_current_event_label() const{
+            TFile* file = fChain->GetFile();
+            std::string filename = file->GetName();
+            return input_filenames_with_labels.at(filename);
         }
 
         template <typename T>
@@ -117,9 +141,7 @@ class MiniTreeDataSet : public DataSet,
 
         void save_all(){
             output_file->cd();
-            for(auto container : containers){
-                container.second->save_as("outfile", SaveOption::ROOT);
-            }
+
             // Save the value names for each container to enable looking up
             // what values are plotted
             std::map<string,string> value_lookup = this->get_container_name_value_map();
@@ -127,6 +149,10 @@ class MiniTreeDataSet : public DataSet,
 
             std::map<string,string> fn_impl_lookup = this->get_function_name_impl_map();
             gDirectory->WriteObjectAny(&fn_impl_lookup, "std::map<std::string,std::string>", "_function_impl_lookup");
+
+            for(auto container : containers){
+                container.second->save_as("outfile", SaveOption::ROOT);
+            }
         }
 };
 #endif // minitreedataset_h
