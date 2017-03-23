@@ -29,10 +29,7 @@
  * SOFTWARE.
  *
  * @section DESCRIPTION
- * Main analysis routine file. This file declares the Histogram/Graph objects
- * that will end up in the final root file. It also declares the values that
- * are used to populate the histogram, as well as how these values are
- * calculated. See the Fil-Val documentation for how the system works.
+ * MVA Creation script. This file demonstrates how to use filval_root's TMVA integration.
  */
 #include <iostream>
 #include <vector>
@@ -56,57 +53,16 @@ using namespace fv;
 using namespace fv::root;
 
 void enable_branches(MiniTreeDataSet& mt){
-
     mt.track_branch<int>("nLepGood");
-    /* mt.track_branch_vec< int >("nLepGood", "LepGood_pdgId"); */
-    /* mt.track_branch_vec<float>("nLepGood", "LepGood_pt"); */
-    /* mt.track_branch_vec<float>("nLepGood", "LepGood_eta"); */
-    /* mt.track_branch_vec<float>("nLepGood", "LepGood_phi"); */
-    /* mt.track_branch_vec<float>("nLepGood", "LepGood_mass"); */
-    /* mt.track_branch_vec< int >("nLepGood", "LepGood_charge"); */
-    /* mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchId"); */
-    /* mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchPdgId"); */
-    /* mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchAny"); */
-    /* mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchTau"); */
-    /* mt.track_branch_vec< int >("nLepGood", "LepGood_mcPt"); */
-
     mt.track_branch<int>("nJet");
-    /* mt.track_branch_vec<float>("nJet", "Jet_pt"); */
-    /* mt.track_branch_vec<float>("nJet", "Jet_eta"); */
-    /* mt.track_branch_vec<float>("nJet", "Jet_phi"); */
-    /* mt.track_branch_vec<float>("nJet", "Jet_mass"); */
-    /* mt.track_branch_vec<float>("nJet", "Jet_btagCMVA"); */
-    /* mt.track_branch_vec< int >("nJet", "Jet_mcMatchFlav"); */
-    /* mt.track_branch_vec< int >("nJet", "Jet_mcMatchId"); */
-    /* mt.track_branch_vec< int >("nJet", "Jet_mcFlavour"); */
-
-
     mt.track_branch<int>("nGenPart");
-    /* mt.track_branch_vec< int >("nGenPart", "GenPart_pdgId"); */
-    /* mt.track_branch_vec< int >("nGenPart", "GenPart_motherIndex"); */
-    /* mt.track_branch_vec< int >("nGenPart", "GenPart_motherId"); */
-    /* mt.track_branch_vec<float>("nGenPart", "GenPart_pt"); */
-    /* mt.track_branch_vec<float>("nGenPart", "GenPart_eta"); */
-    /* mt.track_branch_vec<float>("nGenPart", "GenPart_phi"); */
-    /* mt.track_branch_vec<float>("nGenPart", "GenPart_mass"); */
-    /* mt.track_branch_vec< int >("nGenPart", "GenPart_status"); */
 
     mt.track_branch<int>("nBJetLoose40");
     mt.track_branch<int>("nBJetMedium40");
     mt.track_branch<int>("nBJetTight40");
-
-
-    /* mt.track_branch<int>("nVert"); */
-
-    /* mt.track_branch< int >("run" ); */
-    /* mt.track_branch< int >("lumi"); */
-    /* mt.track_branch< int >("evt" ); */
-    /* mt.track_branch<float>("xsec"); */
 }
-
+#define MVA_DTYPES int, int, int, int, int
 void declare_values(MiniTreeDataSet& mt){
-
-    /* auto data = fv::tuple(lookup<int>("nJet"), lookup<int>("nBJetLoose40"), lookup<int>("nBJetMedium40"), lookup<int>("nBJetTight40"), lookup<int>("nLepGood")); */
 
     auto event_number = mt.get_current_event_number();
     auto is_training = fv::apply(fv::GenFunction::register_function<bool(int)>("is_odd",
@@ -122,23 +78,7 @@ void declare_values(MiniTreeDataSet& mt){
 
     auto weight = fv::constant<double>("1", 1);
 
-    /* auto mva_data = fv::root::mva_data(data, is_training, is_signal, weight, "mva_data"); */
-    /* mva_data->enable_logging([](std::tuple<std::tuple<int,int,int,int,int>,bool,bool,double> t) */
-    /*     { */
-    /*         std::tuple<int,int,int,int,int> data; */
-    /*         bool is_training, is_signal; */
-    /*         double weight; */
-    /*         std::tie(data, is_training, is_signal, weight) = t; */
-    /*         int nJet, nBJetLoose40, nBJetMedium40, nBJetTight40, nLepGood; */
-    /*         std::tie(nJet, nBJetLoose40, nBJetMedium40, nBJetTight40, nLepGood) = data; */
-    /*         std::stringstream ss; */
-    /*         ss << "data("<<nJet<<","<<nBJetLoose40<<","<<nBJetMedium40<<","<<nBJetTight40<<","<<nLepGood<<")"<< std::endl */
-    /*            <<"\tis_training:" << is_training<< std::endl */
-    /*            <<"\tis_signal:  " << is_signal  << std::endl */
-    /*            <<"\tweight:     " << weight     << std::endl; */
-    /*         return ss.str(); */
-    /*     }); */
-    auto mva_data = fv::root::mva_data<int,int,int,int,int>(is_training, is_signal, weight,
+    auto mva_data = fv::root::mva_data<MVA_DTYPES>(is_training, is_signal, weight,
             {"nJet",          lookup<int>("nJet")},
             {"nBJetLoose40",  lookup<int>("nBJetLoose40")},
             {"nBJetMedium40", lookup<int>("nBJetMedium40")},
@@ -151,8 +91,8 @@ void declare_values(MiniTreeDataSet& mt){
 
 void declare_containers(MiniTreeDataSet& mt){
 
-    auto mva_data = (MVAData<int,int,int,int,int>*)lookup<MVAData<int,int,int,int,int>::type>("mva_data");
-    auto mva =  mt.register_container<MVA<int,int,int,int,int>>("my_mva", mva_data);
+    auto mva_data = (MVAData<MVA_DTYPES>*)lookup<MVAData<MVA_DTYPES>::type>("mva_data");
+    auto mva =  mt.register_container<MVA<MVA_DTYPES>>("my_mva", mva_data);
     mva->add_method("KNN", "H:nkNN=20:ScaleFrac=0.8:SigmaFact=1.0:Kernel=Gaus:UseKernel=F:UseWeight=T:!Trim");
 }
 

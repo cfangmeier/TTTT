@@ -43,61 +43,22 @@
 #include "filval/filval.hpp"
 #include "filval_root/filval_root.hpp"
 
+#include "analysis/common/obj_types.hpp"
+#include "analysis/common/constants.hpp"
+#include "analysis/selection.hpp"
+
 #include "MiniTreeDataSet.hpp"
 #include <TSystem.h>
-
-#define PI 3.14159
-#define W_MASS 80.385 // GeV/c^2
-#define Z_MASS 91.188 // GeV/c^2
-#define T_MASS 172.44 // GeV/c^2
 
 using namespace std;
 using namespace fv;
 using namespace fv::root;
 
-void enable_branches(MiniTreeDataSet& mt){
-    mt.fChain->SetBranchStatus("*", false);
-
-    mt.track_branch<int>("nLepGood");
-    mt.track_branch_vec< int >("nLepGood", "LepGood_pdgId");
-    mt.track_branch_vec<float>("nLepGood", "LepGood_pt");
-    mt.track_branch_vec<float>("nLepGood", "LepGood_eta");
-    mt.track_branch_vec<float>("nLepGood", "LepGood_phi");
-    mt.track_branch_vec<float>("nLepGood", "LepGood_mass");
-    mt.track_branch_vec< int >("nLepGood", "LepGood_charge");
-    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchId");
-    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchPdgId");
-    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchAny");
-    mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchTau");
-    mt.track_branch_vec< int >("nLepGood", "LepGood_mcPt");
-
-    mt.track_branch<int>("nJet");
-    mt.track_branch_vec<float>("nJet", "Jet_pt");
-    mt.track_branch_vec<float>("nJet", "Jet_eta");
-    mt.track_branch_vec<float>("nJet", "Jet_phi");
-    mt.track_branch_vec<float>("nJet", "Jet_mass");
-    mt.track_branch_vec<float>("nJet", "Jet_btagCMVA");
-    mt.track_branch_vec< int >("nJet", "Jet_mcMatchFlav");
-    mt.track_branch_vec< int >("nJet", "Jet_mcMatchId");
-    mt.track_branch_vec< int >("nJet", "Jet_mcFlavour");
-
-
-    mt.track_branch<int>("nGenPart");
-    mt.track_branch_vec< int >("nGenPart", "GenPart_pdgId");
-    mt.track_branch_vec< int >("nGenPart", "GenPart_motherIndex");
-    mt.track_branch_vec< int >("nGenPart", "GenPart_motherId");
-    mt.track_branch_vec<float>("nGenPart", "GenPart_pt");
-    mt.track_branch_vec<float>("nGenPart", "GenPart_eta");
-    mt.track_branch_vec<float>("nGenPart", "GenPart_phi");
-    mt.track_branch_vec<float>("nGenPart", "GenPart_mass");
-    mt.track_branch_vec< int >("nGenPart", "GenPart_status");
-
+void enable_extra_branches(MiniTreeDataSet& mt){
     mt.track_branch<int>("nBJetLoose40");
     mt.track_branch<int>("nBJetMedium40");
     mt.track_branch<int>("nBJetTight40");
 
-
-    mt.track_branch<int>("nVert");
 
     mt.track_branch< int >("run" );
     mt.track_branch< int >("lumi");
@@ -105,105 +66,65 @@ void enable_branches(MiniTreeDataSet& mt){
     mt.track_branch<float>("xsec");
 }
 
-struct Jet{
-    TLorentzVector v;
-    int            idx;
-    int            pdgid;
-    float          b_cmva;
-    Jet() { }
-    Jet(const TLorentzVector& v, int idx, int pdgid, float b_cmva)
-      :v(v),idx(idx),pdgid(pdgid),b_cmva(b_cmva) { }
-
-    static Jet reco(const TLorentzVector& v, int idx, float b_cmva){
-        return Jet(v, idx, 0, b_cmva);
-    }
-
-    static Jet mc(const TLorentzVector& v, int idx, int pdgid){
-        return Jet(v, idx, pdgid, 0);
-    }
-};
 
 void declare_values(MiniTreeDataSet& mt){
 
-    // Define Lorentz Vector(TLorentzVector) object from fields in ntuple
-    lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v");
-    lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v");
-    lorentz_vectors("Jet_pt",     "Jet_eta",     "Jet_phi",     "Jet_mass",     "Jet_4v"    );
-
-    energies("GenPart_4v", "GenPart_energy");
-
-
     // Define a couple selections to be used in the top-mass reconstruction.
-    auto& b_mva_filter = GenFunction::register_function<bool(Jet)>("b_mva_filter",
-        FUNC(([cut=0.0](const Jet& j){
-                return j.b_cmva > cut;
+    auto& b_mva_filter = GenFunction::register_function<bool(Particle)>("b_mva_filter",
+        FUNC(([cut=B_JET_WP](const Particle& j){
+                return j.jet.b_cmva > cut;
         })));
-    auto& b_pdgid_filter = GenFunction::register_function<bool(Jet)>("b_pdgid_filter",
-        FUNC(([](const Jet& j){
-                return j.pdgid == 5 || j.pdgid==-5;
+    auto& b_pdgid_filter = GenFunction::register_function<bool(Particle)>("b_pdgid_filter",
+        FUNC(([](const Particle& j){
+                return j.genpart.pdgId == 5 || j.genpart.pdgId==-5;
         })));
-    auto& w_mass_filter = GenFunction::register_function<bool(Jet, Jet)>("w_mass_filter",
-        FUNC(([win_l=W_MASS-10, win_h=W_MASS+10](const Jet& j1, const Jet& j2){
+    auto& w_mass_filter = GenFunction::register_function<bool(Particle, Particle)>("w_mass_filter",
+        FUNC(([win_l=W_MASS-10, win_h=W_MASS+10](const Particle& j1, const Particle& j2){
             float inv_mass = (j1.v + j2.v).M();
             return inv_mass > win_l && inv_mass < win_h;
         })));
-    auto& dup_filter = GenFunction::register_function<bool(std::tuple<Jet,Jet>,Jet)>("dup_filter",
-        FUNC(([](const std::tuple<Jet,Jet>& w, const Jet& b){
+    auto& dup_filter = GenFunction::register_function<bool(std::tuple<Particle,Particle>,Particle)>("dup_filter",
+        FUNC(([](const std::tuple<Particle,Particle>& w, const Particle& b){
             int j0 = b.idx;
             int j1 = std::get<0>(w).idx;
             int j2 = std::get<1>(w).idx;
             return (j0 != j1) && (j0 != j2) && (j1 != j2);
         })));
-    auto& qg_id_filter = GenFunction::register_function<bool(Jet, Jet)>("qg_id_filter",
-        FUNC(([](const Jet& j1, const Jet& j2){
+    auto& qg_id_filter = GenFunction::register_function<bool(Particle, Particle)>("qg_id_filter",
+        FUNC(([](const Particle& j1, const Particle& j2){
             // require both particles be either quarks(not Top) or gluons
-            int id1 = abs(j1.pdgid);
-            int id2 = abs(j2.pdgid);
+            int id1 = abs(j1.genpart.pdgId);
+            int id2 = abs(j2.genpart.pdgId);
             return ((id1 >=1 && id1 <= 5) || id1 == 21) &&
                    ((id2 >=1 && id2 <= 5) || id2 == 21);
         })));
 
-    // Here is the calculation of the Top Reconstructed Mass from Jets
-    auto jets = apply(GenFunction::register_function<std::vector<Jet>(std::vector<TLorentzVector>,std::vector<float>)>("build_reco_jets",
-        FUNC(([](const std::vector<TLorentzVector>& vs, const std::vector<float>& b_cmvas){
-            std::vector<Jet> jets;
-            for(int i=0; i<vs.size(); i++){
-                jets.push_back(Jet::reco(vs[i],i, b_cmvas[i]));
-            }
-            return jets;
-        }))), fv::tuple(lookup<std::vector<TLorentzVector>>("Jet_4v"), lookup<std::vector<float>>("Jet_btagCMVA")), "reco_jets");
-
+    // Here is the calculation of the Top Reconstructed Mass from Particle
+    auto jets = lookup<std::vector<Particle>>("jets");
 
     auto b_jets = filter(b_mva_filter, jets, "reco_b_jets");
-    auto w_dijets = tup_filter<Jet,Jet>(w_mass_filter, combinations<Jet,2>(jets, "reco_dijets"));
+    auto w_dijets = tup_filter<Particle,Particle>(w_mass_filter, combinations<Particle,2>(jets, "reco_dijets"));
 
-    auto top_cands = cart_product<std::tuple<Jet,Jet>, Jet>(w_dijets, b_jets);
+    auto top_cands = cart_product<std::tuple<Particle,Particle>, Particle>(w_dijets, b_jets);
 
     top_cands = tup_filter(dup_filter, top_cands);
 
-    auto& t_mass = GenFunction::register_function<float(std::tuple<Jet,Jet>,Jet)>("t_mass",
-        FUNC(([](const std::tuple<Jet,Jet>& w, const Jet& b){
+    auto& t_mass = GenFunction::register_function<float(std::tuple<Particle,Particle>,Particle)>("t_mass",
+        FUNC(([](const std::tuple<Particle,Particle>& w, const Particle& b){
             return (std::get<0>(w).v+std::get<1>(w).v+b.v).M();
         })));
 
     fv::map(t_mass, top_cands, "reco_top_mass");
 
     // Here is the calculation of the Top Reconstructed Mass from Generator-Level objects
-    jets = apply(GenFunction::register_function<std::vector<Jet>(std::vector<TLorentzVector>,std::vector<int>)>("build_mcjets",
-        FUNC(([](const std::vector<TLorentzVector>& vs, const std::vector<int>& pdgid){
-            std::vector<Jet> jets;
-            for(int i=0; i<vs.size(); i++){
-                jets.push_back(Jet::mc(vs[i],i, pdgid[i]));
-            }
-            return jets;
-        }))), fv::tuple(lookup<std::vector<TLorentzVector>>("GenPart_4v"), lookup<std::vector<int>>("GenPart_pdgId")), "mcjets");
+    jets = lookup<std::vector<Particle>>("mc_jets");
 
     b_jets = filter(b_pdgid_filter, jets);
 
-    w_dijets = tup_filter(qg_id_filter, combinations<Jet,2>(jets));
+    w_dijets = tup_filter(qg_id_filter, combinations<Particle,2>(jets));
     w_dijets = tup_filter(w_mass_filter, w_dijets);
 
-    top_cands = cart_product<std::tuple<Jet,Jet>, Jet>(w_dijets, b_jets);
+    top_cands = cart_product<std::tuple<Particle,Particle>, Particle>(w_dijets, b_jets);
 
     top_cands = tup_filter(dup_filter, top_cands);
 
@@ -212,12 +133,12 @@ void declare_values(MiniTreeDataSet& mt){
 
 
     // calculation of di-jet inv-mass spectrum
-    auto& inv_mass2 = GenFunction::register_function<float(Jet, Jet)>("inv_mass2",
-        FUNC(([] (const Jet& j1, const Jet& j2){
+    auto& inv_mass2 = GenFunction::register_function<float(Particle, Particle)>("inv_mass2",
+        FUNC(([] (const Particle& j1, const Particle& j2){
             TLorentzVector sum = j1.v + j2.v;
             return (float)sum.M();
         })));
-    fv::map(inv_mass2, lookup<std::vector<std::tuple<Jet,Jet>>>("reco_dijets"), "dijet_inv_mass");
+    fv::map(inv_mass2, lookup<std::vector<std::tuple<Particle,Particle>>>("reco_dijets"), "dijet_inv_mass");
 
 
 
@@ -257,12 +178,8 @@ void declare_values(MiniTreeDataSet& mt){
     /*         return std::accumulate(v.begin(), v.end(), 0); */
     /*     }))); */
 
-    /* auto sum_jet_pt = fv::apply(sum, lookup<std::vector<float>>("Jet_pt")) */
+    /* auto sum_jet_pt = fv::apply(sum, lookup<std::vector<float>>("Jet_pt")); */
 
-    /* fv::tuple(lookup<float>("nJet"), */
-    /*           lookup<float>("nLepGood"), */
-    /*           lookup<float>("Jet_phi"), */
-    /*           lookup<std::vector<float>>("Jet_mass"), */
 
     obs_filter("trilepton", FUNC(([nLepGood=lookup<int>("nLepGood")]()
         {
@@ -356,7 +273,6 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container<ContainerTH1<int>>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events",
                                                 lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("trilepton"));
 
-    mt.register_container<ContainerTH1<int>>("nVert", "Number of Primary Vertices", lookup<int>("nVert"), 50, 0, 50);
 
     mt.register_container<CounterMany<int>>("GenPart_pdgId_counter", lookup<vector<int>>("GenPart_pdgId"));
 
@@ -371,7 +287,6 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container<Vector<std::vector<float>>>("GenPart_energy",      lookup<std::vector<float>>("GenPart_energy"));
     mt.register_container<Vector<std::vector< int >>>("GenPart_status",      lookup<std::vector< int >>("GenPart_status"));
 
-    mt.register_container<Vector<vector< int >>>("LepGood_mcMatchId",        lookup<vector< int >>("LepGood_mcMatchId"));
     mt.register_container<Vector<vector< int >>>("LepGood_mcMatchPdgId",     lookup<vector< int >>("LepGood_mcMatchPdgId"));
 
     mt.register_container<Vector< int >>("run",                              lookup< int >("run") );
@@ -380,8 +295,6 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container<Vector<float>>("xsec",                             lookup<float>("xsec"));
 
     mt.register_container<Vector<std::vector< int >>>("Jet_mcMatchFlav",     lookup<std::vector< int >>("Jet_mcMatchFlav"));
-    mt.register_container<Vector<std::vector< int >>>("Jet_mcMatchId",       lookup<std::vector< int >>("Jet_mcMatchId"));
-    mt.register_container<Vector<std::vector< int >>>("Jet_mcFlavour",       lookup<std::vector< int >>("Jet_mcFlavour"));
 
     mt.register_container<Vector<std::vector<float>>>("Jet_pt",              lookup<std::vector<float>>("Jet_pt"));
     mt.register_container<Vector<std::vector<float>>>("Jet_eta",             lookup<std::vector<float>>("Jet_eta"));
@@ -402,7 +315,8 @@ void run_analysis(const std::string& input_filename, bool silent){
     string output_filename = replace_suffix(input_filename, "_result.root");
     MiniTreeDataSet mt(output_filename, input_filename);
 
-    enable_branches(mt);
+    create_all_common_values(mt);
+    enable_extra_branches(mt);
     declare_values(mt);
     declare_containers(mt);
 

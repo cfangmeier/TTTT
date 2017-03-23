@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>TTTT Analysis: /home/caleb/Sources/TTTT/filval/argparse.hpp File Reference</title>
+<title>TTTT Analysis: /home/caleb/Sources/TTTT/analysis/selection.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -59,39 +59,66 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_b2e1228fdb7fe80fc606210a4045f658.html">filval</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_b8678fa8510b7ff9a55ffd4d18fd5e47.html">analysis</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
-<div class="title">argparse.hpp File Reference</div>  </div>
+<div class="title">selection.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;numeric&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &quot;filval/filval.hpp&quot;</code><br />
+<code>#include &quot;filval_root/filval_root.hpp&quot;</code><br />
+<code>#include &lt;TSystem.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for argparse.hpp:</div>
+Include dependency graph for selection.hpp:</div>
 <div class="dyncontent">
-<div class="center"><img src="argparse_8hpp__incl.png" border="0" usemap="#_2home_2caleb_2Sources_2TTTT_2filval_2argparse_8hpp" alt=""/></div>
+<div class="center"><img src="selection_8hpp__incl.png" border="0" usemap="#_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hpp" alt=""/></div>
+<map name="_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hpp" id="_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hpp">
+<area shape="rect" id="node7" href="filval_8hpp_source.html" title="filval/filval.hpp" alt="" coords="510,102,629,129"/>
+<area shape="rect" id="node26" href="filval__root_8hpp_source.html" title="filval_root/filval\l_root.hpp" alt="" coords="1068,95,1191,136"/>
+<area shape="rect" id="node8" href="value_8hpp.html" title="value.hpp" alt="" coords="551,408,638,435"/>
+<area shape="rect" id="node17" href="log_8hpp.html" title="log.hpp" alt="" coords="91,483,162,509"/>
+<area shape="rect" id="node20" href="filter_8hpp.html" title="filter.hpp" alt="" coords="290,333,369,360"/>
+<area shape="rect" id="node21" href="container_8hpp.html" title="container.hpp" alt="" coords="455,259,566,285"/>
+<area shape="rect" id="node22" href="dataset_8hpp.html" title="dataset.hpp" alt="" coords="357,184,456,211"/>
+<area shape="rect" id="node23" href="argparse_8hpp.html" title="argparse.hpp" alt="" coords="697,333,804,360"/>
+<area shape="rect" id="node25" href="api_8hpp.html" title="api.hpp" alt="" coords="829,333,899,360"/>
+<area shape="rect" id="node27" href="root_2value_8hpp_source.html" title="filval_root/value.hpp" alt="" coords="924,333,1079,360"/>
+<area shape="rect" id="node29" href="root_2container_8hpp_source.html" title="filval_root/container.hpp" alt="" coords="1391,184,1569,211"/>
+<area shape="rect" id="node39" href="root_2api_8hpp_source.html" title="filval_root/api.hpp" alt="" coords="795,259,933,285"/>
+</map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="argparse_8hpp__dep__incl.png" border="0" usemap="#_2home_2caleb_2Sources_2TTTT_2filval_2argparse_8hppdep" alt=""/></div>
-<map name="_2home_2caleb_2Sources_2TTTT_2filval_2argparse_8hppdep" id="_2home_2caleb_2Sources_2TTTT_2filval_2argparse_8hppdep">
-<area shape="rect" id="node2" href="filval_8hpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/filval.hpp" alt="" coords="317,95,475,136"/>
-<area shape="rect" id="node3" href="example1_8cpp.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example1.cpp" alt="" coords="5,184,168,240"/>
-<area shape="rect" id="node4" href="example2_8cpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example2.cpp" alt="" coords="44,288,207,344"/>
-<area shape="rect" id="node5" href="example3_8cpp_source.html" title="/home/caleb/Sources\l/TTTT/filval/examples\l/example3.cpp" alt="" coords="231,288,393,344"/>
-<area shape="rect" id="node6" href="MiniTreeDataSet_8hpp.html" title="/home/caleb/Sources\l/TTTT/analysis/MiniTreeData\lSet.hpp" alt="" coords="293,184,499,240"/>
-<area shape="rect" id="node7" href="MVA__Creation_8cpp.html" title="/home/caleb/Sources\l/TTTT/analysis/MVA_Creation.cpp" alt="" coords="417,295,655,337"/>
-<area shape="rect" id="node8" href="TTTT__Analysis_8cpp.html" title="/home/caleb/Sources\l/TTTT/analysis/TTTT\l_Analysis.cpp" alt="" coords="679,288,836,344"/>
-<area shape="rect" id="node9" href="selection_8hpp.html" title="/home/caleb/Sources\l/TTTT/analysis/selection.hpp" alt="" coords="574,191,781,233"/>
+<div class="center"><img src="selection_8hpp__dep__incl.png" border="0" usemap="#_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hppdep" alt=""/></div>
+<map name="_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hppdep" id="_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hppdep">
+<area shape="rect" id="node2" href="TTTT__Analysis_8cpp.html" title="/home/caleb/Sources\l/TTTT/analysis/TTTT\l_Analysis.cpp" alt="" coords="30,95,187,151"/>
 </map>
 </div>
 </div>
-<p><a href="argparse_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="selection_8hpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:accd98ae75cd9f5a28848c6e6f9240fbf"><td class="memItemLeft" align="right" valign="top"><a id="accd98ae75cd9f5a28848c6e6f9240fbf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>JET_REQUIREMENT</b>&#160;&#160;&#160;6</td></tr>
+<tr class="separator:accd98ae75cd9f5a28848c6e6f9240fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe72ff81a7e1ed38c1ded94408ac7fb9"><td class="memItemLeft" align="right" valign="top"><a id="abe72ff81a7e1ed38c1ded94408ac7fb9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>B_JET_REQUIREMENT</b>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:abe72ff81a7e1ed38c1ded94408ac7fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0efa904167983de01456d0d50d87b9c6"><td class="memItemLeft" align="right" valign="top"><a id="a0efa904167983de01456d0d50d87b9c6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>B_JET_WP</b>&#160;&#160;&#160;0.</td></tr>
+<tr class="separator:a0efa904167983de01456d0d50d87b9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Caleb Fangmeier <a href="#" onclick="location.href='mai'+'lto:'+'cal'+'eb'+'@fa'+'ng'+'mei'+'er'+'.te'+'ch'; return false;">caleb<span style="display: none;">.nosp@m.</span>@fan<span style="display: none;">.nosp@m.</span>gmeie<span style="display: none;">.nosp@m.</span>r.te<span style="display: none;">.nosp@m.</span>ch</a> </dd></dl>
 <dl class="section version"><dt>Version</dt><dd>0.1</dd></dl>
@@ -104,9 +131,9 @@ LICENSE</h1>
 <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <h1><a class="anchor" id="DESCRIPTION"></a>
 DESCRIPTION</h1>
-<dl class="section see"><dt>See also</dt><dd><a href="http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c#868894">http://stackoverflow.com/questions/865668/how-to-parse-command-line-arguments-in-c#868894</a> </dd></dl>
+<p>Define a set of common event selections </p>
 
-<p class="definition">Definition in file <a class="el" href="argparse_8hpp_source.html">argparse.hpp</a>.</p>
+<p class="definition">Definition in file <a class="el" href="selection_8hpp_source.html">selection.hpp</a>.</p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
