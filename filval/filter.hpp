@@ -56,8 +56,21 @@ class ObsFilter : public DerivedValue<bool>{
           :DerivedValue<bool>(name),
            filter_function(GenFunction::register_function<bool()>("filter::"+name, filter_function, impl)){ }
 
-        /** Return a new filter that is the conjuction of the two source
-         * filters.
+        /** Return a new filter that is the conjuction of the two source filters.
+         */
+        static ObsFilter* conj(ObsFilter *f1, ObsFilter *f2){
+            auto new_name = f1->get_name() + "&&" + f2->get_name();
+            return new ObsFilter(new_name, [f1,f2](){return f1->get_value() && f2->get_value();});
+        }
+
+        /** Return a new filter that is the conjuction of the two source filters.
+         */
+        static ObsFilter* disj(ObsFilter *f1, ObsFilter *f2){
+            auto new_name = f1->get_name() + "||" + f2->get_name();
+            return new ObsFilter(new_name, [f1, f2](){return f1->get_value() && f2->get_value();});
+        }
+
+        /** Return a new filter that is the conjuction of the two source filters.
          */
         ObsFilter* operator*(ObsFilter *f){
             auto new_name = this->get_name() + "&&" + f->get_name();

@@ -129,6 +129,16 @@ construct_jets_value(MiniTreeDataSet& mt){
     return jets;
 }
 
+decltype(auto)
+construct_b_jets_value(MiniTreeDataSet& mt){
+    auto b_jets = fv::filter(GenFunction::register_function<bool(Particle)>("is_b_jet",
+        FUNC(([](const Particle& p){
+            if(p.tag != Particle::JET) return false;
+            return p.jet.b_cmva > 0;
+        }))), lookup<std::vector<Particle>>("jets"), "b_jets");
+    return b_jets;
+}
+
 
 decltype(auto)
 construct_leptons_value(MiniTreeDataSet& mt){
@@ -205,6 +215,7 @@ construct_mc_jets_value(MiniTreeDataSet& mt){
 
 void create_all_common_values(MiniTreeDataSet& mt){
     construct_jets_value(mt);
+    construct_b_jets_value(mt);
     construct_mc_jets_value(mt);
     construct_leptons_value(mt);
 }

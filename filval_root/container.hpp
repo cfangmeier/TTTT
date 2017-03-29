@@ -73,6 +73,7 @@ namespace fv::root::util{
                 INFO("Cannot save STL container " << type_name <<" as pdf");
                 break;
             case ROOT:
+                /* DEBUG("Writing object \"" << obj_name << "\" of type \"" << type_name << "\"\n"); */
                 gDirectory->WriteObjectAny(container, type_name.c_str(), obj_name.c_str());
                 break;
             default:
@@ -276,7 +277,6 @@ class _Counter : public Container<std::map<D,int>,V>{
             std::string type_name = "std::map<"+fv::util::get_type_name(typeid(D))+",int>";
             util::save_as_stl(this->get_container(), type_name, this->get_name(), option);
         }
-
 };
 
 
@@ -301,6 +301,28 @@ class CounterMany : public _Counter<std::vector<V>,V>{
         void _fill(){
             for(V& val : this->value->get_value())
                 (*this->container)[val]++;
+        }
+};
+
+class PassCount : public Container<int,bool>{
+    private:
+
+        void _fill(){
+            if(this->value->get_value()){
+                (*this->container)++;
+            }
+        }
+    public:
+        PassCount(const std::string& name, Value<bool>* value)
+          :Container<int,bool>(name, value){
+            this->container = new int(0);
+        }
+
+        void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
+            //ROOT(hilariously) cannot serialize basic data types, we wrap this
+            //in a vector.
+            std::vector<int> v({*this->get_container()});
+            util::save_as_stl(&v, "std::vector<int>", this->get_name(), option);
         }
 };
 

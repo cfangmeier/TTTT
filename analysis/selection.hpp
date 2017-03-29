@@ -34,54 +34,77 @@
 #ifndef SELECTION_HPP
 #define SELECTION_HPP
 
-#include <iostream>
 #include <vector>
-#include <utility>
-#include <numeric>
-#include <limits>
 
 #include "filval/filval.hpp"
 #include "filval_root/filval_root.hpp"
 
-#include <TSystem.h>
+#include "analysis/common/obj_types.hpp"
 
-#define JET_REQUIREMENT   6
-#define B_JET_REQUIREMENT 3
-#define B_JET_WP          0.  // lower bound on CMVA value
-using namespace fv;
-struct Selection {
-public:
+ObsFilter* SR4j;
+ObsFilter* SR5j;
+ObsFilter* SR6j;
 
-    static ObsFilter* trilepton_filter;
+void init_selection(){
+    auto leptons = lookup<std::vector<Particle>>("leptons");
+    auto jets    = lookup<std::vector<Particle>>("jets");
 
-    static ObsFilter* jet_multiplicity_filter;
-    static ObsFilter* b_jet_multiplicity_filter;
+    // Require *exactly* three charged leptons
+    auto trilepton = obs_filter("trilepton",GenFunction::register_function<bool()>("trilepton",
+        FUNC(([leptons](){
+            return leptons->get_value().size() == 3;
+        }))));
 
-    static void init(){
-        auto nLep = lookup<int>("nLepGood");
-        trilepton_filter = obs_filter("trilepton_filter",GenFunction::register_function<bool()>("trilepton_filter",
-            FUNC(([nLep=nLep](){
-                return nLep->get_value() == 3;
-            }))));
+    // Require at least three charged b-jets
+    auto b_jet = obs_filter("b_jet",GenFunction::register_function<bool()>("b_jet",
+        FUNC(([jets](){
+            int n_b_jets = 0;
+            for(auto jet : jets->get_value()){
+                if(jet.tag == Particle::JET && jet.jet.b_cmva > 0)
+                    n_b_jets++;
+            }
+            return n_b_jets >= 3;
+        }))));
 
-
-        auto nJet = lookup<int>("nJet");
-        jet_multiplicity_filter = obs_filter("jet_multiplicity_filter",GenFunction::register_function<bool()>("jet_multiplicity_filter",
-            FUNC(([nJet=nJet](){
-                return nJet->get_value() >= JET_REQUIREMENT;
-            }))));
-
-        auto bJet_MVA = lookup<std::vector<float>>("Jet_btagCMVA");
-        b_jet_multiplicity_filter = obs_filter("b_jet_multiplicity_filter",GenFunction::register_function<bool()>("b_jet_multiplicity_filter",
-            FUNC(([bJet_MVA=bJet_MVA](){
-                int n_b_jet = 0;
-                for(auto j : bJet_MVA->get_value()){
-                    if(j > B_JET_WP){
-                        n_b_jet++;
-                    }
+    // Require all same-flavour OS dilepton combinations are outside the Z mass
+    // window (70,105)
+    auto z_mass_window = obs_filter("z_mass_window",GenFunction::register_function<bool()>("z_mass_window",
+        FUNC(([leptons](){
+            auto& leps = leptons->get_value();
+            int n = leps.size();
+            for(int i = 0; i < n; i++){
+                for(int j = i+1; j < n; j++){
+                    const Particle& p1 = leps[i];
+                    const Particle& p2 = leps[j];
+                    if(abs(p1.lepton.pdg_id) != abs(p2.lepton.pdg_id)) continue;
+                    if(p1.lepton.charge == p2.lepton.charge) continue;
+                    double m = (p1.v + p2.v).M();
+                    if(70 < m && m < 105)
+                        return false;
                 }
-                return n_b_jet >= B_JET_REQUIREMENT;
-            }))));
-    }
-};
+            }
+            return true;
+        }))));
+
+
+    auto J4 = obs_filter("4jet_selection",GenFunction::register_function<bool()>("4jet_selection",
+        FUNC(([jets](){
+            return jets->get_value().size() >= 4;
+        }))));
+
+    auto J5 = obs_filter("5jet_selection",GenFunction::register_function<bool()>("5jet_selection",
+        FUNC(([jets](){
+            return jets->get_value().size() >= 5;
+        }))));
+
+    auto J6 = obs_filter("6jet_selection",GenFunction::register_function<bool()>("6jet_selection",
+        FUNC(([jets](){
+            return jets->get_value().size() >= 6;
+        }))));
+
+    auto base_sel = ObsFilter::conj(z_mass_window, ObsFilter::conj(trilepton, b_jet));
+    SR4j = ObsFilter::conj(base_sel, J4);
+    SR5j = ObsFilter::conj(base_sel, J5);
+    SR6j = ObsFilter::conj(base_sel, J6);
+}
 #endif // SELECTION_HPP

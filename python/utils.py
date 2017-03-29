@@ -278,7 +278,7 @@ class ResultSet:
             CANVAS.SetCanvasSize(SINGLE_PLOT_SIZE[0],
                                  SINGLE_PLOT_SIZE[1])
 
-        colors = it.cycle([ROOT.kRed, ROOT.kBlue, ROOT.kGreen])
+        colors = it.cycle([ROOT.kRed, ROOT.kBlue, ROOT.kGreen, ROOT.kYellow])
         stack = ROOT.THStack(hist_name+"_stack", title)
         if labels is None:
             labels = [hist.GetName() for hist in hists]

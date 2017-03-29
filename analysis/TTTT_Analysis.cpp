@@ -70,10 +70,6 @@ void enable_extra_branches(MiniTreeDataSet& mt){
 void declare_values(MiniTreeDataSet& mt){
 
     // Define a couple selections to be used in the top-mass reconstruction.
-    auto& b_mva_filter = GenFunction::register_function<bool(Particle)>("b_mva_filter",
-        FUNC(([cut=B_JET_WP](const Particle& j){
-                return j.jet.b_cmva > cut;
-        })));
     auto& b_pdgid_filter = GenFunction::register_function<bool(Particle)>("b_pdgid_filter",
         FUNC(([](const Particle& j){
                 return j.genpart.pdgId == 5 || j.genpart.pdgId==-5;
@@ -102,7 +98,7 @@ void declare_values(MiniTreeDataSet& mt){
     // Here is the calculation of the Top Reconstructed Mass from Particle
     auto jets = lookup<std::vector<Particle>>("jets");
 
-    auto b_jets = filter(b_mva_filter, jets, "reco_b_jets");
+    auto b_jets = lookup<std::vector<Particle>>("b_jets");
     auto w_dijets = tup_filter<Particle,Particle>(w_mass_filter, combinations<Particle,2>(jets, "reco_dijets"));
 
     auto top_cands = cart_product<std::tuple<Particle,Particle>, Particle>(w_dijets, b_jets);
@@ -301,6 +297,10 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container<Vector<std::vector<float>>>("Jet_phi",             lookup<std::vector<float>>("Jet_phi"));
     mt.register_container<Vector<std::vector<float>>>("Jet_mass",            lookup<std::vector<float>>("Jet_mass"));
 
+    mt.register_container<PassCount>("SR4j_count", SR4j);
+    mt.register_container<PassCount>("SR5j_count", SR5j);
+    mt.register_container<PassCount>("SR6j_count", SR6j);
+
 }
 
 
@@ -318,6 +318,7 @@ void run_analysis(const std::string& input_filename, bool silent){
     create_all_common_values(mt);
     enable_extra_branches(mt);
     declare_values(mt);
+    init_selection();
     declare_containers(mt);
 
     mt.process(silent);
