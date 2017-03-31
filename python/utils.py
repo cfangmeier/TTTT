@@ -167,7 +167,7 @@ class ResultSet:
 
         def recompute():
             print("Running analysis for sample: ", self.sample_name)
-            if run([EXE_PATH, "-s", "-f", self.input_filename]).returncode != 0:
+            if run([EXE_PATH, "-s", "-f", self.input_filename, "-l", self.sample_name]).returncode != 0:
                 raise RuntimeError(("Failed running analysis code."
                                     " See log file for more information"))
 
@@ -205,6 +205,9 @@ class ResultSet:
                 ROOT.gDirectory.Add(obj)
             except AttributeError:
                 pass
+        self.xsec = self._xsecs[self.sample_name]*1000 # convert to fb
+        self.event_count = self._event_counts[self.sample_name]
+        self.lumi = self.event_count / self.xsec
 
     @classmethod
     def calc_shape(cls, n_plots):

@@ -45,8 +45,10 @@ using namespace fv::root;
 class MiniTreeDataSet : public DataSet,
                         public MiniTree{
     private:
-        std::map<std::string,std::string> input_filenames_with_labels;
-        /* std::vector<TFile*> input_files; */
+        // Maps filenames to data category. Either "signal" or "background"
+        std::map<std::string,std::string> input_categories;
+        // Maps filenames to data label, eg. "TTTT", or "TTZ"
+        std::map<std::string,std::string> input_labels;
         std::string output_filename;
         TFile* output_file;
         long next_entry;
@@ -64,10 +66,33 @@ class MiniTreeDataSet : public DataSet,
             return next_entry-1;
         }
 
+        void save_event_count_and_xsection(){
+            std::map<std::string,int> event_counts;
+            std::map<std::string,float> xsecs;
+            string fname, label;
+            for(auto& p : input_labels){
+                std::tie(fname, label) = p;
+                TFile f(fname.c_str());
+                TH1D* count = (TH1D*)f.Get("Count");
+                event_counts[label] = (int)count->GetBinContent(1);
+
+                TTree* tree = (TTree*)f.Get("tree");
+                TBranch* b = tree->GetBranch("xsec");
+                float xsec;
+                b->SetAddress(&xsec);
+                b->GetEntry(1);
+                xsecs[label] = xsec;
+            }
+            output_file->cd();
+            gDirectory->WriteObjectAny(&event_counts, "std::map<std::string,int>", "_event_counts");
+            gDirectory->WriteObjectAny(&xsecs, "std::map<std::string,float>", "_xsecs");
+        }
+
     public:
-        MiniTreeDataSet(const std::string& output_filename, const std::string input_filename)
+        MiniTreeDataSet(const std::string& output_filename, const std::string input_filename, const std::string data_label)
           :DataSet(),
-           input_filenames_with_labels({ {input_filename, "signal"} }),
+           input_categories({ {input_filename, "signal"} }),
+           input_labels({ {input_filename, data_label} }),
            output_filename(output_filename),
            next_entry(0) {
             TChain* chain = new TChain("tree");
@@ -80,7 +105,7 @@ class MiniTreeDataSet : public DataSet,
 
         MiniTreeDataSet(const std::string& output_filename, const std::map<std::string,std::string>& filenames_with_labels)
           :DataSet(),
-           input_filenames_with_labels(filenames_with_labels),
+           input_categories(filenames_with_labels),
            output_filename(output_filename),
            next_entry(0) {
             TChain* chain = new TChain("tree");
@@ -96,13 +121,14 @@ class MiniTreeDataSet : public DataSet,
           }
 
         ~MiniTreeDataSet(){
+            save_event_count_and_xsection();
             output_file->Close();
         }
 
         const std::string& get_current_event_label() const{
             TFile* file = fChain->GetFile();
             std::string filename = file->GetName();
-            return input_filenames_with_labels.at(filename);
+            return input_categories.at(filename);
         }
 
         template <typename T>

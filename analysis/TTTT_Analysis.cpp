@@ -304,7 +304,7 @@ void declare_containers(MiniTreeDataSet& mt){
 }
 
 
-void run_analysis(const std::string& input_filename, bool silent){
+void run_analysis(const std::string& input_filename, const std::string& data_label, bool silent){
     gSystem->Load("libfilval.so");
     auto replace_suffix = [](const std::string& input, const std::string& new_suffix){
         return input.substr(0, input.find_last_of(".")) + new_suffix;
@@ -313,7 +313,7 @@ void run_analysis(const std::string& input_filename, bool silent){
     fv::util::Log::init_logger(log_filename, fv::util::LogPriority::kLogDebug);
 
     string output_filename = replace_suffix(input_filename, "_result.root");
-    MiniTreeDataSet mt(output_filename, input_filename);
+    MiniTreeDataSet mt(output_filename, input_filename, data_label);
 
     create_all_common_values(mt);
     enable_extra_branches(mt);
@@ -328,11 +328,12 @@ void run_analysis(const std::string& input_filename, bool silent){
 int main(int argc, char * argv[])
 {
     fv::util::ArgParser args(argc, argv);
-    if(!args.cmdOptionExists("-f")) {
-        cout << "Usage: ./main (-s) -f input_minitree.root" << endl;
+    if(!args.cmdOptionExists("-l") || !args.cmdOptionExists("-f")) {
+        cout << "Usage: ./main (-s) -l DATA_LABEL -f input_minitree.root" << endl;
         return -1;
     }
     bool silent = args.cmdOptionExists("-s");
     string input_filename = args.getCmdOption("-f");
-    run_analysis(input_filename, silent);
+    string data_label = args.getCmdOption("-l");
+    run_analysis(input_filename, data_label, silent);
 }
