@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# convert -density 800x800 T-\>b,W.eps -transparent white -quality 00  T-\>b,W.png
+for f in $(ls *.eps)
+do
+    convert -density 800x800 $f -transparent white -quality 00  ${f/eps/png}
+done
