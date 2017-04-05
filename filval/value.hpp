@@ -950,19 +950,23 @@ class TupFilter : public DerivedValue<std::vector<std::tuple<ArgTypes...>>>{
 template <typename T>
 class Reduce : public DerivedValue<T>{
     private:
-        Function<T(std::vector<T>)>& reduce;
+        Function<T(std::vector<T>)>& reduce_fn;
 
         void update_value(){
-            this->value = reduce(v->get_value());
+            this->value = reduce_fn(v->get_value());
         }
 
     protected:
         Value<std::vector<T> >* v;
 
     public:
-        Reduce(Function<T(std::vector<T>)>& reduce, Value<std::vector<T> >* v, const std::string alias)
-          :DerivedValue<T>("reduceWith("+reduce.get_name()+":"+v->get_name()+")", alias),
-           reduce(reduce), v(v) { }
+        static std::string fmt_name(Function<T(std::vector<T>)>& reduce_fn, Value<std::vector<T>>* v){
+            return "reduce("+reduce_fn.get_name()+":"+v->get_name()+")";
+        }
+
+        Reduce(Function<T(std::vector<T>)>& reduce_fn, Value<std::vector<T> >* v, const std::string alias)
+          :DerivedValue<T>(fmt_name(reduce_fn, v), alias),
+           reduce_fn(reduce_fn), v(v) { }
 };
 
 /**

@@ -62,6 +62,12 @@ IF(DOXYGEN_FOUND)
         COMMENT "Generating API documentation with Doxygen" VERBATIM
         DEPENDS notebook-docs
     )
+    ADD_CUSTOM_TARGET(docs-deploy
+        rsync -r . caleb@fangmeier.tech:/var/www/tttt/docs
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/docs
+        COMMENT "Deploy documentation to tttt.fangmeier.tech" VERBATIM
+        DEPENDS docs
+    )
 ENDIF(DOXYGEN_FOUND)
 
 

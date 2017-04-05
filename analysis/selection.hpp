@@ -41,22 +41,36 @@
 
 #include "analysis/common/obj_types.hpp"
 
-ObsFilter* SR4j;
-ObsFilter* SR5j;
-ObsFilter* SR6j;
+struct EventSelection{
+    ObsFilter* trilepton;
+    ObsFilter* b_jet3;
+    ObsFilter* z_mass_veto;
+
+    ObsFilter* base_sel;
+
+    ObsFilter* J4;
+    ObsFilter* J5;
+    ObsFilter* J6;
+
+    ObsFilter* SR4j;
+    ObsFilter* SR5j;
+    ObsFilter* SR6j;
+};
+
+EventSelection event_selection;
 
 void init_selection(){
     auto leptons = lookup<std::vector<Particle>>("leptons");
     auto jets    = lookup<std::vector<Particle>>("jets");
 
     // Require *exactly* three charged leptons
-    auto trilepton = obs_filter("trilepton",GenFunction::register_function<bool()>("trilepton",
+    event_selection.trilepton = obs_filter("trilepton",GenFunction::register_function<bool()>("trilepton",
         FUNC(([leptons](){
             return leptons->get_value().size() == 3;
         }))));
 
-    // Require at least three charged b-jets
-    auto b_jet = obs_filter("b_jet",GenFunction::register_function<bool()>("b_jet",
+    // Require at least three b-jets
+    event_selection.b_jet3 = obs_filter("b_jet3",GenFunction::register_function<bool()>("b_jet3",
         FUNC(([jets](){
             int n_b_jets = 0;
             for(auto jet : jets->get_value()){
@@ -68,7 +82,7 @@ void init_selection(){
 
     // Require all same-flavour OS dilepton combinations are outside the Z mass
     // window (70,105)
-    auto z_mass_window = obs_filter("z_mass_window",GenFunction::register_function<bool()>("z_mass_window",
+    event_selection.z_mass_veto = obs_filter("z_mass_veto",GenFunction::register_function<bool()>("z_mass_veto",
         FUNC(([leptons](){
             auto& leps = leptons->get_value();
             int n = leps.size();
@@ -87,24 +101,24 @@ void init_selection(){
         }))));
 
 
-    auto J4 = obs_filter("4jet_selection",GenFunction::register_function<bool()>("4jet_selection",
+    event_selection.J4 = obs_filter("4jet_selection",GenFunction::register_function<bool()>("4jet_selection",
         FUNC(([jets](){
             return jets->get_value().size() >= 4;
         }))));
 
-    auto J5 = obs_filter("5jet_selection",GenFunction::register_function<bool()>("5jet_selection",
+    event_selection.J5 = obs_filter("5jet_selection",GenFunction::register_function<bool()>("5jet_selection",
         FUNC(([jets](){
             return jets->get_value().size() >= 5;
         }))));
 
-    auto J6 = obs_filter("6jet_selection",GenFunction::register_function<bool()>("6jet_selection",
+    event_selection.J6 = obs_filter("6jet_selection",GenFunction::register_function<bool()>("6jet_selection",
         FUNC(([jets](){
             return jets->get_value().size() >= 6;
         }))));
 
-    auto base_sel = ObsFilter::conj(z_mass_window, ObsFilter::conj(trilepton, b_jet));
-    SR4j = ObsFilter::conj(base_sel, J4);
-    SR5j = ObsFilter::conj(base_sel, J5);
-    SR6j = ObsFilter::conj(base_sel, J6);
+    event_selection.base_sel = ObsFilter::conj(event_selection.z_mass_veto, ObsFilter::conj(event_selection.trilepton, event_selection.b_jet3));
+    event_selection.SR4j = ObsFilter::conj(event_selection.base_sel, event_selection.J4);
+    event_selection.SR5j = ObsFilter::conj(event_selection.base_sel, event_selection.J5);
+    event_selection.SR6j = ObsFilter::conj(event_selection.base_sel, event_selection.J6);
 }
 #endif // SELECTION_HPP

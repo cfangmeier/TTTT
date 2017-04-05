@@ -95,10 +95,20 @@ void declare_values(MiniTreeDataSet& mt){
                    ((id2 >=1 && id2 <= 5) || id2 == 21);
         })));
 
-    // Here is the calculation of the Top Reconstructed Mass from Particle
+
+
     auto jets = lookup<std::vector<Particle>>("jets");
+    auto leptons = lookup<std::vector<Particle>>("leptons");
+    auto leading_jet = fv::reduce(leading_particle, jets, "leading_jet");
+    fv::apply(particle_pt, fv::tuple(leading_jet), "leading_jet_pt");
+
+    auto leading_lepton = fv::reduce(leading_particle, leptons);
+    fv::apply(particle_pt, fv::tuple(leading_lepton), "leading_lepton_pt");
+    fv::apply(lepton_relIso, fv::tuple(leading_lepton), "leading_lepton_relIso");
 
     auto b_jets = lookup<std::vector<Particle>>("b_jets");
+
+    // Here is the calculation of the Top Reconstructed Mass from Particle
     auto w_dijets = tup_filter<Particle,Particle>(w_mass_filter, combinations<Particle,2>(jets, "reco_dijets"));
 
     auto top_cands = cart_product<std::tuple<Particle,Particle>, Particle>(w_dijets, b_jets);
@@ -259,8 +269,11 @@ void declare_containers(MiniTreeDataSet& mt){
                                                 10, 0, 10, 10, 0, 10,
                                                 "Generated Leptons","Reconstructed Leptons");
 
+    mt.register_container<ContainerTH1<int>>("jet_count", "B-Jet Multiplicity", lookup<int>("nJet"), 15, 0, 15);
     mt.register_container<ContainerTH1<int>>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10);
 
+    mt.register_container<ContainerTH1<int>>("jet_count_base_selection", "B-Jet Multiplicity", lookup<int>("nJet"), 15, 0, 15)->add_filter(event_selection.base_sel);
+    mt.register_container<ContainerTH1<int>>("b_jet_count_base_selection", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10)->add_filter(event_selection.base_sel);
 
     mt.register_container<ContainerTH1<int>>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events",
                                                 lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("os-dilepton"));
@@ -297,10 +310,22 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container<Vector<std::vector<float>>>("Jet_phi",             lookup<std::vector<float>>("Jet_phi"));
     mt.register_container<Vector<std::vector<float>>>("Jet_mass",            lookup<std::vector<float>>("Jet_mass"));
 
-    mt.register_container<PassCount>("SR4j_count", SR4j);
-    mt.register_container<PassCount>("SR5j_count", SR5j);
-    mt.register_container<PassCount>("SR6j_count", SR6j);
+    mt.register_container<ContainerTH1<float>>("leading_jet_pt", "Leading Jet Pt", lookup<float>("leading_jet_pt"), 100, 0, 500);
+    mt.register_container<ContainerTH1<float>>("leading_lepton_pt", "Leading Lepton Pt", lookup<float>("leading_lepton_pt"), 100, 0, 500);
+    mt.register_container<ContainerTH1<float>>("leading_lepton_relIso", "Leading Lepton Relative Isolation", lookup<float>("leading_lepton_relIso"), 100, 0, 0.05);
+    mt.register_container<Vector<float>>("leading_lepton_relIso_all", lookup<float>("leading_lepton_relIso"));
 
+    mt.register_container<PassCount>("trilepton_count",   event_selection.trilepton);
+    mt.register_container<PassCount>("b_jet3_count",      event_selection.b_jet3);
+    mt.register_container<PassCount>("z_mass_veto_count", event_selection.z_mass_veto);
+
+    mt.register_container<PassCount>("J4_count", event_selection.J4);
+    mt.register_container<PassCount>("J5_count", event_selection.J5);
+    mt.register_container<PassCount>("J6_count", event_selection.J6);
+
+    mt.register_container<PassCount>("SR4j_count", event_selection.SR4j);
+    mt.register_container<PassCount>("SR5j_count", event_selection.SR5j);
+    mt.register_container<PassCount>("SR6j_count", event_selection.SR6j);
 }
 
 

@@ -3,6 +3,7 @@
 __pycache__/
 build/
 data/
+*_data/
 
 # C++ Build Files
 *.d

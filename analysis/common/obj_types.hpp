@@ -48,6 +48,7 @@ struct Lepton {
     int pdg_id;
     int mcMatchPdgId;
     int charge;
+    float relIso;
 };
 
 struct GenPart{
@@ -62,6 +63,7 @@ struct Particle{
     enum{JET,
          LEPTON,
          GENPART,
+         VOID,
         }          tag;
     int            idx;
     TLorentzVector v;
@@ -93,11 +95,47 @@ struct Particle{
         p.genpart = genpart;
         return p;
     }
+    
+    static Particle
+    Void(){
+        Particle p;
+        p.tag = Particle::VOID;
+        return p;
+    }
+
 };
 
+Function<Particle(std::vector<Particle>)>& leading_particle = GenFunction::register_function<Particle(std::vector<Particle>)>("leading_particle",
+    FUNC(([](const std::vector<Particle>& particles){
+        if(particles.size() == 0) return Particle::Void();
+
+        Particle leading_particle = particles[0];
+        for (auto particle : particles){
+            if(particle.tag != Particle::VOID && particle.v.Pt() > leading_particle.v.Pt()){
+                leading_particle = particle;
+            }
+        }
+        return leading_particle;
+    })));
+
+Function<float(Particle)>& particle_pt = GenFunction::register_function<float(Particle)>("particle_pt",
+        FUNC(([](const Particle& p){
+            return p.v.Pt();
+        })));
+Function<float(Particle)>& particle_eta = GenFunction::register_function<float(Particle)>("particle_eta",
+        FUNC(([](const Particle& p){
+            return p.v.Eta();
+        })));
+
+
+Function<float(Particle)>& lepton_relIso = GenFunction::register_function<float(Particle)>("lepton_relIso",
+        FUNC(([](const Particle& p){
+            return p.lepton.relIso;
+        })));
 
 decltype(auto)
 construct_jets_value(MiniTreeDataSet& mt){
+
     mt.track_branch<int>("nJet");
     mt.track_branch_vec<float>("nJet", "Jet_pt");
     mt.track_branch_vec<float>("nJet", "Jet_eta");
@@ -153,24 +191,28 @@ construct_leptons_value(MiniTreeDataSet& mt){
     auto leptons = apply(GenFunction::register_function<std::vector<Particle>(std::vector<TLorentzVector>,
                                                                               std::vector<int>,
                                                                               std::vector<int>,
-                                                                              std::vector<int>)>("build_reco_leptons",
+                                                                              std::vector<int>,
+                                                                              std::vector<float>)>("build_reco_leptons",
         FUNC(([](const std::vector<TLorentzVector>& vs,
                  const std::vector<int>& pdgIds,
                  const std::vector<int>& mcMatchPdgIds,
-                 const std::vector<int>& charges
+                 const std::vector<int>& charges,
+                 const std::vector<float>& relIso
                  ){
             std::vector<Particle> leptons;
             for(int i=0; i<vs.size(); i++){
                 Particle p = Particle::Lepton(i, vs[i], {pdgIds[i],
                                                          mcMatchPdgIds[i],
-                                                         charges[i]});
+                                                         charges[i],
+                                                         relIso[i]});
                 leptons.push_back(p);
             }
             return leptons;
         }))), fv::tuple(LepGood_4v,
                         mt.track_branch_vec< int >("nLepGood", "LepGood_pdgId"),
                         mt.track_branch_vec< int >("nLepGood", "LepGood_mcMatchPdgId"),
-                        mt.track_branch_vec< int >("nLepGood", "LepGood_charge")
+                        mt.track_branch_vec< int >("nLepGood", "LepGood_charge"),
+                        mt.track_branch_vec<float>("nLepGood", "LepGood_miniRelIso")
                         ), "leptons");
     return leptons;
 }

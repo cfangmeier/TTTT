@@ -192,6 +192,8 @@ class ResultSet:
                 obj.SetDirectory(0)  # disconnects Object from file
             except AttributeError:
                 pass
+            if 'ROOT.vector<int>' in str(type(obj)) and '_count' in name:
+                obj = obj[0]
             self.map[name] = obj
             setattr(self, name, obj)
         file.Close()

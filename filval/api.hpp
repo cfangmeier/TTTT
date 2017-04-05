@@ -164,6 +164,16 @@ namespace fv{
         return pair<T1,T2>(lookup<T1>(name1), lookup<T2>(name2), alias);
     }
 
+    template <typename T>
+    decltype(auto)
+    reduce(Function<T(std::vector<T>)>& fn, Value<std::vector<T>>* v, const std::string& alias=""){
+        typedef T type;
+        const std::string& name = Reduce<T>::fmt_name(fn, v);
+        if (check_exists<type>(name))
+            return lookup<type>(name);
+        else
+            return (Value<type>*)new Reduce<T>(fn, v, alias);
+    }
 
     template <typename T>
     decltype(auto)
