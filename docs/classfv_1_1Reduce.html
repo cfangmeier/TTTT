@@ -65,6 +65,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -105,9 +106,9 @@ Collaboration diagram for fv::Reduce&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aea2d9968c2b4fca09bbd761f39b3340d"><td class="memItemLeft" align="right" valign="top"><a id="aea2d9968c2b4fca09bbd761f39b3340d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Reduce</b> (Function&lt; T(std::vector&lt; T &gt;)&gt; &amp;reduce, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; T &gt; &gt; *v, const std::string alias)</td></tr>
-<tr class="separator:aea2d9968c2b4fca09bbd761f39b3340d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a866cb14bcfaadba3251d58d354b8caab"><td class="memItemLeft" align="right" valign="top"><a id="a866cb14bcfaadba3251d58d354b8caab"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Reduce</b> (Function&lt; T(std::vector&lt; T &gt;)&gt; &amp;reduce_fn, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; T &gt; &gt; *v, const std::string alias)</td></tr>
+<tr class="separator:a866cb14bcfaadba3251d58d354b8caab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classfv_1_1DerivedValue"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classfv_1_1DerivedValue')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classfv_1_1DerivedValue.html">fv::DerivedValue&lt; T &gt;</a></td></tr>
 <tr class="memitem:a00219a17112600afdc060d67d6f95b21 inherit pub_methods_classfv_1_1DerivedValue"><td class="memItemLeft" align="right" valign="top"><a id="a00219a17112600afdc060d67d6f95b21"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>DerivedValue</b> (const std::string &amp;name, const std::string &amp;alias=&quot;&quot;)</td></tr>
@@ -129,6 +130,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_logging</b> (c
 <tr class="memitem:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memItemLeft" align="right" valign="top"><a id="a8a3517fdba15dcb2c141dbd58fc232b1"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_logging</b> ()</td></tr>
 <tr class="separator:a8a3517fdba15dcb2c141dbd58fc232b1 inherit pub_methods_classfv_1_1Value"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a511acf80b66e6379f26eaa1f75b7a8fd"><td class="memItemLeft" align="right" valign="top"><a id="a511acf80b66e6379f26eaa1f75b7a8fd"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>fmt_name</b> (Function&lt; T(std::vector&lt; T &gt;)&gt; &amp;reduce_fn, <a class="el" href="classfv_1_1Value.html">Value</a>&lt; std::vector&lt; T &gt;&gt; *v)</td></tr>
+<tr class="separator:a511acf80b66e6379f26eaa1f75b7a8fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -152,9 +159,9 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a726b29987fedc0ff47c4c79bd53c0b00"><td class="memItemLeft" align="right" valign="top"><a id="a726b29987fedc0ff47c4c79bd53c0b00"></a>
-Function&lt; T(std::vector&lt; T &gt;)&gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>reduce</b></td></tr>
-<tr class="separator:a726b29987fedc0ff47c4c79bd53c0b00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d4a83090c1908156ff86a62bce703a"><td class="memItemLeft" align="right" valign="top"><a id="a98d4a83090c1908156ff86a62bce703a"></a>
+Function&lt; T(std::vector&lt; T &gt;)&gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>reduce_fn</b></td></tr>
+<tr class="separator:a98d4a83090c1908156ff86a62bce703a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -174,7 +181,7 @@ class fv::Reduce&lt; T &gt;</h3>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

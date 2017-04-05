@@ -64,36 +64,33 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">selection.hpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;iostream&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;numeric&gt;</code><br />
-<code>#include &lt;limits&gt;</code><br />
+<div class="textblock"><code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;filval/filval.hpp&quot;</code><br />
 <code>#include &quot;filval_root/filval_root.hpp&quot;</code><br />
-<code>#include &lt;TSystem.h&gt;</code><br />
+<code>#include &quot;analysis/common/obj_types.hpp&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for selection.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="selection_8hpp__incl.png" border="0" usemap="#_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hpp" alt=""/></div>
 <map name="_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hpp" id="_2home_2caleb_2Sources_2TTTT_2analysis_2selection_8hpp">
-<area shape="rect" id="node7" href="filval_8hpp_source.html" title="filval/filval.hpp" alt="" coords="510,102,629,129"/>
-<area shape="rect" id="node26" href="filval__root_8hpp_source.html" title="filval_root/filval\l_root.hpp" alt="" coords="1068,95,1191,136"/>
-<area shape="rect" id="node8" href="value_8hpp.html" title="value.hpp" alt="" coords="551,408,638,435"/>
-<area shape="rect" id="node17" href="log_8hpp.html" title="log.hpp" alt="" coords="91,483,162,509"/>
-<area shape="rect" id="node20" href="filter_8hpp.html" title="filter.hpp" alt="" coords="290,333,369,360"/>
-<area shape="rect" id="node21" href="container_8hpp.html" title="container.hpp" alt="" coords="455,259,566,285"/>
-<area shape="rect" id="node22" href="dataset_8hpp.html" title="dataset.hpp" alt="" coords="357,184,456,211"/>
-<area shape="rect" id="node23" href="argparse_8hpp.html" title="argparse.hpp" alt="" coords="697,333,804,360"/>
-<area shape="rect" id="node25" href="api_8hpp.html" title="api.hpp" alt="" coords="829,333,899,360"/>
-<area shape="rect" id="node27" href="root_2value_8hpp_source.html" title="filval_root/value.hpp" alt="" coords="924,333,1079,360"/>
-<area shape="rect" id="node29" href="root_2container_8hpp_source.html" title="filval_root/container.hpp" alt="" coords="1391,184,1569,211"/>
-<area shape="rect" id="node39" href="root_2api_8hpp_source.html" title="filval_root/api.hpp" alt="" coords="795,259,933,285"/>
+<area shape="rect" id="node3" href="filval_8hpp_source.html" title="filval/filval.hpp" alt="" coords="690,102,809,129"/>
+<area shape="rect" id="node25" href="filval__root_8hpp_source.html" title="filval_root/filval\l_root.hpp" alt="" coords="1681,95,1804,136"/>
+<area shape="rect" id="node4" href="value_8hpp.html" title="value.hpp" alt="" coords="705,408,791,435"/>
+<area shape="rect" id="node16" href="log_8hpp.html" title="log.hpp" alt="" coords="86,483,157,509"/>
+<area shape="rect" id="node19" href="filter_8hpp.html" title="filter.hpp" alt="" coords="561,333,639,360"/>
+<area shape="rect" id="node20" href="container_8hpp.html" title="container.hpp" alt="" coords="770,259,881,285"/>
+<area shape="rect" id="node21" href="dataset_8hpp.html" title="dataset.hpp" alt="" coords="491,184,589,211"/>
+<area shape="rect" id="node22" href="argparse_8hpp.html" title="argparse.hpp" alt="" coords="1115,333,1221,360"/>
+<area shape="rect" id="node24" href="api_8hpp.html" title="api.hpp" alt="" coords="969,333,1039,360"/>
+<area shape="rect" id="node26" href="root_2value_8hpp_source.html" title="filval_root/value.hpp" alt="" coords="1347,333,1501,360"/>
+<area shape="rect" id="node28" href="root_2container_8hpp_source.html" title="filval_root/container.hpp" alt="" coords="1972,184,2151,211"/>
+<area shape="rect" id="node38" href="root_2api_8hpp_source.html" title="filval_root/api.hpp" alt="" coords="1215,259,1353,285"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -107,17 +104,17 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="selection_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:accd98ae75cd9f5a28848c6e6f9240fbf"><td class="memItemLeft" align="right" valign="top"><a id="accd98ae75cd9f5a28848c6e6f9240fbf"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>JET_REQUIREMENT</b>&#160;&#160;&#160;6</td></tr>
-<tr class="separator:accd98ae75cd9f5a28848c6e6f9240fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe72ff81a7e1ed38c1ded94408ac7fb9"><td class="memItemLeft" align="right" valign="top"><a id="abe72ff81a7e1ed38c1ded94408ac7fb9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>B_JET_REQUIREMENT</b>&#160;&#160;&#160;3</td></tr>
-<tr class="separator:abe72ff81a7e1ed38c1ded94408ac7fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0efa904167983de01456d0d50d87b9c6"><td class="memItemLeft" align="right" valign="top"><a id="a0efa904167983de01456d0d50d87b9c6"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>B_JET_WP</b>&#160;&#160;&#160;0.</td></tr>
-<tr class="separator:a0efa904167983de01456d0d50d87b9c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:afa7edffea495b7494a1b117b0e23f4fb"><td class="memItemLeft" align="right" valign="top"><a id="afa7edffea495b7494a1b117b0e23f4fb"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>init_selection</b> ()</td></tr>
+<tr class="separator:afa7edffea495b7494a1b117b0e23f4fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a6790a10d894d96e253659e716ae520ef"><td class="memItemLeft" align="right" valign="top"><a id="a6790a10d894d96e253659e716ae520ef"></a>
+EventSelection&#160;</td><td class="memItemRight" valign="bottom"><b>event_selection</b></td></tr>
+<tr class="separator:a6790a10d894d96e253659e716ae520ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Caleb Fangmeier <a href="#" onclick="location.href='mai'+'lto:'+'cal'+'eb'+'@fa'+'ng'+'mei'+'er'+'.te'+'ch'; return false;">caleb<span style="display: none;">.nosp@m.</span>@fan<span style="display: none;">.nosp@m.</span>gmeie<span style="display: none;">.nosp@m.</span>r.te<span style="display: none;">.nosp@m.</span>ch</a> </dd></dl>

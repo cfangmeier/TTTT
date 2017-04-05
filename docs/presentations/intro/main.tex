@@ -9,8 +9,10 @@
 % \setsansfont[Mapping=tex-text]{DejaVu Sans}
 % \setmonofont{DejaVu Sans Mono}
 
-\newcommand{\fb}{\si{\femto\barn}}
+\newcommand{\fb}{\si{\femto\barn}}%
 \newcommand{\invfb}{\si{\per\femto\barn}}
+
+\newcommand{\GeV}{\si{\giga\electronvolt}}
 
 \usetheme[]{bjeldbak}
 
@@ -137,16 +139,50 @@
 \begin{table}[]
   \begin{tabular}{@{}lcr@{}}
   \textbf{Analysis}           & \textbf{Channel}            & \textbf{Limit}  \\ \midrule
-  CMS-TOP-16-016              & Single Lepton, OS Dilepton  & 94\fb          \\ \midrule
-  CMS-SUS-15-008              & SS Dilepton                 & 119\fb         \\ \bottomrule
-  \textbf{Combined}           &                             & 69\fb          \\
+  CMS-TOP-16-016              & Single Lepton, OS Dilepton  & 94\fb          \\ \midrule%
+  CMS-SUS-15-008              & SS Dilepton                 & 119\fb         \\ \bottomrule%
+  \textbf{Combined}           &                             & 69\fb          \\%
   \end{tabular}
 \end{table}
 \end{frame}
 
 \section{Strategy}
-\begin{frame}{Strategy}
+\begin{frame}{Backgrounds (Irreducible)}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{figures/irreducible-backgrounds.png}
+  \end{center}
 \end{frame}
+
+\begin{frame}{Backgrounds (Reducible)}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{figures/reducible-backgrounds.png}
+  \\
+  Here, $\epsilon=10^{-4}$, but will need to be corrected to measured value for CMS
+  \end{center}
+\end{frame}
+
+\begin{frame}{Strategy}
+  \begin{minipage}[c][\textheight]{0.49\textwidth}
+    \small
+    \begin{itemize}
+      % \item Take advantage of the existing N-Tuples created by the TTH-Multilepton analysis
+      \item Use the baseline selection from\cite{}
+      \begin{itemize}
+        \item Exactly three charged leptons ($e$ or $\mu$) passing mini-isolation criteria ($R_0=0.5, p_{T_0}=7.5\GeV$)
+        \item Jet multiplicity $N_j \ge 4$
+        \item B-Jet multiplicity $N_j \ge 3$
+        \item Z-mass window veto: $M_{\ell^+\ell^-} \notin (70\GeV,105\GeV)$
+      \end{itemize}
+      \item Further breakdown into signal regions based on $N_j$
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}[c][\textheight]{0.49\textwidth}
+    \begin{center}
+      \includegraphics[width=\textwidth]{figures/event-yields.png}
+    \end{center}
+  \end{minipage}
+\end{frame}
+
 
 \section{Progress \& Status}
 \begin{frame}{Progress \& Status}
