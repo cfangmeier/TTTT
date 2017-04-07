@@ -49,59 +49,53 @@ class ObsFilter : public DerivedValue<bool>{
             value = filter_function();
         }
 
-        void verify_integrity(){ };
-
     public:
         ObsFilter(const std::string& name, std::function<bool()> filter_function, const std::string& impl="")
           :DerivedValue<bool>(name),
            filter_function(GenFunction::register_function<bool()>("filter::"+name, filter_function, impl)){ }
-
-        /** Return a new filter that is the conjuction of the two source filters.
-         */
-        static ObsFilter* conj(ObsFilter *f1, ObsFilter *f2){
-            auto new_name = f1->get_name() + "&&" + f2->get_name();
-            return new ObsFilter(new_name, [f1,f2](){return f1->get_value() && f2->get_value();});
-        }
-
-        /** Return a new filter that is the conjuction of the two source filters.
-         */
-        static ObsFilter* disj(ObsFilter *f1, ObsFilter *f2){
-            auto new_name = f1->get_name() + "||" + f2->get_name();
-            return new ObsFilter(new_name, [f1, f2](){return f1->get_value() && f2->get_value();});
-        }
-
-        /** Return a new filter that is the conjuction of the two source filters.
-         */
-        ObsFilter* operator*(ObsFilter *f){
-            auto new_name = this->get_name() + "&&" + f->get_name();
-            return new ObsFilter(new_name, [this, f](){return this->get_value() && f->get_value();});
-        }
-
-        /** Return a new filter that is the disjunction of the two source
-         * filters.
-         */
-        ObsFilter* operator+(ObsFilter *f){
-            auto new_name = this->get_name() + "||" + f->get_name();
-            return new ObsFilter(new_name, [this, f](){return this->get_value() || f->get_value();});
-        }
-
-        /** Return a new filter that is the negation of the source filter.
-         */
-        ObsFilter* operator!(){
-            auto new_name = std::string("!(") + this->get_name() + std::string(")");
-            return new ObsFilter(new_name, [this](){return !this->get_value();});
-        }
 };
 
-template <typename T>
-class RangeObsFilter : public ObsFilter{
-    private:
-    public:
-        RangeObsFilter(const std::string name, Value<T>* test_value, T range_low, T range_high):
-          ObsFilter(name, [test_value, range_low, range_high]{
-                  T val = test_value->get_value();
-                  return (val >= range_low) && (val < range_high);
-                  }) { }
-};
+/** Return a new filter that is the conjuction of a vector of source filters
+ */
+ObsFilter* all(const std::vector<ObsFilter*>&& fs){
+    if(fs.size() == 0){
+        return nullptr;
+    } else{
+        std::stringstream ss;
+        ss << fs[0]->get_name();
+        for(size_t i=1; i<fs.size(); i++) ss << "AND" << fs[i]->get_name();
+        return new ObsFilter(ss.str(), [fs](){
+                return std::all_of(std::begin(fs), std::end(fs), [](ObsFilter* f){return f->get_value();});
+        });
+    }
+}
+
+/** Return a new filter that is the disjunction of a vector of source filters
+ */
+ObsFilter* any(const std::vector<ObsFilter*>&& fs){
+    if(fs.size() == 0){
+        return nullptr;
+    } else{
+        std::stringstream ss;
+        ss << fs[0]->get_name();
+        for(size_t i=1; i<fs.size(); i++) ss << "OR" << fs[i]->get_name();
+        return new ObsFilter(ss.str(), [fs](){
+                return std::any_of(std::begin(fs), std::end(fs), [](ObsFilter* f){return f->get_value();});
+        });
+    }
+}
+
+/** Return a new filter that is the conjuction of the two source filters.
+ */
+ObsFilter* all(ObsFilter *f1, ObsFilter *f2){
+    return all({f1, f2});
+}
+
+/** Return a new filter that is the conjuction of the two source filters.
+ */
+ObsFilter* any(ObsFilter *f1, ObsFilter *f2){
+    return any({f1, f2});
+}
+
 }
 #endif // filter_h

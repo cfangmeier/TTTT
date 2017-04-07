@@ -11816,10 +11816,10 @@ div#notebook {
 
 
 
-<div id="7d74e167-9ddd-4240-986b-8102e2d08aeb"></div>
+<div id="596dff00-2ab4-4607-b7d3-ce8abba24596"></div>
 <div class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#7d74e167-9ddd-4240-986b-8102e2d08aeb');
+var element = $('#596dff00-2ab4-4607-b7d3-ce8abba24596');
 
 require(['notebook'],
   function() {
@@ -11861,11 +11861,11 @@ require(['notebook'],
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rs_TTZ</span>  <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTZ&quot;</span><span class="p">,</span>  <span class="s2">&quot;../data/TTZToLLNuNu_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
-<span class="n">rs_TTW</span>  <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTW&quot;</span><span class="p">,</span>  <span class="s2">&quot;../data/TTWToLNu_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
-<span class="n">rs_TTH</span> <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTH&quot;</span><span class="p">,</span> <span class="s2">&quot;../data/TTHnobb_mWCutfix_ext1_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rs_TTZ</span>  <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTZ&quot;</span><span class="p">,</span>  <span class="s2">&quot;../ichep_data/TTZToLLNuNu_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
+<span class="n">rs_TTW</span>  <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTW&quot;</span><span class="p">,</span>  <span class="s2">&quot;../ichep_data/TTWToLNu_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
+<span class="n">rs_TTH</span> <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTH&quot;</span><span class="p">,</span> <span class="s2">&quot;../ichep_data/TTHnobb_mWCutfix_ext1_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
 <span class="c1"># rs_TTH2 = ResultSet(&quot;TTH2&quot;, &quot;../data/TTHnobb_mWCutfix_ch0_treeProducerSusyMultilepton_tree.root&quot;)</span>
-<span class="n">rs_TTTT</span> <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTTT&quot;</span><span class="p">,</span> <span class="s2">&quot;../data/TTTT_ext_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
+<span class="n">rs_TTTT</span> <span class="o">=</span> <span class="n">ResultSet</span><span class="p">(</span><span class="s2">&quot;TTTT&quot;</span><span class="p">,</span> <span class="s2">&quot;../ichep_data/TTTT_ext_treeProducerSusyMultilepton_tree.root&quot;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11880,12 +11880,48 @@ require(['notebook'],
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Loading unchanged result file  ../data/TTZToLLNuNu_treeProducerSusyMultilepton_tree_result.root
-Loading unchanged result file  ../data/TTWToLNu_treeProducerSusyMultilepton_tree_result.root
-Loading unchanged result file  ../data/TTHnobb_mWCutfix_ext1_treeProducerSusyMultilepton_tree_result.root
-Loading unchanged result file  ../data/TTTT_ext_treeProducerSusyMultilepton_tree_result.root
+<pre>Running analysis for sample:  TTZ
+Writing log data to ../ichep_data/TTZToLLNuNu_treeProducerSusyMultilepton_tree_result.log
+Running analysis for sample:  TTW
+Writing log data to ../ichep_data/TTWToLNu_treeProducerSusyMultilepton_tree_result.log
+Running analysis for sample:  TTH
+Writing log data to ../ichep_data/TTHnobb_mWCutfix_ext1_treeProducerSusyMultilepton_tree_result.log
+Running analysis for sample:  TTTT
+Writing log data to ../ichep_data/TTTT_ext_treeProducerSusyMultilepton_tree_result.log
 </pre>
 </div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rs_TTZ</span><span class="o">.</span><span class="n">LepGood_mcMatchPdgId</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">rs_TTZ</span><span class="o">.</span><span class="n">LepGood_pdgId</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[30]:</div>
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[(11, 11), (-99, 11), (-11, -11)]</pre>
+</div>
+
 </div>
 
 </div>

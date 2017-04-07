@@ -86,7 +86,7 @@ Inheritance diagram for fv::GenContainer:</div>
 <area shape="rect" id="node3" href="classfv_1_1Container.html" title="fv::Container\&lt; std\l::map\&lt; D, int \&gt;, V \&gt;" alt="" coords="209,71,365,112"/>
 <area shape="rect" id="node4" href="classfv_1_1Container.html" title="fv::Container\&lt; std\l::map\&lt; V, int \&gt;, std\l::vector\&lt; V \&gt; \&gt;" alt="" coords="212,137,363,193"/>
 <area shape="rect" id="node5" href="classfv_1_1Container.html" title="fv::Container\&lt; std\l::map\&lt; V, int \&gt;, V \&gt;" alt="" coords="210,217,365,259"/>
-<area shape="rect" id="node6" href="classfv_1_1Container.html" title="fv::Container\&lt; std\l::vector\&lt; T \&gt;, T \&gt;" alt="" coords="217,283,357,324"/>
+<area shape="rect" id="node6" href="classfv_1_1Container.html" title="fv::Container\&lt; std\l::vector\&lt; V \&gt;, V \&gt;" alt="" coords="216,283,359,324"/>
 <area shape="rect" id="node7" href="classfv_1_1Container.html" title="fv::Container\&lt; T, T \&gt;" alt="" coords="208,349,367,375"/>
 <area shape="rect" id="node9" href="classfv_1_1Container.html" title="fv::Container\&lt; TGraph,\l std::pair\&lt; V, V \&gt; \&gt;" alt="" coords="202,400,373,441"/>
 <area shape="rect" id="node10" href="classfv_1_1Container.html" title="fv::Container\&lt; TH1,\l std::vector\&lt; V \&gt; \&gt;" alt="" coords="212,465,363,507"/>
@@ -119,9 +119,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>set_description</b> (
 <tr class="memitem:ad21df0a48fca797ff0cc9fec6a0d46f9"><td class="memItemLeft" align="right" valign="top"><a id="ad21df0a48fca797ff0cc9fec6a0d46f9"></a>
 const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_name</b> ()</td></tr>
 <tr class="separator:ad21df0a48fca797ff0cc9fec6a0d46f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e50daedf82bcf2e519fe153591e9c3b"><td class="memItemLeft" align="right" valign="top"><a id="a2e50daedf82bcf2e519fe153591e9c3b"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_value_name</b> ()</td></tr>
-<tr class="separator:a2e50daedf82bcf2e519fe153591e9c3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94262856d05df663dda26598216d91f7"><td class="memItemLeft" align="right" valign="top"><a id="a94262856d05df663dda26598216d91f7"></a>
+virtual const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_value_name</b> ()</td></tr>
+<tr class="separator:a94262856d05df663dda26598216d91f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a901f02585a9b8a9dcf4b77ee41207adc"><td class="memItemLeft" align="right" valign="top"><a id="a901f02585a9b8a9dcf4b77ee41207adc"></a>
+virtual <a class="el" href="classfv_1_1GenContainer.html">GenContainer</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>clone_as</b> (const std::string &amp;new_name)=0</td></tr>
+<tr class="separator:a901f02585a9b8a9dcf4b77ee41207adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9c4dd0c4bf7017525c2091f356d67d50"><td class="memItemLeft" align="right" valign="top"><a id="a9c4dd0c4bf7017525c2091f356d67d50"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>save_as</b> (const std::string &amp;fname, const <a class="el" href="namespacefv.html#a16a191c4b8935d4c7c5aad79fc4ea97e">SaveOption</a> &amp;option)=0</td></tr>
 <tr class="separator:a9c4dd0c4bf7017525c2091f356d67d50"><td class="memSeparator" colspan="2">&#160;</td></tr>

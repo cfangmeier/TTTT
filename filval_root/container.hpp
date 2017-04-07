@@ -131,6 +131,10 @@ class ContainerTH1 : public _ContainerTH1<V>{
     void _do_fill(){
         this->container->Fill(this->value->get_value());
     }
+    public:
+        GenContainer* clone_as(const std::string& new_name){
+            return new ContainerTH1<V>(new_name, this->title, this->value, this->nbins, this->low, this->high, this->label_x, this->label_y);
+        }
 };
 
 template <typename V>
@@ -140,6 +144,10 @@ class ContainerTH1Many : public _ContainerTH1<std::vector<V>>{
         for(V x : this->value->get_value())
             this->container->Fill(x);
     }
+    public:
+        GenContainer* clone_as(const std::string& new_name){
+            return new ContainerTH1Many<V>(new_name, this->title, this->value, this->nbins, this->low, this->high, this->label_x, this->label_y);
+        }
 };
 
 
@@ -199,6 +207,11 @@ class ContainerTH2 : public _ContainerTH2<V>{
     void _do_fill(std::pair<V,V>& val){
         this->container->Fill(val.first,val.second);
     }
+    public:
+        GenContainer* clone_as(const std::string& new_name){
+            return new ContainerTH2<V>(new_name, this->title, this->value, this->nbins_x, this->low_x, this->high_x,
+                                       this->nbins_y, this->low_y, this->high_y, this->label_x, this->label_y);
+        }
 };
 
 template <typename V>
@@ -209,6 +222,11 @@ class ContainerTH2Many : public _ContainerTH2<std::vector<V>>{
         for(int i=0; i<min_size; i++)
             this->container->Fill(val.first[i],val.second[i]);
     }
+    public:
+        GenContainer* clone_as(const std::string& new_name){
+            return new ContainerTH2Many<V>(new_name, this->title, this->value, this->nbins_x, this->low_x, this->high_x,
+                                           this->nbins_y, this->low_y, this->high_y, this->label_x, this->label_y);
+        }
 };
 
 template <typename V>
@@ -241,26 +259,35 @@ class ContainerTGraph : public Container<TGraph,std::pair<V,V>>{
             }
             return this->container;
         }
+
+        GenContainer* clone_as(const std::string& new_name){
+            return new ContainerTGraph<V>(new_name, this->title, this->value);
+        }
+
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             util::save_as(get_container(), fname, option);
         }
 };
 
-template <typename T>
-class Vector : public Container<std::vector<T>,T>{
+template <typename V>
+class Vector : public Container<std::vector<V>,V>{
     private:
 
         void _fill(){
             this->container->push_back(this->value->get_value());
         }
     public:
-        Vector(const std::string& name, Value<T>* value)
-          :Container<std::vector<T>,T>(name, value){
-            this->container = new std::vector<T>;
+        Vector(const std::string& name, Value<V>* value)
+          :Container<std::vector<V>,V>(name, value){
+            this->container = new std::vector<V>;
+        }
+
+        GenContainer* clone_as(const std::string& new_name){
+            return new Vector<V>(new_name, this->value);
         }
 
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
-            std::string type_name = "std::vector<"+fv::util::get_type_name(typeid(T))+">";
+            std::string type_name = "std::vector<"+fv::util::get_type_name(typeid(V))+">";
             util::save_as_stl(this->get_container(), type_name, this->get_name(), option);
         }
 };
@@ -290,6 +317,10 @@ class Counter : public _Counter<V,V>{
         void _fill(){
             (*this->container)[this->value->get_value()]++;
         }
+    public:
+        GenContainer* clone_as(const std::string& new_name){
+            return new Counter<V>(new_name, this->value);
+        }
 };
 
 /**
@@ -301,6 +332,10 @@ class CounterMany : public _Counter<std::vector<V>,V>{
         void _fill(){
             for(V& val : this->value->get_value())
                 (*this->container)[val]++;
+        }
+    public:
+        GenContainer* clone_as(const std::string& new_name){
+            return new CounterMany<V>(new_name, this->value);
         }
 };
 
@@ -318,6 +353,10 @@ class PassCount : public Container<int,bool>{
             this->container = new int(0);
         }
 
+        GenContainer* clone_as(const std::string& new_name){
+            return new PassCount(new_name, this->value);
+        }
+
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             //ROOT(hilariously) cannot serialize basic data types, we wrap this
             //in a vector.
@@ -332,8 +371,8 @@ class MVA : public Container<TMVA::DataLoader,typename MVAData<ArgTypes...>::typ
     private:
         std::vector<std::pair<std::string,std::string>> methods;
 
-        TCut cut;
-        TString opt;
+        std::string cut;
+        std::string opt;
 
         void _fill(){
             std::tuple<ArgTypes...> t;
@@ -359,7 +398,7 @@ class MVA : public Container<TMVA::DataLoader,typename MVAData<ArgTypes...>::typ
     public:
         MVA(const std::string& name, MVAData<ArgTypes...>* value, const std::string& cut = "", const std::string& opt = "")
           :Container<TMVA::DataLoader,typename MVAData<ArgTypes...>::type>(name, value),
-           cut(cut.c_str()), opt(opt.c_str()) {
+           cut(cut), opt(opt) {
             this->container = new TMVA::DataLoader(name);
             for (std::pair<std::string,char>& p : value->get_label_types()){
                 this->container->AddVariable(p.first, p.second);
@@ -370,10 +409,16 @@ class MVA : public Container<TMVA::DataLoader,typename MVAData<ArgTypes...>::typ
             methods.push_back(std::make_pair(method_name, method_params));
         }
 
+        GenContainer* clone_as(const std::string& new_name){
+            auto mva = new MVA<ArgTypes...>(new_name, (MVAData<ArgTypes...>*)this->value, this->cut, this->opt);
+            mva->methods = methods;
+            return mva;
+        }
+
         void save_as(const std::string& fname, const SaveOption& option = SaveOption::PNG) {
             TFile* outputFile = gDirectory->GetFile();
 
-            this->container->PrepareTrainingAndTestTree(cut, opt);
+            this->container->PrepareTrainingAndTestTree(cut.c_str(), opt.c_str());
             TMVA::Factory *factory = new TMVA::Factory("TMVAClassification", outputFile,
                                                        "!V:!Silent:Color:DrawProgressBar:Transformations=I;D;P;G,D:AnalysisType=Classification");
 

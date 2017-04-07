@@ -269,18 +269,22 @@ void declare_containers(MiniTreeDataSet& mt){
                                                 10, 0, 10, 10, 0, 10,
                                                 "Generated Leptons","Reconstructed Leptons");
 
-    mt.register_container<ContainerTH1<int>>("jet_count", "B-Jet Multiplicity", lookup<int>("nJet"), 15, 0, 15);
+    auto jet_count = mt.register_container<ContainerTH1<int>>("jet_count", "B-Jet Multiplicity", lookup<int>("nJet"), 15, 0, 15);
+    mt.cut_set(jet_count,{
+               {event_selection.trilepton, "jet_count_trilepton"},
+               {event_selection.b_jet3, "jet_count_b_jet3"},
+               {event_selection.z_mass_veto, "jet_count_z_mass_veto"},
+               {event_selection.base_sel, "jet_count_base_selection"},
+               });
     mt.register_container<ContainerTH1<int>>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10);
 
-    mt.register_container<ContainerTH1<int>>("jet_count_base_selection", "B-Jet Multiplicity", lookup<int>("nJet"), 15, 0, 15)->add_filter(event_selection.base_sel);
+
     mt.register_container<ContainerTH1<int>>("b_jet_count_base_selection", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10)->add_filter(event_selection.base_sel);
 
     mt.register_container<ContainerTH1<int>>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events",
                                                 lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("os-dilepton"));
     mt.register_container<ContainerTH1<int>>("jet_count_ss_dilepton", "Jet Multiplicity - SS Dilepton Events",
                                                 lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("ss-dilepton"));
-    mt.register_container<ContainerTH1<int>>("jet_count_trilepton", "Jet Multiplicity - Trilepton Events",
-                                                lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("trilepton"));
 
 
     mt.register_container<CounterMany<int>>("GenPart_pdgId_counter", lookup<vector<int>>("GenPart_pdgId"));
@@ -297,6 +301,7 @@ void declare_containers(MiniTreeDataSet& mt){
     mt.register_container<Vector<std::vector< int >>>("GenPart_status",      lookup<std::vector< int >>("GenPart_status"));
 
     mt.register_container<Vector<vector< int >>>("LepGood_mcMatchPdgId",     lookup<vector< int >>("LepGood_mcMatchPdgId"));
+    mt.register_container<Vector<vector< int >>>("LepGood_pdgId",     lookup<vector< int >>("LepGood_pdgId"));
 
     mt.register_container<Vector< int >>("run",                              lookup< int >("run") );
     mt.register_container<Vector< int >>("lumi",                             lookup< int >("lumi"));

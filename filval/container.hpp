@@ -110,9 +110,11 @@ class GenContainer{
             return name;
         }
 
-        virtual const std::string& get_value_name(){
+        virtual const std::string get_value_name(){
             return "N/A";
         }
+
+        virtual GenContainer* clone_as(const std::string& new_name) = 0;
 
         virtual void save_as(const std::string& fname, const SaveOption& option) = 0;
 
@@ -143,7 +145,7 @@ class Container : public GenContainer{
             return container;
         }
 
-        virtual const std::string& get_value_name(){
+        virtual const std::string get_value_name(){
             return value->get_name();
         }
 };
@@ -177,11 +179,13 @@ class ContainerMean : public Container<T,T>{
             return (this->container);
         }
 
-
-        void save_as(const std::string& fname) {
-            WARNING("Saving of ContainerMean objects not supported");
+        GenContainer* clone_as(const std::string& new_name){
+            return new ContainerMean(new_name, this->value);
         }
 
+        void save_as(const std::string&) {
+            WARNING("Saving of ContainerMean objects not supported");
+        }
 };
 
 }

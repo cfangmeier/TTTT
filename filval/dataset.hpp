@@ -78,6 +78,14 @@ class DataSet{
             return impl_map;
         }
     public:
+        DataSet(){
+            auto& event_check = GenFunction::register_function<int()>("event_number",
+                FUNC(([ds=this](){
+                    return ds->get_current_event();
+                })));
+            current_event_number = new BoundValue<int>(event_check);
+        }
+
         void process(bool silent=false){
             int events, current_event;
             summary();
@@ -109,20 +117,26 @@ class DataSet{
             return container;
         }
 
+        void cut_set(GenContainer* base_container, std::vector<std::pair<Value<bool>*, std::string>> filters){
+            for(auto p : filters){
+                Value<bool>* filter;
+                std::string new_name;
+                std::tie(filter, new_name) = p;
+                if (containers[new_name] != nullptr){
+                    CRITICAL("Container with name \""<<new_name<<"\" already exists.", -1);
+                }
+                auto new_container = base_container->clone_as(new_name);
+                new_container->add_filter(filter);
+                containers[new_container->get_name()] = new_container;
+            }
+        }
+
         GenContainer* get_container(std::string container_name){
             GenContainer* c = containers[container_name];
             if (c == nullptr){
                 CRITICAL("Request for container \"" << container_name << "\" failed. Doesn't exist.", -1);
             }
             return c;
-        }
-
-        DataSet(){
-            auto& event_check = GenFunction::register_function<int()>("event_number",
-                FUNC(([ds=this](){
-                    return ds->get_current_event();
-                })));
-            current_event_number = new BoundValue<int>(event_check);
         }
 
         Value<int>* get_current_event_number(){

@@ -328,6 +328,22 @@ template&lt;typename... ArgTypes&gt; </td></tr>
 <tr class="memitem:a97c916f0cec36778d54ff19e98c8abaf"><td class="memItemLeft" align="right" valign="top"><a id="a97c916f0cec36778d54ff19e98c8abaf"></a>
 ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><b>obs_filter</b> (const std::string &amp;name, std::function&lt; bool()&gt; filter_function, const std::string &amp;impl=&quot;&quot;)</td></tr>
 <tr class="separator:a97c916f0cec36778d54ff19e98c8abaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a940ebe186f09cdf88de7cf849a7e28dc"><td class="memItemLeft" align="right" valign="top"><a id="a940ebe186f09cdf88de7cf849a7e28dc"></a>
+ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefv.html#a940ebe186f09cdf88de7cf849a7e28dc">all</a> (const std::vector&lt; ObsFilter *&gt; &amp;&amp;fs)</td></tr>
+<tr class="memdesc:a940ebe186f09cdf88de7cf849a7e28dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new filter that is the conjuction of a vector of source filters. <br /></td></tr>
+<tr class="separator:a940ebe186f09cdf88de7cf849a7e28dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06b34151d742ea4597f6694fef2b875e"><td class="memItemLeft" align="right" valign="top"><a id="a06b34151d742ea4597f6694fef2b875e"></a>
+ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefv.html#a06b34151d742ea4597f6694fef2b875e">any</a> (const std::vector&lt; ObsFilter *&gt; &amp;&amp;fs)</td></tr>
+<tr class="memdesc:a06b34151d742ea4597f6694fef2b875e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new filter that is the disjunction of a vector of source filters. <br /></td></tr>
+<tr class="separator:a06b34151d742ea4597f6694fef2b875e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2397994a5186a57ec4a83e9a25559c02"><td class="memItemLeft" align="right" valign="top"><a id="a2397994a5186a57ec4a83e9a25559c02"></a>
+ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefv.html#a2397994a5186a57ec4a83e9a25559c02">all</a> (ObsFilter *f1, ObsFilter *f2)</td></tr>
+<tr class="memdesc:a2397994a5186a57ec4a83e9a25559c02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new filter that is the conjuction of the two source filters. <br /></td></tr>
+<tr class="separator:a2397994a5186a57ec4a83e9a25559c02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a2fae325e4cd1e4d1d9e71355a3d15b"><td class="memItemLeft" align="right" valign="top"><a id="a4a2fae325e4cd1e4d1d9e71355a3d15b"></a>
+ObsFilter *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacefv.html#a4a2fae325e4cd1e4d1d9e71355a3d15b">any</a> (ObsFilter *f1, ObsFilter *f2)</td></tr>
+<tr class="memdesc:a4a2fae325e4cd1e4d1d9e71355a3d15b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a new filter that is the conjuction of the two source filters. <br /></td></tr>
+<tr class="separator:a4a2fae325e4cd1e4d1d9e71355a3d15b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplParams" colspan="2"><a id="a6f29b37e1d794f52bdb07602096ca21c"></a>
 template&lt;typename T , std::size_t N, typename Indices  = std::make_index_sequence&lt;N&gt;&gt; </td></tr>
 <tr class="memitem:a6f29b37e1d794f52bdb07602096ca21c"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacefv.html#a6f29b37e1d794f52bdb07602096ca21c">a2t</a> (const std::array&lt; T, N &gt; &amp;a)</td></tr>
