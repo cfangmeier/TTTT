@@ -1,5 +1,0 @@
-<map id="fv::MaxIndex&lt; T &gt;" name="fv::MaxIndex&lt; T &gt;">
-<area shape="rect" id="node2" href="$classfv_1_1ReduceIndex.html" title="Similar to Reduce, but returns a pair of a T and an int. " alt="" coords="6,184,169,211"/>
-<area shape="rect" id="node3" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::pair\&lt; T, int \&gt; \&gt;" alt="" coords="5,95,169,136"/>
-<area shape="rect" id="node4" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::pair\l\&lt; T, int \&gt; \&gt;" alt="" coords="14,5,161,47"/>
-</map>

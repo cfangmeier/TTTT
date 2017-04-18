@@ -1,9 +1,0 @@
-<map id="fv::root::MassFilter" name="fv::root::MassFilter">
-<area shape="rect" id="node2" href="$classfv_1_1Filter.html" title="fv::Filter" alt="" coords="176,287,251,313"/>
-<area shape="rect" id="node3" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; bool \&gt;" alt="" coords="249,183,436,209"/>
-<area shape="rect" id="node4" href="$classfv_1_1Value.html" title="fv::Value\&lt; bool \&gt;" alt="" coords="275,81,411,108"/>
-<area shape="rect" id="node5" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="291,5,395,32"/>
-<area shape="rect" id="node7" href="$classfv_1_1Value.html" title="fv::Value\&lt; double \&gt;" alt="" coords="5,132,157,159"/>
-<area shape="rect" id="node8" href="$classfv_1_1Value.html" title="fv::Value\&lt; TLorentzVector \&gt;" alt="" coords="348,235,553,261"/>
-<area shape="rect" id="node6" href="$classfv_1_1Function.html" title="fv::Function\&lt; bool()\&gt;" alt="" coords="65,183,225,209"/>
-</map>

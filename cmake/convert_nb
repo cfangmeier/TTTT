@@ -18,6 +18,6 @@ fi
 nb_files=$(find . -type f -name "*.ipynb" ! -path "*/.ipynb_checkpoints/*")
 while read -r nb_file; do
     echo "Converting file: $nb_file"
-    echo $1 --to html --template full $exec_opt --output-dir "$2" $nb_file
+#     echo $1 --to html --template full $exec_opt --output-dir "$2" $nb_file
     $1 --to html --template full $exec_opt --output-dir "$2" "$nb_file"
 done <<< "$nb_files"

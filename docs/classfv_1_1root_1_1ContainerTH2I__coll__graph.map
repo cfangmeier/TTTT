@@ -1,8 +1,0 @@
-<map id="fv::root::ContainerTH2I" name="fv::root::ContainerTH2I">
-<area shape="rect" id="node2" href="$classfv_1_1root_1_1__ContainerTH2I.html" title="fv::root::_ContainerTH2I\l\&lt; int \&gt;" alt="" coords="86,276,262,317"/>
-<area shape="rect" id="node3" href="$classfv_1_1root_1_1ContainerTH2.html" title="fv::root::ContainerTH2\l\&lt; int, int \&gt;" alt="" coords="91,185,257,227"/>
-<area shape="rect" id="node4" href="$classfv_1_1Container.html" title="fv::Container\&lt; TH2 \&gt;" alt="" coords="5,89,167,115"/>
-<area shape="rect" id="node5" href="$classfv_1_1GenContainer.html" title="fv::GenContainer" alt="" coords="21,5,151,32"/>
-<area shape="rect" id="node6" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::pair\l\&lt; int, int \&gt; \&gt;" alt="" coords="191,81,338,123"/>
-<area shape="rect" id="node7" href="$classfv_1_1GenValue.html" title="fv::GenValue" alt="" coords="213,5,317,32"/>
-</map>

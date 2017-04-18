@@ -3,7 +3,8 @@
 __pycache__/
 build/
 data/
-*_data/
+doxygen_site/
+data_*/
 
 # C++ Build Files
 *.d

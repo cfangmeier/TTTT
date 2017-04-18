@@ -1,5 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classfv_1_1Value.html" title="fv::Value\&lt; Ret \&gt;" alt="" coords="5,5,135,32"/>
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; Ret \&gt;" alt="" coords="183,5,363,32"/>
-<area shape="rect" id="node3" href="$classfv_1_1Apply_3_01Ret_07ArgTypes_8_8_8_08_4.html" title="Applies a function to a tuple of values and returns a value. " alt="" coords="411,5,617,32"/>
-</map>

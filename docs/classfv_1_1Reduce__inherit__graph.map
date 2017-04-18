@@ -1,9 +1,0 @@
-<map id="fv::Reduce&lt; T &gt;" name="fv::Reduce&lt; T &gt;">
-<area shape="rect" id="node4" href="$classfv_1_1ElementOf.html" title="Extract the element at a specific index from a vector. " alt="" coords="5,229,155,256"/>
-<area shape="rect" id="node5" href="$classfv_1_1Max.html" title="Find and return the maximum value of a vector. " alt="" coords="179,229,285,256"/>
-<area shape="rect" id="node6" href="$classfv_1_1Mean.html" title="Calculate the mean value of a vector. " alt="" coords="309,229,424,256"/>
-<area shape="rect" id="node7" href="$classfv_1_1Min.html" title="Find and return the minimum value of a vector. " alt="" coords="449,229,551,256"/>
-<area shape="rect" id="node8" href="$classfv_1_1Range.html" title="Calculate the range of the values in a vector. " alt="" coords="575,229,697,256"/>
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="283,80,450,107"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="A templated value. " alt="" coords="309,5,425,32"/>
-</map>

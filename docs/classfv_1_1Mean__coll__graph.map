@@ -1,6 +1,0 @@
-<map id="fv::Mean&lt; T &gt;" name="fv::Mean&lt; T &gt;">
-<area shape="rect" id="node2" href="$classfv_1_1Reduce.html" title="Reduce a Value of type vector&lt;T&gt; to just a T. " alt="" coords="120,185,247,212"/>
-<area shape="rect" id="node3" href="$classfv_1_1DerivedValue.html" title="A Value derived from some other Values, not directly from the dataset. " alt="" coords="5,89,172,115"/>
-<area shape="rect" id="node4" href="$classfv_1_1Value.html" title="A templated value. " alt="" coords="31,5,147,32"/>
-<area shape="rect" id="node5" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; T \&gt; \&gt;" alt="" coords="197,81,359,123"/>
-</map>

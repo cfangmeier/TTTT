@@ -37,13 +37,13 @@ LIST( APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake )
 FIND_PACKAGE(Jupyter)
 IF(NBCONVERT_FOUND)
     ADD_CUSTOM_TARGET(notebook-docs
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_nb ${NBCONVERT_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_nb ${NBCONVERT_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/doxygen_site
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Converting Jupyter Notebooks to HTML" VERBATIM
     )
 
     ADD_CUSTOM_TARGET(notebooks
-        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_nb ${NBCONVERT_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/docs --update
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/convert_nb ${NBCONVERT_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/doxygen_site --update
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Re-Running notebooks and converting to HTML" VERBATIM
     )
@@ -53,23 +53,24 @@ ENDIF(NBCONVERT_FOUND)
 FIND_PACKAGE(Doxygen)
 IF(DOXYGEN_FOUND)
     CONFIGURE_FILE(
-        ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in
-        ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile @ONLY
+        ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in
+        ${CMAKE_CURRENT_BINARY_DIR}/doxygen_site/Doxyfile @ONLY
         )
     ADD_CUSTOM_TARGET(docs
-        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/docs
+        ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/doxygen_site/Doxyfile
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doxygen_site
         COMMENT "Generating API documentation with Doxygen" VERBATIM
         DEPENDS notebook-docs
     )
     ADD_CUSTOM_TARGET(docs-deploy
-        rsync -r . caleb@fangmeier.tech:/var/www/tttt/docs
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/docs
+        rsync -r ./doxygen_site/ caleb@fangmeier.tech:/var/www/tttt
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Deploy documentation to tttt.fangmeier.tech" VERBATIM
         DEPENDS docs
     )
 ENDIF(DOXYGEN_FOUND)
 
+ADD_SUBDIRECTORY(docs)
 
 FIND_PACKAGE(ROOT REQUIRED)
 INCLUDE_DIRECTORIES( SYSTEM ${ROOT_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
@@ -79,13 +80,15 @@ SET( CLINGDICTFILE ${CMAKE_CURRENT_BINARY_DIR}/clingdict.cpp )
 ROOT_GENERATE_DICTIONARY( "" ${CMAKE_CURRENT_SOURCE_DIR}/filval_root/LinkDef.hpp ${CLINGDICTFILE} "" )
 ADD_LIBRARY( filval SHARED ${CLINGDICTFILE} )
 
-
+# Compiles main analysis routine
 ADD_EXECUTABLE(main ${CMAKE_CURRENT_SOURCE_DIR}/analysis/TTTT_Analysis.cpp)
 TARGET_LINK_LIBRARIES( main filval ${ROOT_LIBRARIES} )
 
+# Compiles MVA creation routine
 ADD_EXECUTABLE(mva ${CMAKE_CURRENT_SOURCE_DIR}/analysis/MVA_Creation.cpp)
 TARGET_LINK_LIBRARIES( mva filval ${ROOT_LIBRARIES} )
 
+# Compiles Examples
 ADD_CUSTOM_TARGET(examples
     COMMENT "Building Examples"
 )

@@ -1,4 +1,0 @@
-<map id="fv::DeTupVector&lt; N, ArgTypes &gt;" name="fv::DeTupVector&lt; N, ArgTypes &gt;">
-<area shape="rect" id="node2" href="$classfv_1_1DerivedValue.html" title="fv::DerivedValue\&lt; std\l::vector\&lt; std::tuple\l_element\&lt; N, std::tuple\l\&lt; ArgTypes... \&gt; \&gt;::type \&gt; \&gt;" alt="" coords="244,5,449,76"/>
-<area shape="rect" id="node3" href="$classfv_1_1Value.html" title="fv::Value\&lt; std::vector\l\&lt; std::tuple_element\&lt;\l N, std::tuple\&lt; ArgTypes...\l \&gt; \&gt;::type \&gt; \&gt;" alt="" coords="5,5,196,76"/>
-</map>
