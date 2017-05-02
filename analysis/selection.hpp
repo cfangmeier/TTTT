@@ -38,7 +38,7 @@
 #include <algorithm>
 
 #include "filval/filval.hpp"
-#include "filval_root/filval_root.hpp"
+#include "filval/root/root_filval.hpp"
 
 #include "analysis/common/obj_types.hpp"
 

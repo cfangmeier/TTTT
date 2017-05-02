@@ -35,7 +35,7 @@
 #include <tuple>
 
 #include "filval/filval.hpp"
-#include "filval_root/filval_root.hpp"
+#include "filval/root/root_filval.hpp"
 #include "MiniTree.hpp"
 
 using namespace std;

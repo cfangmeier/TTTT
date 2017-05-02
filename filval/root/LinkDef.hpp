@@ -1,5 +1,5 @@
-#ifndef linkdev_hpp
-#define linkdev_hpp
+#ifndef linkdef_hpp
+#define linkdef_hpp
 #include <vector>
 #include <string>
 #include <map>
