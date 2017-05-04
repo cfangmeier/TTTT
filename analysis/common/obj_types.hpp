@@ -95,7 +95,7 @@ struct Particle{
         p.genpart = genpart;
         return p;
     }
-    
+
     static Particle
     Void(){
         Particle p;
@@ -105,7 +105,7 @@ struct Particle{
 
 };
 
-Function<Particle(std::vector<Particle>)>& leading_particle = GenFunction::register_function<Particle(std::vector<Particle>)>("leading_particle",
+Function<Particle(std::vector<Particle>)>& leading_particle = GenFunction::reg_func<Particle(std::vector<Particle>)>("leading_particle",
     FUNC(([](const std::vector<Particle>& particles){
         if(particles.size() == 0) return Particle::Void();
 
@@ -118,17 +118,17 @@ Function<Particle(std::vector<Particle>)>& leading_particle = GenFunction::regis
         return leading_particle;
     })));
 
-Function<float(Particle)>& particle_pt = GenFunction::register_function<float(Particle)>("particle_pt",
+Function<float(Particle)>& particle_pt = GenFunction::reg_func<float(Particle)>("particle_pt",
         FUNC(([](const Particle& p){
             return p.v.Pt();
         })));
-Function<float(Particle)>& particle_eta = GenFunction::register_function<float(Particle)>("particle_eta",
+Function<float(Particle)>& particle_eta = GenFunction::reg_func<float(Particle)>("particle_eta",
         FUNC(([](const Particle& p){
             return p.v.Eta();
         })));
 
 
-Function<float(Particle)>& lepton_relIso = GenFunction::register_function<float(Particle)>("lepton_relIso",
+Function<float(Particle)>& lepton_relIso = GenFunction::reg_func<float(Particle)>("lepton_relIso",
         FUNC(([](const Particle& p){
             return p.lepton.relIso;
         })));
@@ -144,7 +144,7 @@ construct_jets_value(MiniTreeDataSet& mt){
     auto Jet_4v = lorentz_vectors("Jet_pt", "Jet_eta", "Jet_phi", "Jet_mass", "Jet_4v");
 
 
-    auto jets = apply(GenFunction::register_function<std::vector<Particle>(std::vector<TLorentzVector>,
+    auto jets = apply(GenFunction::reg_func<std::vector<Particle>(std::vector<TLorentzVector>,
                                                                            std::vector<float>,
                                                                            std::vector< int >
                                                                            )>("build_reco_jets",
@@ -169,7 +169,7 @@ construct_jets_value(MiniTreeDataSet& mt){
 
 decltype(auto)
 construct_b_jets_value(MiniTreeDataSet& mt){
-    auto b_jets = fv::filter(GenFunction::register_function<bool(Particle)>("is_b_jet",
+    auto b_jets = fv::filter(GenFunction::reg_func<bool(Particle)>("is_b_jet",
         FUNC(([](const Particle& p){
             if(p.tag != Particle::JET) return false;
             return p.jet.b_cmva > 0;
@@ -188,7 +188,7 @@ construct_leptons_value(MiniTreeDataSet& mt){
     auto LepGood_4v = lorentz_vectors("LepGood_pt", "LepGood_eta", "LepGood_phi", "LepGood_mass", "LepGood_4v");
 
 
-    auto leptons = apply(GenFunction::register_function<std::vector<Particle>(std::vector<TLorentzVector>,
+    auto leptons = apply(GenFunction::reg_func<std::vector<Particle>(std::vector<TLorentzVector>,
                                                                               std::vector<int>,
                                                                               std::vector<int>,
                                                                               std::vector<int>,
@@ -227,7 +227,7 @@ construct_mc_jets_value(MiniTreeDataSet& mt){
     auto Jet_4v = lorentz_vectors("GenPart_pt", "GenPart_eta", "GenPart_phi", "GenPart_mass", "GenPart_4v");
     energies(Jet_4v, "GenPart_energy");
 
-    auto mc_jets = apply(GenFunction::register_function<std::vector<Particle>(std::vector<TLorentzVector>,
+    auto mc_jets = apply(GenFunction::reg_func<std::vector<Particle>(std::vector<TLorentzVector>,
                                                                               std::vector<int>,
                                                                               std::vector<int>,
                                                                               std::vector<int>,

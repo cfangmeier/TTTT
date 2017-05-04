@@ -52,7 +52,7 @@ class ObsFilter : public DerivedValue<bool>{
     public:
         ObsFilter(const std::string& name, std::function<bool()> filter_function, const std::string& impl="")
           :DerivedValue<bool>(name),
-           filter_function(GenFunction::register_function<bool()>("filter::"+name, filter_function, impl)){ }
+           filter_function(GenFunction::reg_func<bool()>("filter::"+name, filter_function, impl)){ }
 };
 
 /** Return a new filter that is the conjuction of a vector of source filters
@@ -83,18 +83,6 @@ ObsFilter* any(const std::vector<ObsFilter*>&& fs){
                 return std::any_of(std::begin(fs), std::end(fs), [](ObsFilter* f){return f->get_value();});
         });
     }
-}
-
-/** Return a new filter that is the conjuction of the two source filters.
- */
-ObsFilter* all(ObsFilter *f1, ObsFilter *f2){
-    return all({f1, f2});
-}
-
-/** Return a new filter that is the conjuction of the two source filters.
- */
-ObsFilter* any(ObsFilter *f1, ObsFilter *f2){
-    return any({f1, f2});
 }
 
 }

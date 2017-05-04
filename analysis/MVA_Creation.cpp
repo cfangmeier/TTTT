@@ -65,12 +65,12 @@ void enable_branches(MiniTreeDataSet& mt){
 void declare_values(MiniTreeDataSet& mt){
 
     auto event_number = mt.get_current_event_number();
-    auto is_training = fv::apply(fv::GenFunction::register_function<bool(int)>("is_odd",
+    auto is_training = fv::apply(fv::GenFunction::reg_func<bool(int)>("is_odd",
         FUNC(([](int n){
             return (n%2) == 1;
         }))), fv::tuple(event_number));
 
-    auto is_signal = fv::bound(fv::GenFunction::register_function<bool()>("is_signal",
+    auto is_signal = fv::bound(fv::GenFunction::reg_func<bool()>("is_signal",
         FUNC(([mt=&mt](){
             const std::string& label = mt->get_current_event_label();
             return label == "signal";

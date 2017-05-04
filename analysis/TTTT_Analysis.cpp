@@ -70,23 +70,23 @@ void enable_extra_branches(MiniTreeDataSet& mt){
 void declare_values(MiniTreeDataSet& mt){
 
     // Define a couple selections to be used in the top-mass reconstruction.
-    auto& b_pdgid_filter = GenFunction::register_function<bool(Particle)>("b_pdgid_filter",
+    auto& b_pdgid_filter = GenFunction::reg_func<bool(Particle)>("b_pdgid_filter",
         FUNC(([](const Particle& j){
                 return j.genpart.pdgId == 5 || j.genpart.pdgId==-5;
         })));
-    auto& w_mass_filter = GenFunction::register_function<bool(Particle, Particle)>("w_mass_filter",
+    auto& w_mass_filter = GenFunction::reg_func<bool(Particle, Particle)>("w_mass_filter",
         FUNC(([win_l=W_MASS-10, win_h=W_MASS+10](const Particle& j1, const Particle& j2){
             float inv_mass = (j1.v + j2.v).M();
             return inv_mass > win_l && inv_mass < win_h;
         })));
-    auto& dup_filter = GenFunction::register_function<bool(std::tuple<Particle,Particle>,Particle)>("dup_filter",
+    auto& dup_filter = GenFunction::reg_func<bool(std::tuple<Particle,Particle>,Particle)>("dup_filter",
         FUNC(([](const std::tuple<Particle,Particle>& w, const Particle& b){
             int j0 = b.idx;
             int j1 = std::get<0>(w).idx;
             int j2 = std::get<1>(w).idx;
             return (j0 != j1) && (j0 != j2) && (j1 != j2);
         })));
-    auto& qg_id_filter = GenFunction::register_function<bool(Particle, Particle)>("qg_id_filter",
+    auto& qg_id_filter = GenFunction::reg_func<bool(Particle, Particle)>("qg_id_filter",
         FUNC(([](const Particle& j1, const Particle& j2){
             // require both particles be either quarks(not Top) or gluons
             int id1 = abs(j1.genpart.pdgId);
@@ -115,7 +115,7 @@ void declare_values(MiniTreeDataSet& mt){
 
     top_cands = tup_filter(dup_filter, top_cands);
 
-    auto& t_mass = GenFunction::register_function<float(std::tuple<Particle,Particle>,Particle)>("t_mass",
+    auto& t_mass = GenFunction::reg_func<float(std::tuple<Particle,Particle>,Particle)>("t_mass",
         FUNC(([](const std::tuple<Particle,Particle>& w, const Particle& b){
             return (std::get<0>(w).v+std::get<1>(w).v+b.v).M();
         })));
@@ -139,7 +139,7 @@ void declare_values(MiniTreeDataSet& mt){
 
 
     // calculation of di-jet inv-mass spectrum
-    auto& inv_mass2 = GenFunction::register_function<float(Particle, Particle)>("inv_mass2",
+    auto& inv_mass2 = GenFunction::reg_func<float(Particle, Particle)>("inv_mass2",
         FUNC(([] (const Particle& j1, const Particle& j2){
             TLorentzVector sum = j1.v + j2.v;
             return (float)sum.M();
@@ -148,20 +148,20 @@ void declare_values(MiniTreeDataSet& mt){
 
 
 
-    count<float>(GenFunction::register_function<bool(float)>("bJet_Selection",
+    count<float>(GenFunction::reg_func<bool(float)>("bJet_Selection",
         FUNC(([](float x){
             return x>0;
         }))), "Jet_btagCMVA",  "b_jet_count");
 
-    auto &is_electron = GenFunction::register_function<bool(int)>("is_electron",
+    auto &is_electron = GenFunction::reg_func<bool(int)>("is_electron",
         FUNC(([](int pdgId) {
             return abs(pdgId) == 11;
         })));
-    auto &is_muon = GenFunction::register_function<bool(int)>("is_muon",
+    auto &is_muon = GenFunction::reg_func<bool(int)>("is_muon",
         FUNC(([](int pdgId) {
             return abs(pdgId) == 13;
         })));
-    auto &is_lepton = GenFunction::register_function<bool(int)>("is_lepton",
+    auto &is_lepton = GenFunction::reg_func<bool(int)>("is_lepton",
         FUNC(([ie=&is_electron, im=&is_muon](int pdgId) {
             return (*ie)(pdgId) || (*im)(pdgId);
         })));
@@ -179,7 +179,7 @@ void declare_values(MiniTreeDataSet& mt){
     fv::pair<int, int>("genMu_count",  "recMu_count",  "genMu_count_v_recMu_count");
     fv::pair<int, int>("genLep_count", "recLep_count", "genLep_count_v_recLep_count");
 
-    /* auto& sum = GenFunction::register_function<float(std::vector<float>)>("sum", */
+    /* auto& sum = GenFunction::reg_func<float(std::vector<float>)>("sum", */
     /*     FUNC(([](const std::vector<float>& v){ */
     /*         return std::accumulate(v.begin(), v.end(), 0); */
     /*     }))); */
@@ -272,14 +272,26 @@ void declare_containers(MiniTreeDataSet& mt){
     auto jet_count = mt.register_container<ContainerTH1<int>>("jet_count", "B-Jet Multiplicity", lookup<int>("nJet"), 15, 0, 15);
     mt.cut_set(jet_count,{
                {event_selection.trilepton, "jet_count_trilepton"},
+               {event_selection.eem_trilepton, "jet_count_eem_trilepton"},
+               {event_selection.mme_trilepton, "jet_count_mme_trilepton"},
                {event_selection.b_jet3, "jet_count_b_jet3"},
                {event_selection.z_mass_veto, "jet_count_z_mass_veto"},
                {event_selection.base_sel, "jet_count_base_selection"},
+               {event_selection.eem_base_sel, "jet_count_eem_base_selection"},
+               {event_selection.mme_base_sel, "jet_count_mme_base_selection"},
                });
-    mt.register_container<ContainerTH1<int>>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10);
+    auto b_jet_count = mt.register_container<ContainerTH1<int>>("b_jet_count", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10);
+    mt.cut_set(b_jet_count,{
+               {event_selection.trilepton, "b_jet_count_trilepton"},
+               {event_selection.eem_trilepton, "b_jet_count_eem_trilepton"},
+               {event_selection.mme_trilepton, "b_jet_count_mme_trilepton"},
+               {event_selection.b_jet3, "b_jet_count_b_jet3"},
+               {event_selection.z_mass_veto, "b_jet_count_z_mass_veto"},
+               {event_selection.base_sel, "b_jet_count_base_selection"},
+               {event_selection.eem_base_sel, "b_jet_count_eem_base_selection"},
+               {event_selection.mme_base_sel, "b_jet_count_mme_base_selection"},
+               });
 
-
-    mt.register_container<ContainerTH1<int>>("b_jet_count_base_selection", "B-Jet Multiplicity", lookup<int>("b_jet_count"), 10, 0, 10)->add_filter(event_selection.base_sel);
 
     mt.register_container<ContainerTH1<int>>("jet_count_os_dilepton", "Jet Multiplicity - OS Dilepton Events",
                                                 lookup<int>("nJet"), 14, 0, 14)->add_filter(lookup_obs_filter("os-dilepton"));

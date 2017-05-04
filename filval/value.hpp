@@ -141,7 +141,7 @@ class GenFunction {
         std::string name;
         std::string impl;
     protected:
-        inline static bool in_register_function=false;
+        inline static bool in_reg_func=false;
 
     public:
         /**
@@ -194,8 +194,8 @@ class GenFunction {
         }
 
         template <typename T>
-        static Function<T>& register_function(const std::string& name, std::function<T> f, const std::string& impl){
-            in_register_function = true;
+        static Function<T>& reg_func(const std::string& name, std::function<T> f, const std::string& impl){
+            in_reg_func = true;
             Function<T>* func;
             if (GenFunction::function_registry[name] != nullptr){
                 func = dynamic_cast<Function<T>*>(GenFunction::function_registry[name]);
@@ -206,7 +206,7 @@ class GenFunction {
                 func = new Function<T>(name, impl, f);
                 GenFunction::function_registry[name] = func;
             }
-            in_register_function = false;
+            in_reg_func = false;
             return *func;
         }
 
@@ -244,8 +244,8 @@ class Function<R(ArgTypes...)> : public GenFunction {
     public:
         Function(const std::string& name, const std::string& impl, std::function<R(ArgTypes...)> f)
           :GenFunction(name, impl), f(f){
-            if (!in_register_function) {
-                WARNING("Don't instantiate Function objects directly! Use GenFunction::register_function instead.");
+            if (!in_reg_func) {
+                WARNING("Don't instantiate Function objects directly! Use GenFunction::reg_func instead.");
             }
           }
         Function(const std::string& name, std::function<R(ArgTypes...)> f)
@@ -980,7 +980,7 @@ class Max : public Reduce<T>{
         }
 
         Max(Value<std::vector<T>>* v, const std::string alias)
-          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("max",
+          :Reduce<T>(GenFunction::reg_func<T(std::vector<T>)>("max",
                       FUNC(([](std::vector<T> vec){
                           return *std::max_element(vec.begin(), vec.end());}))),
                       v, alias) { }
@@ -997,7 +997,7 @@ class Min : public Reduce<T>{
         }
 
         Min(Value<std::vector<T>>* v, const std::string alias)
-          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("min",
+          :Reduce<T>(GenFunction::reg_func<T(std::vector<T>)>("min",
                       FUNC(([](std::vector<T> vec){
                          return *std::min_element(vec.begin(), vec.end());}))),
                      v, alias) { }
@@ -1014,7 +1014,7 @@ class Mean : public Reduce<T>{
         }
 
         Mean(Value<std::vector<T>>* v, const std::string alias)
-          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("mean",
+          :Reduce<T>(GenFunction::reg_func<T(std::vector<T>)>("mean",
                       FUNC(([](std::vector<T> vec){
                         int n = 0; T sum = 0;
                         for (T e : vec){ n++; sum += e; }
@@ -1033,7 +1033,7 @@ class Range : public Reduce<T>{
         }
 
         Range(Value<std::vector<T>>* v, const std::string alias)
-          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("range",
+          :Reduce<T>(GenFunction::reg_func<T(std::vector<T>)>("range",
                       FUNC(([](std::vector<T> vec){
                         auto minmax = std::minmax_element(vec.begin(), vec.end());
                         return (*minmax.second) - (*minmax.first); }))),
@@ -1047,7 +1047,7 @@ template <typename T>
 class ElementOf : public Reduce<T>{
     public:
         ElementOf(Value<int>* index, Value<std::vector<T>>* v, const std::string alias)
-          :Reduce<T>(GenFunction::register_function<T(std::vector<T>)>("elementOf",
+          :Reduce<T>(GenFunction::reg_func<T(std::vector<T>)>("elementOf",
                      FUNC(([index](std::vector<T> vec){return vec[index->get_value()];}))),
                      v, alias) { }
 };
@@ -1080,7 +1080,7 @@ template <typename T>
 class MaxIndex : public ReduceIndex<T>{
     public:
         MaxIndex(Value<std::vector<T>>* v, const std::string alias="")
-          :ReduceIndex<T>(GenFunction::register_function<T(std::vector<T>)>("maxIndex",
+          :ReduceIndex<T>(GenFunction::reg_func<T(std::vector<T>)>("maxIndex",
                           FUNC(([](std::vector<T> vec){
                                auto elptr = std::max_element(vec.begin(), vec.end());
                                return std::pair<T,int>(*elptr, int(elptr-vec.begin())); }))),
@@ -1094,7 +1094,7 @@ template <typename T>
 class MinIndex : public ReduceIndex<T>{
     public:
         MinIndex(Value<std::vector<T>>* v, const std::string alias="")
-          :ReduceIndex<T>(GenFunction::register_function<T(std::vector<T>)>("minIndex",
+          :ReduceIndex<T>(GenFunction::reg_func<T(std::vector<T>)>("minIndex",
                           FUNC(([](std::vector<T> vec){
                                auto elptr = std::min_element(vec.begin(), vec.end());
                                return std::pair<T,int>(*elptr, int(elptr-vec.begin())); }))),

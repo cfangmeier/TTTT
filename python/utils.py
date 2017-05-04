@@ -171,7 +171,7 @@ class ResultSet:
                 raise RuntimeError(("Failed running analysis code."
                                     " See log file for more information"))
 
-        if run(["make"], cwd=join(PRJ_PATH, "build"), stdout=PIPE, stderr=PIPE).returncode != 0:
+        if run(["make", "main"], cwd=join(PRJ_PATH, "build"), stdout=PIPE, stderr=PIPE).returncode != 0:
             raise RuntimeError("Failed recompiling analysis code")
         if (not os.path.isfile(self.output_filename) or (getctime(EXE_PATH) > getctime(self.output_filename))):
             recompute()

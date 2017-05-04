@@ -75,26 +75,15 @@ class StackHist:
             raise ValueError("all histograms must have the same number of bins")
         self.n_bins = n_bins
 
-    def save(self, fname):
-        from matplotlib.transforms import Bbox
-        def full_extent(ax, pad=0.0):
-            """Get the full extent of an axes, including axes labels, tick labels, and
-            titles."""
-            # For text objects, we need to draw the figure first, otherwise the extents
-            # are undefined.
-            ax.figure.canvas.draw()
-            items = ax.get_xticklabels() + ax.get_yticklabels()
-            items += [ax, ax.title, ax.xaxis.label, ax.yaxis.label]
-            # items += [ax, ax.title]
-            bbox = Bbox.union([item.get_window_extent() for item in items])
-
-            return bbox.expanded(1.0 + pad, 1.0 + pad)
-
-        extents = []
-        for axes in self.axeses:
-            extents.append(full_extent(axes).transformed(axes.figure.dpi_scale_trans.inverted()))
-        extent = Bbox.union(extents)
-        axes.figure.savefig('figures/'+fname, bbox_inches=extent)
+    def save(self, filename, **kwargs):
+        import matplotlib.pyplot as plt
+        plt.ioff()
+        fig = plt.figure()
+        ax = fig.gca()
+        self.do_draw(ax, **kwargs)
+        fig.savefig("figures/"+filename, transparent=True)
+        plt.close(fig)
+        plt.ion()
 
     def do_draw(self, axes):
         self.axeses = [axes]
@@ -169,10 +158,12 @@ class StackHist:
         axes.legend(frameon=True, ncol=2)
         add_decorations(axes, self.luminosity, self.energy)
 
-    def draw(self, axes, save=True, **kwargs):
+    def draw(self, axes, save=False, filename=None, **kwargs):
         self.do_draw(axes, **kwargs)
         if save:
-            self.save(self.title+".png")
+            if filename is None:
+                filename = "".join(c for c in self.title if c.isalnum() or c in (' ._+-'))+".png"
+            self.save(filename, **kwargs)
 
 
 class StackHistWithSignificance(StackHist):
@@ -189,7 +180,6 @@ class StackHistWithSignificance(StackHist):
 
         bottom = axes.get_figure().add_axes(bottom_box)
         bottom_rhs = bottom.twinx()
-        self.axeses = [axes, bottom, bottom_rhs]
         bgs = [0]*self.n_bins
         for (_, _, bins, _) in self.backgrounds:
             for i, (left, right, value) in enumerate(bins):

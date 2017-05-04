@@ -79,7 +79,7 @@ class DataSet{
         }
     public:
         DataSet(){
-            auto& event_check = GenFunction::register_function<int()>("event_number",
+            auto& event_check = GenFunction::reg_func<int()>("event_number",
                 FUNC(([ds=this](){
                     return ds->get_current_event();
                 })));
