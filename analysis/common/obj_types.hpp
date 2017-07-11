@@ -37,7 +37,8 @@
 
 #include "TLorentzVector.h"
 #include "filval/filval.hpp"
-#include "analysis/MiniTreeDataSet.hpp"
+#include "filval/root/filval.hpp"
+#include "analysis/MiniTree.h"
 
 struct Jet{
     float b_cmva;
@@ -134,7 +135,7 @@ Function<float(Particle)>& lepton_relIso = GenFunction::reg_func<float(Particle)
         })));
 
 decltype(auto)
-construct_jets_value(MiniTreeDataSet& mt){
+construct_jets_value(TreeDataSet<MiniTree>& mt){
 
     mt.track_branch<int>("nJet");
     mt.track_branch_vec<float>("nJet", "Jet_pt");
@@ -168,7 +169,7 @@ construct_jets_value(MiniTreeDataSet& mt){
 }
 
 decltype(auto)
-construct_b_jets_value(MiniTreeDataSet& mt){
+construct_b_jets_value(TreeDataSet<MiniTree>& mt){
     auto b_jets = fv::filter(GenFunction::reg_func<bool(Particle)>("is_b_jet",
         FUNC(([](const Particle& p){
             if(p.tag != Particle::JET) return false;
@@ -179,7 +180,7 @@ construct_b_jets_value(MiniTreeDataSet& mt){
 
 
 decltype(auto)
-construct_leptons_value(MiniTreeDataSet& mt){
+construct_leptons_value(TreeDataSet<MiniTree>& mt){
     mt.track_branch<int>("nLepGood");
     mt.track_branch_vec<float>("nLepGood", "LepGood_pt");
     mt.track_branch_vec<float>("nLepGood", "LepGood_eta");
@@ -218,7 +219,7 @@ construct_leptons_value(MiniTreeDataSet& mt){
 }
 
 decltype(auto)
-construct_mc_jets_value(MiniTreeDataSet& mt){
+construct_mc_jets_value(TreeDataSet<MiniTree>& mt){
     mt.track_branch<int>("nGenPart");
     mt.track_branch_vec<float>("nGenPart", "GenPart_pt");
     mt.track_branch_vec<float>("nGenPart", "GenPart_eta");
@@ -255,7 +256,7 @@ construct_mc_jets_value(MiniTreeDataSet& mt){
     return mc_jets;
 }
 
-void create_all_common_values(MiniTreeDataSet& mt){
+void create_all_common_values(TreeDataSet<MiniTree>& mt){
     construct_jets_value(mt);
     construct_b_jets_value(mt);
     construct_mc_jets_value(mt);

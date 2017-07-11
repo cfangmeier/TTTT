@@ -38,7 +38,7 @@
 #include <limits>
 
 #include "filval/filval.hpp"
-#include "filval/root/root_filval.hpp"
+#include "filval/root/filval.hpp"
 
 #include "MiniTreeDataSet.hpp"
 #include <TSystem.h>

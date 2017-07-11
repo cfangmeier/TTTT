@@ -41,20 +41,20 @@
 #include <limits>
 
 #include "filval/filval.hpp"
-#include "filval/root/root_filval.hpp"
+#include "filval/root/filval.hpp"
 
 #include "analysis/common/obj_types.hpp"
 #include "analysis/common/constants.hpp"
 #include "analysis/selection.hpp"
 
-#include "MiniTreeDataSet.hpp"
+#include "MiniTree.h"
 #include <TSystem.h>
 
 using namespace std;
 using namespace fv;
 using namespace fv::root;
 
-void enable_extra_branches(MiniTreeDataSet& mt){
+void enable_extra_branches(TreeDataSet<MiniTree>& mt){
     mt.track_branch<int>("nBJetLoose40");
     mt.track_branch<int>("nBJetMedium40");
     mt.track_branch<int>("nBJetTight40");
@@ -67,7 +67,7 @@ void enable_extra_branches(MiniTreeDataSet& mt){
 }
 
 
-void declare_values(MiniTreeDataSet& mt){
+void declare_values(TreeDataSet<MiniTree>& mt){
 
     // Define a couple selections to be used in the top-mass reconstruction.
     auto& b_pdgid_filter = GenFunction::reg_func<bool(Particle)>("b_pdgid_filter",
@@ -206,7 +206,7 @@ void declare_values(MiniTreeDataSet& mt){
 
 }
 
-void declare_containers(MiniTreeDataSet& mt){
+void declare_containers(TreeDataSet<MiniTree>& mt){
 
     mt.register_container<ContainerTH1<int>>("lepton_count", "Lepton Multiplicity", lookup<int>("nLepGood"), 8, 0, 8);
 
@@ -355,13 +355,33 @@ void run_analysis(const std::string& input_filename, const std::string& data_lab
     fv::util::Log::init_logger(log_filename, fv::util::LogPriority::kLogDebug);
 
     string output_filename = replace_suffix(input_filename, "_result.root");
-    MiniTreeDataSet mt(output_filename, input_filename, data_label);
+    TreeDataSet<MiniTree> mt(output_filename, input_filename, data_label);
 
-    create_all_common_values(mt);
-    enable_extra_branches(mt);
-    declare_values(mt);
-    init_selection();
-    declare_containers(mt);
+    /* create_all_common_values(mt); */
+    /* enable_extra_branches(mt); */
+    /* declare_values(mt); */
+    /* init_selection(); */
+    /* declare_containers(mt); */
+    mt.track_branch<int>("nJet");
+    mt.track_branch_vec<float>("nJet", "Jet_pt");
+    mt.track_branch_vec<float>("nJet", "Jet_eta");
+    mt.track_branch_vec<float>("nJet", "Jet_phi");
+    mt.track_branch_vec<float>("nJet", "Jet_mass");
+
+    mt.register_container<ContainerTH1<int>>("jet_count", "Jet Multiplicity", lookup<int>("nJet"), 8, 0, 8);
+
+    mt.register_container<ContainerTH1Many<float>>("Jet_pt_dist", "Jet P_T",
+                                                      lookup<vector<float>>("Jet_pt"), 50, 0, 500,
+                                                      "Jet P_T");
+    mt.register_container<ContainerTH1Many<float>>("Jet_eta_dist", "Jet Eta",
+                                                      lookup<vector<float>>("Jet_eta"), 50, -3, 3,
+                                                      "Jet Eta");
+    mt.register_container<ContainerTH1Many<float>>("Jet_phi_dist", "Jet Phi",
+                                                      lookup<vector<float>>("Jet_phi"), 20, -PI, PI,
+                                                      "Jet Phi");
+    mt.register_container<ContainerTH1Many<float>>("Jet_mass_dist", "Jet Mass",
+                                                      lookup<vector<float>>("Jet_mass"), 50, 0, 200,
+                                                      "Jet Mass");
 
     mt.process(silent);
     mt.save_all();
