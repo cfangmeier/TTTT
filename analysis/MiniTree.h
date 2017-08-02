@@ -1389,7 +1389,7 @@ public :
    virtual void     Show(Long64_t entry = -1);
 };
 
-MiniTree::MiniTree(TTree *tree) : fChain(0) 
+MiniTree::MiniTree(TTree *tree) : fChain(0)
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.

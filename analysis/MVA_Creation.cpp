@@ -37,11 +37,13 @@
 #include <numeric>
 #include <limits>
 
+#include <TSystem.h>
+
 #include "filval/filval.hpp"
 #include "filval/root/filval.hpp"
 
-#include "MiniTreeDataSet.hpp"
-#include <TSystem.h>
+#include "analysis/common/obj_types.hpp"
+
 
 #define PI 3.14159
 #define W_MASS 80.385 // GeV/c^2
@@ -97,7 +99,7 @@ void declare_containers(MiniTreeDataSet& mt){
 }
 
 
-void create_mva(const std::string& output_filename, const std::vector<std::string>& sig_files, const std::vector<std::string>& bg_files, bool silent){
+void create_mva(const vector<fv::util::DataFileDescriptor>& dfds, const std::string& output_filename, bool silent){
     gSystem->Load("libfilval.so");
     auto replace_suffix = [](const std::string& input, const std::string& new_suffix){
         return input.substr(0, input.find_last_of(".")) + new_suffix;
@@ -105,15 +107,7 @@ void create_mva(const std::string& output_filename, const std::vector<std::strin
     string log_filename = replace_suffix(output_filename, ".log");
     fv::util::Log::init_logger(log_filename, fv::util::LogPriority::kLogDebug);
 
-    std::map<std::string, std::string> filenames_with_labels;
-    for (const std::string& fname : sig_files){
-        filenames_with_labels[fname] = "signal";
-    }
-    for (const std::string& fname : bg_files){
-        filenames_with_labels[fname] = "background";
-    }
-
-    MiniTreeDataSet mt(output_filename, filenames_with_labels);
+    MiniTreeDataSet mt(output_filename, dfds, "tree");
 
     enable_branches(mt);
     declare_values(mt);
@@ -127,29 +121,12 @@ int main(int argc, char * argv[])
 {
     fv::util::ArgParser args(argc, argv);
     if(args.cmdOptionExists("-h")) {
-        cout << "Usage: ./mva (-s) -out outfile.root -sig [signal_minitree.root]+ -bg [background_minitree.root]+" << endl;
+        cout << "Usage: ./mva (-s) -o outfile.root -F datafiles.txt" << endl;
         return 0;
     }
     bool silent = args.cmdOptionExists("-s");
     string output_filename = args.getCmdOption("-out");
-    std::vector<std::string> sig_files;
-    std::vector<std::string> bg_files;
-    std::vector<std::string>* cur_flist = nullptr;
+    auto file_list = fv::util::read_input_list(args.getCmdOption("-F"));
 
-    for(int i=1; i<argc; i++){
-        if (!strncmp(argv[i], "-sig", 4)){
-            cur_flist = &sig_files;
-        }
-        else if (!strncmp(argv[i], "-bg", 3)){
-            cur_flist = &bg_files;
-            continue;
-        }
-        else if (!strncmp(argv[i], "-out", 4)){
-            cur_flist = nullptr;
-        }
-        else if (cur_flist != nullptr){
-            cur_flist->push_back(argv[i]);
-        }
-    }
-    create_mva(output_filename, sig_files, bg_files, silent);
+    create_mva(file_list, output_filename, silent);
 }

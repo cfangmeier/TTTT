@@ -40,6 +40,8 @@
 #include "filval/root/filval.hpp"
 #include "analysis/MiniTree.h"
 
+typedef TreeDataSet<MiniTree> MiniTreeDataSet;
+
 struct Jet{
     float b_cmva;
     int   mcMatchFlav;
